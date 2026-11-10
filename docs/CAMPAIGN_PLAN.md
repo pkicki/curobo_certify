@@ -197,17 +197,17 @@ Measured summary input is defined in `schemas/report.schema.json`: metadata plus
 
 `summary.json`: schema version, source-query and scene counts, eligibility/status denominators, hardware/contract-stratified statistics, bootstrap method/seed, outlier IDs, coverage-by-budget and report build SHA. Avoid Infinity/NaN JSON; use null plus reason.
 
-## 11. Initial tests and commands
+## 11. Current tests and commands
 
-Available now: `python tools/build_report.py` builds the planning report; `node --test tests/*.test.cjs` checks demonstration mathematics and imported-data aggregation. These do not test a production certifier.
+Available correctness/recovery commands:
 
-Commands Luna must implement (not available yet):
+- `conda run -n curobo-timeopt-c301cb python scripts/capture_environment.py --out runs/native_environment.json --parity-json runs/native_adapter_parity.json`
+- `PYTHONPATH=src CUDA_VISIBLE_DEVICES=1 conda run -n curobo-timeopt-c301cb python scripts/native_timeopt_parity.py --gpu-name 'NVIDIA GeForce RTX 3090' --out runs/native_adapter_parity.json --arrays-out runs/native_adapter_parity_arrays.npz` (synthetic one-joint smoke only)
+- `python scripts/certify_piecewise_cpu.py fixtures/boundary_multispan_analytic.json`
+- `python scripts/certify_native_smoke.py` (reads the frozen synthetic parity artifact; not campaign data)
+- `python scripts/freeze_corpus.py --source-manifest <JSONL> --out <dir>` (validates caller-provided source rows and hashes; does not generate inputs)
+- `python -m unittest discover -s tests -p 'test_*.py' -v`
+- `conda run -n timeopt-report-tests node --test tests/*.test.cjs`
+- `python tools/build_report.py`
 
-- `python scripts/capture_environment.py --out runs/environment.json`
-- `python scripts/freeze_corpus.py --config configs/dev.json --out runs/frozen_dev`
-- `python scripts/certify_frozen.py --manifest runs/frozen_dev/manifest.json --method adaptive --contract physical --out runs/dev_cert`
-- `python benchmarks/run_certification.py --config configs/dev.json --out runs/dev_bench`
-- `python benchmarks/run_end_to_end.py --config configs/holdout.json --out runs/holdout_bench`
-- `python tools/build_report.py --results runs/holdout_bench/report.json`
-
-Exact CLI flags may change during implementation; update the plan, README and prompt together so no documented command silently becomes stale. Current repository status: `python scripts/capture_environment.py --out runs/environment.json` is implemented; `python scripts/freeze_corpus.py --source-manifest <JSONL> --out <dir>` validates and freezes supplied rows only; `python benchmarks/run_certification.py --manifest <manifest.json> --out <dir>` deliberately fails closed until P0/P2 pass. `certify_frozen.py`, full benchmark execution and end-to-end request measurement remain unavailable. CPU tests: `python -m unittest discover -s tests -p 'test_*.py' -v`; Node report tests are unavailable on hosts without Node.
+`python benchmarks/run_certification.py --manifest <manifest.json> --out <dir>` deliberately refuses to write timing rows because no compatible frozen Panda/UR5 TimeOpt cohort or complete measurement driver exists. `certify_frozen.py`, complete fresh-request measurement, source-cluster bootstrap, path-trace report import and browser automation remain unavailable. The current report is an offline planning/analytic dashboard and status viewer, not the accepted measured campaign report. Exact environment and synthetic artifacts are under ignored `runs/`; private input data must not be copied into this repository.
