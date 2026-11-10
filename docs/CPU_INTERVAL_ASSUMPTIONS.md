@@ -1,0 +1,5 @@
+# CPU interval reference assumptions
+
+The reference backend encloses real operations on exact binary64 inputs, assuming IEEE-754 binary64 round-to-nearest, ties-to-even; `math.nextafter` returns the adjacent representable number; Python arithmetic does not use fast-math or reassociation; and no external native extension substitutes arithmetic. Each primitive add/subtract/multiply/divide is expanded by one adjacent representable value. Exact rational constants are first enclosed by directed comparisons against the represented binary64 rational. Indeterminate operations (including zero times an unbounded interval) become the whole real line; division by any interval containing zero is rejected.
+
+These assumptions are part of the proof contract, not a claim about all Python builds or processors. A release/runtime conformance audit is still required before authorizing certificates. The current tests exercise arithmetic and polynomial identities but are not a substitute for that audit. No native trajectory has been certified.
