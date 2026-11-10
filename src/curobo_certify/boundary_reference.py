@@ -87,7 +87,7 @@ class Span:
 
 @dataclass(frozen=True)
 class Boundaries:
-    """All four target fields mandatory; strict_rest also demands a=0.
+    """All four target fields mandatory; strict_rest demands physical v=a=0.
 
     q_start/q_end are joint coordinate vectors; x_start/x_end are squared
     path-speeds. acc_start/end optionally specify desired joint acceleration.
@@ -189,7 +189,15 @@ def check_boundaries(spans: Sequence[Span], targets: Boundaries) -> BoundaryResu
             add(f"{side}_q", span.at("q", u), expected_q)
             add(f"{side}_x", span.at("x", u)[0], expected_x)
         if targets.strict_rest:
-            add(f"{side}_strict_rest_x", span.at("x", u)[0], Fraction(0))
+            x_value = span.at("x", u)[0]
+            q_s = span.at("q", u, 1)
+            velocity_zero = x_value == 0 or (x_value > 0 and all(v == 0 for v in q_s))
+            velocity_status = ("PASS" if velocity_zero else "VIOLATED" if x_value > 0
+                               else "UNKNOWN" if x_value < 0 else "PASS")
+            checks.append(Check(f"{side}_strict_rest_velocity", velocity_status,
+                                "q_s*sqrt(x)=0 exactly" if velocity_zero else
+                                "negative endpoint x" if x_value < 0 else
+                                "nonzero physical endpoint velocity"))
             add(f"{side}_strict_rest_acc", span.acceleration(u), (Fraction(0),) * joint_count)
         if expected_acc is not None:
             if len(expected_acc) != joint_count:

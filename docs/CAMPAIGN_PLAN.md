@@ -1,6 +1,6 @@
 # TimeOpt → adaptive certification: implementation and experiment plan
 
-Status: IN PROGRESS. No campaign latency or real Panda/UR5 cohort certification results have been collected. A synthetic native smoke path is used only for adapter/correctness validation. The HTML's original demo remains analytic. Prepared 2026-11-10 for GPT-6 Luna; recovery evidence appended 2026-11-10.
+Status: IN PROGRESS; real-path pilot qualification is BLOCKED. Eight Panda planner/TimeOpt outputs exist, but all fail strict native-adapter parity on jerk; eight UR5e requests fail before planning because the pinned source has no verified UR5/UR5e model asset. Serialized-model K3 results are not native-linked certificates. No campaign latency or frozen Dev40/Holdout100/Confirm300 result has been collected. The HTML subdivision lab remains analytic; pilot plots are sampled diagnostics. See `docs/NATIVE_QUERY_BRIDGE.md` and `docs/PROGRESS.md` for exact artifacts and hashes. Prepared 2026-11-10 for GPT-6 Luna; recovery evidence appended 2026-11-10.
 
 ## 1. Decision to answer
 
@@ -10,7 +10,7 @@ Primary deliverables: reproducible JSONL measurements; immutable input/solution 
 
 ## 2. Verified upstream integration map
 
-Inspection pin: NVlabs/curobo c301cb00a87012c2808b1a60649c4065c9b3c95a. Inspect and preserve its license/attribution before reuse. Use it as a pinned dependency; do not silently modify upstream. The isolated native environment was recovered and the pinned checkout verified clean at this SHA. `scripts/native_timeopt_parity.py` now checks a synthetic one-joint path; this is not a Panda/UR5 source query or a campaign path.
+Inspection pin: NVlabs/curobo c301cb00a87012c2808b1a60649c4065c9b3c95a. Inspect and preserve its license/attribution before reuse. Use it as a pinned dependency; do not silently modify upstream. The isolated native environment was recovered and the pinned checkout verified clean at this SHA. `scripts/native_timeopt_parity.py` checks a synthetic one-joint path; `scripts/generate_native_pilot.py` now uses planner-integrated TimeOpt for real Panda paths. Its 8 Panda outputs fail strict jerk parity, so no bulk campaign may start. The pinned source contains no verified UR5/UR5e model pair.
 
 - `curobo/_src/motion/motion_trajectory_timeopt.py`: `TrajectoryTimeOpt`, CUDA FP32, graph-captured full timing call, sampled feasibility; internal effective geometry includes boundary handling.
 - `curobo/_src/motion/motion_trajectory_timeopt_cfg.py`: 32 timing controls required; default 511 uniform intervals, 10 iterations, velocity/acceleration/torque planning scale 0.95 and jerk scale 0.95. These are inspected defaults, not measured recommendations.
@@ -82,7 +82,7 @@ Create `src/curobo_certify/bernstein.py`, `interval.py`, `contracts.py`; tests i
 
 Acceptance: identity before/after subdivisions for q,x and derivatives; exact polynomial enclosed; strictly safe, hidden violating, tangent, endpoint, repeated-knot, tiny-span, zero-curvature, large dynamic range, NaN/Inf and exhausted-budget cases classified correctly. Include g=[-1,0.2,-1] whose midpoint children have all negative coefficients, and tangency at a non-dyadic coordinate where finite certification can remain inconclusive. No false CERTIFIED outcomes in tests.
 
-Recovery implements exact-rational path/timing spline extraction in `src/curobo_certify/spline_polynomials.py` from cloned complete support and 32 timing coefficients. It constructs the rational common path/timing knot union without fitting samples. Point inputs are transformed to Bernstein form exactly before outward enclosure; see `docs/CPU_INTERVAL_ASSUMPTIONS.md`.
+Recovery implements exact-rational path/timing spline extraction in `src/curobo_certify/spline_polynomials.py` from cloned complete support and 32 timing coefficients. It constructs the rational common path/timing knot union without fitting samples. Point inputs are transformed to Bernstein form exactly before outward enclosure; see `docs/CPU_INTERVAL_ASSUMPTIONS.md`. Real serialized Panda spline models pass K3 at depth 0 and independent replay, but native linkage remains BLOCKED by jerk parity.
 
 ### P2 — K3 reference certifier
 
@@ -94,7 +94,7 @@ Acceptance: 200 analytic/property cases with exact or validated extrema where po
 
 Create `scripts/freeze_corpus.py`, `benchmarks/run_certification.py`, `benchmarks/run_end_to_end.py`, and JSON configuration files. Defaults and sampling splits in sections 6–7 are the initial preregistration; changes must be dated before holdout execution. Freeze every TimeOpt output including failures. Build JSONL writers with atomic checkpoints; store large arrays separately with SHA256. Keep trace collection outside timed runs.
 
-Acceptance: A/B reruns replay identical frozen inputs; result-clone/export time is separately identified; no plotting/disk IO in timers; timed benchmark agrees with an external wall-time spot check; empty/failed paths retained. The harness must refuse mixed hardware/contracts and incompatible hashes.
+Acceptance: A/B reruns replay identical frozen inputs; result-clone/export time is separately identified; no plotting/disk IO in timers; timed benchmark agrees with an external wall-time spot check; empty/failed paths retained. The harness must refuse mixed hardware/contracts and incompatible hashes. Current pilot query requests are not Dev40 and do not meet the eligibility gate; preserve the 8 native-success parity failures and 8 unresolved UR5e model failures.
 
 ### P4 — Dev40 and cost attribution
 
@@ -181,7 +181,7 @@ Boundary reasons are recorded independently: a modest number of violations or un
 
 ## 9. Report contract
 
-Ship `reports/timeopt_certification_campaign.html` as a self-contained HTML. Current version includes the plan, task handoff, an analytic subdivision demo and an empty measured-data dashboard with JSON import. Build with `python tools/build_report.py`. View locally by opening the file. Its demo uses JavaScript floating point and is educational only.
+Ship `reports/timeopt_certification_campaign.html` as a self-contained HTML. Current version includes the plan, task handoff, analytic subdivision demo, empty measured-data dashboard with JSON import, and an embedded real-pilot diagnostic path explorer. The pilot curves are sampled and parity-failing; they are not certificate envelopes or benchmark measurements. Build with `scripts/build_real_pilot_report_data.py` followed by `python tools/build_report.py --pilot <pilot.json>`. View locally by opening the file. The subdivision demo uses JavaScript floating point and is educational only.
 
 Measured summary input is defined in `schemas/report.schema.json`: metadata plus per-request records. This compact reader initially provides method/contract filters, pooled per-path medians, paired baseline overhead, status counts, ECDF and CSV export. Production statistical CIs, source-cluster analysis, real path traces and linked explorers remain P7 tasks; do not claim the initial dashboard already implements them. Full trace format is specified in section 10.
 
@@ -205,9 +205,13 @@ Available correctness/recovery commands:
 - `PYTHONPATH=src CUDA_VISIBLE_DEVICES=1 conda run -n curobo-timeopt-c301cb python scripts/native_timeopt_parity.py --gpu-name 'NVIDIA GeForce RTX 3090' --out runs/native_adapter_parity.json --arrays-out runs/native_adapter_parity_arrays.npz` (synthetic one-joint smoke only)
 - `python scripts/certify_piecewise_cpu.py fixtures/boundary_multispan_analytic.json`
 - `python scripts/certify_native_smoke.py` (reads the frozen synthetic parity artifact; not campaign data)
+- `PYTHONPATH=src python scripts/freeze_native_queries.py --out runs/native_pilot_queries.json` (seeded source requests; UR5e rows remain unresolved without a verified model)
+- `CUDA_VISIBLE_DEVICES=1 PYTHONPATH=src conda run -n curobo-timeopt-c301cb python scripts/generate_native_pilot.py --queries runs/native_pilot_queries.json --out-dir runs/native_pilot_resolved --robot panda --limit 8`
+- `PYTHONPATH=src python scripts/certify_real_pilot_models.py --pilot-dir runs/native_pilot_resolved --out runs/native_pilot_resolved/k3_model_diagnostics.json --depths 0 2 4 8 12 16`
+- `PYTHONPATH=src python scripts/build_real_pilot_report_data.py --pilot-dir runs/native_pilot_resolved --out runs/native_pilot_resolved/report_pilot.json --event-audit runs/native_pilot_event_audit/summary.json`
 - `python scripts/freeze_corpus.py --source-manifest <JSONL> --out <dir>` (validates caller-provided source rows and hashes; does not generate inputs)
 - `python -m unittest discover -s tests -p 'test_*.py' -v`
 - `conda run -n timeopt-report-tests node --test tests/*.test.cjs`
 - `python tools/build_report.py`
 
-`python benchmarks/run_certification.py --manifest <manifest.json> --out <dir>` deliberately refuses to write timing rows because no compatible frozen Panda/UR5 TimeOpt cohort or complete measurement driver exists. `certify_frozen.py`, complete fresh-request measurement, source-cluster bootstrap, path-trace report import and browser automation remain unavailable. The current report is an offline planning/analytic dashboard and status viewer, not the accepted measured campaign report. Exact environment and synthetic artifacts are under ignored `runs/`; private input data must not be copied into this repository.
+`python benchmarks/run_certification.py --manifest <manifest.json> --out <dir>` deliberately refuses to write timing rows because the real pilot fails adapter parity and no verified UR5 model exists. Dev40/Holdout100/Confirm300, complete fresh-request measurement, source-cluster bootstrap and proof-tree trace persistence remain unavailable. The current report is offline and includes real sampled paths, but it is not the accepted measured campaign report. Exact environment, query, solution and proof artifacts are under ignored `runs/`; private input data must not be copied into this repository.

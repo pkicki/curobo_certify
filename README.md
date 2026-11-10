@@ -4,18 +4,19 @@ Research campaign for continuous certification of unchanged cuRobo TimeOpt traje
 
 ## Current state
 
-This branch contains the staged campaign plan, offline report prototype, interval/Bernstein arithmetic scaffold, exact-rational boundary/K3 oracles, pinned native adapter, and hash-verified corpus-ingestion safeguards. One synthetic one-joint native smoke path passed adapter parity. It is not a Panda/UR5 cohort path or campaign measurement. Torque and torque rate remain `UNSUPPORTED`; demo values remain analytic illustrations.
+This branch contains the staged campaign plan, offline report, interval/Bernstein arithmetic scaffold, exact-rational boundary/K3 oracles, pinned native adapter, and a real source-query pilot bridge. Eight Panda native planner/TimeOpt outputs were generated; all fail the adapter's physical-jerk parity gate. Eight UR5e requests remain failed because the pin has no verified UR5/UR5e model asset. Serialized-model K3 proofs pass, but no native-linked certificate is counted. Torque and torque rate remain `UNSUPPORTED`; the subdivision lab is analytic and pilot plots are sampled diagnostics.
 
-A new isolated `curobo-timeopt-c301cb` environment uses Python 3.11.17, PyTorch 2.5.1/CUDA 12.4, and the separate clean cuRobo checkout at `c301cb00a87012c2808b1a60649c4065c9b3c95a`. Native TimeOpt tests and the RTX 3090 adapter parity smoke passed. Full campaign work remains blocked by the lack of frozen Panda/UR5 source-query cohorts; no Dev40/holdout latency result exists.
+A new isolated `curobo-timeopt-c301cb` environment uses Python 3.11.17, PyTorch 2.5.1/CUDA 12.4, and the separate clean cuRobo checkout at `c301cb00a87012c2808b1a60649c4065c9b3c95a`. Native TimeOpt tests and the synthetic adapter smoke passed. The first real pilot is retained with explicit start/goal inputs and hashes. See [native query bridge results](docs/NATIVE_QUERY_BRIDGE.md). Dev40/Holdout100/Confirm300, certified-path latency and campaign acceptance remain NOT RUN.
 
 ## Start here
 
 - [Implementation and experiment plan](docs/CAMPAIGN_PLAN.md)
 - [Progress and current evidence](docs/PROGRESS.md)
 - [CPU interval assumptions](docs/CPU_INTERVAL_ASSUMPTIONS.md)
+- [Native planner-to-TimeOpt bridge and pilot](docs/NATIVE_QUERY_BRIDGE.md)
 - [Offline interactive report](reports/timeopt_certification_campaign.html)
 
-Build the report with `python tools/build_report.py`. CPU tests run with `python -m unittest discover -s tests -p 'test_*.py' -v`. Run the native adapter smoke using `PYTHONPATH=src conda run -n curobo-timeopt-c301cb python scripts/native_timeopt_parity.py`; it writes parity and frozen-array artifacts under `runs/`. Capture environment/provenance with `scripts/capture_environment.py`. `scripts/freeze_corpus.py` only accepts real source rows and hashed arrays; it never creates substitute inputs. The benchmark entry point refuses to run before adapter parity and complete proof obligations pass.
+Build the pilot report with `PYTHONPATH=src python scripts/build_real_pilot_report_data.py --pilot-dir runs/native_pilot_resolved --out runs/native_pilot_resolved/report_pilot.json && python tools/build_report.py --pilot runs/native_pilot_resolved/report_pilot.json`. CPU tests run with `python -m unittest discover -s tests -p 'test_*.py' -v`. Run native source-query generation using the commands in `docs/NATIVE_QUERY_BRIDGE.md`. The synthetic native adapter smoke remains a separate gate. Capture environment/provenance with `scripts/capture_environment.py`. `scripts/freeze_corpus.py` only accepts real source rows and hashed arrays; it never creates substitute inputs. The benchmark entry point refuses to run before adapter parity and complete proof obligations pass.
 
 Use the pinned upstream as a dependency and preserve NVIDIA attribution/license; do not copy or modify its implementation. The benchmark stub fails closed until a compatible Panda/UR5 TimeOpt cohort and complete measurement driver exist. Full torque/torque-rate certification needs separate rigorous dynamics enclosures.
 

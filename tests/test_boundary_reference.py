@@ -42,6 +42,15 @@ class BoundaryReferenceTests(unittest.TestCase):
         still = Span.from_values(0, 1, [[0, 1]], [0])
         self.assertEqual(check_boundaries([still], bad).status, "UNKNOWN")
 
+    def test_strict_rest_with_zero_path_tangent_and_positive_squared_speed(self):
+        # A clamped geometric endpoint is at rest when q_s=0 even if x>0.
+        span = Span.from_values(0, 1, [[0]], [1])
+        targets = Boundaries.from_values([0], [0], 1, 1, strict_rest=True)
+        report = check_boundaries([span], targets)
+        self.assertEqual(report.status, "PASS", report.checks)
+        self.assertTrue(any(c.name == "start_strict_rest_velocity" and c.status == "PASS"
+                            for c in report.checks))
+
     def test_knot_position_jump_detected(self):
         a, b = valid_pair()
         b = Span.from_values(b.left, b.right, [["1/3", "1/2", "1/4"]], b.x)

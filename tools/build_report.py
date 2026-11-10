@@ -48,16 +48,18 @@ def markdown(text):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--results', type=Path)
+    parser.add_argument('--pilot', type=Path, help='JSON produced by build_real_pilot_report_data.py')
     parser.add_argument('--out', type=Path, default=ROOT / 'reports/timeopt_certification_campaign.html')
     args = parser.parse_args()
     plan = (ROOT / 'docs/CAMPAIGN_PLAN.md').read_text()
     prompt = (ROOT / 'docs/LUNA_PROMPT.md').read_text()
     results = json.loads(args.results.read_text()) if args.results else None
+    pilot = json.loads(args.pilot.read_text()) if args.pilot else None
     template = (ROOT / 'tools/report_template.html').read_text()
     replacements = {
         '__PLAN_HTML__': markdown(plan), '__PROMPT_HTML__': markdown(prompt),
         '__MATH_JS__': (ROOT / 'tools/report_math.js').read_text(),
-        '__CONTENT_JSON__': json.dumps({'plan': plan, 'prompt': prompt, 'results': results}, ensure_ascii=False, allow_nan=False).replace('<', '\\u003c'),
+        '__CONTENT_JSON__': json.dumps({'plan': plan, 'prompt': prompt, 'results': results, 'pilot': pilot}, ensure_ascii=False, allow_nan=False).replace('<', '\\u003c'),
     }
     # Replace each template marker once from the original template, never from injected text.
     output = re.sub('|'.join(map(re.escape, replacements)), lambda m: replacements[m[0]], template)
