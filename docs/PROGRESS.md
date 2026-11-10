@@ -20,3 +20,7 @@ Implemented a dependency-free exact-Fraction **boundary-only** oracle (`src/curo
 Next gate: recover pinned cuRobo environment and native adapter parity, then integrate with local unpublished CPU interval/Bernstein scaffold. See `docs/RECOVERY_PLAN.md` and `docs/AGENT_RECOVERY_PROMPT.md`.
 
 Follow-up validation: strengthened malformed-JSON fail-closed replay and negative internal knot tests. Python 3.13.5: 19 reference tests passed, compileall clean. Native adapter/GPUs still NOT RUN.
+
+### Exact rational K3 reference package — analytic only
+
+Added `src/curobo_certify/exact_k3_reference.py` with global-s derivative scaling, exact polynomial K3 residual construction, exact power-to-Bernstein conversion, exact de Casteljau subdivision, explicit violation witnesses, depth/node budget UNKNOWNs, strict moving x checks, and leaf completeness/coefficient replay. Added `scripts/replay_k3_reference.py`, two test files and a two-span rational fixture. Local Python 3.13.5: **37 tests passed**, compileall passed, including 256 seeded exact-rational spot-check cases in one property test. Analytic two-span fixture: CERTIFIED_K3_REFERENCE, 10 proof leaves, replay PASS; native equivalence and torque/rate remain NOT EVALUATED/UNSUPPORTED. An independent interval arithmetic checker and actual native TimeOpt parity remain mandatory; the reference replay reuses polynomial building and is not a separately verified numerical implementation. No real paths, no GPU latency.

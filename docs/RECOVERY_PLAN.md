@@ -61,3 +61,17 @@ Prerecorded initial usefulness targets for K3 on physical limits (not results): 
 ## Per-package and final evidence
 
 For every package: minimal implementation → meaningful tests → fix failures → rerun → commit → append `docs/PROGRESS.md` with literal commands, paths, counts and next gate. Final handback: branch/SHAs, clean status, exact environment, adapter parity, frozen cohort hash ledger, per-family certified/violated/unknown with denominator, K3 vs full statuses, latency p50/p95/p99/CI or NOT RUN, original-hash/duration invariance, top witnesses, plot/export report path, and section 8 decision or NOT REACHED. **No PR, no merge.**
+
+## Independent exact K3 oracle now available (analytic only)
+
+The dependency-free `src/curobo_certify/exact_k3_reference.py` and `scripts/replay_k3_reference.py` implement exact Fraction-based K3 polynomial residual construction and Bernstein subdivision. They produce `CERTIFIED_K3_REFERENCE` **for the serialized mathematical q/x polynomial model**, `VIOLATED` with a rational point witness, or fail-closed UNKNOWN/INVALID_INPUT. `replay_k3_leaves` checks complete dyadic leaf partition and independently reconstructs exact leaf coefficients *using shared polynomial-building helpers*; it is not a second independently implemented arithmetic backend. Treat it as a debugging oracle for the existing outward-rounded CPU checker, never as native FP32 equivalence.
+
+Replay an analytic piecewise example (not a native path, not a benchmark):
+
+```bash
+python scripts/replay_boundary.py fixtures/boundary_multispan_analytic.json
+python scripts/replay_k3_reference.py fixtures/boundary_multispan_analytic.json --out runs/analytic_k3.json
+python -m unittest discover -s tests -p 'test_*.py' -q
+```
+
+The fixture demonstrates exact K3 reference success on a two-span q/x with a zero-speed start and valid local integrability. Its output does not contribute to Dev40, Holdout100, Confirm300, or any GPU-certified count. Native adapter parity (R0), independent interval CPU cross-checking (R1), and full real-path proof replay (R2) remain **blocked/not run**.
