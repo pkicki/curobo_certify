@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Compact single-hardware campaign report input (not full proof trace)",
+  "type": "object",
+  "required": ["schema_version", "metadata", "records"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "metadata": {
+      "type": "object", "required": ["hardware", "upstream_sha"],
+      "properties": {"hardware": {"type": "string", "minLength": 1}, "upstream_sha": {"type": "string", "minLength": 1}, "campaign": {"type": "string"}, "notes": {"type": "string"}}
+    },
+    "records": {"type": "array", "items": {
+      "type": "object",
+      "required": ["path_id", "source_id", "method", "contract", "scope", "phase", "proof_level", "status", "repeat", "native_ms", "cert_ms", "total_ms"],
+      "properties": {
+        "path_id": {"type": "string", "minLength": 1}, "source_id": {"type": "string", "minLength": 1},
+        "method": {"type": "string", "minLength": 1}, "contract": {"type": "string", "minLength": 1}, "scope": {"type": "string", "minLength": 1},
+        "phase": {"type": "string", "minLength": 1}, "proof_level": {"type": "string", "minLength": 1},
+        "status": {"enum": ["CERTIFIED", "VIOLATED", "UNKNOWN_DEPTH", "UNKNOWN_NODES", "UNKNOWN_TIME", "UNSUPPORTED", "NUMERICAL_ERROR", "INVALID_INPUT", "NATIVE_FAILURE", "SAMPLED_ONLY", "NUMERIC_BOUND_ONLY", "NUMERICAL_VIOLATION"]},
+        "repeat": {"type": "integer", "minimum": 0}, "native_ms": {"type": "number", "minimum": 0}, "cert_ms": {"type": "number", "minimum": 0}, "total_ms": {"type": "number", "minimum": 0},
+        "leaves": {"type": ["integer", "null"], "minimum": 0}, "max_depth": {"type": ["integer", "null"], "minimum": 0}
+      },
+      "allOf": [{"if": {"properties": {"status": {"const": "CERTIFIED"}}}, "then": {"properties": {"proof_level": {"const": "rigorous"}}}}]
+    }}
+  }
+}
