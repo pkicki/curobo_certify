@@ -17,7 +17,7 @@ A new isolated `curobo-timeopt-c301cb` environment uses Python 3.11.17, PyTorch 
 
 Build the report with `python tools/build_report.py`. CPU tests run with `python -m unittest discover -s tests -p 'test_*.py' -v`. Run the native adapter smoke using `PYTHONPATH=src conda run -n curobo-timeopt-c301cb python scripts/native_timeopt_parity.py`; it writes parity and frozen-array artifacts under `runs/`. Capture environment/provenance with `scripts/capture_environment.py`. `scripts/freeze_corpus.py` only accepts real source rows and hashed arrays; it never creates substitute inputs. The benchmark entry point refuses to run before adapter parity and complete proof obligations pass.
 
-Use the pinned upstream as a dependency and preserve NVIDIA attribution/license; do not copy or modify its implementation. Full torque/torque-rate certification needs separate rigorous dynamics enclosures.
+Use the pinned upstream as a dependency and preserve NVIDIA attribution/license; do not copy or modify its implementation. The benchmark stub fails closed until a compatible Panda/UR5 TimeOpt cohort and complete measurement driver exist. Full torque/torque-rate certification needs separate rigorous dynamics enclosures.
 
 ## Independent recovery package
 
