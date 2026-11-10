@@ -191,6 +191,7 @@ def main() -> int:
             native_acceleration=retained.joint_state.acceleration.detach().cpu().numpy(),
             native_jerk=retained.joint_state.jerk.detach().cpu().numpy(),
             physical_limits=np.asarray([[2.0], [3.0], [50.0]], dtype=np.float32),
+            planning_scaled_limits=np.asarray([[1.9], [2.85], [47.5]], dtype=np.float32),
         )
         arrays_sha256 = hashlib.sha256(args.arrays_out.read_bytes()).hexdigest()
 
@@ -285,6 +286,18 @@ def main() -> int:
             "gpu": torch.cuda.get_device_name(device),
             "seed": 20261110,
             "trajectory": "one-joint linear-action-control smoke path; not a Panda/UR5 cohort member",
+            "source_id": "synthetic-native-smoke-seed-20261110",
+            "scene_id": "empty synthetic pendulum scene; no collision query",
+            "model": {"name": "one-link pendulum", "payload": "none",
+                      "urdf_sha256": hashlib.sha256(urdf.encode()).hexdigest()},
+            "timeopt_config": {
+                "batch_size": 1, "n_knots": 16, "timing_controls": 32,
+                "num_intervals": 511, "max_iterations": 10,
+                "limit_scale": 0.95, "jerk_limit_scale": 0.95,
+                "use_cuda_graph": True, "enable_inverse_dynamics": False,
+                "physical_limits": {"velocity": [2.0], "acceleration": [3.0], "jerk": [50.0]},
+                "planning_scaled_limits": {"velocity": [1.9], "acceleration": [2.85], "jerk": [47.5]},
+            },
             "timing_controls_count": int(trajectory.timing.controls.shape[-1]),
             "duration_seconds": duration,
             "path_spans": spans,

@@ -1,0 +1,49 @@
+{
+  "boundary_status": "PASS",
+  "campaign_data": false,
+  "evidence_kind": "synthetic_native_smoke_polynomial_certificate",
+  "exact_fraction_oracle_status": "CERTIFIED_K3_REFERENCE",
+  "full_contract_status": "UNSUPPORTED_DYNAMICS",
+  "k3_status": "CERTIFIED_K3",
+  "model_urdf_sha256": "5ea21a9d3c61765fb3ac5ecf13aca093dcbd87636eae5529de43b63d5060cf67",
+  "native_parity_status": "PASS",
+  "outward_proof_replay_detail": "all exact boundaries and outward-rounded K3 leaves replayed",
+  "outward_proof_replay_pass": true,
+  "physical_limits": {
+    "acceleration": [
+      3.0
+    ],
+    "jerk": [
+      50.0
+    ],
+    "velocity": [
+      2.0
+    ]
+  },
+  "planning_scaled_limits": {
+    "acceleration": [
+      2.8499999046325684
+    ],
+    "jerk": [
+      47.5
+    ],
+    "velocity": [
+      1.899999976158142
+    ]
+  },
+  "processed_nodes": 46,
+  "proof_scope": "exact extracted float32 spline polynomial model; outward CPU K3 under documented IEEE assumptions",
+  "reason": "exact boundary and independent outward-leaf replay passed; dynamics unsupported",
+  "scene_id": "empty synthetic pendulum scene; no collision query",
+  "source_arrays_sha256": "ec6baf8fbafb18dbc017003a13302a5dcf94bd0df7d6e2760b4c1944f9b03bc3",
+  "source_id": "synthetic-native-smoke-seed-20261110",
+  "source_json_sha256": "4c475064e83678ec6938af8e68c556aa54ff935dcb53108b1796043c812268b6",
+  "span_count": 46,
+  "unsupported_families": [
+    "torque",
+    "torque_rate",
+    "collision",
+    "full robot dynamics"
+  ],
+  "upstream_sha": "c301cb00a87012c2808b1a60649c4065c9b3c95a"
+}

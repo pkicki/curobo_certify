@@ -512,8 +512,8 @@
   "evidence_kind": "synthetic_native_adapter_parity_smoke",
   "failed_fields": [],
   "frozen_arrays": {
-    "path": "/home/pkicki/curobo_certify/runs/native_adapter_parity_arrays.npz",
-    "sha256": "69414b8d6357b2edc4ef7cea02ed40a855f8dbb9ea9cccc7376e0f4c366b985d"
+    "path": "runs/native_adapter_parity_arrays.npz",
+    "sha256": "ec6baf8fbafb18dbc017003a13302a5dcf94bd0df7d6e2760b4c1944f9b03bc3"
   },
   "gpu": "NVIDIA GeForce RTX 3090",
   "input_hashes": {
@@ -530,11 +530,51 @@
     "consistency tolerance validates adapter parity, not continuous-time feasibility",
     "native FP32 kernel values compared with float64 evaluation of serialized float32 controls"
   ],
+  "model": {
+    "name": "one-link pendulum",
+    "payload": "none",
+    "urdf_sha256": "5ea21a9d3c61765fb3ac5ecf13aca093dcbd87636eae5529de43b63d5060cf67"
+  },
   "native_distribution": "nvidia-curobo",
   "path_spans": 18,
   "random_interior_points": 1001,
+  "scene_id": "empty synthetic pendulum scene; no collision query",
   "seed": 20261110,
+  "source_id": "synthetic-native-smoke-seed-20261110",
   "status": "PASS",
+  "timeopt_config": {
+    "batch_size": 1,
+    "enable_inverse_dynamics": false,
+    "jerk_limit_scale": 0.95,
+    "limit_scale": 0.95,
+    "max_iterations": 10,
+    "n_knots": 16,
+    "num_intervals": 511,
+    "physical_limits": {
+      "acceleration": [
+        3.0
+      ],
+      "jerk": [
+        50.0
+      ],
+      "velocity": [
+        2.0
+      ]
+    },
+    "planning_scaled_limits": {
+      "acceleration": [
+        2.85
+      ],
+      "jerk": [
+        47.5
+      ],
+      "velocity": [
+        1.9
+      ]
+    },
+    "timing_controls": 32,
+    "use_cuda_graph": true
+  },
   "timing_controls_count": 32,
   "timing_knots": 30,
   "tolerance": {
