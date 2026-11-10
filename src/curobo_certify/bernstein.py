@@ -25,7 +25,7 @@ def derivative(coeff, span_length=1.0):
     b=[as_interval(x) for x in coeff]; n=len(b)-1
     if not math_is_positive_finite(span_length): raise ValueError("span length must be positive and finite")
     if n == 0: return [Interval.point(0)]
-    return [(b[i+1]-b[i]) * (n / span_length) for i in range(n)]
+    return [(b[i+1]-b[i]) * (Fraction(n, 1) / Fraction.from_float(float(span_length))) for i in range(n)]
 
 def product(a,b):
     """Bernstein product using binomial-weight convolution."""
