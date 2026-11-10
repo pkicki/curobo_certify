@@ -18,3 +18,7 @@ P0 adapter parity is blocked: Python 3.12.4 has no PyTorch/cuRobo installed, and
 Build the report with `python tools/build_report.py`. CPU reference tests run with `python -m unittest discover -s tests -p 'test_*.py' -v`. The report's Node tests are in `tests/*.test.cjs`, but Node is absent in the captured environment. `python scripts/capture_environment.py --out runs/environment.json` records available environment facts. `scripts/freeze_corpus.py` only accepts real source rows and hashed arrays; it never creates substitute inputs. The benchmark entry point refuses to run before adapter parity and complete proof obligations pass.
 
 Use the pinned upstream as a dependency and preserve NVIDIA attribution/license; do not copy or modify its implementation. Full torque/torque-rate certification needs separate rigorous dynamics enclosures.
+
+## Independent recovery package
+
+See [recovery gates](docs/RECOVERY_PLAN.md), [coding-agent handoff](docs/AGENT_RECOVERY_PROMPT.md), `boundary_reference.py` and `exact_k3_reference.py`. These dependency-free exact-rational implementations are analytic reference tools and do not establish native parity or campaign measurements. `BOUNDARY_PASS` alone is not a full K3 certificate.
