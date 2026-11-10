@@ -208,4 +208,4 @@ Commands Luna must implement (not available yet):
 - `python benchmarks/run_end_to_end.py --config configs/holdout.json --out runs/holdout_bench`
 - `python tools/build_report.py --results runs/holdout_bench/report.json`
 
-Exact CLI flags may change during implementation; update the plan, README and prompt together so no documented command silently becomes stale.
+Exact CLI flags may change during implementation; update the plan, README and prompt together so no documented command silently becomes stale. Current repository status: `python scripts/capture_environment.py --out runs/environment.json` is implemented; `python scripts/freeze_corpus.py --source-manifest <JSONL> --out <dir>` validates and freezes supplied rows only; `python benchmarks/run_certification.py --manifest <manifest.json> --out <dir>` deliberately fails closed until P0/P2 pass. `certify_frozen.py`, full benchmark execution and end-to-end request measurement remain unavailable. CPU tests: `python -m unittest discover -s tests -p 'test_*.py' -v`; Node report tests are unavailable on hosts without Node.
