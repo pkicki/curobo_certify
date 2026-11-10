@@ -18,3 +18,5 @@ GitHub remote did not contain user-reported local `exp/timeopt-adaptive-certific
 Implemented a dependency-free exact-Fraction **boundary-only** oracle (`src/curobo_certify/boundary_reference.py`), explicit schema/replay CLI (`scripts/replay_boundary.py`), and standalone regression tests. Verified locally in Python 3.13.5: **17 tests passed**, `compileall` clean. Files uploaded with matching Git blob hashes for tested source and test files. This is not a native TimeOpt adapter, K3 certifier, or GPU result. No corpus, certificates, native parity, or latency measurements.
 
 Next gate: recover pinned cuRobo environment and native adapter parity, then integrate with local unpublished CPU interval/Bernstein scaffold. See `docs/RECOVERY_PLAN.md` and `docs/AGENT_RECOVERY_PROMPT.md`.
+
+Follow-up validation: strengthened malformed-JSON fail-closed replay and negative internal knot tests. Python 3.13.5: 19 reference tests passed, compileall clean. Native adapter/GPUs still NOT RUN.

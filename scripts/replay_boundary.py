@@ -18,6 +18,8 @@ from curobo_certify.boundary_reference import Span, Boundaries, check_boundaries
 
 
 def replay(data: dict, sha256: str) -> dict:
+    if not isinstance(data, dict):
+        raise ValueError("expected a JSON object")
     if data.get("schema_version") != 1:
         raise ValueError("expected boundary replay schema_version=1")
     if data.get("basis") != "local_power_ascending_u":

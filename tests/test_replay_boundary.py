@@ -23,6 +23,15 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(result["full_k3_status"], "NOT_EVALUATED")
         self.assertEqual(raw, old)
 
+    def test_cli_json_array_fails_closed(self):
+        with tempfile.TemporaryDirectory() as work:
+            source = Path(work) / "bad.json"
+            source.write_text("[]")
+            cmd = [sys.executable, str(ROOT / "scripts/replay_boundary.py"), str(source)]
+            proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            self.assertEqual(proc.returncode, 2)
+            self.assertEqual(json.loads(proc.stdout)["status"], "BOUNDARY_INVALID_INPUT")
+
     def test_cli_invalid_basis_fails_closed(self):
         with tempfile.TemporaryDirectory() as work:
             source = Path(work) / "bad.json"

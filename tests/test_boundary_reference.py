@@ -76,6 +76,13 @@ class BoundaryReferenceTests(unittest.TestCase):
         result = check_boundaries([a, b], Boundaries.from_values([0], [1], 0, 1))
         self.assertEqual(result.status, "VIOLATED")
 
+    def test_negative_internal_knot_speed_is_violation(self):
+        a, b = valid_pair()
+        a = Span.from_values(a.left, a.right, a.q, [1, -4])
+        b = Span.from_values(b.left, b.right, b.q, [-1, 0])
+        result = check_boundaries([a, b], Boundaries.from_values([0], [1], 1, -1))
+        self.assertTrue(any(c.name == "knot_0_moving" and c.status == "VIOLATED" for c in result.checks))
+
     def test_float_exactness(self):
         self.assertEqual(rational(0.1), F.from_float(0.1))
         self.assertNotEqual(rational(0.1), F(1, 10))
