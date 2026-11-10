@@ -51,6 +51,10 @@ class Interval:
 
     def __add__(self, other):
         o = as_interval(other)
+        # Preserve exact algebraic identities. Besides reducing dependency
+        # inflation, this keeps exact zero endpoint coefficients nonnegative.
+        if o.lo == 0.0 and o.hi == 0.0: return self
+        if self.lo == 0.0 and self.hi == 0.0: return o
         x, y = self.lo + o.lo, self.hi + o.hi
         if math.isnan(x) or math.isnan(y): return Interval(_NEG_INF, _POS_INF)
         return Interval(_down(x), _up(y))
@@ -62,6 +66,8 @@ class Interval:
 
     def __mul__(self, other):
         o = as_interval(other)
+        if (self.lo == 0.0 and self.hi == 0.0) or (o.lo == 0.0 and o.hi == 0.0):
+            return Interval.point(0.0)
         vals = [a*b for a in (self.lo,self.hi) for b in (o.lo,o.hi)]
         if any(math.isnan(v) for v in vals): return Interval(_NEG_INF,_POS_INF)
         return Interval(_down(min(vals)), _up(max(vals)))
@@ -76,6 +82,7 @@ class Interval:
     def __rtruediv__(self, other): return as_interval(other) / self
 
     def square(self):
+        if self.lo == 0.0 and self.hi == 0.0: return Interval.point(0.0)
         if self.lo <= 0 <= self.hi:
             return Interval(0.0, _up(max(self.lo*self.lo, self.hi*self.hi)))
         vals=(self.lo*self.lo,self.hi*self.hi)
@@ -88,4 +95,5 @@ class Interval:
 def as_interval(value) -> Interval:
     if isinstance(value, Interval): return value
     if isinstance(value, Fraction): return Interval.rational(value)
+    if isinstance(value, int) and not isinstance(value, bool): return Interval.rational(Fraction(value))
     return Interval.point(value)

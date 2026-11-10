@@ -82,6 +82,8 @@ Create `src/curobo_certify/bernstein.py`, `interval.py`, `contracts.py`; tests i
 
 Acceptance: identity before/after subdivisions for q,x and derivatives; exact polynomial enclosed; strictly safe, hidden violating, tangent, endpoint, repeated-knot, tiny-span, zero-curvature, large dynamic range, NaN/Inf and exhausted-budget cases classified correctly. Include g=[-1,0.2,-1] whose midpoint children have all negative coefficients, and tangency at a non-dyadic coordinate where finite certification can remain inconclusive. No false CERTIFIED outcomes in tests.
 
+Recovery implements exact-rational path/timing spline extraction in `src/curobo_certify/spline_polynomials.py` from cloned complete support and 32 timing coefficients. It constructs the rational common path/timing knot union without fitting samples. Point inputs are transformed to Bernstein form exactly before outward enclosure; see `docs/CPU_INTERVAL_ASSUMPTIONS.md`.
+
 ### P2 — K3 reference certifier
 
 Create `residuals.py`, `certify_cpu.py`, `trace.py`, `tests/test_kinematic_certificate.py`, `scripts/certify_frozen.py`. Compile residuals at the union of timing/path knots; implement status semantics and family aggregation; attach coefficient enclosures and witness records. Use the same final certifier for every comparator. Preserve hashes of timing and geometry arrays before/after. Recovery adds `spline_polynomials.py`, `piecewise_cpu.py`, and a separate replay checker; analytic fixture command is `python scripts/certify_piecewise_cpu.py fixtures/boundary_multispan_analytic.json`. Torque/rate remain unsupported.

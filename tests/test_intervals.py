@@ -11,7 +11,18 @@ class IntervalTests(unittest.TestCase):
    for b in range(-8,9): self.assertTrue((Interval.point(a)*Interval.point(b)).contains(a*b))
  def test_zero_divisor_rejected(self):
   with self.assertRaises(ZeroDivisionError): Interval(-1,1).reciprocal()
+ def test_exact_zero_identities_preserve_endpoint_coefficients(self):
+  zero=Interval.point(0)
+  self.assertEqual(zero+zero,zero)
+  self.assertEqual(zero*Interval(-2,3),zero)
+  self.assertEqual(zero*Interval(float('-inf'),float('inf')),zero)
+  self.assertEqual(zero.square(),zero)
+ def test_integer_inputs_beyond_binary64_precision_remain_enclosed(self):
+  value=2**60+1
+  interval=as_interval(value)
+  self.assertLessEqual(F.from_float(interval.lo),F(value))
+  self.assertGreaterEqual(F.from_float(interval.hi),F(value))
  def test_nan_rejected_and_indeterminate_conservative(self):
   with self.assertRaises(ValueError): Interval(float('nan'),1)
-  self.assertEqual(Interval(0,0)*Interval(float('-inf'),float('inf')),Interval(float('-inf'),float('inf')))
+  self.assertEqual(Interval(-1,1)*Interval(float('-inf'),float('inf')),Interval(float('-inf'),float('inf')))
 if __name__=='__main__': unittest.main()
