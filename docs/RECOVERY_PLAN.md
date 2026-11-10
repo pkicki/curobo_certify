@@ -74,4 +74,4 @@ python scripts/replay_k3_reference.py fixtures/boundary_multispan_analytic.json 
 python -m unittest discover -s tests -p 'test_*.py' -q
 ```
 
-The fixture demonstrates exact K3 reference success on a two-span q/x with a zero-speed start and valid local integrability. Its output does not contribute to Dev40, Holdout100, Confirm300, or any GPU-certified count. Native adapter parity (R0), independent interval CPU cross-checking (R1), and full real-path proof replay (R2) remain **blocked/not run**.
+The fixture demonstrates exact K3 reference success on a two-span q/x with a zero-speed start and valid local integrability. Its output does not contribute to Dev40, Holdout100, Confirm300, or any GPU-certified count. R0 synthetic native parity has passed; no Panda/UR5 TimeOpt path has passed the adapter gate. R1 has an outward multi-span CPU checker and synthetic proof replay, conditional on `docs/CPU_INTERVAL_ASSUMPTIONS.md`; cross-platform IEEE conformance is not audited. Full real-path proof replay and R2 cohort discrepancy checks remain **blocked/not run**.
