@@ -50,6 +50,13 @@ def main():
                  'replay': b['replay_pass'], 'native_linkage': proof_row.get('native_linkage')}
                 for b in proof_row.get('budgets', [])
             ]
+            row['proof_accounting_by_depth'] = [
+                {'depth': b['max_depth'], 'status': b['k3_status'],
+                 'nodes': b['processed_nodes'], 'leaves': b['proof_leaves'],
+                 'families': b.get('leaf_count_by_family', {}),
+                 'boundary_obligations': b.get('boundary_obligations', {})}
+                for b in proof_row.get('budgets', [])
+            ]
         if meta.get('planner_success'):
             arr_path = args.pilot_dir / Path(meta['arrays_path']).name
             raw = arr_path.read_bytes()
