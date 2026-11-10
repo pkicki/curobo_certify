@@ -42,4 +42,18 @@ class K3Tests(unittest.TestCase):
   r=k3_residuals([0,1],[1],(2,2,2))
   self.assertTrue(all(c.hi<0 for c in r['velocity']))
   self.assertTrue(all(c.hi<0 for n in ('acceleration_positive','acceleration_negative','jerk') for c in r[n]))
+ def test_each_k3_constraint_family_has_an_isolated_replayable_witness(self):
+  cases=(
+   ('positive_x', [0,1], [-1], (1e6,1e6,1e6)),
+   ('velocity', [0,2], [1], (1,1e6,1e6)),
+   ('acceleration_positive', [0,0,2], [1], (1e6,1,1e6)),
+   ('acceleration_negative', [0,0,-2], [1], (1e6,1,1e6)),
+   ('jerk', [0,0,0,2], [1], (1e6,1e6,1)),
+  )
+  for family,q,x,limits in cases:
+   with self.subTest(family=family):
+    r=certify_span(q,x,limits,max_depth=0)
+    self.assertEqual(r.k3_status,'VIOLATED')
+    self.assertTrue(any(leaf.witness and leaf.witness['residual']==family for leaf in r.leaves))
+    self.assertTrue(verify_violation(q,x,limits,r)[0])
 if __name__=='__main__': unittest.main()

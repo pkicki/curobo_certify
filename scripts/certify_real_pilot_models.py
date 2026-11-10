@@ -13,7 +13,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from curobo_certify.boundary_reference import Boundaries  # noqa: E402
+from curobo_certify.boundary_reference import Boundaries, check_boundaries  # noqa: E402
 from curobo_certify.piecewise_cpu import certify_piecewise_k3, replay_piecewise_k3  # noqa: E402
 from curobo_certify.spline_polynomials import extract_timeopt_spans  # noqa: E402
 
@@ -56,16 +56,47 @@ def main() -> int:
             strict_rest=True,
         )
         budgets = []
+        boundary_audit = check_boundaries(spans, targets)
+        boundary_counts = {}
+        for check in boundary_audit.checks:
+            boundary_counts[check.name] = check.status
         for depth in args.depths:
             result = certify_piecewise_k3(spans, targets, *limits, max_depth=depth,
                                           max_nodes=args.max_nodes)
             replay_ok, replay_detail = replay_piecewise_k3(spans, targets, *limits, result)
+            family_records = {name: [] for name in
+                              ("positive_x", "velocity", "acceleration_positive",
+                               "acceleration_negative", "jerk")}
+            leaf_count = 0
+            for span_row in result.span_results:
+                for joint_result in span_row:
+                    for leaf in joint_result.leaves:
+                        leaf_count += 1
+                        family_records["positive_x"].append(leaf.x_lower)
+                        for family in ("velocity", "acceleration_positive",
+                                       "acceleration_negative", "jerk"):
+                            if family in leaf.residual_upper:
+                                family_records[family].append(leaf.residual_upper[family])
+            family_accounting = {}
+            for family, bounds in family_records.items():
+                if family == "positive_x":
+                    family_accounting[family] = {
+                        "leaf_checks": len(bounds), "minimum_lower_bound": min(bounds) if bounds else None,
+                        "meaning": "x Bernstein positivity lower bound; each leaf requires nonnegative coefficients and moving-interior endpoint positivity"}
+                else:
+                    max_upper = max(bounds) if bounds else None
+                    family_accounting[family] = {
+                        "leaf_checks": len(bounds), "maximum_residual_upper": max_upper,
+                        "margin_to_zero": -max_upper if max_upper is not None else None}
             budgets.append({
                 "max_depth": depth, "k3_status": result.k3_status,
                 "full_contract_status": result.full_contract_status,
                 "boundary_status": result.boundary_status,
                 "reason": result.reason, "processed_nodes": result.processed_nodes,
                 "proof_leaves": sum(len(x.leaves) for row in result.span_results for x in row),
+                "accounting_convention": "nodes are per (common span, joint) certifier call; each accepted leaf checks positivity plus velocity, positive acceleration, negative acceleration, jerk residuals. Boundary/regularity checks are exact Fraction obligations once per path.",
+                "leaf_count_by_family": family_accounting,
+                "boundary_obligations": boundary_counts,
                 "replay_pass": replay_ok, "replay_detail": replay_detail,
             })
         rows.append({

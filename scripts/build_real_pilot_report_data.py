@@ -14,6 +14,8 @@ def main():
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--proofs', type=Path)
     parser.add_argument('--event-audit', type=Path)
+    parser.add_argument('--jerk-diagnostics', type=Path,
+                        help='directory produced by scripts/diagnose_native_jerk.py')
     args = parser.parse_args()
     proof_path = args.proofs or (args.pilot_dir / 'k3_model_diagnostics.json')
     proof_by_id = {}
@@ -99,6 +101,23 @@ def main():
                 row['joint_count'] = int(states.shape[-1])
                 row['duration_s'] = float(a['native_duration'][0])
                 row['arrays_file'] = arr_path.name
+                if args.jerk_diagnostics:
+                    jerk_path = args.jerk_diagnostics / f"{meta['source_id']}.npz"
+                    if jerk_path.exists():
+                        with np.load(jerk_path, allow_pickle=False) as jz:
+                            ids = list(range(0, len(jz['time_s']), 8))
+                            if ids[-1] != len(jz['time_s']) - 1: ids.append(len(jz['time_s']) - 1)
+                            row['jerk_diagnostic'] = {
+                                'evidence': 'source-faithful FP32 equation replay; not instrumented GPU scratch registers',
+                                'time_s': jz['time_s'][ids].astype(float).tolist(),
+                                'path_progress': jz['path_progress'][ids].astype(float).tolist(),
+                                'native': jz['native_jerk'][ids].astype(float).tolist(),
+                                'adapter_fp64': jz['adapter_fp64_jerk'][ids].astype(float).tolist(),
+                                'fp32_replay': jz['reproduced_fp32_source_jerk'][ids].astype(float).tolist(),
+                                'term_qsss_x': jz['term_qsss_x'][ids].astype(float).tolist(),
+                                'term_1p5_qss_x1': jz['term_1p5_qss_x1'][ids].astype(float).tolist(),
+                                'term_0p5_qs_x2': jz['term_0p5_qs_x2'][ids].astype(float).tolist(),
+                            }
         paths.append(row)
     out = {'evidence_kind': 'real_native_planner_timeopt_pilot', 'campaign_measurements': False,
            'upstream_sha': 'c301cb00a87012c2808b1a60649c4065c9b3c95a',
