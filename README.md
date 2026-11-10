@@ -4,9 +4,9 @@ Research campaign for continuous certification of unchanged cuRobo TimeOpt traje
 
 ## Current state
 
-This branch contains the staged campaign plan, an offline educational report, outward-rounded CPU interval/Bernstein reference arithmetic, a fail-closed one-span K3 residual prototype, a leaf replay checker, and hash-verified corpus-ingestion safeguards. No native TimeOpt path has been certified and no GPU benchmark has run. The prototype reports `UNKNOWN_BOUNDARY` when its interior polynomial obligations pass; torque and torque rate remain `UNSUPPORTED`. Demo values are analytic illustrations, never benchmark data.
+This branch contains the staged campaign plan, offline report prototype, interval/Bernstein arithmetic scaffold, exact-rational boundary/K3 oracles, pinned native adapter, and hash-verified corpus-ingestion safeguards. One synthetic one-joint native smoke path passed adapter parity. It is not a Panda/UR5 cohort path or campaign measurement. Torque and torque rate remain `UNSUPPORTED`; demo values remain analytic illustrations.
 
-P0 adapter parity is blocked: Python 3.12.4 has no PyTorch/cuRobo installed, and the nearby cuRobo checkout is not the requested `c301cb00a87012c2808b1a60649c4065c9b3c95a` revision. GPU devices are visible but cannot be used for campaign evidence before the adapter/correctness gates pass. There is no frozen source cohort.
+A new isolated `curobo-timeopt-c301cb` environment uses Python 3.11.17, PyTorch 2.5.1/CUDA 12.4, and the separate clean cuRobo checkout at `c301cb00a87012c2808b1a60649c4065c9b3c95a`. Native TimeOpt tests and the RTX 3090 adapter parity smoke passed. Full campaign work remains blocked by the lack of frozen Panda/UR5 source-query cohorts; no Dev40/holdout latency result exists.
 
 ## Start here
 
@@ -15,7 +15,7 @@ P0 adapter parity is blocked: Python 3.12.4 has no PyTorch/cuRobo installed, and
 - [CPU interval assumptions](docs/CPU_INTERVAL_ASSUMPTIONS.md)
 - [Offline interactive report](reports/timeopt_certification_campaign.html)
 
-Build the report with `python tools/build_report.py`. CPU reference tests run with `python -m unittest discover -s tests -p 'test_*.py' -v`. The report's Node tests are in `tests/*.test.cjs`, but Node is absent in the captured environment. `python scripts/capture_environment.py --out runs/environment.json` records available environment facts. `scripts/freeze_corpus.py` only accepts real source rows and hashed arrays; it never creates substitute inputs. The benchmark entry point refuses to run before adapter parity and complete proof obligations pass.
+Build the report with `python tools/build_report.py`. CPU tests run with `python -m unittest discover -s tests -p 'test_*.py' -v`. Run the native adapter smoke using `PYTHONPATH=src conda run -n curobo-timeopt-c301cb python scripts/native_timeopt_parity.py`; it writes parity and frozen-array artifacts under `runs/`. Capture environment/provenance with `scripts/capture_environment.py`. `scripts/freeze_corpus.py` only accepts real source rows and hashed arrays; it never creates substitute inputs. The benchmark entry point refuses to run before adapter parity and complete proof obligations pass.
 
 Use the pinned upstream as a dependency and preserve NVIDIA attribution/license; do not copy or modify its implementation. Full torque/torque-rate certification needs separate rigorous dynamics enclosures.
 

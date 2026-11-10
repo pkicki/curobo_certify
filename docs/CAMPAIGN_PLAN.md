@@ -1,6 +1,6 @@
 # TimeOpt → adaptive certification: implementation and experiment plan
 
-Status: PLANNED. No GPU latency or real-robot certification results have been collected by this planning deliverable. The HTML contains analytic illustrations only. Prepared 2026-11-10 for GPT-6 Luna.
+Status: IN PROGRESS. No campaign latency or real Panda/UR5 cohort certification results have been collected. A synthetic native smoke path is used only for adapter/correctness validation. The HTML's original demo remains analytic. Prepared 2026-11-10 for GPT-6 Luna; recovery evidence appended 2026-11-10.
 
 ## 1. Decision to answer
 
@@ -10,7 +10,7 @@ Primary deliverables: reproducible JSONL measurements; immutable input/solution 
 
 ## 2. Verified upstream integration map
 
-Inspection pin: NVlabs/curobo c301cb00a87012c2808b1a60649c4065c9b3c95a. Inspect and preserve its license/attribution before reuse. Use it as a pinned dependency; do not silently modify upstream. Confirm checkout and environment before implementing the adapter. Record a different SHA explicitly if the inspected version cannot be used; no automatic upgrade.
+Inspection pin: NVlabs/curobo c301cb00a87012c2808b1a60649c4065c9b3c95a. Inspect and preserve its license/attribution before reuse. Use it as a pinned dependency; do not silently modify upstream. The isolated native environment was recovered and the pinned checkout verified clean at this SHA. `scripts/native_timeopt_parity.py` now checks a synthetic one-joint path; this is not a Panda/UR5 source query or a campaign path.
 
 - `curobo/_src/motion/motion_trajectory_timeopt.py`: `TrajectoryTimeOpt`, CUDA FP32, graph-captured full timing call, sampled feasibility; internal effective geometry includes boundary handling.
 - `curobo/_src/motion/motion_trajectory_timeopt_cfg.py`: 32 timing controls required; default 511 uniform intervals, 10 iterations, velocity/acceleration/torque planning scale 0.95 and jerk scale 0.95. These are inspected defaults, not measured recommendations.
@@ -19,7 +19,7 @@ Inspection pin: NVlabs/curobo c301cb00a87012c2808b1a60649c4065c9b3c95a. Inspect 
 - `curobo/_src/trajectory/timeopt/timeopt_solver.py`: `CudaTimeOptSolver`, fixed 32-control fused solver. Do not increase this count to certify.
 - `curobo/tests/_src/trajectory/timeopt/reference_equations.py`: independent equation checks, not a rigorous interval oracle.
 
-Adapter output must export timing controls, exact effective geometric spline (including start/goal boundary modifications and layout), knot vectors, polynomial convention, dtype, model/payload identity, original and effective scaled limits, native constraint locations and knot-side samples, boundary states, output status, and native duration. Reconstructing a spline by fitting sampled output is prohibited. If effective geometry cannot be extracted faithfully, write BLOCKED_ADAPTER with the missing item.
+Adapter output must export timing controls, exact effective geometric spline (including start/goal boundary modifications and layout), knot vectors, polynomial convention, dtype, model/payload identity, original and effective scaled limits, native constraint locations and knot-side samples, boundary states, output status, and native duration. Reconstructing a spline by fitting sampled output is prohibited. If effective geometry cannot be extracted faithfully, write BLOCKED_ADAPTER with the missing item. The synthetic adapter check freezes cloned effective geometry, controls, native output arrays and SHA256s under `runs/native_adapter_parity*`; it checks 1,001 seeded random interior times and both sides of all 45 common interior knots (90 side samples), plus 8,193 and event-aware 32,768 native sampled diagnostics. These are synthetic smoke evidence only.
 
 Source links:
 - https://github.com/NVlabs/curobo/tree/c301cb00a87012c2808b1a60649c4065c9b3c95a
@@ -74,7 +74,7 @@ Work on `exp/timeopt-adaptive-certification-20261110`. One work package per comm
 
 Create `pyproject.toml`, `src/curobo_certify/adapters/timeopt.py`, and `scripts/capture_environment.py`. Pin Python, PyTorch/CUDA, cuRobo, NumPy/SciPy and interval dependency versions once a compatible GPU environment is found. Record GPU/CPU/driver, clocks, power policy, CPU affinity, graph settings and compilation status. Check upstream tests and a real 1-path smoke. Export one immutable solution. GPU absence is a blocker for GPU evidence, not permission to invent timings.
 
-Acceptance: exact upstream SHA recorded; output lifetime handled; effective geometry identified; re-evaluation matches native position, v/a/j at 1,001 random coordinates and both sides of knots within a declared dtype-based tolerance; any discrepancies explained. This tolerance verifies adapter consistency, not feasibility. No bulk campaign before this passes.
+Acceptance: exact upstream SHA recorded; output lifetime handled; effective geometry identified; re-evaluation matches native position, v/a/j at 1,001 random coordinates and both sides of knots within a declared dtype-based tolerance; any discrepancies explained. This tolerance verifies adapter consistency, not feasibility. No bulk campaign before this passes. Recovery command: `PYTHONPATH=src conda run -n curobo-timeopt-c301cb python scripts/native_timeopt_parity.py --gpu-name 'NVIDIA GeForce RTX 3090' --out runs/native_adapter_parity.json --arrays-out runs/native_adapter_parity_arrays.npz`.
 
 ### P1 — reference polynomial arithmetic
 
@@ -84,7 +84,7 @@ Acceptance: identity before/after subdivisions for q,x and derivatives; exact po
 
 ### P2 — K3 reference certifier
 
-Create `residuals.py`, `certify_cpu.py`, `trace.py`, `tests/test_kinematic_certificate.py`, `scripts/certify_frozen.py`. Compile residuals at the union of timing/path knots; implement status semantics and family aggregation; attach coefficient enclosures and witness records. Use the same final certifier for every comparator. Preserve hashes of timing and geometry arrays before/after.
+Create `residuals.py`, `certify_cpu.py`, `trace.py`, `tests/test_kinematic_certificate.py`, `scripts/certify_frozen.py`. Compile residuals at the union of timing/path knots; implement status semantics and family aggregation; attach coefficient enclosures and witness records. Use the same final certifier for every comparator. Preserve hashes of timing and geometry arrays before/after. Recovery adds `spline_polynomials.py`, `piecewise_cpu.py`, and a separate replay checker; analytic fixture command is `python scripts/certify_piecewise_cpu.py fixtures/boundary_multispan_analytic.json`. Torque/rate remain unsupported.
 
 Acceptance: 200 analytic/property cases with exact or validated extrema where possible; native-vs-independent q/v/a/j diagnostic plots; seeded numerical cases tested; positivity/continuity/boundaries assessed; a tiny proof checker independently replays saved leaves. Full K3 certificate must never be inferred from dense samples alone.
 

@@ -1,0 +1,549 @@
+{
+  "borrowed_clone_hashes_after": {
+    "acceleration": "429e1505e45cc01a6f707df57b14c1c216b527d34803bbf9085f7a74a65ac5c7",
+    "effective_geometry": "7c712b2c7cf7e23361a55bccb91230abec9448fa0f2f3c629c3b557da713731e",
+    "effective_time_grid": "6eb18e11d3728df4f176652d2f4ac31b0aef9d17be0bf54f87f7fb64a96841c9",
+    "effective_timing_controls": "bf788e7d0a8b1809b89ba706b7cf7e4823868a5ab4f66ff43291ce6e0e7b7c90",
+    "jerk": "59082234c3cb844241850fafd685e4f6da4d33cc2c5009e962e2b1d62f7a5ad8",
+    "optimization_ok": "56181784ad59083f8041fdc02e02ab9cd39fc8356f56b445e8a87fb28ac3ae06",
+    "path_parameter": "615e02d2a6c28d8116488c483266e8717183d7edb43cee6e6bf0e39b8dce96f0",
+    "position": "72a79c9cb797a2995ac112d4fd550e58ccf552ab6acba9ec56d7e5c6d3b3bdd3",
+    "stationary": "bc55881cdb32d7868d81861abcad173c8c3fe069fb59a6e2863f416e186c4f11",
+    "status": "19959b4ca358b8fbaf6e5a3dbab196a4186fb74bf8d2d8c6bb573b9914565f5e",
+    "success": "56181784ad59083f8041fdc02e02ab9cd39fc8356f56b445e8a87fb28ac3ae06",
+    "time": "6eb18e11d3728df4f176652d2f4ac31b0aef9d17be0bf54f87f7fb64a96841c9",
+    "timing_controls": "bf788e7d0a8b1809b89ba706b7cf7e4823868a5ab4f66ff43291ce6e0e7b7c90",
+    "uniform_duration": "7af6af02028cd7dbfc01eee605c880d5de2e8aeabc2331004aa2e1fb73e52fba",
+    "velocity": "91213837ea9540a5b407331720da4cca5904dca5bc93d8b4e4e1b11e6d0f7a0f"
+  },
+  "borrowed_clone_hashes_before": {
+    "acceleration": "429e1505e45cc01a6f707df57b14c1c216b527d34803bbf9085f7a74a65ac5c7",
+    "effective_geometry": "7c712b2c7cf7e23361a55bccb91230abec9448fa0f2f3c629c3b557da713731e",
+    "effective_time_grid": "6eb18e11d3728df4f176652d2f4ac31b0aef9d17be0bf54f87f7fb64a96841c9",
+    "effective_timing_controls": "bf788e7d0a8b1809b89ba706b7cf7e4823868a5ab4f66ff43291ce6e0e7b7c90",
+    "jerk": "59082234c3cb844241850fafd685e4f6da4d33cc2c5009e962e2b1d62f7a5ad8",
+    "optimization_ok": "56181784ad59083f8041fdc02e02ab9cd39fc8356f56b445e8a87fb28ac3ae06",
+    "path_parameter": "615e02d2a6c28d8116488c483266e8717183d7edb43cee6e6bf0e39b8dce96f0",
+    "position": "72a79c9cb797a2995ac112d4fd550e58ccf552ab6acba9ec56d7e5c6d3b3bdd3",
+    "stationary": "bc55881cdb32d7868d81861abcad173c8c3fe069fb59a6e2863f416e186c4f11",
+    "status": "19959b4ca358b8fbaf6e5a3dbab196a4186fb74bf8d2d8c6bb573b9914565f5e",
+    "success": "56181784ad59083f8041fdc02e02ab9cd39fc8356f56b445e8a87fb28ac3ae06",
+    "time": "6eb18e11d3728df4f176652d2f4ac31b0aef9d17be0bf54f87f7fb64a96841c9",
+    "timing_controls": "bf788e7d0a8b1809b89ba706b7cf7e4823868a5ab4f66ff43291ce6e0e7b7c90",
+    "uniform_duration": "7af6af02028cd7dbfc01eee605c880d5de2e8aeabc2331004aa2e1fb73e52fba",
+    "velocity": "91213837ea9540a5b407331720da4cca5904dca5bc93d8b4e4e1b11e6d0f7a0f"
+  },
+  "borrowed_result_clone": "PASS",
+  "cuda_runtime": "12.4",
+  "dense_diagnostics": {
+    "S8193": {
+      "constraint_samples": {
+        "physical": {
+          "acceleration": {
+            "max_sampled_ratio": 0.9491914113362631,
+            "sampled_points_over_limit": 0
+          },
+          "jerk": {
+            "max_sampled_ratio": 0.9435813903808594,
+            "sampled_points_over_limit": 0
+          },
+          "velocity": {
+            "max_sampled_ratio": 0.26303207874298096,
+            "sampled_points_over_limit": 0
+          }
+        },
+        "planning_scaled": {
+          "acceleration": {
+            "max_sampled_ratio": 0.9991488540381718,
+            "sampled_points_over_limit": 0
+          },
+          "jerk": {
+            "max_sampled_ratio": 0.9932435688219572,
+            "sampled_points_over_limit": 0
+          },
+          "velocity": {
+            "max_sampled_ratio": 0.2768758723610326,
+            "sampled_points_over_limit": 0
+          }
+        }
+      },
+      "count": 8193,
+      "evidence_kind": "SAMPLED_DIAGNOSTIC_ONLY",
+      "grid": "uniform_physical_time",
+      "is_certificate": false,
+      "observed_knot_side_coverage_pass": null,
+      "observed_knots_with_samples_on_both_sides": 0,
+      "requested_knot_side_targets": [],
+      "total_interior_knots": 0
+    },
+    "event_aware_S32768": {
+      "constraint_samples": {
+        "physical": {
+          "acceleration": {
+            "max_sampled_ratio": 0.9491918087005615,
+            "sampled_points_over_limit": 0
+          },
+          "jerk": {
+            "max_sampled_ratio": 0.9441173553466797,
+            "sampled_points_over_limit": 0
+          },
+          "velocity": {
+            "max_sampled_ratio": 0.26303210854530334,
+            "sampled_points_over_limit": 0
+          }
+        },
+        "planning_scaled": {
+          "acceleration": {
+            "max_sampled_ratio": 0.9991492723163806,
+            "sampled_points_over_limit": 0
+          },
+          "jerk": {
+            "max_sampled_ratio": 0.9938077424701891,
+            "sampled_points_over_limit": 0
+          },
+          "velocity": {
+            "max_sampled_ratio": 0.27687590373189824,
+            "sampled_points_over_limit": 0
+          }
+        }
+      },
+      "count": 32768,
+      "evidence_kind": "SAMPLED_DIAGNOSTIC_ONLY",
+      "grid": "uniform_progress_with_both_sides_of_each_union_knot_injected",
+      "is_certificate": false,
+      "observed_knot_side_coverage_pass": true,
+      "observed_knots_with_samples_on_both_sides": 45,
+      "requested_knot_side_targets": [
+        [
+          0.034482758620689655,
+          0.03438275862068965
+        ],
+        [
+          0.034482758620689655,
+          0.03458275862068966
+        ],
+        [
+          0.05555555555555555,
+          0.05545555555555555
+        ],
+        [
+          0.05555555555555555,
+          0.055655555555555555
+        ],
+        [
+          0.06896551724137931,
+          0.0688655172413793
+        ],
+        [
+          0.06896551724137931,
+          0.06906551724137931
+        ],
+        [
+          0.10344827586206896,
+          0.10334827586206896
+        ],
+        [
+          0.10344827586206896,
+          0.10354827586206897
+        ],
+        [
+          0.1111111111111111,
+          0.1110111111111111
+        ],
+        [
+          0.1111111111111111,
+          0.11121111111111111
+        ],
+        [
+          0.13793103448275862,
+          0.13783103448275863
+        ],
+        [
+          0.13793103448275862,
+          0.1380310344827586
+        ],
+        [
+          0.16666666666666666,
+          0.16656666666666667
+        ],
+        [
+          0.16666666666666666,
+          0.16676666666666665
+        ],
+        [
+          0.1724137931034483,
+          0.1723137931034483
+        ],
+        [
+          0.1724137931034483,
+          0.17251379310344828
+        ],
+        [
+          0.20689655172413793,
+          0.20679655172413794
+        ],
+        [
+          0.20689655172413793,
+          0.20699655172413792
+        ],
+        [
+          0.2222222222222222,
+          0.22212222222222222
+        ],
+        [
+          0.2222222222222222,
+          0.2223222222222222
+        ],
+        [
+          0.24137931034482757,
+          0.24127931034482758
+        ],
+        [
+          0.24137931034482757,
+          0.24147931034482756
+        ],
+        [
+          0.27586206896551724,
+          0.27576206896551725
+        ],
+        [
+          0.27586206896551724,
+          0.2759620689655172
+        ],
+        [
+          0.2777777777777778,
+          0.2776777777777778
+        ],
+        [
+          0.2777777777777778,
+          0.2778777777777778
+        ],
+        [
+          0.3103448275862069,
+          0.3102448275862069
+        ],
+        [
+          0.3103448275862069,
+          0.3104448275862069
+        ],
+        [
+          0.3333333333333333,
+          0.3332333333333333
+        ],
+        [
+          0.3333333333333333,
+          0.3334333333333333
+        ],
+        [
+          0.3448275862068966,
+          0.3447275862068966
+        ],
+        [
+          0.3448275862068966,
+          0.34492758620689656
+        ],
+        [
+          0.3793103448275862,
+          0.3792103448275862
+        ],
+        [
+          0.3793103448275862,
+          0.3794103448275862
+        ],
+        [
+          0.3888888888888889,
+          0.3887888888888889
+        ],
+        [
+          0.3888888888888889,
+          0.3889888888888889
+        ],
+        [
+          0.41379310344827586,
+          0.41369310344827587
+        ],
+        [
+          0.41379310344827586,
+          0.41389310344827585
+        ],
+        [
+          0.4444444444444444,
+          0.44434444444444443
+        ],
+        [
+          0.4444444444444444,
+          0.4445444444444444
+        ],
+        [
+          0.4482758620689655,
+          0.44817586206896554
+        ],
+        [
+          0.4482758620689655,
+          0.4483758620689655
+        ],
+        [
+          0.48275862068965514,
+          0.48265862068965515
+        ],
+        [
+          0.48275862068965514,
+          0.4828586206896551
+        ],
+        [
+          0.5,
+          0.4999
+        ],
+        [
+          0.5,
+          0.5001
+        ],
+        [
+          0.5172413793103449,
+          0.5171413793103449
+        ],
+        [
+          0.5172413793103449,
+          0.5173413793103449
+        ],
+        [
+          0.5517241379310345,
+          0.5516241379310345
+        ],
+        [
+          0.5517241379310345,
+          0.5518241379310345
+        ],
+        [
+          0.5555555555555556,
+          0.5554555555555556
+        ],
+        [
+          0.5555555555555556,
+          0.5556555555555556
+        ],
+        [
+          0.5862068965517241,
+          0.5861068965517241
+        ],
+        [
+          0.5862068965517241,
+          0.5863068965517241
+        ],
+        [
+          0.6111111111111112,
+          0.6110111111111112
+        ],
+        [
+          0.6111111111111112,
+          0.6112111111111111
+        ],
+        [
+          0.6206896551724138,
+          0.6205896551724138
+        ],
+        [
+          0.6206896551724138,
+          0.6207896551724138
+        ],
+        [
+          0.6551724137931034,
+          0.6550724137931034
+        ],
+        [
+          0.6551724137931034,
+          0.6552724137931034
+        ],
+        [
+          0.6666666666666666,
+          0.6665666666666666
+        ],
+        [
+          0.6666666666666666,
+          0.6667666666666666
+        ],
+        [
+          0.6896551724137931,
+          0.6895551724137932
+        ],
+        [
+          0.6896551724137931,
+          0.6897551724137931
+        ],
+        [
+          0.7222222222222222,
+          0.7221222222222222
+        ],
+        [
+          0.7222222222222222,
+          0.7223222222222222
+        ],
+        [
+          0.7241379310344828,
+          0.7240379310344828
+        ],
+        [
+          0.7241379310344828,
+          0.7242379310344828
+        ],
+        [
+          0.7586206896551724,
+          0.7585206896551724
+        ],
+        [
+          0.7586206896551724,
+          0.7587206896551724
+        ],
+        [
+          0.7777777777777778,
+          0.7776777777777778
+        ],
+        [
+          0.7777777777777778,
+          0.7778777777777778
+        ],
+        [
+          0.7931034482758621,
+          0.7930034482758621
+        ],
+        [
+          0.7931034482758621,
+          0.7932034482758621
+        ],
+        [
+          0.8275862068965517,
+          0.8274862068965517
+        ],
+        [
+          0.8275862068965517,
+          0.8276862068965517
+        ],
+        [
+          0.8333333333333334,
+          0.8332333333333334
+        ],
+        [
+          0.8333333333333334,
+          0.8334333333333334
+        ],
+        [
+          0.8620689655172413,
+          0.8619689655172413
+        ],
+        [
+          0.8620689655172413,
+          0.8621689655172413
+        ],
+        [
+          0.8888888888888888,
+          0.8887888888888889
+        ],
+        [
+          0.8888888888888888,
+          0.8889888888888888
+        ],
+        [
+          0.896551724137931,
+          0.8964517241379311
+        ],
+        [
+          0.896551724137931,
+          0.896651724137931
+        ],
+        [
+          0.9310344827586207,
+          0.9309344827586207
+        ],
+        [
+          0.9310344827586207,
+          0.9311344827586207
+        ],
+        [
+          0.9444444444444444,
+          0.9443444444444444
+        ],
+        [
+          0.9444444444444444,
+          0.9445444444444444
+        ],
+        [
+          0.9655172413793103,
+          0.9654172413793103
+        ],
+        [
+          0.9655172413793103,
+          0.9656172413793103
+        ]
+      ],
+      "total_interior_knots": 45
+    }
+  },
+  "duration_seconds": 0.6874350309371948,
+  "errors": {
+    "acceleration": {
+      "max_abs": 3.958723353264526e-06,
+      "max_scaled_rel": 3.958723353264526e-06
+    },
+    "jerk": {
+      "max_abs": 0.0002913949197029808,
+      "max_scaled_rel": 0.00023116289985392058
+    },
+    "path_q_s_recovered_from_native_velocity": {
+      "max_abs": 1.5775412523511e-07,
+      "max_scaled_rel": 1.5775412523511e-07
+    },
+    "path_q_ss_recovered_from_native_acceleration": {
+      "max_abs": 4.055242364131573e-06,
+      "max_scaled_rel": 2.659311809483089e-06
+    },
+    "path_q_sss_recovered_from_native_jerk": {
+      "max_abs": 0.0003013728080105693,
+      "max_scaled_rel": 0.00014702048260199275
+    },
+    "position": {
+      "max_abs": 3.2244431125150186e-08,
+      "max_scaled_rel": 3.2244431125150186e-08
+    },
+    "velocity": {
+      "max_abs": 1.6843971828439663e-07,
+      "max_scaled_rel": 1.6843971828439663e-07
+    }
+  },
+  "evidence_kind": "synthetic_native_adapter_parity_smoke",
+  "failed_fields": [],
+  "frozen_arrays": {
+    "path": "/home/pkicki/curobo_certify/runs/native_adapter_parity_arrays.npz",
+    "sha256": "69414b8d6357b2edc4ef7cea02ed40a855f8dbb9ea9cccc7376e0f4c366b985d"
+  },
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "input_hashes": {
+    "effective_geometry": "7c712b2c7cf7e23361a55bccb91230abec9448fa0f2f3c629c3b557da713731e",
+    "native_controls": "2769740fb01079601db379161fe5ee0feeb537385ca4ef33c08c53ffe8d7d061",
+    "requested_goal": "bdefb380f73eaf88b07e5b66c5a28b261ce1beec54c38fc993413bc97d9691e7",
+    "requested_start": "7c33dff3a953e0ef923454c4894dfcaf5c6c55f9d7c620e26f3ceebcd229e859",
+    "timing_basis_polynomial": "7de1db4c00fb36377a355612c719a064b3973cb0909a7f33182bbde46cc0062e",
+    "timing_coefficients": "bf788e7d0a8b1809b89ba706b7cf7e4823868a5ab4f66ff43291ce6e0e7b7c90"
+  },
+  "knot_side_points": 90,
+  "limitations": [
+    "synthetic one-joint native smoke only; no Panda/UR5 source-query path",
+    "consistency tolerance validates adapter parity, not continuous-time feasibility",
+    "native FP32 kernel values compared with float64 evaluation of serialized float32 controls"
+  ],
+  "native_distribution": "nvidia-curobo",
+  "path_spans": 18,
+  "random_interior_points": 1001,
+  "seed": 20261110,
+  "status": "PASS",
+  "timing_controls_count": 32,
+  "timing_knots": 30,
+  "tolerance": {
+    "max_abs": 0.0004,
+    "max_scaled_rel": 0.0004
+  },
+  "torch": "2.5.1",
+  "total_points": 1091,
+  "trajectory": "one-joint linear-action-control smoke path; not a Panda/UR5 cohort member",
+  "union_interior_knots": 45,
+  "upstream_sha": "c301cb00a87012c2808b1a60649c4065c9b3c95a"
+}

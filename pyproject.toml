@@ -10,7 +10,7 @@ requires-python = ">=3.11,<3.13"
 dependencies = ["numpy>=1.26,<3", "scipy>=1.13,<2"]
 
 [project.optional-dependencies]
-upstream = ["curobo @ git+https://github.com/NVlabs/curobo.git@c301cb00a87012c2808b1a60649c4065c9b3c95a"]
+upstream = ["nvidia-curobo @ git+https://github.com/NVlabs/curobo.git@c301cb00a87012c2808b1a60649c4065c9b3c95a"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
