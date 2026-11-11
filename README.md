@@ -38,3 +38,14 @@ From repo root, run:
 **Every bundled example is analytic/synthetic.** The exact-rational maximum brackets apply to serialized polynomial models, not CUDA FP32 native execution. CPU timing excludes native planning, transfers and complete requests. See docs/NATIVE_PARITY_AND_TIGHTNESS_PLAN.md and docs/CODING_AGENT_JERK_CPU_EXPLORATION.md.
 
 The user-reported local branch exp/timeopt-cert-integration-20261110 at 018fa07c was not published on GitHub. Do not treat this independent branch as its descendant.
+
+## Compiled K3 initial-hull research package (2026-11-11)
+
+This independent branch adds a C++ binary64 interval initial Bernstein-hull component, the exact-rational input/ctypes adapter, a stage profiler and an empirical native jerk operand attribution tool. It **cannot issue a complete K3 or native-linked certificate**. Use docs/COMPILED_HULL_AND_NATIVE_LINKAGE_PLAN_20261111.md and docs/GPT6_CODING_AGENT_COMPILED_CAMPAIGN.md.
+
+Build with: python scripts/build_compiled_hull.py --out /tmp/libk3hull.so --manifest /tmp/build.json
+Run tests with: python -m unittest discover -s tests -p 'test_*.py' -q
+Profile a standalone analytic fixture with: python scripts/bench_compiled_hull.py fixtures/boundary_multispan_analytic.json --lib /tmp/libk3hull.so --out /tmp/hull.json
+Render a standalone offline report with: python scripts/render_compiled_profile_html.py /tmp/hull.json --out /tmp/hull.html
+
+The user-reported latest real Panda integration at 54e3905 is **unpublished** and must be preserved during cherry-pick. Only illustrative synthetic timing and mathematical-model differential unit tests were run in the independent environment.

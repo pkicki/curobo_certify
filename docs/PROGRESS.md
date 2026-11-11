@@ -37,3 +37,9 @@ From published f40d82a, implemented:
 Validation here: **57 local Python tests passed**, compileall clean, Node 22 JavaScript syntax check on generated report passed. Analytic two-span fixture produced 10 per-family/positivity residual records and an offline HTML visualization. No real Panda files in the independent environment; no CUDA build, source instrumented trace, native correctness parity, Dev40, native-linked K3 count, or real-path timing was run.
 
 The local user's newest integration at 018fa07c remains unpublished; agent must reconcile it before using these modules on real GPU paths. **Section 8: NOT REACHED.**
+
+## 2026-11-11 — Compiled hull and operand diagnostics (independent branch)
+
+Implemented: C++ conservative binary64 interval K3 residual/initial Bernstein hull component, finite Fraction→binary64 enclosure adapter, deterministic build manifest, exploratory stage profiler, bitwise native operand versus adapter jerk attribution and scope-gated offline profile renderer. Every successful hull result is marked PARTIAL_ONLY; boundary/regularity, strict interior positivity, independent full proof replay and native evaluation parity are excluded. Note that zero padding of polynomials changes Bernstein hull degree; exact-rational differential comparison uses the same degree (3/7/4/9).
+
+Local isolated validation: Python 3.13.5, GCC 14.2.0. **69 Python tests passed** (including 256 seeded multijoint exact Fraction vs C++ interval initial-hull comparisons), compileall clean. Synthetic-only 47-span/7-joint 50-warmup/10-repeat illustrative p50: JSON parse 0.148 ms, rational packing 8.316 ms, C++ hull 3.107 ms, summary 0.378 ms, total 11.994 ms (stage medians are not additive). This is NOT a real Panda benchmark and NOT a full certificate; no local GPU or true native-parity measurement. Dev40/Holdout100/Confirm300 and Section 8 NOT REACHED. Detailed continuation: docs/COMPILED_HULL_AND_NATIVE_LINKAGE_PLAN_20261111.md.
