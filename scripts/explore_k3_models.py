@@ -15,7 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 from curobo_certify.boundary_reference import Span, Boundaries, check_boundaries  # noqa: E402
 from curobo_certify.exact_k3_reference import build_residuals  # noqa: E402
-from curobo_certify.bernstein_tightness import bracket_polynomial_peak, diagnostic_dict  # noqa: E402
+from curobo_certify.bernstein_tightness import (bracket_polynomial_peak, diagnostic_dict,
+                                                uniform_subdivision_diagnostics)  # noqa: E402
 
 
 def analyze(blob: bytes, *, tolerance=Fraction(1, 1000000), max_depth=20, max_nodes=10000):
@@ -38,6 +39,7 @@ def analyze(blob: bytes, *, tolerance=Fraction(1, 1000000), max_depth=20, max_no
             record = {'span_index': index, 'joint_index': joint, 'family': family,
                       's_left': str(span.left), 's_right': str(span.right)}
             record.update(diagnostic_dict(bracket))
+            record.update(uniform_subdivision_diagnostics(power, max_depth=max_depth))
             records.append(record)
     return {'scope': 'EXPLORATORY_EXACT_SERIALIZED_K3_MODEL_ONLY',
             'campaign_eligible': False, 'native_parity': 'NOT_EVALUATED',

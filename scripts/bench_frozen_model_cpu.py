@@ -12,6 +12,8 @@ import argparse
 import hashlib
 import importlib
 import json
+import os
+import platform
 import random
 import statistics
 import sys
@@ -86,14 +88,27 @@ def benchmark_model(blob: bytes, hooks, warmups: int, repeats: int, seed: int):
             results.append({'repeat': rep, 'hook': label, 'elapsed_ns': elapsed,
                             'status': output['status'],
                             'proof_replay': output.get('proof_replay'),
+                            'details': {key: value for key, value in output.items()
+                                        if key not in ('status', 'proof_replay', 'scope')},
                             'scope': output.get('scope', 'UNDECLARED')})
-    medians = {label: statistics.median([x['elapsed_ns'] for x in results if x['hook'] == label])
-               for label in hooks}
+    def quantile(values, probability):
+        ordered = sorted(values)
+        position = probability * (len(ordered) - 1)
+        lower = int(position)
+        upper = min(lower + 1, len(ordered) - 1)
+        return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
+
+    summaries = {}
+    for label in hooks:
+        values = [x['elapsed_ns'] for x in results if x['hook'] == label]
+        summaries[label] = {'min_ns': min(values), 'p50_ns': quantile(values, 0.5),
+                            'p95_ns': quantile(values, 0.95), 'p99_ns': quantile(values, 0.99),
+                            'max_ns': max(values), 'median_ns': statistics.median(values)}
     return {'source_sha256': digest, 'benchmark_scope': 'EXPLORATORY_FROZEN_MODEL_CPU_ONLY',
             'preprocessing_contract': 'hook parses/constructs its input inside timer',
             'native_linked': False, 'campaign_eligible': False,
             'warmups_per_hook': warmups, 'repetitions_per_hook': repeats,
-            'hook_median_ns': medians, 'raw_records': results}
+            'hook_latency_summary_ns': summaries, 'raw_records': results}
 
 
 def main():
@@ -119,8 +134,21 @@ def main():
                                                                args.warmups, args.repeats,
                                                                args.seed + i))
                for i, path in enumerate(args.models)]
+    cpu_model = None
+    try:
+        for line in Path('/proc/cpuinfo').read_text().splitlines():
+            if line.lower().startswith('model name'):
+                cpu_model = line.split(':', 1)[1].strip()
+                break
+    except OSError:
+        pass
     output = {'schema_version': 1, 'campaign_grade': False,
               'latency_scope': 'CPU_EXPLORATORY_FROZEN_SERIALIZED_MODEL',
+              'environment': {'platform': platform.platform(), 'python': platform.python_version(),
+                              'processor': platform.processor(), 'cpu_model': cpu_model,
+                              'cpu_count': os.cpu_count(),
+                              'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os, 'sched_getaffinity') else None,
+                              'cpu_affinity_count': len(os.sched_getaffinity(0)) if hasattr(os, 'sched_getaffinity') else None},
               'excludes': ['native planner', 'TimeOpt optimization', 'native adapter parity',
                            'GPU work', 'GPU transfers', 'end-to-end request'],
               'results': results}

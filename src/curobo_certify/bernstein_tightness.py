@@ -95,3 +95,38 @@ def diagnostic_dict(bracket: PeakBracket) -> dict:
             "margin_upper": str(bracket.margin_upper),
             "nodes": bracket.nodes, "depth": bracket.depth,
             "sampled": False, "rigorous_for": "EXACT_SERIALIZED_POLYNOMIAL"}
+
+
+def uniform_subdivision_diagnostics(power, *, max_depth=16):
+    """Exact Bernstein hull result at fixed uniform dyadic depths.
+
+    This reports representation complexity only; it does not time a certifier.
+    """
+    if not isinstance(max_depth, int) or max_depth < 0:
+        raise ValueError("max_depth must be a nonnegative integer")
+    root = bernstein_coeffs(tuple(Fraction(c) for c in power))
+    frontier = [root]
+    levels = []
+    required = None
+    for depth in range(max_depth + 1):
+        upper = max(max(piece) for piece in frontier)
+        levels.append({"depth": depth, "leaves": len(frontier), "maximum_hull_upper": str(upper),
+                       "all_hulls_certify": upper <= 0})
+        if upper <= 0:
+            required = depth
+            break
+        frontier = [child for piece in frontier for child in midpoint_split(piece)]
+    comparison_frontier = [root]
+    comparison_levels = []
+    for depth in range(min(max_depth, 2) + 1):
+        upper = max(max(piece) for piece in comparison_frontier)
+        comparison_levels.append({"depth": depth, "leaves": len(comparison_frontier),
+                                  "maximum_hull_upper": str(upper),
+                                  "all_hulls_certify": upper <= 0})
+        if depth < min(max_depth, 2):
+            comparison_frontier = [child for piece in comparison_frontier
+                                   for child in midpoint_split(piece)]
+    return {"required_uniform_depth_to_certify": required,
+            "uniform_status": "CERTIFIED_BY_HULL" if required is not None else "UNKNOWN_DEPTH",
+            "required_depth_search": levels,
+            "uniform_comparison_levels_0_1_2": comparison_levels}

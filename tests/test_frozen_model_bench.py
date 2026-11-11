@@ -26,6 +26,7 @@ class FrozenBenchmarkTests(unittest.TestCase):
         self.assertEqual(out['benchmark_scope'], 'EXPLORATORY_FROZEN_MODEL_CPU_ONLY')
         self.assertEqual([e['hook'] for e in out['raw_records']], ['A','B','B','A','A','B'])
         self.assertTrue(all(e['elapsed_ns'] >= 0 for e in out['raw_records']))
+        self.assertTrue(all(isinstance(e['details'], dict) for e in out['raw_records']))
 
     def test_bad_result_refused(self):
         with self.assertRaises(TypeError):

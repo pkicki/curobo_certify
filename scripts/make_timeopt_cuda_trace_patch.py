@@ -9,6 +9,7 @@ import difflib
 import hashlib
 import subprocess
 from pathlib import Path
+from collections.abc import Sequence
 
 PIN = 'c301cb00a87012c2808b1a60649c4065c9b3c95a'
 REL_PATH = ('curobo/_src/curobolib/kernels/trajectory/timeopt/'
@@ -22,20 +23,39 @@ def git_blob_sha(data: bytes) -> str:
     return hashlib.sha1(b'blob ' + str(len(data)).encode('ascii') + b'\0' + data).hexdigest()
 
 
-def patch_source(source: str, sample_index: int, joint: int) -> str:
+def patch_source(source: str, sample_index: int | Sequence[int], joint: int,
+                 fixed_progress: float | None = None) -> str:
     if 'TIMEOPT_TRACE idx=' in source:
         raise ValueError('CUDA source already instrumented; refusing duplicate patch')
-    if sample_index < 0 or joint < 0:
-        raise ValueError('index and joint must be nonnegative')
+    sample_indices = [sample_index] if isinstance(sample_index, int) else list(sample_index)
+    if not sample_indices or any(x < 0 for x in sample_indices) or joint < -1:
+        raise ValueError('indices must be nonnegative and joint must be >= -1 (-1 means all joints)')
     if source.count(LOOP_ANCHOR) != 1 or source.count('#include "timeopt/timeopt_path_helpers.cuh"') != 1:
         raise ValueError('pinned upstream CUDA anchors missing or ambiguous')
     # Print arguments as exact IEEE-754 binary32 bit patterns. This exposes
     # device-side operands from the actual evaluation site. Recomputation of
     # subterms is labelled diagnostic and may have a different contraction.
+    condition = ' || '.join(f'idx == {x}' for x in sample_indices)
+    joint_condition = 'true' if joint == -1 else f'j == {joint}'
+    if fixed_progress is not None:
+        if not 0.0 <= fixed_progress <= 1.0:
+            raise ValueError('fixed progress must lie in [0,1]')
+        inversion = '''  const float s = progress_at_time(polynomial, output_timing, nodes, time_weights,
+                                 time, b, intervals, requested, x);
+'''
+        mutable_inversion = inversion.replace('const float s', 'float s', 1)
+        override = f'''  if ({condition}) {{
+    s = {fixed_progress:.9g}f;
+    timing_state(polynomial, output_timing, b, s, x);
+  }}
+'''
+        if source.count(inversion) != 1:
+            raise ValueError('pinned progress inversion anchor missing or ambiguous')
+        source = source.replace(inversion, mutable_inversion + override, 1)
     payload = f'''    // Diagnostic-only CUDA print. DO NOT use this build for latency.
     // The operands and output are from the native sample kernel; diagnostic
     // products below are recomputed and do not prove original FMA grouping.
-    if (idx == {sample_index} && j == {joint}) {{
+    if (({condition}) && ({joint_condition})) {{
       printf("TIMEOPT_TRACE idx=%d j=%d t=%08x s=%08x coord=%08x local=%08x seg=%d "
              "x0=%08x x1=%08x x2=%08x q0=%08x q1=%08x q2=%08x q3=%08x "
              "speed=%08x native_jerk=%08x\\n",
@@ -53,9 +73,7 @@ def patch_source(source: str, sample_index: int, joint: int) -> str:
              __float_as_uint(t3_diag));
     }}
 '''
-    return source.replace('#include "timeopt/timeopt_path_helpers.cuh"',
-                          '#include "timeopt/timeopt_path_helpers.cuh"\n#include <cstdio>', 1).replace(
-                          LOOP_ANCHOR, payload + LOOP_ANCHOR, 1)
+    return source.replace(LOOP_ANCHOR, payload + LOOP_ANCHOR, 1)
 
 
 def create_patch(checkout: Path, sample_index: int, joint: int) -> str:
@@ -81,12 +99,21 @@ def create_patch(checkout: Path, sample_index: int, joint: int) -> str:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--upstream-checkout', type=Path, required=True)
-    parser.add_argument('--sample-index', type=int, required=True,
+    parser.add_argument('--sample-index', type=int, nargs='+', required=True,
                         help='flattened idx = batch_idx * n_samples + sample_idx')
     parser.add_argument('--joint', type=int, required=True)
+    parser.add_argument('--fixed-progress', type=float,
+                        help='diagnostic only: force this internal s at selected sample indices to isolate time inversion')
     parser.add_argument('--out', type=Path, required=True, help='out-of-tree patch file')
     args = parser.parse_args()
     patch = create_patch(args.upstream_checkout, args.sample_index, args.joint)
+    if args.fixed_progress is not None:
+        # Regenerate only after the exact source/blob gate in create_patch.
+        source = (args.upstream_checkout / REL_PATH).read_text()
+        patch = ''.join(difflib.unified_diff(
+            source.splitlines(keepends=True),
+            patch_source(source, args.sample_index, args.joint, args.fixed_progress).splitlines(keepends=True),
+            fromfile='a/' + REL_PATH, tofile='b/' + REL_PATH))
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(patch)
     print(f'Wrote diagnostic patch {args.out}; source checkout unchanged')

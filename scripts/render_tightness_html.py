@@ -38,8 +38,18 @@ Each point is one span–joint–constraint residual. Numerical plotting uses ro
 <div class="table-wrap"><table><thead><tr><th>Span</th><th>Joint</th><th>Family</th>
 <th>Hull upper</th><th>Peak lower</th><th>Peak upper</th><th>Overestimation interval</th><th>Margin interval</th><th>Depth</th><th>Bracket status</th></tr></thead>
 <tbody id="table"></tbody></table></div>
+<h2>Exploratory frozen-model CPU timing</h2>
+<p id="cpu_scope">NOT RUN: no CPU timing file supplied.</p>
+<canvas id="cpu_plot" width="1024" height="320" role="img" aria-label="CPU certification latency empirical distribution"></canvas>
+<div class="table-wrap"><table><thead><tr><th>Model</th><th>Hook</th><th>Status</th><th>p50 ns</th><th>p95 ns</th><th>p99 ns</th><th>Min–max ns</th><th>Warmups / repeats</th><th>Replay</th></tr></thead><tbody id="cpu_table"></tbody></table></div>
+<h2>Native CUDA jerk operand trace</h2>
+<p id="device_scope">NOT RUN: no device trace supplied. Instrumented kernels are diagnostic builds and never authorize a certificate.</p>
+<canvas id="device_plot" width="1024" height="360" role="img" aria-label="Native, adapter and FP32 replay jerk against physical time"></canvas>
+<div class="table-wrap"><table><thead><tr><th>Time</th><th>Progress s</th><th>Joint</th><th>q′ / q″ / q‴ device</th><th>x / x′ / x″ device</th><th>Jerk native / adapter / no-FMA / captured-input FMA</th><th>Distance to geometric knot</th></tr></thead><tbody id="device_table"></tbody></table></div>
 <footer>All records and file SHA256 are embedded directly in this offline HTML; no external calls.</footer>
 <script type="application/json" id="model_data">__DATA__</script>
+<script type="application/json" id="cpu_data">__CPU__</script>
+<script type="application/json" id="device_data">__DEVICE__</script>
 <script>
 'use strict';
 const models = JSON.parse(document.getElementById('model_data').textContent);
@@ -80,14 +90,46 @@ function render(){
   '['+p.overestimation_lower+', '+p.overestimation_upper+']','['+p.margin_lower+', '+p.margin_upper+']',p.depth,p.peak_bracket_status];
   for(const v of values){let cell=document.createElement('td');cell.textContent=v;r.appendChild(cell);}table.appendChild(r);}
 }
-model.addEventListener('change',()=>{refreshFamilies();render();});
+model.addEventListener('change',()=>{refreshFamilies();render();renderCPU();renderDevice();});
 family.addEventListener('change',render); rows.addEventListener('change',render);
 if(models.length){model.value='0';refreshFamilies();render();} else summary.textContent='NOT RUN: No analysis inputs.';
+const cpuData=JSON.parse(document.getElementById('cpu_data').textContent), cpuTable=document.getElementById('cpu_table');
+function renderCPU(){
+ if(!cpuData)return;
+ const chosen=models[Number(model.value)].label.split('-tightness')[0], picked=cpuData.flatMap(d=>(d.results||[]).filter(r=>r.source_path.split('/').pop().split('.')[0]===chosen));
+ cpuTable.replaceChildren();const canvas=document.getElementById('cpu_plot'),ctx=canvas.getContext('2d');
+ ctx.clearRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#aab8cb';ctx.beginPath();ctx.moveTo(65,20);ctx.lineTo(65,280);ctx.lineTo(990,280);ctx.stroke();
+ ctx.fillStyle='#1c2b3f';ctx.font='14px system-ui';ctx.fillText('CPU hook latency [ms]',430,310);ctx.fillText('ECDF',8,24);
+ const groups=[...new Set(picked.flatMap(r=>Object.keys(r.hook_latency_summary_ns||{})))], all=picked.flatMap(r=>r.raw_records.map(x=>x.elapsed_ns/1e6)).sort((a,b)=>a-b);
+ if(all.length){const lo=all[0],hi=all.at(-1),span=Math.max(hi-lo,1e-9),colors=['#196f9a','#b65c29','#4e7b44','#814a91'];groups.forEach((g,gi)=>{const values=picked.flatMap(r=>r.raw_records.filter(x=>x.hook===g).map(x=>x.elapsed_ns/1e6)).sort((a,b)=>a-b);ctx.strokeStyle=colors[gi%colors.length];ctx.lineWidth=2;ctx.beginPath();values.forEach((v,i)=>{const x=65+925*(v-lo)/span,y=280-260*(i+1)/values.length;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.stroke();ctx.fillStyle=colors[gi%colors.length];ctx.fillText(g,80+gi*180,40);});ctx.fillStyle='#1c2b3f';ctx.fillText(`${lo.toFixed(1)}–${hi.toFixed(1)} ms; n=${all.length}`,720,18);}
+ for(const r of picked)for(const [hook,s] of Object.entries(r.hook_latency_summary_ns||{})){
+  const tr=document.createElement('tr'),raw=r.raw_records.filter(x=>x.hook===hook),x=raw[0]||{},vals=[r.source_path.split('/').pop(),hook,x.status||'UNKNOWN',s.p50_ns,s.p95_ns,s.p99_ns,`${s.min_ns}–${s.max_ns}`,`${r.warmups_per_hook} / ${r.repetitions_per_hook}`,x.proof_replay||'NOT RUN'];
+  for(const v of vals){const td=document.createElement('td');td.textContent=v;tr.appendChild(td);}cpuTable.appendChild(tr);
+ }
+ if(!picked.length)document.getElementById('cpu_scope').textContent='NOT RUN for this selected path.';
+}
+if(cpuData){
+ document.getElementById('cpu_scope').textContent='EXPLORATORY_FROZEN_MODEL_CPU_ONLY; each raw repetition includes hook parsing, spline extraction, outward K3 certification and explicit proof replay. Not native-linked or complete-request latency.';
+ renderCPU();
+}
+const deviceData=JSON.parse(document.getElementById('device_data').textContent),deviceTable=document.getElementById('device_table');
+function renderDevice(){
+ if(!deviceData)return;
+ const chosen=models[Number(model.value)].label.split('-tightness')[0], rows=(deviceData.records||[]).filter(r=>r.path_id===chosen);
+ deviceTable.replaceChildren();document.getElementById('device_scope').textContent=`INTRUSIVE_DEVICE_TRACE_DIAGNOSTIC_NOT_CERTIFICATION; selected ${rows.length} points for this path. Trace output is joined to frozen inputs by exact float32 sample-time bits.`;
+ const canvas=document.getElementById('device_plot'),ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#aab8cb';ctx.beginPath();ctx.moveTo(65,20);ctx.lineTo(65,320);ctx.lineTo(990,320);ctx.stroke();ctx.fillStyle='#1c2b3f';ctx.font='14px system-ui';ctx.fillText('physical time [s]',450,350);ctx.fillText('jerk',8,25);
+ const series=[['jerk_native_pristine','#196f9a'],['jerk_adapter_fp64','#b65c29'],['jerk_source_replay_no_fma','#5e874b'],['jerk_device_operand_fma_replay','#814a91']], times=rows.map(r=>r.physical_time_s),lo=Math.min(...times),hi=Math.max(...times),ys=rows.flatMap(r=>series.map(([k])=>r[k])),ylo=Math.min(...ys),yhi=Math.max(...ys),dx=Math.max(hi-lo,1e-12),dy=Math.max(yhi-ylo,1e-12);
+ for(const [key,color] of series){const sorted=rows.filter(r=>r.joint===0).slice().sort((a,b)=>a.physical_time_s-b.physical_time_s);ctx.strokeStyle=color;ctx.beginPath();sorted.forEach((r,i)=>{const x=65+925*(r.physical_time_s-lo)/dx,y=320-280*(r[key]-ylo)/dy;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.stroke();ctx.fillStyle=color;ctx.fillText(key,75+series.findIndex(x=>x[0]===key)*220,18);}
+ for(const r of rows){const tr=document.createElement('tr'),v=[r.physical_time_s,r.internal_progress_device,r.joint,r.q_derivatives_device.join(' / '),r.x_device.join(' / '),`${r.jerk_native_pristine} / ${r.jerk_adapter_fp64} / ${r.jerk_source_replay_no_fma} / ${r.jerk_device_operand_fma_replay}`,r.distance_to_geometric_knot_u];for(const x of v){const td=document.createElement('td');td.textContent=x;tr.appendChild(td);}deviceTable.appendChild(tr);}
+ if(!rows.length)document.getElementById('device_scope').textContent='NOT RUN for this selected path.';
+}
+if(deviceData)renderDevice();
 </script></body></html>
 '''
 
 
-def build_report(paths: list[Path], dest: Path):
+def build_report(paths: list[Path], dest: Path, cpu_benchmark: Path | list[Path] | None = None,
+                 device_analysis: Path | None = None):
     models = []
     for path in paths:
         data = json.loads(path.read_text())
@@ -97,7 +139,22 @@ def build_report(paths: list[Path], dest: Path):
             raise ValueError(f'Incomplete model analysis in {path}')
         models.append({'label': path.name, 'data': data})
     payload = json.dumps(models, allow_nan=False).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
-    result = TEMPLATE.replace('__DATA__', payload)
+    cpu_payload = 'null'
+    if cpu_benchmark is not None:
+        benchmark_paths = cpu_benchmark if isinstance(cpu_benchmark, list) else [cpu_benchmark]
+        benchmarks = [json.loads(path.read_text()) for path in benchmark_paths]
+        if any(cpu.get('latency_scope') != 'CPU_EXPLORATORY_FROZEN_SERIALIZED_MODEL' or cpu.get('campaign_grade') is not False
+               for cpu in benchmarks):
+            raise ValueError('CPU timing must be explicitly exploratory frozen-model-only data')
+        cpu_payload = json.dumps(benchmarks, allow_nan=False).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    device_payload = 'null'
+    if device_analysis is not None:
+        device = json.loads(device_analysis.read_text())
+        if device.get('scope') != 'INTRUSIVE_DEVICE_TRACE_DIAGNOSTIC_NOT_CERTIFICATION':
+            raise ValueError('device trace must retain intrusive diagnostic-only scope')
+        device_payload = json.dumps(device, allow_nan=False).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    result = (TEMPLATE.replace('__DATA__', payload).replace('__CPU__', cpu_payload)
+              .replace('__DEVICE__', device_payload))
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(result)
     return result
@@ -107,8 +164,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('analysis', type=Path, nargs='+')
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--cpu-benchmark', type=Path, action='append')
+    parser.add_argument('--device-analysis', type=Path)
     args = parser.parse_args()
-    build_report(args.analysis, args.out)
+    build_report(args.analysis, args.out, args.cpu_benchmark, args.device_analysis)
     print(f'Wrote offline exploratory report: {args.out}')
 
 

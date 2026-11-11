@@ -23,12 +23,36 @@ const float values[4] = {0,0,0,0};
 class TraceTests(unittest.TestCase):
     def test_patch_only_one_print_site(self):
         mod = patch_source(MINIMAL, 7, 2)
-        self.assertIn('idx == 7 && j == 2', mod)
+        self.assertIn('((idx == 7) && (j == 2))', mod)
         self.assertIn('native_jerk=%08x', mod)
+        self.assertNotIn('#include <', mod)
         self.assertEqual(mod.count('TIMEOPT_TRACE idx='), 1)
         self.assertIn('sample_joints[k * plane + idx * dof + j]', mod)
         with self.assertRaises(ValueError):
             patch_source(mod, 7, 2)
+
+    def test_patch_multiple_indices(self):
+        mod = patch_source(MINIMAL, [2, 9], 0)
+        self.assertIn('(idx == 2 || idx == 9) && (j == 0)', mod)
+
+    def test_all_joint_trace_mode(self):
+        mod = patch_source(MINIMAL, [3], -1)
+        self.assertIn('((idx == 3) && (true))', mod)
+
+    def test_fixed_progress_override_is_explicit_and_bounded(self):
+        from make_timeopt_cuda_trace_patch import patch_source
+        source = MINIMAL.replace('void sample() {', '''void sample() {
+  float x[3];
+  const float *polynomial, *output_timing, *nodes, *time_weights, *time;
+  int b, intervals;
+  float requested;
+  const float s = progress_at_time(polynomial, output_timing, nodes, time_weights,
+                                 time, b, intervals, requested, x);''')
+        patched = patch_source(source, 7, 2, 0.379210323)
+        self.assertIn('s = 0.379210323f;', patched)
+        self.assertIn('timing_state(polynomial, output_timing, b, s, x);', patched)
+        with self.assertRaises(ValueError):
+            patch_source(source, 7, 2, 1.1)
 
     def test_invalid_anchor_fails_closed(self):
         with self.assertRaises(ValueError):
@@ -57,6 +81,14 @@ class TraceTests(unittest.TestCase):
 
     def test_unrelated_logs_ignored(self):
         self.assertEqual(decode_lines('Hello there\n...\n'), [])
+
+    def test_repeated_sample_index_preserves_call_occurrences(self):
+        one = ('TIMEOPT_TRACE idx=5 j=1 t=3f800000 s=3e800000 coord=3f000000 '
+               'local=3e000000 seg=10 x0=3f800000 x1=00000000 x2=00000000 '
+               'q0=3f000000 q1=3f800000 q2=00000000 q3=00000000 '
+               'speed=3f800000 native_jerk=c1200000\n')
+        records = decode_lines(one + one)
+        self.assertEqual(len(records), 2)
 
 
 if __name__ == '__main__':

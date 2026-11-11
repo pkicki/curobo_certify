@@ -16,7 +16,8 @@ INT_KEYS = {'idx', 'j', 'seg'}
 
 
 def decode_lines(text: str) -> list[dict]:
-    records = {}
+    records = []
+    pending = {}
     for line in text.splitlines():
         match = TRACE.search(line)
         if not match:
@@ -27,7 +28,16 @@ def decode_lines(text: str) -> list[dict]:
             continue
         # idx/j/seg are printed as decimal, everything else as hex bits.
         idx, joint = int(raw.pop('idx'), 10), int(raw.pop('j'), 10)
-        item = records.setdefault((idx, joint), {'idx': idx, 'joint': joint, 'source': 'CUDA_PRINTF_DIAGNOSTIC'})
+        if kind.lower() == 'trace':
+            item = {'idx': idx, 'joint': joint, 'source': 'CUDA_PRINTF_DIAGNOSTIC'}
+            records.append(item)
+            pending[(idx, joint)] = item
+        else:
+            item = pending.get((idx, joint))
+            if item is None:
+                item = {'idx': idx, 'joint': joint, 'source': 'CUDA_PRINTF_DIAGNOSTIC'}
+                records.append(item)
+                pending[(idx, joint)] = item
         for key, val in raw.items():
             if key in INT_KEYS:
                 item[key] = int(val, 10)
@@ -36,7 +46,7 @@ def decode_lines(text: str) -> list[dict]:
                 item[key + '_bits'] = val.lower().zfill(8)
                 item[key] = struct.unpack('!f', bits.to_bytes(4, 'big'))[0]
         item[kind.lower() + '_present'] = True
-    return [records[k] for k in sorted(records)]
+    return records
 
 
 def main():

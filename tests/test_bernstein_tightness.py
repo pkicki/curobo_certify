@@ -8,7 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 sys.path.insert(0, str(ROOT / 'scripts'))
-from curobo_certify.bernstein_tightness import bracket_polynomial_peak, diagnostic_dict
+from curobo_certify.bernstein_tightness import (bracket_polynomial_peak, diagnostic_dict,
+                                                uniform_subdivision_diagnostics)
 from explore_k3_models import analyze
 
 
@@ -27,6 +28,12 @@ class TightnessTests(unittest.TestCase):
         self.assertGreater(p.initial_hull_upper, 0)
         self.assertEqual(p.margin_lower, F(1, 4))
         self.assertEqual(p.overestimation_lower, p.overestimation_upper)
+
+    def test_uniform_depth_finds_first_certifying_representation(self):
+        result = uniform_subdivision_diagnostics([F(-1), F(3), F(-3)], max_depth=4)
+        self.assertEqual(result['required_uniform_depth_to_certify'], 1)
+        self.assertEqual([x['leaves'] for x in result['required_depth_search']], [1, 2])
+        self.assertEqual([x['leaves'] for x in result['uniform_comparison_levels_0_1_2']], [1, 2, 4])
 
     def test_budget_unknown_still_has_valid_upper_bound(self):
         p = bracket_polynomial_peak([F(-1), F(3), F(-3)], tolerance=0, max_depth=0)
