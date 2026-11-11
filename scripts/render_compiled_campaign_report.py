@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+"""Build a self-contained offline view of partial hull, operand and CPU evidence."""
+import argparse,html,json
+from pathlib import Path
+
+TEMPLATE=r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TimeOpt compiled hull research</title>
+<style>body{font:15px/1.5 system-ui;margin:18px auto;padding:0 18px;max-width:1300px;color:#18283d;background:#f4f7fa}.warn{background:#fff0d0;padding:14px;border-left:5px solid #b87d18}.panel{background:white;border:1px solid #ccd5df;border-radius:8px;padding:16px;margin:16px 0}select,button{padding:7px;margin:4px}canvas{width:100%;height:300px;border:1px solid #ddd}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid #d5dce4;padding:6px;text-align:left}th{background:#edf2f6}code{overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.small{color:#4b5b6b;font-size:12px}</style></head><body>
+<h1>TimeOpt compiled hull and native operand research</h1><p class="warn"><b>EXPLORATORY / PARTIAL ONLY.</b> Compiled outputs are initial Bernstein hull checks on the exact serialized spline model; only the separate outward Python arm plus boundary checks and proof replay is a complete mathematical-model K3 proof. Native adapter jerk parity still fails, so no native-linked certification is claimed. CPU timings are frozen-output exploratory only, not complete-request or campaign measurements.</p>
+<div class="panel"><label>Trajectory <select id="path"></select></label><label>Joint <select id="joint"></select></label><button id="export">Export selected evidence JSON</button><div id="provenance"></div><canvas id="jerk" width="1200" height="320"></canvas><p class="small">Native CUDA jerk vs exact serialized model evaluated at the captured device internal progress. This diagnoses operand differences at identical s; it is not a continuous-time error bound.</p><canvas id="progress" width="1200" height="280"></canvas><canvas id="util" width="1200" height="300"></canvas><p class="small">Serialized mathematical model q(s); exact polynomial coefficients were extracted from native effective controls, never fitted to samples. Plotted positions and diagnostic constraint values are not certificates.</p></div>
+<div class="panel"><h2>Jerk discrepancy attribution</h2><canvas id="attribution" width="1200" height="300"></canvas><p class="small">Symmetric Shapley decomposition of serialized-model jerk changes when replacing q or x operands. This is an attribution diagnostic, not a proof of floating-point error bounds.</p></div>
+<div class="grid"><div class="panel"><h2>Four paired CPU cases (ms)</h2><canvas id="latency" width="600" height="300"></canvas><div id="latency-table"></div></div><div class="panel"><h2>Bernstein residual and tightness (exact rational)</h2><div id="tightness"></div></div></div>
+<div class="panel"><h2>Captured operand differences</h2><div id="operands"></div></div>
+<div class="panel"><h2>Outcomes and subdivision replay</h2><div id="proof"></div></div>
+<script id="data" type="application/json">__DATA__</script><script>'use strict';
+const D=JSON.parse(document.getElementById('data').textContent),paths=D.paths||[],P=document.getElementById('path'),J=document.getElementById('joint');
+const $=x=>document.getElementById(x),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),num=x=>{let s=String(x);if(s.includes('/')){let [a,b]=s.split('/');return Number(a)/Number(b)}return Number(s)};
+for(const p of paths){let o=document.createElement('option');o.value=p.id;o.textContent=p.id;P.append(o)}
+function table(rows,headers){return '<table><thead><tr>'+headers.map(x=>'<th>'+esc(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+esc(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
+function draw(canvas,series,title){const c=$(canvas),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#233';ctx.font='14px system-ui';ctx.fillText(title,12,20);let vals=series.flatMap(s=>s.ys).filter(Number.isFinite),xvals=series.flatMap(s=>s.xs).filter(Number.isFinite);if(!vals.length){ctx.fillText('NOT RUN',20,60);return}let min=Math.min(...vals),max=Math.max(...vals),xmin=Math.min(...xvals),xmax=Math.max(...xvals);if(max===min)max=min+1;if(xmax===xmin)xmax=xmin+1;const colors=['#b23c35','#286b9a','#508b59','#9b6aaf','#d58d22'];for(let z=0;z<series.length;z++){let s=series[z];ctx.strokeStyle=colors[z%colors.length];ctx.lineWidth=1.6;ctx.beginPath();s.xs.forEach((x,i)=>{let px=48+(w-64)*(x-xmin)/(xmax-xmin),py=h-28-(h-62)*(s.ys[i]-min)/(max-min);if(i)ctx.lineTo(px,py);else ctx.moveTo(px,py)});ctx.stroke();ctx.fillStyle=colors[z%colors.length];ctx.fillText(s.name,54+z*190,42)}ctx.strokeStyle='#999';ctx.beginPath();ctx.moveTo(42,30);ctx.lineTo(42,h-26);ctx.lineTo(w-10,h-26);ctx.stroke();ctx.fillStyle='#333';ctx.fillText('x '+xmin.toPrecision(4)+' … '+xmax.toPrecision(4)+' | y '+min.toPrecision(4)+' … '+max.toPrecision(4),50,h-7)}
+function render(){if(!paths.length)return;const p=paths.find(x=>x.id===P.value)||paths[0];const joints=p.model.spans[0].q.length;if(!J.options.length)for(let j=0;j<joints;j++){let o=document.createElement('option');o.value=j;o.textContent='joint '+j;J.append(o)}const joint=Number(J.value||0),limits=p.model.limits;$('provenance').innerHTML='<p><b>Robot/scene:</b> '+esc(p.robot)+' / '+esc(p.scene)+' ('+esc(p.scene_stratum)+') · query '+esc(p.query_index)+' · source query SHA256 <code>'+esc(p.source_query_sha||'NOT RECORDED')+'</code></p><p><b>Scene config SHA256:</b> <code>'+esc(p.scene_config_sha256||'none')+'</code> · <b>Robot config SHA256:</b> <code>'+esc(p.robot_config_sha256||'not recorded')+'</code></p><p><b>Source arrays SHA256:</b> <code>'+esc(p.source_sha)+'</code> · <b>Model SHA256:</b> <code>'+esc(p.model_sha)+'</code> · 47-span exported spline · duration '+esc(p.model.provenance.native_duration_seconds)+' s · joint limits v/a/j '+esc(limits.velocity[joint])+' / '+esc(limits.acceleration[joint])+' / '+esc(limits.jerk[joint])+' · upstream '+esc(p.upstream)+'</p>';
+const operands=p.operands.filter(x=>x.joint===joint).sort((a,b)=>a.physical_time_s-b.physical_time_s);draw('jerk',[{name:'native device jerk',xs:operands.map(x=>x.physical_time_s),ys:operands.map(x=>x.native_jerk)},{name:'model at captured s',xs:operands.map(x=>x.physical_time_s),ys:operands.map(x=>x.adapter_jerk)}],'Jerk by physical time; joint '+joint);
+const pr=p.adapter_operands.filter(x=>x.joint===joint).sort((a,b)=>a.physical_time_s-b.physical_time_s);draw('progress',[{name:'device progress',xs:pr.map(x=>x.physical_time_s),ys:pr.map(x=>x.s)},{name:'source replay progress',xs:pr.map(x=>x.physical_time_s),ys:pr.map(x=>x.progress_replay)}],'Internal path progress versus physical time; joint '+joint);
+draw('attribution',[{name:'geometry q Shapley',xs:operands.map(x=>x.physical_time_s),ys:operands.map(x=>x.q_operand_effect)},{name:'timing x Shapley',xs:operands.map(x=>x.physical_time_s),ys:operands.map(x=>x.x_operand_effect)}],'Operand contribution to model jerk difference; joint '+joint);
+const model=p.model,xx=[],qq=[];for(const srow of model.spans){const l=num(srow.left),r=num(srow.right),c=srow.q[joint].map(num);for(let k=0;k<12;k++){let u=k/12,v=0;for(let z=c.length-1;z>=0;z--)v=v*u+c[z];xx.push(l+(r-l)*u);qq.push(v)}}draw('util',[{name:'q(s) rad',xs:xx,ys:qq}],'Serialized path position');
+const cases=p.benchmark?.case_summary||{},cr=[];for(const [name,v] of Object.entries(cases))cr.push([name,(v.p50_ns/1e6).toFixed(3),(v.p95_ns/1e6).toFixed(3),(v.p99_ns/1e6).toFixed(3),v.n]);$('latency-table').innerHTML=table(cr,['case','p50 ms','p95 ms','p99 ms','timed n']);let names=Object.keys(cases);draw('latency',names.map(name=>{let vals=p.benchmark.raw.filter(x=>x.case===name).map(x=>x.stage_ns.total_ns/1e6).sort((a,b)=>a-b);return{name,xs:vals.map((_,i)=>i/(Math.max(vals.length-1,1))),ys:vals}}),'Per-path empirical latency distributions');
+const stageRows=[];for(const [name,v] of Object.entries(cases))for(const [stage,p50] of Object.entries(v.stage_p50_ns||{}))stageRows.push([name,stage,(p50/1e6).toFixed(3),((v.stage_p95_ns||{})[stage]/1e6).toFixed(3),((v.stage_p99_ns||{})[stage]/1e6).toFixed(3)]);$('latency-table').innerHTML+=table(stageRows,['arm','stage','p50 ms','p95 ms','p99 ms']);
+const trs=p.tightness.residual_records||[],families=[...new Set(trs.map(x=>x.family))],trows=families.map(f=>{let a=trs.filter(x=>x.family===f);return[f,a.length,Math.max(...a.map(x=>num(x.initial_hull_upper))),Math.min(...a.map(x=>num(x.margin_lower))),Math.max(...a.map(x=>num(x.margin_upper))),Math.max(...a.map(x=>num(x.overestimation_upper))),Math.max(...a.map(x=>x.required_uniform_depth_to_certify))]});$('tightness').innerHTML=table(trows,['family','residuals','max hull upper','margin lower min','margin upper max','overestimation max','max needed depth']);
+const orows=operands.map(x=>{const ex=p.adapter_operands.find(y=>y.path_id===x.path_id&&y.idx===x.idx&&y.joint===x.joint);return[x.idx,x.physical_time_s.toFixed(6),x.native_minus_adapter.toExponential(3),...['q1','q2','q3','x0','x1','x2'].map(k=>x.operands[k].ulp32),ex?.progress_ulp32_device_vs_replay,ex?.model_jerk_delta_due_to_progress_replay?.toExponential(2),x.native_fmaf_bitwise_match]});$('operands').innerHTML=table(orows,['trace idx','time s','native−model jerk','q1 ULP','q2 ULP','q3 ULP','x ULP','x1 ULP','x2 ULP','s ULP replay','model jerk Δ from replay s','captured FMA bitwise']);
+const bt=p.benchmark?Object.entries(p.benchmark.case_summary).map(([k,v])=>[k,v.statuses?JSON.stringify(v.statuses):'',v.n]):[];const depths=[...new Set(trs.map(x=>x.required_uniform_depth_to_certify))];$('proof').innerHTML='<p>Full outward K3 model proof/replay: '+esc(p.model_proof)+' · compiled hull scope: INITIAL_HULL_ONLY · native linkage: BLOCKED_NATIVE_LINKAGE · compiled depth data: '+esc(depths.join(', '))+'</p>'+table(bt,['benchmark arm','status counts','timed n']);
+ $('export').onclick=()=>{const b=new Blob([JSON.stringify({path:p.id,model:p.model,operands:p.operands,adapter_operands:p.adapter_operands,benchmark:p.benchmark,tightness:p.tightness},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=p.id+'-evidence.json';a.click();URL.revokeObjectURL(a.href)}}
+P.addEventListener('change',()=>{J.replaceChildren();render()});J.addEventListener('change',render);$('export').addEventListener('click',()=>{});render();</script></body></html>'''
+
+def build_payload(benchmark,attribution,adapter_operands,tightness_dir,models_dir,pilot_dir):
+    operands=attribution['records'];ids=sorted({r['path_id'] for r in operands});paths=[]
+    bench={r['path_id']:r for r in benchmark['paths']};
+    for path in ids:
+        model_path=Path(models_dir)/f'{path}.json';model_blob=model_path.read_bytes();model=json.loads(model_blob)
+        tight=json.loads((Path(tightness_dir)/f'{path}-tightness.json').read_text())
+        b=bench.get(path);meta=json.loads((Path(pilot_dir)/f'{path}.json').read_text())
+        q=meta.get('source_query',{})
+        paths.append({'id':path,'source_sha':model['provenance']['source_arrays_sha256'],
+          'source_query_sha':meta.get('source_query_sha256'),'robot':q.get('robot'),'scene':q.get('scene_id'),
+          'scene_stratum':q.get('scene_stratum'),'query_index':q.get('query_index'),
+          'scene_config_sha256':meta.get('scene_config_sha256'),'robot_config_sha256':meta.get('robot_config_sha256'),
+          'model_sha':__import__('hashlib').sha256(model_blob).hexdigest(),'upstream':model['provenance'].get('upstream_sha'),
+          'model':model,'operands':[r|{'adapter_jerk':r['adapter_jerk']} for r in operands if r['path_id']==path],
+          'adapter_operands':[r for r in adapter_operands['records'] if r['path_id']==path],
+          'benchmark':b,'tightness':tight,'model_proof':'CERTIFIED_K3 model-only (prior outward replay); no native linkage'})
+    return {'scope':'EXPLORATORY_HULL_ONLY_PLUS_MODEL_PROOF_AND_DEVICE_DIAGNOSTIC','paths':paths,
+            'provenance':{'benchmark_scope':benchmark['scope'],'operand_scope':attribution['scope'],
+              'campaign_eligible':False,'native_linked':False}}
+
+def render(data):
+    if data.get('scope')!='EXPLORATORY_HULL_ONLY_PLUS_MODEL_PROOF_AND_DEVICE_DIAGNOSTIC':raise ValueError('bad evidence scope')
+    for p in data.get('paths',[]):
+        if p.get('benchmark') and p['benchmark'].get('scope','').startswith('EXPLORATORY_FROZEN_MODEL_CPU_ONLY') is False:
+            raise ValueError('invalid benchmark scope')
+    encoded=json.dumps(data,allow_nan=False).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
+    return TEMPLATE.replace('__DATA__',encoded)
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--benchmark',type=Path,required=True);p.add_argument('--attribution',type=Path,required=True)
+    p.add_argument('--adapter-operands',type=Path,required=True)
+    p.add_argument('--pilot-dir',type=Path,default=Path('runs/native_pilot_resolved'))
+    p.add_argument('--tightness-dir',type=Path,required=True);p.add_argument('--models-dir',type=Path,required=True);p.add_argument('--out',type=Path,required=True)
+    a=p.parse_args();d=build_payload(json.loads(a.benchmark.read_text()),json.loads(a.attribution.read_text()),json.loads(a.adapter_operands.read_text()),a.tightness_dir,a.models_dir,a.pilot_dir)
+    out=render(d);a.out.parent.mkdir(parents=True,exist_ok=True);a.out.write_text(out);print(f'Wrote offline report {a.out} ({len(out)} bytes)')
+if __name__=='__main__':main()

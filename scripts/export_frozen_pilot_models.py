@@ -63,13 +63,23 @@ def export_one(meta_path: Path, out_dir: Path) -> dict:
             "span_count": len(spans)}
 
 
+def metadata_paths(pilot_dir: Path):
+    """Select per-query Panda records, including separately named exploratory cohorts."""
+    for path in sorted(pilot_dir.glob("*.json")):
+        if path.name == "summary.json":
+            continue
+        if not (path.name.startswith("pilot-panda-") or path.name.startswith("explore-panda-")):
+            continue
+        yield path
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--pilot-dir", type=Path, required=True)
     p.add_argument("--out-dir", type=Path, required=True)
     p.add_argument("--manifest", type=Path, required=True)
     a = p.parse_args()
-    rows = [export_one(path, a.out_dir) for path in sorted(a.pilot_dir.glob("pilot-*.json")) if "panda" in path.name]
+    rows = [export_one(path, a.out_dir) for path in metadata_paths(a.pilot_dir)]
     manifest = {"schema_version": 1, "scope": "EXACT_SERIALIZED_MATHEMATICAL_MODEL_ONLY", "campaign_eligible": False, "paths": rows}
     a.manifest.parent.mkdir(parents=True, exist_ok=True)
     a.manifest.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")

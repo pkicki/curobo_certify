@@ -108,6 +108,12 @@ def compare(native_data,adapter_data):
         a[key]=row
     if n.keys()!=a.keys() or not n:
         raise ValueError('native and adapter capture keys must match exactly and be nonempty')
+    for key in n:
+        nr,ar=n[key],a[key]
+        if nr.get('source_arrays_sha256') and ar.get('source_arrays_sha256') and nr['source_arrays_sha256']!=ar['source_arrays_sha256']:
+            raise ValueError(f'source-array hash mismatch for {key}')
+        if nr.get('physical_time_s') is not None and ar.get('physical_time_s') is not None and nr['physical_time_s']!=ar['physical_time_s']:
+            raise ValueError(f'physical time mismatch for {key}')
     return {'scope':'EMPIRICAL_NATIVE_OPERAND_DECOMPOSITION_NOT_ERROR_BOUND',
             'continuous_native_linked_certificate':False,
             'records':[attribute(n[k],a[k]) for k in sorted(n)]}

@@ -52,4 +52,10 @@ class AttributionTests(unittest.TestCase):
         self.assertEqual(len(good['records']),1)
         self.assertFalse(good['continuous_native_linked_certificate'])
 
+    def test_compare_rejects_source_hash_mismatch(self):
+        n=row(path_id='p',source_arrays_sha256='native')
+        a={**n,'jerk':n['native_jerk'],'source_arrays_sha256':'other'}
+        with self.assertRaisesRegex(ValueError,'hash mismatch'):
+            compare({'records':[n]},{'records':[a]})
+
 if __name__=='__main__':unittest.main()

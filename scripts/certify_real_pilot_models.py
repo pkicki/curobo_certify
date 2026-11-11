@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from curobo_certify.boundary_reference import Boundaries, check_boundaries  # noqa: E402
 from curobo_certify.piecewise_cpu import certify_piecewise_k3, replay_piecewise_k3  # noqa: E402
 from curobo_certify.spline_polynomials import extract_timeopt_spans  # noqa: E402
+from export_frozen_pilot_models import metadata_paths  # noqa: E402
 
 
 def main() -> int:
@@ -27,7 +28,7 @@ def main() -> int:
     parser.add_argument("--max-nodes", type=int, default=8192)
     args = parser.parse_args()
     rows = []
-    for meta_path in sorted(args.pilot_dir.glob("pilot-*.json")):
+    for meta_path in metadata_paths(args.pilot_dir):
         meta = json.loads(meta_path.read_text())
         if meta.get("planner_success") is not True:
             rows.append({"path_id": meta_path.stem, "native_linkage": "NO_NATIVE_OUTPUT",

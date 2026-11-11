@@ -11,6 +11,7 @@ import json
 from fractions import Fraction
 from pathlib import Path
 import math
+import struct
 
 
 def poly_value(c, u, derivative_order=0, span_width=Fraction(1)):
@@ -41,6 +42,15 @@ def eval_model(model, s, joint):
             'x0':float(poly_value(x,u,0,h)),'x1':float(poly_value(x,u,1,h)),
             'x2':float(poly_value(x,u,2,h))}
 
+def ulp32(a,b):
+    pack=lambda v:int.from_bytes(struct.pack('!f',float(v)),'big')
+    def ordered(v): return ((~v)&0xffffffff) if v&0x80000000 else (v|0x80000000)
+    return abs(ordered(pack(a))-ordered(pack(b)))
+
+def jerk(o):
+    if o['x0']<0: raise ValueError('negative squared-speed model value')
+    return math.sqrt(o['x0'])*(o['q3']*o['x0']+1.5*o['q2']*o['x1']+0.5*o['q1']*o['x2'])
+
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--trace-analysis',type=Path,required=True)
@@ -57,9 +67,13 @@ def main():
         if source != n['source_arrays_sha256']:
             raise ValueError(f'{path}: source-array SHA mismatch')
         operands=eval_model(model,n['internal_progress_device'],n['joint'])
+        replay=eval_model(model,n['internal_progress_replay'],n['joint'])
         row={'path_id':path,'idx':n['trace_idx'],'joint':n['joint'],**operands,
-             'jerk':math.sqrt(operands['x0'])*(operands['q3']*operands['x0']+
-               1.5*operands['q2']*operands['x1']+0.5*operands['q1']*operands['x2']),
+             'jerk':jerk(operands),'progress_replay':replay['s'],
+             'progress_ulp32_device_vs_replay':ulp32(operands['s'],replay['s']),
+             'jerk_at_replay_progress':jerk(replay),
+             'model_jerk_delta_due_to_progress_replay':jerk(operands)-jerk(replay),
+             'replay_operands':replay,
              'physical_time_s':n['physical_time_s'],'native_progress':n['internal_progress_device'],
              'source_arrays_sha256':source,'model_sha256':hashlib.sha256(blob).hexdigest()}
         rows.append(row)
@@ -70,6 +84,11 @@ def main():
           sum(abs(d[f'x{k}']-n['x_device'][k]) for k in range(3))+
           sum(abs(d[f'q{k}']-n['q_derivatives_device'][k-1]) for k in range(1,4)))
         d=candidates[0]
+        if d['native_jerk']!=n['jerk_device_instrumented'] or d['s']!=n['internal_progress_device']:
+            raise ValueError(f'{path} idx={n["trace_idx"]} joint={n["joint"]}: device trace join failed exact checks')
+        if any(d[f'q{k}']!=n['q_derivatives_device'][k-1] for k in range(1,4)) or any(
+            d[f'x{k}']!=n['x_device'][k] for k in range(3)):
+            raise ValueError(f'{path} idx={n["trace_idx"]} joint={n["joint"]}: native operands disagree after join')
         native_rows.append({'path_id':path,'idx':n['trace_idx'],'joint':n['joint'],
           's':d['s'],'speed':d['speed'],'q1':d['q1'],'q2':d['q2'],'q3':d['q3'],
           'x0':d['x0'],'x1':d['x1'],'x2':d['x2'],'native_jerk':n['jerk_native_pristine'],
