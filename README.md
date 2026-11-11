@@ -23,3 +23,7 @@ Use the pinned upstream as a dependency and preserve NVIDIA attribution/license;
 ## Independent recovery package
 
 See [recovery gates](docs/RECOVERY_PLAN.md), [coding-agent handoff](docs/AGENT_RECOVERY_PROMPT.md), `boundary_reference.py` and `exact_k3_reference.py`. These dependency-free exact-rational implementations are analytic reference tools and do not establish native parity or campaign measurements. `BOUNDARY_PASS` alone is not a full K3 certificate.
+
+## Native jerk debugging and exploratory Bernstein tightness (2026-11-11)
+
+This integration includes a pinned-blob CUDA trace patch generator (`scripts/make_timeopt_cuda_trace_patch.py`) and parser (`scripts/parse_timeopt_cuda_trace.py`). The CUDA diagnostic extension has not yet been built or run; apply its patch only in a disposable cuRobo checkout. It also includes exact-rational Bernstein tightness analysis, a frozen-model CPU timing harness and an offline HTML visualization builder. Bundled fixtures are analytic. CPU timing is not native-linked complete-request latency. See `docs/NATIVE_PARITY_AND_TIGHTNESS_PLAN.md` and `docs/CODING_AGENT_JERK_CPU_EXPLORATION.md`.
