@@ -91,6 +91,9 @@ class CompiledHull:
         pd = ctypes.POINTER(ctypes.c_double)
         self._fn.argtypes = [pd]*12+[ctypes.c_int,ctypes.c_int,pd,pd]
         self._fn.restype = ctypes.c_int
+        self._coeff_fn = self._lib.timeopt_k3_coefficients_v1
+        self._coeff_fn.argtypes = [pd]*12+[ctypes.c_int,ctypes.c_int,pd,pd,pd,pd]
+        self._coeff_fn.restype = ctypes.c_int
 
     def evaluate_packed(self, n, d, arrays):
         if len(arrays) != 12:
@@ -116,6 +119,33 @@ class CompiledHull:
     def evaluate(self, model):
         n,d,arrays=pack_model(model)
         return self.evaluate_packed(n,d,arrays)
+
+    def evaluate_coefficients(self, model):
+        """Return every padded-degree Bernstein coefficient enclosure.
+
+        Family slot offsets within each (span,joint) row are
+        positive_x=0, velocity=4, acceleration+=12, acceleration-=17, jerk=22.
+        Families use degrees 3,7,4,4,9 respectively; output storage is padded
+        to 32 slots for a stable C ABI. This validates hull arithmetic only.
+        """
+        n,d,arrays=pack_model(model)
+        buffers=[]
+        for values in arrays:
+            ctype=ctypes.c_double*len(values)
+            buffers.append(ctype(*values))
+        count=n*d*len(FAMILIES)
+        hull_l=(ctypes.c_double*count)();hull_h=(ctypes.c_double*count)()
+        coeff_count=n*d*32
+        coeff_l=(ctypes.c_double*coeff_count)();coeff_h=(ctypes.c_double*coeff_count)()
+        code=self._coeff_fn(*buffers,n,d,hull_l,hull_h,coeff_l,coeff_h)
+        if code != 0:
+            raise ValueError(f'compiled coefficient enclosure rejected inputs or environment: status {code}')
+        coeffs=[]
+        for lo,hi in zip(coeff_l,coeff_h):
+            if not math.isfinite(lo) or not math.isfinite(hi) or lo>hi:
+                raise ValueError('invalid coefficient enclosure')
+            coeffs.append((lo,hi))
+        return coeffs
 
 
 def partial_summary(model, bounds):

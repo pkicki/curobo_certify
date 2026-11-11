@@ -9,7 +9,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 FLAGS = ('-std=c++17', '-O3', '-shared', '-fPIC', '-fno-fast-math',
-         '-ffp-contract=off', '-fexcess-precision=standard', '-Wall', '-Wextra', '-Werror')
+         '-ffp-contract=off', '-Wall', '-Wextra', '-Werror')
 
 
 def build(output: Path, compiler: str = 'g++') -> dict:
@@ -24,7 +24,8 @@ def build(output: Path, compiler: str = 'g++') -> dict:
             'binary_sha256': hashlib.sha256(output.read_bytes()).hexdigest(),
             'compiler': compiler_version, 'command': command,
             'platform': platform.platform(), 'full_k3_proof': False,
-            'arithmetic_assumption': 'IEEE binary64 FLT_EVAL_METHOD=0, no fast math/FMA contraction; nextafter enclosure for every primitive, tested but not formal cross-platform audit'}
+            'arithmetic_assumption': 'IEEE binary64 FLT_EVAL_METHOD=0, x86-64 SSE binary64 evaluation, no fast math/FMA contraction; runtime must be round-to-nearest; nextafter enclosure for every primitive, tested but not formal cross-platform audit',
+            'compiler_flags': list(FLAGS)}
 
 
 def main():

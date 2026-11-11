@@ -12,6 +12,7 @@ the mathematical jerk equation, not floating-point operational attributions.
 Residual against native includes native FP32 arithmetic/ordering effects.
 """
 import argparse
+import ctypes
 import json
 import math
 import struct
@@ -45,6 +46,20 @@ def jerk(q,x):
     return math.sqrt(x['x0'])*(q['q3']*x['x0']+1.5*q['q2']*x['x1']+0.5*q['q1']*x['x2'])
 
 
+def captured_fmaf_jerk(row):
+    f32=lambda x: struct.unpack('!f',struct.pack('!f',float(x)))[0]
+    fmaf=ctypes.CDLL('libm.so.6').fmaf
+    fmaf.argtypes=[ctypes.c_float,ctypes.c_float,ctypes.c_float]
+    fmaf.restype=ctypes.c_float
+    q1,q2,q3=(f32(row[k]) for k in ('q1','q2','q3'))
+    x0,x1,x2=(f32(row[k]) for k in ('x0','x1','x2'))
+    speed=f32(row.get('speed',math.sqrt(max(x0,0.0))))
+    term=f32(q3*x0)
+    term=fmaf(f32(f32(1.5)*q2),x1,term)
+    term=fmaf(f32(f32(0.5)*q1),x2,term)
+    return f32(speed*term)
+
+
 def attribute(native,adapter):
     for key in (*OPERANDS,'s'):
         if not isinstance(native.get(key), (float,int)) or not isinstance(adapter.get(key),(float,int)):
@@ -60,11 +75,16 @@ def attribute(native,adapter):
     x_effect=(f_an-f_aa+f_nn-f_na)/2
     if not math.isclose(q_effect+x_effect, f_nn-f_aa, rel_tol=1e-10, abs_tol=1e-10):
         raise AssertionError('decomposition mismatch')
-    return {'idx':n['idx'],'joint':n['joint'],'source':'OBSERVED_OPERAND_DIAGNOSTIC',
+    fma_replay=captured_fmaf_jerk(n)
+    return {'path_id':n.get('path_id',a.get('path_id')),
+            'idx':n['idx'],'joint':n['joint'],'physical_time_s':n.get('physical_time_s',a.get('physical_time_s')),'source':'OBSERVED_OPERAND_DIAGNOSTIC',
             'native_jerk':n['native_jerk'],'adapter_jerk':a['jerk'],
             'native_minus_adapter':n['native_jerk']-a['jerk'],
             'q_operand_effect':q_effect,'x_operand_effect':x_effect,
             'native_fp32_final_arithmetic_residual':n['native_jerk']-f_nn,
+            'native_captured_operand_fmaf_replay':fma_replay,
+            'native_fmaf_final_residual':n['native_jerk']-fma_replay,
+            'native_fmaf_bitwise_match':bits(n['native_jerk'])==bits(fma_replay),
             'adapter_final_arithmetic_residual':a['jerk']-f_aa,
             'progress_difference':n['s']-a['s'],
             'same_progress':n['s']==a['s'],
@@ -78,12 +98,12 @@ def compare(native_data,adapter_data):
         raise ValueError('expected native and adapter JSON objects')
     n={}
     for row in native_data['records']:
-        key=(row['idx'],row['joint'])
+        key=(row.get('path_id'),row['idx'],row['joint'])
         if key in n:raise ValueError('duplicate native record')
         n[key]=row
     a={}
     for row in adapter_data['records']:
-        key=(row['idx'],row['joint'])
+        key=(row.get('path_id'),row['idx'],row['joint'])
         if key in a:raise ValueError('duplicate adapter record')
         a[key]=row
     if n.keys()!=a.keys() or not n:

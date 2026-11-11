@@ -6,11 +6,15 @@
 #include <algorithm>
 #include <array>
 #include <cfloat>
+#include <cfenv>
 #include <cmath>
 #include <cstddef>
 #include <limits>
 #include <stdexcept>
 #include <vector>
+#if defined(__SSE__)
+#include <xmmintrin.h>
+#endif
 
 namespace {
 struct I { double lo, hi; };
@@ -72,10 +76,10 @@ inline unsigned binom(unsigned n,unsigned k) {
     for(unsigned j=1;j<=k;++j)result=(result*(n-j+1))/j;
     return result;
 }
-inline I bernstein_hull(const P& power) {
+inline std::vector<I> bernstein_coefficients(const P& power) {
     if(power.empty()||power.size()>10)throw std::range_error("degree not supported");
     const unsigned n=static_cast<unsigned>(power.size()-1);
-    double lo=std::numeric_limits<double>::infinity(),hi=-lo;
+    std::vector<I> result; result.reserve(n+1);
     for(unsigned k=0;k<=n;++k) {
         I sum=exact(0);
         for(unsigned i=0;i<=k;++i) {
@@ -83,9 +87,9 @@ inline I bernstein_hull(const P& power) {
                                     exact(static_cast<double>(binom(n,i))));
             sum=add(sum,mul(power[i],fraction));
         }
-        lo=std::min(lo,sum.lo);hi=std::max(hi,sum.hi);
+        result.push_back(sum);
     }
-    I result{lo,hi};check(result);return result;
+    return result;
 }
 inline I input(const double* lows,const double* highs,std::size_t n) {
     I v{lows[n],highs[n]};check(v);return v;
@@ -95,7 +99,8 @@ inline void compute(const double* qlo,const double* qhi,const double* xlo,const 
                     const double* vlo,const double* vhi,
                     const double* alo,const double* ahi,
                     const double* jlo,const double* jhi,
-                    int ns,int nj,double* outputlo,double* outputhi) {
+                    int ns,int nj,double* outputlo,double* outputhi,
+                    double* coefflo,double* coeffhi) {
     if(ns<=0||nj<=0||ns>100000||nj>1000)
         throw std::range_error("invalid span or joint count");
     for(int s=0;s<ns;++s) {
@@ -105,7 +110,6 @@ inline void compute(const double* qlo,const double* qhi,const double* xlo,const 
         P x;for(int k=0;k<4;++k)x.push_back(input(xlo,xhi,s*4+k));
         P xp=pdiff(x,invh),xpp=pdiff(xp,invh);
         const P xpos=pscale(x,exact(-1));
-        I positivity=bernstein_hull(xpos);
         for(int j=0;j<nj;++j){
             P q;for(int k=0;k<4;++k)q.push_back(input(qlo,qhi,(s*nj+j)*4+k));
             P q1=pdiff(q,invh),q2=pdiff(q1,invh),q3=pdiff(q2,invh);
@@ -122,14 +126,42 @@ inline void compute(const double* qlo,const double* qhi,const double* xlo,const 
             const P ell=padd(padd(pmul(q3,x),pscale(pmul(q2,xp),exact(1.5))),
                              pscale(pmul(q1,xpp),exact(0.5)));
             const P jerk=padd(pscale(pmul(x,pmul(ell,ell)),jinv),{exact(-1)});
-            const std::array<I,5> hulls={positivity,bernstein_hull(vres),
-                bernstein_hull(aplus),bernstein_hull(aminus),bernstein_hull(jerk)};
+            const std::array<P,5> polys={xpos,vres,aplus,aminus,jerk};
+            const std::array<unsigned,5> expected={4,8,5,5,10};
             for(int f=0;f<5;++f) {
                 std::size_t id=(static_cast<std::size_t>(s)*nj+j)*5+f;
-                outputlo[id]=hulls[f].lo;outputhi[id]=hulls[f].hi;
+                const auto coefficients=bernstein_coefficients(polys[f]);
+                double lower=std::numeric_limits<double>::infinity();
+                double upper=-std::numeric_limits<double>::infinity();
+                for(std::size_t k=0;k<coefficients.size();++k) {
+                    lower=std::min(lower,coefficients[k].lo);
+                    upper=std::max(upper,coefficients[k].hi);
+                    if(coefflo && coeffhi) {
+                        const std::size_t base=((static_cast<std::size_t>(s)*nj+j)*32)+
+                            (f==0?0:(f==1?4:(f==2?12:(f==3?17:22))));
+                        coefflo[base+k]=coefficients[k].lo;
+                        coeffhi[base+k]=coefficients[k].hi;
+                    }
+                }
+                if(coefflo && coeffhi) {
+                    const std::size_t base=((static_cast<std::size_t>(s)*nj+j)*32)+
+                        (f==0?0:(f==1?4:(f==2?12:(f==3?17:22))));
+                    for(std::size_t k=coefficients.size();k<expected[f];++k)
+                        coefflo[base+k]=coeffhi[base+k]=0.0;
+                }
+                outputlo[id]=lower;outputhi[id]=upper;
             }
         }
     }
+}
+inline bool supported_fp_environment() {
+    if(!std::numeric_limits<double>::is_iec559 || FLT_EVAL_METHOD!=0 ||
+       std::fegetround()!=FE_TONEAREST) return false;
+#if defined(__SSE__)
+    // FTZ (bit 15) and DAZ (bit 6) invalidate gradual-underflow enclosure.
+    if((_mm_getcsr() & ((1u<<15)|(1u<<6))) != 0) return false;
+#endif
+    return true;
 }
 } // namespace
 
@@ -141,10 +173,26 @@ int timeopt_k3_hull_v1(const double* qlo,const double* qhi,
     const double* vlo,const double* vhi,const double* alo,const double* ahi,
     const double* jlo,const double* jhi,int ns,int nj,
     double* outputlo,double* outputhi) noexcept {
-    if(!std::numeric_limits<double>::is_iec559 || FLT_EVAL_METHOD!=0) return -2;
+    if(!supported_fp_environment()) return -2;
     if(!qlo||!qhi||!xlo||!xhi||!hlo||!hhi||!vlo||!vhi||!alo||!ahi||!jlo||!jhi||!outputlo||!outputhi)
         return -1;
-    try {compute(qlo,qhi,xlo,xhi,hlo,hhi,vlo,vhi,alo,ahi,jlo,jhi,ns,nj,outputlo,outputhi);}
+    try {compute(qlo,qhi,xlo,xhi,hlo,hhi,vlo,vhi,alo,ahi,jlo,jhi,ns,nj,outputlo,outputhi,nullptr,nullptr);}
+    catch(...) {return -1;}
+    return 0;
+}
+
+// Same coefficient calculations as the partial hull API, exposing every
+// Bernstein coefficient in a 32-slot family layout for exact differential
+// tests. This remains a partial initial-hull primitive, not a certificate.
+int timeopt_k3_coefficients_v1(const double* qlo,const double* qhi,
+    const double* xlo,const double* xhi,const double* hlo,const double* hhi,
+    const double* vlo,const double* vhi,const double* alo,const double* ahi,
+    const double* jlo,const double* jhi,int ns,int nj,
+    double* outputlo,double* outputhi,double* coefflo,double* coeffhi) noexcept {
+    if(!supported_fp_environment()) return -2;
+    if(!qlo||!qhi||!xlo||!xhi||!hlo||!hhi||!vlo||!vhi||!alo||!ahi||!jlo||!jhi||
+       !outputlo||!outputhi||!coefflo||!coeffhi) return -1;
+    try {compute(qlo,qhi,xlo,xhi,hlo,hhi,vlo,vhi,alo,ahi,jlo,jhi,ns,nj,outputlo,outputhi,coefflo,coeffhi);}
     catch(...) {return -1;}
     return 0;
 }
