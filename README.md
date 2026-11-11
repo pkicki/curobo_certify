@@ -27,3 +27,11 @@ See [recovery gates](docs/RECOVERY_PLAN.md), [coding-agent handoff](docs/AGENT_R
 ## Native jerk debugging and exploratory Bernstein tightness (2026-11-11)
 
 This integration includes a pinned-blob CUDA trace patch generator (`scripts/make_timeopt_cuda_trace_patch.py`) and parser (`scripts/parse_timeopt_cuda_trace.py`). The CUDA diagnostic extension has not yet been built or run; apply its patch only in a disposable cuRobo checkout. It also includes exact-rational Bernstein tightness analysis, a frozen-model CPU timing harness and an offline HTML visualization builder. Bundled fixtures are analytic. CPU timing is not native-linked complete-request latency. See `docs/NATIVE_PARITY_AND_TIGHTNESS_PLAN.md` and `docs/CODING_AGENT_JERK_CPU_EXPLORATION.md`.
+
+## Compiled K3 initial-hull research package (2026-11-11)
+
+This integration adds a C++ binary64 interval initial Bernstein-hull component, the exact-rational input/ctypes adapter, a stage profiler and an empirical native jerk operand attribution tool. It **cannot issue a complete K3 or native-linked certificate**. Use `docs/COMPILED_HULL_AND_NATIVE_LINKAGE_PLAN_20261111.md` and `docs/GPT6_CODING_AGENT_COMPILED_CAMPAIGN.md`.
+
+Build with: `python scripts/build_compiled_hull.py --out /tmp/libk3hull.so --manifest /tmp/build.json`. Run `python -m unittest discover -s tests -p 'test_*.py' -q` for the Python suite. The standalone analytic profiler is `python scripts/bench_compiled_hull.py fixtures/boundary_multispan_analytic.json --lib /tmp/libk3hull.so --out /tmp/hull.json`.
+
+All compiled hull results are partial model checks; they exclude full boundary/regularity proof replay and native linkage. Refer to `docs/PROGRESS.md` for the real Panda results and current blockers.
