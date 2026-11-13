@@ -59,6 +59,11 @@ input[type=checkbox]{accent-color:#67dacf;width:18px;height:18px}
 .key.control{background:var(--amber)}
 .key.hull{height:12px;background:#2f716d70;border:1px solid #5bc4aa}
 .key.zero{background:var(--bad);height:2px}
+.tightness{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.tightness div{border:1px solid #35526a;background:#122a3b;border-radius:10px;padding:12px 14px}
+.tightness small{display:block;color:#a0b7d0;font-size:11px}
+.tightness strong{display:block;color:#a9f0e6;font:600 15px ui-monospace,monospace;margin-top:5px;overflow-wrap:anywhere}
+@media(max-width:550px){.tightness{grid-template-columns:1fr}}
 .plot-wrap{background:#0c1525;border:1px solid #22334c;border-radius:13px;overflow:hidden;margin:16px 0 12px}
 svg{width:100%;display:block;aspect-ratio:1000/400}
 svg .gridline{stroke:#283b54;stroke-width:1;stroke-dasharray:2 6}
@@ -148,6 +153,7 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
  <section class="card" style="margin-top:18px">
   <div class="flex"><h2>Residual and its bounds</h2><label style="margin:0"><input type="checkbox" id="polygon" checked> Show active control polygon</label></div>
   <div class="legend"><span><i class="key"></i>Residual r(s) · sampled for display</span><span><i class="key control"></i>Local Bernstein control polygon</span><span><i class="key hull"></i>Proven interval hull</span><span><i class="key zero"></i>Constraint boundary (0)</span></div>
+  <div class="tightness"><div><small>Rigorous global peak bracket · 32 dyadic cells</small><strong id="peakBracket">—</strong></div><div><small>Initial hull overestimation bracket</small><strong id="gapBracket">—</strong></div></div>
   <div class="plot-wrap"><svg id="plot" viewBox="0 0 1000 400" role="img" aria-label="Sampled residual with exact Bernstein interval hulls"></svg></div>
   <div class="probe"><label for="probe">Probe at s</label><div><input type="range" min="0" max="1000" step="1" value="500" id="probe"><p class="probe-output" id="probeValue">—</p></div></div>
   <p class="explain">The turquoise curve is drawn using sampled floating-point values for <b>visual intuition only</b>. Rectangles are determined by exact rational Bernstein coefficient bounds. To prove r(s) ≤ 0, every terminal leaf must have maximum coefficient ≤ 0. To disprove it, find an exact positive value r(s) &gt; 0.</p>
@@ -236,6 +242,34 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
     for(let k=a.length-1;k>0;k--) a=Array.from({length:k},(_,i)=>a[i]*(1-t)+a[i+1]*t);
     return a[0];
   }
+
+  function peakBracket(coeffs,depth=5) {
+    // Exact mathematical global max bracket. Each leaf's Bernstein hull
+    // upper-bounds the continuous peak, and evaluated dyadic points lower-bound it.
+    // NOT a native CUDA error bound and NOT a complete K3 proof.
+    const b=coeffs.map(parse);
+    if(!Number.isInteger(depth)||depth<0||depth>10)throw Error('Invalid peak bracket depth');
+    let leaves=[b], lower=cmp(b[0],b[b.length-1])>=0?b[0]:b[b.length-1];
+    const initialUpper=max(b);
+    for(let k=0;k<depth;k++) {
+      const next=[];
+      for(const leaf of leaves) next.push(...split(leaf));
+      leaves=next;
+    }
+    let upper=null;
+    for(const leaf of leaves){
+      const hi=max(leaf);
+      upper=upper===null||cmp(hi,upper)>0?hi:upper;
+      const center=split(leaf)[0].slice(-1)[0];
+      for(const value of [leaf[0],leaf[leaf.length-1],center])
+        if(cmp(value,lower)>0)lower=value;
+    }
+    const gapLower=cmp(initialUpper,upper)>0?sub(initialUpper,upper):ZERO;
+    const gapUpper=cmp(initialUpper,lower)>0?sub(initialUpper,lower):ZERO;
+    return {scope:'EXACT_POLYNOMIAL_ONLY',depth,initialUpper,lower,upper,
+      gapLower,gapUpper,leafCount:leaves.length};
+  }
+
   function parseCoeffs(values) {
     if(!Array.isArray(values)||values.length<2||values.length>17) throw Error('Require 2–17 coefficients (degree 1–16)');
     return values.map(parse);
@@ -331,7 +365,7 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
   function serializeProof(proof) {
     return JSON.parse(JSON.stringify(proof,(_,v)=>typeof v==='bigint'?v.toString():v));
   }
-  return {R,parse,add,sub,mul,div,cmp,repr,num,at,sample,split,parseCoeffs,build,replay,serializeProof};
+  return {R,parse,add,sub,mul,div,cmp,repr,num,at,sample,split,parseCoeffs,peakBracket,build,replay,serializeProof};
 });
 </script>
 <script>
@@ -413,6 +447,10 @@ function renderMetrics(){
  $('verdict').textContent=status.replaceAll('_',' ');
  $('verdict').className='pill '+(finished?statusKind(status):'warn');
  const B=proof.original.map(P.parse);
+
+ const tight=P.peakBracket(B,5);
+ metric('peakBracket','['+P.repr(tight.lower)+', '+P.repr(tight.upper)+']');
+ metric('gapBracket','['+P.repr(tight.gapLower)+', '+P.repr(tight.gapUpper)+']');
  metric('degree',String(proof.degree));
  metric('initialHull',P.repr(P.max?P.max(B):B.reduce((x,y)=>P.cmp(x,y)>0?x:y)));
  metric('leaves',String(shown().filter(n=>n.state==='PROVEN').length));
