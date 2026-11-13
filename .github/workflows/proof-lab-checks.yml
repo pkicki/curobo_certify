@@ -1,0 +1,33 @@
+name: Bernstein Proof Lab checks
+on:
+  push:
+    branches:
+      - 'exp/interactive-bernstein-proof-lab-*'
+  workflow_dispatch:
+
+jobs:
+  offline-proof-lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Python tests
+        run: python -m unittest discover -s tests -p 'test_*.py' -q
+      - name: Python compile check
+        run: python -m compileall -q src scripts tests
+      - name: Node tests
+        run: node --test tests/*.test.cjs
+      - name: Verify standalone HTML is reproducible
+        run: |
+          python scripts/build_proof_playground.py --out /tmp/bernstein_proof_lab.html
+          cmp -s reports/bernstein_proof_lab.html /tmp/bernstein_proof_lab.html
+      - name: Analytic fixture export smoke
+        run: |
+          python scripts/export_playground_residuals.py             fixtures/boundary_multispan_analytic.json             --span-index 0 --joint 0 --out /tmp/analytic_residuals.json
+          python -c "import json; x=json.load(open('/tmp/analytic_residuals.json')); assert x['examples'] and x['native_parity']=='NOT_EVALUATED'"
