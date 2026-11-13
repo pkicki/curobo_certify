@@ -72,6 +72,33 @@
     for(let k=a.length-1;k>0;k--) a=Array.from({length:k},(_,i)=>a[i]*(1-t)+a[i+1]*t);
     return a[0];
   }
+
+  function peakBracket(coeffs,depth=5) {
+    // Exact mathematical global max bracket. Each leaf's Bernstein hull
+    // upper-bounds the continuous peak, and evaluated dyadic points lower-bound it.
+    // NOT a native CUDA error bound and NOT a complete K3 proof.
+    const b=coeffs.map(parse);
+    if(!Number.isInteger(depth)||depth<0||depth>10)throw Error('Invalid peak bracket depth');
+    let leaves=[b], lower=cmp(b[0],b[b.length-1])>=0?b[0]:b[b.length-1];
+    const initialUpper=max(b);
+    for(let k=0;k<depth;k++) {
+      const next=[];
+      for(const leaf of leaves) next.push(...split(leaf));
+      leaves=next;
+    }
+    let upper=null;
+    for(const leaf of leaves){
+      const hi=max(leaf);
+      upper=upper===null||cmp(hi,upper)>0?hi:upper;
+      const center=split(leaf)[0].slice(-1)[0];
+      if(cmp(center,lower)>0)lower=center;
+    }
+    const gapLower=cmp(initialUpper,upper)>0?sub(initialUpper,upper):ZERO;
+    const gapUpper=cmp(initialUpper,lower)>0?sub(initialUpper,lower):ZERO;
+    return {scope:'EXACT_POLYNOMIAL_ONLY',depth,initialUpper,lower,upper,
+      gapLower,gapUpper,leafCount:leaves.length};
+  }
+
   function parseCoeffs(values) {
     if(!Array.isArray(values)||values.length<2||values.length>17) throw Error('Require 2–17 coefficients (degree 1–16)');
     return values.map(parse);
@@ -167,5 +194,5 @@
   function serializeProof(proof) {
     return JSON.parse(JSON.stringify(proof,(_,v)=>typeof v==='bigint'?v.toString():v));
   }
-  return {R,parse,add,sub,mul,div,cmp,repr,num,at,sample,split,parseCoeffs,build,replay,serializeProof};
+  return {R,parse,add,sub,mul,div,cmp,repr,num,at,sample,split,parseCoeffs,peakBracket,build,replay,serializeProof};
 });
