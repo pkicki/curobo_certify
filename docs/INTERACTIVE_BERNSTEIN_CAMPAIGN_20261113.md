@@ -4,10 +4,10 @@
 
 ## 0. Evidence ledger, invariants, and current branch
 
-- Published base: \`exp/timeopt-compiled-k3-hull-linkage-20261111\`, \`c01d1b6055eebd5ecd1dd95b8926fb1a4383cf11\`.
-- New independent branch: \`exp/interactive-bernstein-proof-lab-20261113\`; it contains an exact-rational single-residual interactive playground, not a GPU certifier.
-- Previously *reported but absent on GitHub*: integration branch \`exp/timeopt-compiled-hull-integration-20261111\` at \`1100caaa3f077d30c40aef393f4390c59670f4a5\`; earlier local \`54e3905ec058f7f060eb3ea5b908e81e63f895e9\`. These reported commits must be inspected on the real development workstation. NEVER assume that the independent published branch includes their evidence or overwrite them.
-- Native upstream source pin: \`NVlabs/curobo@c301cb00a87012c2808b1a60649c4065c9b3c95a\`.
+- Published base: `exp/timeopt-compiled-k3-hull-linkage-20261111`, `c01d1b6055eebd5ecd1dd95b8926fb1a4383cf11`.
+- New independent branch: `exp/interactive-bernstein-proof-lab-20261113`; it contains an exact-rational single-residual interactive playground, not a GPU certifier.
+- Previously *reported but absent on GitHub*: integration branch `exp/timeopt-compiled-hull-integration-20261111` at `1100caaa3f077d30c40aef393f4390c59670f4a5`; earlier local `54e3905ec058f7f060eb3ea5b908e81e63f895e9`. These reported commits must be inspected on the real development workstation. NEVER assume that the independent published branch includes their evidence or overwrite them.
+- Native upstream source pin: `NVlabs/curobo@c301cb00a87012c2808b1a60649c4065c9b3c95a`.
 - Previously *reported*, not replicated here: 8/8 frozen Panda mathematical K3 proofs; 0/8 registered native jerk parity passes; 1,176 native trace replays matched final arithmetic; C++ hull-only p50 84.72 ms vs full Python+replay ~1.457 s on eight real frozen outputs; native initial-hull component ~2.8 ms; no formal Dev40/Holdout100/Confirm300. The source machine must re-establish these values with manifests.
 - No PR, merge, force-push, branch deletion, input mutation or change to original durations. The optimization problem, TimeOpt controls (32), geometry, physical/planning limits, endpoints, payload and native solver result must remain unchanged. Adaptive Bernstein subdivision is *only a representation refinement*.
 - Distinguish EXACT_ANALYTIC_SINGLE_RESIDUAL, EXACT_SERIALIZED_K3, FROZEN_OUTPUT_EXPLORATORY, NATIVE_LINKED_K3, SAMPLED_DIAGNOSTIC and UNSUPPORTED_DYNAMICS in all files and UI.
@@ -28,17 +28,17 @@ Q5. Which residual families, margins, depths, knot conditions and native operand
 ## 2. Committed deliverable V0: playable proof lab
 
 Files:
-- \`web/proof_core.js\`: exact BigInt rational input, de Casteljau splitting, interval Bernstein hulls, strict interior-zero checks, exact violation witnesses, explicit depth/node unknown, leaf-coverage/coefficients structural replay, global peak and initial-hull-gap brackets.
-- \`web/proof_app.js\` and \`web/proof_template.html\`: responsive animated plot, proof tree, controls, slider-based point probe, import/export.
-- \`scripts/build_proof_playground.py\` -> \`reports/bernstein_proof_lab.html\`: self-contained offline HTML artifact.
-- \`scripts/export_playground_residuals.py\`: export per-span/per-family/per-joint exact residuals from the registered serialized cubic q/x mathematical schema.
-- \`tests/proof_core.test.cjs\`, \`tests/test_proof_playground.py\`: adversarial arithmetic, witness, proof budget, replay tampering, report reproducibility, exporter behavior.
+- `web/proof_core.js`: exact BigInt rational input, de Casteljau splitting, interval Bernstein hulls, strict interior-zero checks, exact violation witnesses, explicit depth/node unknown, leaf-coverage/coefficients structural replay, global peak and initial-hull-gap brackets.
+- `web/proof_app.js` and `web/proof_template.html`: responsive animated plot, proof tree, controls, slider-based point probe, import/export.
+- `scripts/build_proof_playground.py` -> `reports/bernstein_proof_lab.html`: self-contained offline HTML artifact.
+- `scripts/export_playground_residuals.py`: export per-span/per-family/per-joint exact residuals from the registered serialized cubic q/x mathematical schema.
+- `tests/proof_core.test.cjs`, `tests/test_proof_playground.py`: adversarial arithmetic, witness, proof budget, replay tampering, report reproducibility, exporter behavior.
 
 ### Quickstart
 
 From repository root:
 
-\`\`\`bash
+```bash
 python scripts/build_proof_playground.py
 node --test tests/proof_core.test.cjs
 python -m unittest discover -s tests -p 'test_*.py' -q
@@ -47,26 +47,26 @@ python -m compileall -q src scripts tests
 python scripts/export_playground_residuals.py \
   fixtures/boundary_multispan_analytic.json \
   --span-index 0 --joint 0 --out /tmp/analytic_residuals.json
-\`\`\`
+```
 
-Open \`reports/bernstein_proof_lab.html\` locally (no server), click **Import JSON examples**, choose \`/tmp/analytic_residuals.json\`. This JSON is intentionally scoped to *one exact residual per item*, not whole-trajectory certification. The browser's structural proof replay uses the SAME rational arithmetic; it must never be described as an independent proof checker.
+Open `reports/bernstein_proof_lab.html` locally (no server), click **Import JSON examples**, choose `/tmp/analytic_residuals.json`. This JSON is intentionally scoped to *one exact residual per item*, not whole-trajectory certification. The browser's structural proof replay uses the SAME rational arithmetic; it must never be described as an independent proof checker.
 
 Preset lessons:
-1. \`[-1, 2/5, -1]\`: initial hull upper +2/5 but true peak -3/10; depth 0 UNKNOWN, one split CERTIFIED.
-2. \`[-1, 2, -1]\`: positive exact point witness at s=1/2; genuinely VIOLATED.
-3. \`[-1/4, 1/4, -1/4]\`: tangent zero; feasible non-strict, invalid for strict x>0 interior.
+1. `[-1, 2/5, -1]`: initial hull upper +2/5 but true peak -3/10; depth 0 UNKNOWN, one split CERTIFIED.
+2. `[-1, 2, -1]`: positive exact point witness at s=1/2; genuinely VIOLATED.
+3. `[-1/4, 1/4, -1/4]`: tangent zero; feasible non-strict, invalid for strict x>0 interior.
 4. Degree-nine synthetic jerk-like residual: more Bernstein control points than physical constraints; not automatically a real robot jerk profile.
 5. All-negative coefficients: depth-zero certifiable fast path.
 6. Zero polynomial: acceptable for ≤0; strictly negative condition fails.
 
-For a residual \`r(s)=sum_k b_k B^n_k(s)\`, \`min(b) <= r(s) <= max(b)\` for every s on a leaf. A positive \`max(b)\` is *inconclusive*, not a violation. The global maximum bracket in the lab is an exact mathematical bound built from dyadic leaf hulls and exact point witnesses; the smooth plotted curve is a float diagnostic.
+For a residual `r(s)=sum_k b_k B^n_k(s)`, `min(b) <= r(s) <= max(b)` for every s on a leaf. A positive `max(b)` is *inconclusive*, not a violation. The global maximum bracket in the lab is an exact mathematical bound built from dyadic leaf hulls and exact point witnesses; the smooth plotted curve is a float diagnostic.
 
 ## 3. P0 — reconcile local branches, source pins and reproducibility
 
 On the GPU development workstation:
 
-1. Record \`git status --short\`, \`git log --all --oneline -25\`, \`git branch -avv\`, HEAD and upstream remotes for this repo and cuRobo. Preserve untracked/ignored \`runs/\` data and user work.
-2. Find the *actual local* integrated baseline, reported at \`1100caaa\`; verify its ancestry, worktree state, branch, compiled arithmetic validation and saved eight Panda frozen outputs.
+1. Record `git status --short`, `git log --all --oneline -25`, `git branch -avv`, HEAD and upstream remotes for this repo and cuRobo. Preserve untracked/ignored `runs/` data and user work.
+2. Find the *actual local* integrated baseline, reported at `1100caaa`; verify its ancestry, worktree state, branch, compiled arithmetic validation and saved eight Panda frozen outputs.
 3. If that local branch exists, create a **fresh child branch** and selectively cherry-pick independent proof-lab changes, resolving collisions without replacing local integration. Do not reset the original branch. If it does not exist, stay on this public development branch and record unavailable evidence; do not simulate GPU inputs.
 4. Verify pinned cuRobo source and local build SHA, environment, compiler flags, CUDA, GPU, floating point environment, CPU affinity, backend and memory ownership (borrowed cuRobo outputs must be cloned before reuse).
 5. Run Python+Node suite, build HTML, inspect it in Firefox/Chromium both desktop and mobile viewport. No remote scripts, blocked CDNs, JS errors, or broken import/export. Save screenshots, browser console log and hash of HTML.
@@ -83,7 +83,7 @@ The current chief blocker is native FP32 jerk mismatch. Work on diagnostic copie
 - Reuse the 1,176 reported device captures and generate more targeted traces covering knots, very low x, tangencies, large q''' and x'', high jerk utilization, zero-speed endpoints, and time inversion. Verify uninstrumented vs instrumented native output bitwise on the same inputs.
 - Compare native q', q'', q''', x, x', x'', s, t and jerk bitwise/ULP/abs/scaled-rel. Run two modes: **same native s** (no inverse-timing difference) and same **requested physical t** (including native s inversion).
 - Reconstruct exact native Horner/FMA order using the pinned source and check if operand-level replay is bitwise. Examine derivatives on both sides of every knot. Report output lifetime, CUDA graph on/off, kernel settings and compiler reproducibility.
-- Use \`scripts/attribute_native_jerk.py\` for diagnostic geometric-vs-timing decompositions, but its effects are NOT rigorous error bounds.
+- Use `scripts/attribute_native_jerk.py` for diagnostic geometric-vs-timing decompositions, but its effects are NOT rigorous error bounds.
 
 ### P1b: rigorous native evaluation enclosure
 
@@ -91,13 +91,13 @@ The current chief blocker is native FP32 jerk mismatch. Work on diagnostic copie
 - Prefer explicit interval Taylor/derivative error propagation with correct directed rounding/MPFR independent audit; use segment-level monotonicity to bound any inversion branch. Model FP32 FMA/rounding and underflow, exceptional operands and knot-side branches.
 - Test at least 1,001 independent random internal points **plus both sides of every knot**, then S8193 and event-aware S32768 as falsification diagnostics. Validate on diverse paths and limits, not only the eight easy Panda paths.
 - Require independently reviewable and replayable bounds on native physical residuals. A finite maximum observed difference (including 0.00368 jerk) does NOT establish a continuous-time bound.
-- If a complete numerical model cannot be justified, explicitly set \`BLOCKED_NATIVE_LINKAGE\`; do not grant native certificates by changing tolerance.
+- If a complete numerical model cannot be justified, explicitly set `BLOCKED_NATIVE_LINKAGE`; do not grant native certificates by changing tolerance.
 
 **Gate P1:** first mathematically defended native K3 certificate, with all families, endpoints, knot obligations, strict interior positivity and native linkage accepted; else all native claims remain blocked.
 
 ## 5. P2 — compiled full K3 proof construction and replay
 
-Current C++ \`kinematic_hull.cpp\` implements initial-hull screening ONLY. Extend it without weakening semantics:
+Current C++ `kinematic_hull.cpp` implements initial-hull screening ONLY. Extend it without weakening semantics:
 
 1. Define stable C ABI for exact serialized q/x common spans and per-joint original limits, with validated dimensions and runtime caps; return per-family statuses and compact dyadic proof leaves rather than just a maximal coefficient.
 2. Preserve global-s derivative scaling and correct family definitions: positivity -x, velocity q'^2 x/v²-1 (degree up to 7), ±acceleration ((q''x + q'x'/2)/a) with sign (degree up to 4), jerk x(q'''x+1.5q''x'+0.5q'x'')²/j²-1 (degree up to 9).
@@ -115,8 +115,8 @@ Current C++ \`kinematic_hull.cpp\` implements initial-hull screening ONLY. Exten
 Before formal cohort registration, reuse the eight frozen Panda models with their original array hashes and add an exploratory stress set:
 
 - Diverse obstacle-rich/near-collision queries, original physical limits, larger payload conditions if supported by source configuration, high-utilization velocity/acceleration/jerk cases, and low positive x.
-- Seek truly feasible but initial-hull-inconclusive intervals: \`U0=max(b)>0\` with a defensible continuous peak upper \`U*<=0\`, or tight exact upper brackets. Distinguish actual violation witnesses, near-zero tangencies, strict positivity violations and unknown.
-- Compute per-family peak bracket \`L*<= max r <=U*\`, original hull overestimate \`U0-U*\` brackets, physical margin, split depth/nodes and leaf sizes. Compare expected proof cost with observed runtime.
+- Seek truly feasible but initial-hull-inconclusive intervals: `U0=max(b)>0` with a defensible continuous peak upper `U*<=0`, or tight exact upper brackets. Distinguish actual violation witnesses, near-zero tangencies, strict positivity violations and unknown.
+- Compute per-family peak bracket `L*<= max r <=U*`, original hull overestimate `U0-U*` brackets, physical margin, split depth/nodes and leaf sizes. Compare expected proof cost with observed runtime.
 - Keep planning failures and invalid native outputs in the *submitted-query denominator*, but stratify native-success eligible cases for K3 targets. Distinguish physical vs solver-scaled limits.
 - Export up to 250 selected residuals at a time for Proof Lab. The viewer's single-residual PASS must never appear as a whole-path or native pass.
 - UR5e only after verified description source, joint order, kinematics, acceleration/jerk limits and collision model. Panda-only exploration may proceed earlier.
@@ -125,7 +125,7 @@ Before formal cohort registration, reuse the eight frozen Panda models with thei
 
 ## 7. P4 — ablation matrix and cost decomposition (Dev40 only)
 
-Once P1/P2/P3 correctness gates pass, freeze Dev40 by source scene/query (registered seed \`20261110\`), then run every method on the **identical** frozen outputs.
+Once P1/P2/P3 correctness gates pass, freeze Dev40 by source scene/query (registered seed `20261110`), then run every method on the **identical** frozen outputs.
 
 | Method | Meaning |
 | --- | --- |
@@ -138,10 +138,10 @@ Once P1/P2/P3 correctness gates pass, freeze Dev40 by source scene/query (regist
 Sweeps: depths 0,2,4,8,12,16; node budgets 2048/8192/32768. Use a registered wall deadline only after complexity sweeps. Report status per constraint family, proof completeness, violation witnesses, unknown reason, leaves/depth, certificate bytes and exact hull gap.
 
 Metric scopes:
-- \`hull_only_cpu\`
-- \`frozen_output_full_certificate_cpu\` (producer + **independent** verifier)
-- \`frozen_output_gpu_or_hybrid\` (all transfers)
-- \`fresh_native_total\` and **added** \`fresh_native_total - fresh_native_without_cert\`
+- `hull_only_cpu`
+- `frozen_output_full_certificate_cpu` (producer + **independent** verifier)
+- `frozen_output_gpu_or_hybrid` (all transfers)
+- `fresh_native_total` and **added** `fresh_native_total - fresh_native_without_cert`
 
 Use 50 warmups; >=10 paired randomized AB/BA repeats per source path, same machine affinity/clocks/power/GPU and precision, separated CPU and GPU stages, raw repeat logs. p50/p90/p95/p99/max + source/scene-cluster 10,000-resample bootstrap 95% CIs (note p99 instability on small source counts). Record output duration and byte hashes before/after. RTX3090 primary; A100 replica only after frozen implementation.
 
@@ -163,10 +163,10 @@ V0 already has an exact single-residual teaching lab. The next development stage
 
 ## 10. Required proof and performance reports
 
-Persist \`environment.json\`, \`source_models.jsonl\`, \`native_operand_traces.jsonl\`, \`certificates/<path-id>.json\`, \`requests.jsonl\`, \`summary.json\`, and an offline \`reports/...\` HTML with source SHA and proof-level legend. Keep raw captured paths in ignored \`runs/\` if sensitive/large; commit scripts, summary tables, safe small fixtures and documentation only.
+Persist `environment.json`, `source_models.jsonl`, `native_operand_traces.jsonl`, `certificates/<path-id>.json`, `requests.jsonl`, `summary.json`, and an offline `reports/...` HTML with source SHA and proof-level legend. Keep raw captured paths in ignored `runs/` if sensitive/large; commit scripts, summary tables, safe small fixtures and documentation only.
 
-Each milestone: inspect -> implement -> unit and adversarial tests -> diagnose bugs -> rerun -> benchmark -> commit -> append \`docs/PROGRESS.md\` with exact commands/hardware/versions/denominators/results and blockers. Never silently substitute synthetic data for real Panda, never count exact-polynomial as native FP32 certificate, and never call partial C++ hull-only output a fully replayed K3 proof.
+Each milestone: inspect -> implement -> unit and adversarial tests -> diagnose bugs -> rerun -> benchmark -> commit -> append `docs/PROGRESS.md` with exact commands/hardware/versions/denominators/results and blockers. Never silently substitute synthetic data for real Panda, never count exact-polynomial as native FP32 certificate, and never call partial C++ hull-only output a fully replayed K3 proof.
 
 ## 11. Immediate next action
 
-First reproduce and visually check V0 Proof Lab offline, test JSON export from the analytic fixture, and reconcile the reported local \`1100caaa\` integration. Then **parallelize P1 (native arithmetic/linkage) and P2 (compiled full proof + independent replay)** with separate commits and disjoint file ownership. P3 hard-case harvesting can run alongside both, but formal Dev40 must wait for gates. No PR or merge.
+First reproduce and visually check V0 Proof Lab offline, test JSON export from the analytic fixture, and reconcile the reported local `1100caaa` integration. Then **parallelize P1 (native arithmetic/linkage) and P2 (compiled full proof + independent replay)** with separate commits and disjoint file ownership. P3 hard-case harvesting can run alongside both, but formal Dev40 must wait for gates. No PR or merge.
