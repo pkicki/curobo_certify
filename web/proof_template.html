@@ -59,6 +59,11 @@ input[type=checkbox]{accent-color:#67dacf;width:18px;height:18px}
 .key.control{background:var(--amber)}
 .key.hull{height:12px;background:#2f716d70;border:1px solid #5bc4aa}
 .key.zero{background:var(--bad);height:2px}
+.tightness{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.tightness div{border:1px solid #35526a;background:#122a3b;border-radius:10px;padding:12px 14px}
+.tightness small{display:block;color:#a0b7d0;font-size:11px}
+.tightness strong{display:block;color:#a9f0e6;font:600 15px ui-monospace,monospace;margin-top:5px;overflow-wrap:anywhere}
+@media(max-width:550px){.tightness{grid-template-columns:1fr}}
 .plot-wrap{background:#0c1525;border:1px solid #22334c;border-radius:13px;overflow:hidden;margin:16px 0 12px}
 svg{width:100%;display:block;aspect-ratio:1000/400}
 svg .gridline{stroke:#283b54;stroke-width:1;stroke-dasharray:2 6}
@@ -148,6 +153,7 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
  <section class="card" style="margin-top:18px">
   <div class="flex"><h2>Residual and its bounds</h2><label style="margin:0"><input type="checkbox" id="polygon" checked> Show active control polygon</label></div>
   <div class="legend"><span><i class="key"></i>Residual r(s) · sampled for display</span><span><i class="key control"></i>Local Bernstein control polygon</span><span><i class="key hull"></i>Proven interval hull</span><span><i class="key zero"></i>Constraint boundary (0)</span></div>
+  <div class="tightness"><div><small>Rigorous global peak bracket · 32 dyadic cells</small><strong id="peakBracket">—</strong></div><div><small>Initial hull overestimation bracket</small><strong id="gapBracket">—</strong></div></div>
   <div class="plot-wrap"><svg id="plot" viewBox="0 0 1000 400" role="img" aria-label="Sampled residual with exact Bernstein interval hulls"></svg></div>
   <div class="probe"><label for="probe">Probe at s</label><div><input type="range" min="0" max="1000" step="1" value="500" id="probe"><p class="probe-output" id="probeValue">—</p></div></div>
   <p class="explain">The turquoise curve is drawn using sampled floating-point values for <b>visual intuition only</b>. Rectangles are determined by exact rational Bernstein coefficient bounds. To prove r(s) ≤ 0, every terminal leaf must have maximum coefficient ≤ 0. To disprove it, find an exact positive value r(s) &gt; 0.</p>
