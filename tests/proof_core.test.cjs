@@ -99,3 +99,18 @@ test('serialized proof explicitly marks mathematical-only scope',()=>{
  assert.equal(j.scope,'EXACT_RATIONAL_ENTERED_POLYNOMIAL_ONLY');
  assert.equal(j.status,'CERTIFIED');
 });
+
+test('global maximum bracket and hull gap are rigorous for exact polynomial',()=>{
+ const b=B(['-1','2/5','-1']);
+ const t=P.peakBracket(b,5);
+ assert.equal(P.repr(t.initialUpper),'2/5');
+ assert.equal(P.repr(t.lower),'-3/10');
+ assert.ok(P.cmp(t.upper,t.lower)>=0);
+ assert.ok(P.cmp(t.upper,P.R(0))<0);
+ assert.ok(P.cmp(t.gapLower,P.R(0))>0);
+ for(let i=0;i<=100;i++){
+   const y=P.at(b,P.R(BigInt(i),100n));
+   assert.ok(P.cmp(y,t.lower)<=0);
+   assert.ok(P.cmp(y,t.upper)<=0);
+ }
+});
