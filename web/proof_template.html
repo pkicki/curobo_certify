@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Bernstein Proof Lab — interactive continuous-time certificates</title>
+<style>
+:root{--bg:#0b1020;--panel:#111a2c;--panel2:#17233a;--border:#283852;--ink:#e6eefb;--muted:#9baecb;--cyan:#6be0d9;--blue:#8bacff;--good:#77e2b8;--amber:#ffcb7f;--bad:#ff899f}
+*{box-sizing:border-box}
+body{background:radial-gradient(ellipse at 72% 0,#152a40 0,transparent 46%),var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{border-bottom:1px solid var(--border);padding:21px clamp(18px,4vw,60px);display:flex;justify-content:space-between;align-items:center;gap:20px}
+.eyebrow{text-transform:uppercase;letter-spacing:.19em;font-size:11px;font-weight:750;color:var(--cyan)}
+h1{font-size:clamp(25px,3vw,37px);letter-spacing:-.04em;line-height:1.12;margin:4px 0 8px}
+h2{letter-spacing:-.025em;font-size:19px;margin:0 0 12px}
+h3{margin:0 0 8px;font-size:15px}
+p{margin:0 0 14px}
+.sub{color:var(--muted);margin:0;max-width:810px}
+.badge{background:#133334;color:#9df1e5;border:1px solid #276461;border-radius:999px;padding:8px 14px;font-size:12px;white-space:nowrap;font-weight:700}
+.page{max-width:1540px;margin:auto;display:grid;grid-template-columns:minmax(280px,335px) minmax(0,1fr);gap:22px;padding:24px clamp(18px,3vw,50px) 60px}
+.sidebar{position:sticky;top:20px;height:fit-content}
+.card{background:linear-gradient(165deg,rgba(24,35,57,.98),rgba(14,23,39,.98));border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 28px #05091630;padding:22px;margin-bottom:18px}
+label{display:block;color:var(--muted);font-size:12px;font-weight:700;margin:13px 0 6px}
+select,textarea,input[type=number]{width:100%;color:var(--ink);background:#0d1628;border:1px solid #334562;border-radius:10px;padding:11px;outline:none}
+select:focus,textarea:focus,input:focus-visible{border-color:var(--cyan);outline:2px solid #6be0d928}
+textarea{min-height:108px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;line-height:1.6;font-size:13px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.row label{margin:0}
+input[type=range]{width:100%;accent-color:#69d8d5;cursor:pointer}
+input[type=checkbox]{accent-color:#67dacf;width:18px;height:18px}
+.range-header{display:flex;justify-content:space-between;align-items:center;margin:14px 0 4px}
+.value{color:var(--cyan);font-family:ui-monospace,monospace}
+.btn{border:1px solid #38506c;background:#202f4b;color:#e7f2ff;padding:10px 13px;border-radius:10px;font-weight:700;transition:background .14s}
+.btn:hover:not(:disabled){background:#2e4568}
+.btn.primary{border-color:#67dacf;background:#77e3d5;color:#102331}
+.btn.primary:hover{background:#b2f2e7}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.btn-group .primary{flex:1}
+.small{font-size:12px;color:var(--muted)}
+.note{border-left:3px solid var(--cyan);padding:10px 12px;background:#132c37;color:#c6e9e8;border-radius:0 8px 8px 0;font-size:13px;margin-top:15px}
+.alert{font-size:12px;color:var(--bad);margin-top:10px}
+.hero-row{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.hero-row h2{font-size:24px;margin:0 0 5px}
+.family{color:var(--cyan);font-size:12px;font-weight:750}
+#description{color:var(--muted);margin:10px 0 0}
+.pill{display:inline-block;text-transform:uppercase;letter-spacing:.06em;font-size:12px;padding:9px 13px;font-weight:800;border-radius:11px;white-space:nowrap}
+.pill.good{background:#153b35;color:var(--good);border:1px solid #2e6c58}
+.pill.bad{background:#3d2034;color:var(--bad);border:1px solid #8c4358}
+.pill.warn{background:#3b3126;color:var(--amber);border:1px solid #78593d}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.metric{border:1px solid var(--border);background:#111a2e;padding:15px 17px;border-radius:13px}
+.metric small{display:block;color:var(--muted);font-size:12px;line-height:1.3}
+.metric strong{display:block;font-size:26px;letter-spacing:-.03em;margin:5px 0}
+.legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px;align-items:center}
+.key{display:inline-block;width:18px;height:3px;background:var(--cyan);margin-right:5px;vertical-align:middle}
+.key.control{background:var(--amber)}
+.key.hull{height:12px;background:#2f716d70;border:1px solid #5bc4aa}
+.key.zero{background:var(--bad);height:2px}
+.plot-wrap{background:#0c1525;border:1px solid #22334c;border-radius:13px;overflow:hidden;margin:16px 0 12px}
+svg{width:100%;display:block;aspect-ratio:1000/400}
+svg .gridline{stroke:#283b54;stroke-width:1;stroke-dasharray:2 6}
+svg .gridline.vertical{opacity:.45}
+svg .tick,svg .axis-name{fill:#95a8c4;font:12px ui-monospace,monospace}
+svg .axis-name{font:14px system-ui,sans-serif}
+svg .zero{stroke:#ee8397;stroke-width:2;stroke-dasharray:9 7}
+svg .hull-good{fill:#32866f34;stroke:#4fbea480;stroke-width:1}
+svg .hull-unknown{fill:#e3a95730;stroke:#ebb86299;stroke-width:1}
+svg .hull-bad{fill:#ed688240;stroke:#f17c98;stroke-width:1}
+svg .curve{fill:none;stroke:#71e5d9;stroke-width:3.1;stroke-linejoin:round}
+svg .control{fill:none;stroke:#e9b76c;stroke-width:1.8;stroke-dasharray:6 4}
+svg .control-dot{fill:#ffcb7f;stroke:#0e1828;stroke-width:1}
+svg .probe-line{stroke:#9ab5f7;stroke-width:1.5;stroke-dasharray:4 6}
+svg .probe-dot{fill:#b3c8ff;stroke:#0c1828;stroke-width:2}
+svg .witness-dot{fill:#fc7697;stroke:#f8d6df;stroke-width:2}
+svg .witness-label{fill:#ffd0db;font:13px system-ui,sans-serif;font-weight:bold}
+.flex{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.probe{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:18px;margin-top:18px}
+.probe label{margin:0}
+.probe-output{color:var(--blue);font:12px ui-monospace,monospace;margin:5px 0 0}
+.explain{font-size:13px;color:#b3c5df;line-height:1.65;margin-top:14px}
+.playback{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.playback .btn{padding:8px 14px}
+.tree{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 14px}
+.node{flex:0 0 auto;min-width:82px;border-radius:10px;border:1px solid #43526a;background:#1d2b46;color:var(--ink);padding:10px}
+.node b{display:block;font:700 13px ui-monospace,monospace}
+.node small{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+.node.good{border-color:#327c65;background:#173b37}
+.node.bad{border-color:#8a4056;background:#48273b}
+.node.warn{border-color:#926b41;background:#3f352c}
+.node.unseen{opacity:.38}
+.node.focused{outline:2px solid var(--cyan);outline-offset:2px}
+.inspector-lede{color:#bcd3ed;margin-bottom:16px}
+.inspector-lede b{color:var(--amber)}
+.inspect-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.inspect-grid div{background:#0f182b;padding:12px;border-radius:10px}
+.inspect-grid span{display:block;color:var(--muted);font-size:11px}
+.inspect-grid strong{font-size:14px;overflow-wrap:anywhere}
+.coef-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.coef-pill{background:#243553;border:1px solid #394b68;border-radius:9px;padding:7px 10px}
+.coef-pill small{display:block;font-size:10px;color:var(--muted)}
+.coef-pill b{font:600 13px ui-monospace,monospace;color:#e5eaf7}
+.witness-text{padding:12px;background:#492639;border:1px solid #814d5d;border-radius:9px;color:#ffd1db;margin:14px 0 0}
+.mini-good{color:var(--good)}.mini-muted{color:var(--muted)}
+footer{max-width:1360px;margin:0 auto 40px;padding:0 30px;color:var(--muted);font-size:12px}
+code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radius:5px;padding:2px 5px}
+@media(max-width:1020px){.page{grid-template-columns:1fr}.sidebar{position:static}.sidebar .card{margin-bottom:0}.metrics{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start}.badge{white-space:normal}}
+@media(max-width:550px){.card{padding:17px}.page{padding:14px}.metrics{gap:7px}.metric{padding:11px}.metric strong{font-size:21px}.inspect-grid{grid-template-columns:1fr}.probe{grid-template-columns:1fr;gap:4px}header{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div><div class="eyebrow">Continuous-time reasoning · interactive workbook</div>
+<h1>Bernstein Proof Lab</h1><p class="sub">Explore why a positive Bernstein control coefficient is <em>not</em> necessarily a constraint violation—and how adaptive subdivision turns inconclusive bounds into rigorous proofs.</p></div>
+<div class="badge">EXACT RATIONAL · MATHEMATICAL MODEL ONLY</div></header>
+<div class="page">
+<aside class="sidebar">
+ <section class="card">
+ <div class="eyebrow">01 / Experiment</div><h2>Choose a residual</h2>
+ <label for="preset">Example</label><select id="preset" aria-label="Select example"></select>
+ <label for="coeffs">Bernstein coefficients b₀, …, bₙ</label>
+ <textarea id="coeffs" spellcheck="false" aria-label="Comma-separated Bernstein coefficients"></textarea>
+ <p class="small">Edit any coefficient: integers, decimals and exact fractions such as <code>2/5</code> work. Ctrl+Enter reruns the proof. Degrees 1–16.</p>
+ <div class="row"><label for="strict">Require strict r(s) &lt; 0 in the interior</label><input type="checkbox" id="strict"></div>
+ <p class="small">For −x(s), strict negativity means x(s)&gt;0 for interior s. This toggle does not prove endpoint time integrability.</p>
+ <div class="range-header"><label for="depth">Maximum subdivision depth</label><span class="value" id="depthValue">8</span></div>
+ <input type="range" id="depth" min="0" max="12" value="8">
+ <div class="range-header"><label for="nodes">Maximum processed nodes</label><span class="value" id="nodesValue">2048</span></div>
+ <input type="range" id="nodes" min="1" max="4096" step="1" value="2048">
+ <div class="btn-group"><button class="btn primary" id="run">Recompute proof ↗</button><button class="btn" id="export">Export JSON</button></div>
+ <div class="btn-group"><label class="btn" style="cursor:pointer;margin:0"><input id="importFile" type="file" accept=".json,application/json" hidden>Import JSON examples</label></div>
+ <div id="validation" aria-live="polite"></div>
+ <div class="note"><b>Safety boundary.</b> Certificates apply only to the exact user-entered polynomial. They do not certify cuRobo CUDA evaluation, spline extraction, endpoints, dynamics or actuator limits.</div>
+ </section>
+</aside>
+<main>
+ <section class="card">
+  <div class="hero-row"><div><div class="eyebrow" id="family">Generic residual</div><h2 id="exampleTitle">Choose an example</h2></div><div id="verdict" class="pill warn">Ready</div></div>
+  <p id="description"></p>
+ </section>
+ <div class="metrics">
+  <div class="metric"><small>Polynomial degree</small><strong id="degree">—</strong></div>
+  <div class="metric"><small>Initial hull upper bound</small><strong id="initialHull">—</strong></div>
+  <div class="metric"><small>Proven leaves (visible)</small><strong id="leaves">—</strong></div>
+  <div class="metric"><small>Nodes processed (visible)</small><strong id="processed">—</strong></div>
+ </div>
+ <section class="card" style="margin-top:18px">
+  <div class="flex"><h2>Residual and its bounds</h2><label style="margin:0"><input type="checkbox" id="polygon" checked> Show active control polygon</label></div>
+  <div class="legend"><span><i class="key"></i>Residual r(s) · sampled for display</span><span><i class="key control"></i>Local Bernstein control polygon</span><span><i class="key hull"></i>Proven interval hull</span><span><i class="key zero"></i>Constraint boundary (0)</span></div>
+  <div class="plot-wrap"><svg id="plot" viewBox="0 0 1000 400" role="img" aria-label="Sampled residual with exact Bernstein interval hulls"></svg></div>
+  <div class="probe"><label for="probe">Probe at s</label><div><input type="range" min="0" max="1000" step="1" value="500" id="probe"><p class="probe-output" id="probeValue">—</p></div></div>
+  <p class="explain">The turquoise curve is drawn using sampled floating-point values for <b>visual intuition only</b>. Rectangles are determined by exact rational Bernstein coefficient bounds. To prove r(s) ≤ 0, every terminal leaf must have maximum coefficient ≤ 0. To disprove it, find an exact positive value r(s) &gt; 0.</p>
+ </section>
+ <section class="card">
+  <div class="flex"><div><div class="eyebrow">02 / Proof trace</div><h2>Subdivision tree</h2></div><div class="playback"><button id="reset" class="btn">↺ Reset</button><button id="prev" class="btn">←</button><button id="next" class="btn">→</button><button id="play" class="btn">▶ Play</button><span class="small" id="stepCounter">—</span></div></div>
+  <p class="small">Click a node to inspect its exact coefficients. L/R encode dyadic halves. The tree is traversed breadth-first. The proof is complete only if all terminal intervals are covered and proven.</p>
+  <div class="tree" id="tree"></div>
+  <div class="small">Structural replay: <strong id="replay">—</strong></div>
+ </section>
+ <section class="card"><div class="eyebrow">03 / Local explanation</div><h2>Why this node passes, splits, or fails</h2><div id="inspector"></div></section>
+</main></div>
+<footer>Offline, dependency-free teaching tool. Exact BigInt rational decisions concern a single Bernstein polynomial. Structural proof replay shares arithmetic with proof construction; it is not an independent implementation, and neither process establishes native FP32/continuous-time robot execution equivalence.</footer>
+<script>
+/* __BERNSTEIN_CORE__ */
+</script>
+<script>
+/* __BERNSTEIN_APP__ */
+</script>
+</body>
+</html>
