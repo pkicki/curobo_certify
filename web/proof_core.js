@@ -91,7 +91,8 @@
       const hi=max(leaf);
       upper=upper===null||cmp(hi,upper)>0?hi:upper;
       const center=split(leaf)[0].slice(-1)[0];
-      if(cmp(center,lower)>0)lower=center;
+      for(const value of [leaf[0],leaf[leaf.length-1],center])
+        if(cmp(value,lower)>0)lower=value;
     }
     const gapLower=cmp(initialUpper,upper)>0?sub(initialUpper,upper):ZERO;
     const gapUpper=cmp(initialUpper,lower)>0?sub(initialUpper,lower):ZERO;
