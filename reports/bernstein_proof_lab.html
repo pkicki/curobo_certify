@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Bernstein Proof Lab — interactive continuous-time certificates</title>
+<style>
+:root{--bg:#0b1020;--panel:#111a2c;--panel2:#17233a;--border:#283852;--ink:#e6eefb;--muted:#9baecb;--cyan:#6be0d9;--blue:#8bacff;--good:#77e2b8;--amber:#ffcb7f;--bad:#ff899f}
+*{box-sizing:border-box}
+body{background:radial-gradient(ellipse at 72% 0,#152a40 0,transparent 46%),var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{border-bottom:1px solid var(--border);padding:21px clamp(18px,4vw,60px);display:flex;justify-content:space-between;align-items:center;gap:20px}
+.eyebrow{text-transform:uppercase;letter-spacing:.19em;font-size:11px;font-weight:750;color:var(--cyan)}
+h1{font-size:clamp(25px,3vw,37px);letter-spacing:-.04em;line-height:1.12;margin:4px 0 8px}
+h2{letter-spacing:-.025em;font-size:19px;margin:0 0 12px}
+h3{margin:0 0 8px;font-size:15px}
+p{margin:0 0 14px}
+.sub{color:var(--muted);margin:0;max-width:810px}
+.badge{background:#133334;color:#9df1e5;border:1px solid #276461;border-radius:999px;padding:8px 14px;font-size:12px;white-space:nowrap;font-weight:700}
+.page{max-width:1540px;margin:auto;display:grid;grid-template-columns:minmax(280px,335px) minmax(0,1fr);gap:22px;padding:24px clamp(18px,3vw,50px) 60px}
+.sidebar{position:sticky;top:20px;height:fit-content}
+.card{background:linear-gradient(165deg,rgba(24,35,57,.98),rgba(14,23,39,.98));border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 28px #05091630;padding:22px;margin-bottom:18px}
+label{display:block;color:var(--muted);font-size:12px;font-weight:700;margin:13px 0 6px}
+select,textarea,input[type=number]{width:100%;color:var(--ink);background:#0d1628;border:1px solid #334562;border-radius:10px;padding:11px;outline:none}
+select:focus,textarea:focus,input:focus-visible{border-color:var(--cyan);outline:2px solid #6be0d928}
+textarea{min-height:108px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;line-height:1.6;font-size:13px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.row label{margin:0}
+input[type=range]{width:100%;accent-color:#69d8d5;cursor:pointer}
+input[type=checkbox]{accent-color:#67dacf;width:18px;height:18px}
+.range-header{display:flex;justify-content:space-between;align-items:center;margin:14px 0 4px}
+.value{color:var(--cyan);font-family:ui-monospace,monospace}
+.btn{border:1px solid #38506c;background:#202f4b;color:#e7f2ff;padding:10px 13px;border-radius:10px;font-weight:700;transition:background .14s}
+.btn:hover:not(:disabled){background:#2e4568}
+.btn.primary{border-color:#67dacf;background:#77e3d5;color:#102331}
+.btn.primary:hover{background:#b2f2e7}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.btn-group .primary{flex:1}
+.small{font-size:12px;color:var(--muted)}
+.note{border-left:3px solid var(--cyan);padding:10px 12px;background:#132c37;color:#c6e9e8;border-radius:0 8px 8px 0;font-size:13px;margin-top:15px}
+.alert{font-size:12px;color:var(--bad);margin-top:10px}
+.hero-row{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.hero-row h2{font-size:24px;margin:0 0 5px}
+.family{color:var(--cyan);font-size:12px;font-weight:750}
+#description{color:var(--muted);margin:10px 0 0}
+.pill{display:inline-block;text-transform:uppercase;letter-spacing:.06em;font-size:12px;padding:9px 13px;font-weight:800;border-radius:11px;white-space:nowrap}
+.pill.good{background:#153b35;color:var(--good);border:1px solid #2e6c58}
+.pill.bad{background:#3d2034;color:var(--bad);border:1px solid #8c4358}
+.pill.warn{background:#3b3126;color:var(--amber);border:1px solid #78593d}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.metric{border:1px solid var(--border);background:#111a2e;padding:15px 17px;border-radius:13px}
+.metric small{display:block;color:var(--muted);font-size:12px;line-height:1.3}
+.metric strong{display:block;font-size:26px;letter-spacing:-.03em;margin:5px 0}
+.legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px;align-items:center}
+.key{display:inline-block;width:18px;height:3px;background:var(--cyan);margin-right:5px;vertical-align:middle}
+.key.control{background:var(--amber)}
+.key.hull{height:12px;background:#2f716d70;border:1px solid #5bc4aa}
+.key.zero{background:var(--bad);height:2px}
+.plot-wrap{background:#0c1525;border:1px solid #22334c;border-radius:13px;overflow:hidden;margin:16px 0 12px}
+svg{width:100%;display:block;aspect-ratio:1000/400}
+svg .gridline{stroke:#283b54;stroke-width:1;stroke-dasharray:2 6}
+svg .gridline.vertical{opacity:.45}
+svg .tick,svg .axis-name{fill:#95a8c4;font:12px ui-monospace,monospace}
+svg .axis-name{font:14px system-ui,sans-serif}
+svg .zero{stroke:#ee8397;stroke-width:2;stroke-dasharray:9 7}
+svg .hull-good{fill:#32866f34;stroke:#4fbea480;stroke-width:1}
+svg .hull-unknown{fill:#e3a95730;stroke:#ebb86299;stroke-width:1}
+svg .hull-bad{fill:#ed688240;stroke:#f17c98;stroke-width:1}
+svg .curve{fill:none;stroke:#71e5d9;stroke-width:3.1;stroke-linejoin:round}
+svg .control{fill:none;stroke:#e9b76c;stroke-width:1.8;stroke-dasharray:6 4}
+svg .control-dot{fill:#ffcb7f;stroke:#0e1828;stroke-width:1}
+svg .probe-line{stroke:#9ab5f7;stroke-width:1.5;stroke-dasharray:4 6}
+svg .probe-dot{fill:#b3c8ff;stroke:#0c1828;stroke-width:2}
+svg .witness-dot{fill:#fc7697;stroke:#f8d6df;stroke-width:2}
+svg .witness-label{fill:#ffd0db;font:13px system-ui,sans-serif;font-weight:bold}
+.flex{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.probe{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:18px;margin-top:18px}
+.probe label{margin:0}
+.probe-output{color:var(--blue);font:12px ui-monospace,monospace;margin:5px 0 0}
+.explain{font-size:13px;color:#b3c5df;line-height:1.65;margin-top:14px}
+.playback{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.playback .btn{padding:8px 14px}
+.tree{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 14px}
+.node{flex:0 0 auto;min-width:82px;border-radius:10px;border:1px solid #43526a;background:#1d2b46;color:var(--ink);padding:10px}
+.node b{display:block;font:700 13px ui-monospace,monospace}
+.node small{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+.node.good{border-color:#327c65;background:#173b37}
+.node.bad{border-color:#8a4056;background:#48273b}
+.node.warn{border-color:#926b41;background:#3f352c}
+.node.unseen{opacity:.38}
+.node.focused{outline:2px solid var(--cyan);outline-offset:2px}
+.inspector-lede{color:#bcd3ed;margin-bottom:16px}
+.inspector-lede b{color:var(--amber)}
+.inspect-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.inspect-grid div{background:#0f182b;padding:12px;border-radius:10px}
+.inspect-grid span{display:block;color:var(--muted);font-size:11px}
+.inspect-grid strong{font-size:14px;overflow-wrap:anywhere}
+.coef-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.coef-pill{background:#243553;border:1px solid #394b68;border-radius:9px;padding:7px 10px}
+.coef-pill small{display:block;font-size:10px;color:var(--muted)}
+.coef-pill b{font:600 13px ui-monospace,monospace;color:#e5eaf7}
+.witness-text{padding:12px;background:#492639;border:1px solid #814d5d;border-radius:9px;color:#ffd1db;margin:14px 0 0}
+.mini-good{color:var(--good)}.mini-muted{color:var(--muted)}
+footer{max-width:1360px;margin:0 auto 40px;padding:0 30px;color:var(--muted);font-size:12px}
+code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radius:5px;padding:2px 5px}
+@media(max-width:1020px){.page{grid-template-columns:1fr}.sidebar{position:static}.sidebar .card{margin-bottom:0}.metrics{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start}.badge{white-space:normal}}
+@media(max-width:550px){.card{padding:17px}.page{padding:14px}.metrics{gap:7px}.metric{padding:11px}.metric strong{font-size:21px}.inspect-grid{grid-template-columns:1fr}.probe{grid-template-columns:1fr;gap:4px}header{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div><div class="eyebrow">Continuous-time reasoning · interactive workbook</div>
+<h1>Bernstein Proof Lab</h1><p class="sub">Explore why a positive Bernstein control coefficient is <em>not</em> necessarily a constraint violation—and how adaptive subdivision turns inconclusive bounds into rigorous proofs.</p></div>
+<div class="badge">EXACT RATIONAL · MATHEMATICAL MODEL ONLY</div></header>
+<div class="page">
+<aside class="sidebar">
+ <section class="card">
+ <div class="eyebrow">01 / Experiment</div><h2>Choose a residual</h2>
+ <label for="preset">Example</label><select id="preset" aria-label="Select example"></select>
+ <label for="coeffs">Bernstein coefficients b₀, …, bₙ</label>
+ <textarea id="coeffs" spellcheck="false" aria-label="Comma-separated Bernstein coefficients"></textarea>
+ <p class="small">Edit any coefficient: integers, decimals and exact fractions such as <code>2/5</code> work. Ctrl+Enter reruns the proof. Degrees 1–16.</p>
+ <div class="row"><label for="strict">Require strict r(s) &lt; 0 in the interior</label><input type="checkbox" id="strict"></div>
+ <p class="small">For −x(s), strict negativity means x(s)&gt;0 for interior s. This toggle does not prove endpoint time integrability.</p>
+ <div class="range-header"><label for="depth">Maximum subdivision depth</label><span class="value" id="depthValue">8</span></div>
+ <input type="range" id="depth" min="0" max="12" value="8">
+ <div class="range-header"><label for="nodes">Maximum processed nodes</label><span class="value" id="nodesValue">2048</span></div>
+ <input type="range" id="nodes" min="1" max="4096" step="1" value="2048">
+ <div class="btn-group"><button class="btn primary" id="run">Recompute proof ↗</button><button class="btn" id="export">Export JSON</button></div>
+ <div class="btn-group"><label class="btn" style="cursor:pointer;margin:0"><input id="importFile" type="file" accept=".json,application/json" hidden>Import JSON examples</label></div>
+ <div id="validation" aria-live="polite"></div>
+ <div class="note"><b>Safety boundary.</b> Certificates apply only to the exact user-entered polynomial. They do not certify cuRobo CUDA evaluation, spline extraction, endpoints, dynamics or actuator limits.</div>
+ </section>
+</aside>
+<main>
+ <section class="card">
+  <div class="hero-row"><div><div class="eyebrow" id="family">Generic residual</div><h2 id="exampleTitle">Choose an example</h2></div><div id="verdict" class="pill warn">Ready</div></div>
+  <p id="description"></p>
+ </section>
+ <div class="metrics">
+  <div class="metric"><small>Polynomial degree</small><strong id="degree">—</strong></div>
+  <div class="metric"><small>Initial hull upper bound</small><strong id="initialHull">—</strong></div>
+  <div class="metric"><small>Proven leaves (visible)</small><strong id="leaves">—</strong></div>
+  <div class="metric"><small>Nodes processed (visible)</small><strong id="processed">—</strong></div>
+ </div>
+ <section class="card" style="margin-top:18px">
+  <div class="flex"><h2>Residual and its bounds</h2><label style="margin:0"><input type="checkbox" id="polygon" checked> Show active control polygon</label></div>
+  <div class="legend"><span><i class="key"></i>Residual r(s) · sampled for display</span><span><i class="key control"></i>Local Bernstein control polygon</span><span><i class="key hull"></i>Proven interval hull</span><span><i class="key zero"></i>Constraint boundary (0)</span></div>
+  <div class="plot-wrap"><svg id="plot" viewBox="0 0 1000 400" role="img" aria-label="Sampled residual with exact Bernstein interval hulls"></svg></div>
+  <div class="probe"><label for="probe">Probe at s</label><div><input type="range" min="0" max="1000" step="1" value="500" id="probe"><p class="probe-output" id="probeValue">—</p></div></div>
+  <p class="explain">The turquoise curve is drawn using sampled floating-point values for <b>visual intuition only</b>. Rectangles are determined by exact rational Bernstein coefficient bounds. To prove r(s) ≤ 0, every terminal leaf must have maximum coefficient ≤ 0. To disprove it, find an exact positive value r(s) &gt; 0.</p>
+ </section>
+ <section class="card">
+  <div class="flex"><div><div class="eyebrow">02 / Proof trace</div><h2>Subdivision tree</h2></div><div class="playback"><button id="reset" class="btn">↺ Reset</button><button id="prev" class="btn">←</button><button id="next" class="btn">→</button><button id="play" class="btn">▶ Play</button><span class="small" id="stepCounter">—</span></div></div>
+  <p class="small">Click a node to inspect its exact coefficients. L/R encode dyadic halves. The tree is traversed breadth-first. The proof is complete only if all terminal intervals are covered and proven.</p>
+  <div class="tree" id="tree"></div>
+  <div class="small">Structural replay: <strong id="replay">—</strong></div>
+ </section>
+ <section class="card"><div class="eyebrow">03 / Local explanation</div><h2>Why this node passes, splits, or fails</h2><div id="inspector"></div></section>
+</main></div>
+<footer>Offline, dependency-free teaching tool. Exact BigInt rational decisions concern a single Bernstein polynomial. Structural proof replay shares arithmetic with proof construction; it is not an independent implementation, and neither process establishes native FP32/continuous-time robot execution equivalence.</footer>
+<script>
+/* Exact-rational browser playground for a SINGLE Bernstein residual r(u).
+ * Certificates here refer ONLY to the user-entered mathematical polynomial.
+ * They are NOT native cuRobo/FP32 certificates or production proof replay.
+ * No external libraries and no floating point in proof decisions.
+ */
+(function (global, factory) {
+  const api = factory();
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else global.BernsteinProof = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  const ZERO = {n:0n,d:1n}, ONE = {n:1n,d:1n};
+  function abs(a){ return a < 0n ? -a : a; }
+  function gcd(a,b){ a=abs(a); b=abs(b); while(b){ const t=a%b; a=b; b=t; } return a || 1n; }
+  function R(n,d=1n) {
+    n=BigInt(n); d=BigInt(d);
+    if (d===0n) throw Error('Zero denominator');
+    if (d<0n) { n=-n; d=-d; }
+    if (n===0n) return ZERO;
+    const g=gcd(n,d); return {n:n/g,d:d/g};
+  }
+  function parse(v) {
+    if (v && typeof v==='object' && typeof v.n==='bigint' && typeof v.d==='bigint') return R(v.n,v.d);
+    let s=String(v).trim();
+    if (s.length>128) throw Error('Rational input is too long');
+    const slash=s.indexOf('/');
+    if(slash>=0) {
+      if(s.indexOf('/',slash+1)>=0) throw Error('Invalid fraction: '+s);
+      return div(parse(s.slice(0,slash)),parse(s.slice(slash+1)));
+    }
+    const m=/^([+-]?)(\d+)(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/.exec(s);
+    if(!m) throw Error('Expected integer, decimal or fraction: '+s);
+    const decimals=m[3]||'';
+    const power=Number(m[4]||0)-decimals.length;
+    if(Math.abs(power)>100) throw Error('Exponent is too large');
+    let n=BigInt(m[2]+decimals);
+    if(m[1]==='-') n=-n;
+    return power>=0 ? R(n*10n**BigInt(power)) : R(n,10n**BigInt(-power));
+  }
+  function add(a,b){return R(a.n*b.d+b.n*a.d,a.d*b.d);}
+  function neg(a){return R(-a.n,a.d);}
+  function sub(a,b){return add(a,neg(b));}
+  function mul(a,b){return R(a.n*b.n,a.d*b.d);}
+  function div(a,b){if(b.n===0n)throw Error('Division by zero');return R(a.n*b.d,a.d*b.n);}
+  function cmp(a,b){const v=a.n*b.d-b.n*a.d;return v>0n?1:v<0n?-1:0;}
+  function min(v){return v.reduce((a,b)=>cmp(a,b)<0?a:b);}
+  function max(v){return v.reduce((a,b)=>cmp(a,b)>0?a:b);}
+  function eq(a,b){return cmp(a,b)===0;}
+  function repr(a){return a.d===1n?String(a.n):String(a.n)+'/'+String(a.d);}
+  function num(a){return Number(a.n)/Number(a.d);}
+  function split(b) {
+    const rows=[b.slice()];
+    while(rows[rows.length-1].length>1) {
+      const prev=rows[rows.length-1], next=[];
+      for(let i=0;i<prev.length-1;i++) next.push(div(add(prev[i],prev[i+1]),R(2)));
+      rows.push(next);
+    }
+    const n=b.length-1;
+    return [rows.map(row=>row[0]),Array.from({length:n+1},(_,i)=>rows[n-i][i])];
+  }
+  function at(b,t) {
+    let a=b.slice();
+    for(let k=a.length-1;k>0;k--) {
+      const next=[];
+      for(let i=0;i<k;i++) next.push(add(mul(sub(ONE,t),a[i]),mul(t,a[i+1])));
+      a=next;
+    }
+    return a[0];
+  }
+  function sample(b,t) { // VISUALIZATION ONLY; never used in certification decisions.
+    let a=b.map(num);
+    for(let k=a.length-1;k>0;k--) a=Array.from({length:k},(_,i)=>a[i]*(1-t)+a[i+1]*t);
+    return a[0];
+  }
+  function parseCoeffs(values) {
+    if(!Array.isArray(values)||values.length<2||values.length>17) throw Error('Require 2–17 coefficients (degree 1–16)');
+    return values.map(parse);
+  }
+  function strictWitness(node) {
+    const b=node.b;
+    if(cmp(node.l,ZERO)>0 && cmp(b[0],ZERO)===0) return {at:node.l,value:b[0],kind:'ZERO'};
+    if(cmp(node.r,ONE)<0 && cmp(b[b.length-1],ZERO)===0) return {at:node.r,value:b[b.length-1],kind:'ZERO'};
+    const m=div(add(node.l,node.r),R(2));
+    const v=split(b)[0].slice(-1)[0];
+    return cmp(v,ZERO)===0 ? {at:m,value:v,kind:'ZERO'} : null;
+  }
+  function build(coeffs, options={}) {
+    const b=coeffs.map(parse);
+    if(b.length<2||b.length>17)throw Error('Require 2–17 Bernstein coefficients');
+    const depth=options.depth===undefined?8:Number(options.depth), nodesBudget=options.nodes===undefined?2048:Number(options.nodes);
+    const strict=!!options.strict;
+    if(!Number.isInteger(depth)||depth<0||depth>24||!Number.isInteger(nodesBudget)||nodesBudget<1||nodesBudget>32768)throw Error('Invalid proof budget');
+    const queue=[{path:'',l:ZERO,r:ONE,b,level:0}], nodes=[], leaves=[];
+    let witness=null, status='CERTIFIED', processed=0;
+    while(queue.length) {
+      if(processed>=nodesBudget) {
+        status='UNKNOWN_NODES';
+        for(const item of queue) nodes.push({...item,lower:min(item.b),upper:max(item.b),state:'PENDING'});
+        break;
+      }
+      const node=queue.shift();
+      processed++;
+      node.lower=min(node.b); node.upper=max(node.b);
+      const midpoint=div(add(node.l,node.r),R(2));
+      const midpointValue=split(node.b)[0].slice(-1)[0];
+      let found=null;
+      if(cmp(node.b[0],ZERO)>0) found={at:node.l,value:node.b[0],kind:'POSITIVE'};
+      else if(cmp(node.b[node.b.length-1],ZERO)>0) found={at:node.r,value:node.b[node.b.length-1],kind:'POSITIVE'};
+      else if(cmp(midpointValue,ZERO)>0) found={at:midpoint,value:midpointValue,kind:'POSITIVE'};
+      if(!found && strict) found=strictWitness(node);
+      if(found) {
+        node.state='VIOLATED'; witness={...found,path:node.path};
+        nodes.push(node); status=found.kind==='ZERO'?'VIOLATED_STRICT':'VIOLATED';
+        break;
+      }
+      const hullPass=cmp(node.upper,ZERO)<=0;
+      // A nonzero nonpositive Bernstein polynomial is strictly negative in the OPEN
+      // interval: all Bernstein basis weights are positive in the open interval.
+      const strictlyInside=!eq(node.lower,ZERO);
+      if(hullPass && (!strict || strictlyInside)) {
+        node.state='PROVEN';nodes.push(node);
+        leaves.push({path:node.path,coefficients:node.b.map(repr),lower:repr(node.lower),upper:repr(node.upper)});
+        continue;
+      }
+      if(node.level>=depth) { node.state='UNKNOWN_DEPTH';nodes.push(node);status='UNKNOWN_DEPTH';break; }
+      node.state='SPLIT';nodes.push(node);
+      const [left,right]=split(node.b);
+      queue.push({path:node.path+'L',l:node.l,r:midpoint,b:left,level:node.level+1},
+                 {path:node.path+'R',l:midpoint,r:node.r,b:right,level:node.level+1});
+    }
+    return {scope:'EXACT_RATIONAL_ENTERED_POLYNOMIAL_ONLY',status,strict,
+      degree:b.length-1,maxDepth:depth,maxNodes:nodesBudget,processed,leaves,nodes,
+      witness,original:b.map(repr),replay:status==='CERTIFIED'?replay(b,leaves,strict):{pass:false,reason:'No complete certificate'}};
+  }
+  function replay(root,leaves,strict=false) {
+    // Structural replay with SAME rational arithmetic; not an independent checker.
+    try {
+      if(!leaves.length) return {pass:false,reason:'Empty leaf set'};
+      const paths=new Map();
+      for(const leaf of leaves) {
+        if(!/^[LR]*$/.test(leaf.path)||paths.has(leaf.path))return {pass:false,reason:'Malformed or duplicate path'};
+        let b=root.slice(),l=ZERO,r=ONE;
+        for(const dir of leaf.path){
+          const mid=div(add(l,r),R(2));
+          const pair=split(b);
+          if(dir==='L'){b=pair[0];r=mid;}else{b=pair[1];l=mid;}
+        }
+        const expect=b.map(repr);
+        if(JSON.stringify(expect)!==JSON.stringify(leaf.coefficients))return {pass:false,reason:'Leaf coefficient mismatch'};
+        if(cmp(max(b),ZERO)>0)return {pass:false,reason:'Leaf hull exceeds zero'};
+        if(strict){
+          if(eq(min(b),ZERO))return {pass:false,reason:'Identically zero leaf'};
+          if(cmp(l,ZERO)>0 && eq(b[0],ZERO))return {pass:false,reason:'Interior zero at left knot'};
+          if(cmp(r,ONE)<0 && eq(b[b.length-1],ZERO))return {pass:false,reason:'Interior zero at right knot'};
+        }
+        paths.set(leaf.path,true);
+      }
+      function full(p,depth=0){
+        if(paths.has(p))return true;
+        if(depth>24)return false;
+        return full(p+'L',depth+1)&&full(p+'R',depth+1);
+      }
+      if(!full(''))return {pass:false,reason:'Leaves do not cover [0,1]'};
+      return {pass:true,reason:'Exact leaf coefficients, hulls and dyadic coverage replayed (shared arithmetic)'};
+    }catch(e){return {pass:false,reason:String(e.message||e)};}
+  }
+  function serializeProof(proof) {
+    return JSON.parse(JSON.stringify(proof,(_,v)=>typeof v==='bigint'?v.toString():v));
+  }
+  return {R,parse,add,sub,mul,div,cmp,repr,num,at,sample,split,parseCoeffs,build,replay,serializeProof};
+});
+</script>
+<script>
+/* Interactive offline proof explorer. This UI never changes or certifies a
+ * native cuRobo trajectory. Floating point is used for PLOTS ONLY. */
+(function () {
+'use strict';
+const P=window.BernsteinProof;
+const $=id=>document.getElementById(id);
+const defaults=[
+ {id:'false-alarm',title:'Feasible · misleading convex hull',tag:'The essential example',family:'generic',coefficients:['-1','2/5','-1'],
+  description:'The middle Bernstein coefficient is positive, but the whole quadratic is below zero. One midpoint split makes both child hulls nonpositive.'},
+ {id:'violation',title:'Actual violation · positive witness',tag:'Infeasible',family:'generic',coefficients:['-1','2','-1'],
+  description:'The polynomial itself is positive at s=1/2. The exact midpoint evaluation is a rigorous violation witness—not merely an uncertain hull.'},
+ {id:'tangent',title:'Tangency · strict squared-speed positivity',tag:'Strict versus nonstrict',family:'positive_x',strict:true,coefficients:['-1/4','1/4','-1/4'],
+  description:'r(s)=−(s−1/2)² touches zero inside the interval. It satisfies r≤0 but violates r<0 for interior squared speed. Turn strict checking off to see the nonstrict certificate.'},
+ {id:'degree9',title:'Ninth-degree jerk-like residual',tag:'Higher-degree hull',family:'jerk',coefficients:['-1/5','-1/5','-1/5','-1/5','1/10','1/10','-1/5','-1/5','-1/5','-1/5'],
+  description:'A deliberately synthetic degree-nine residual, similar in degree to a squared-jerk inequality. The positive coefficients do not imply a violation.'},
+ {id:'safe',title:'Already proven · no splitting',tag:'Fast path',family:'velocity',coefficients:['-1','-1/2','-3/4','-1/3'],
+  description:'Every initial Bernstein coefficient is nonpositive, so the original interval itself is a complete proof leaf.'},
+ {id:'zero',title:'Identically zero residual',tag:'Boundary case',family:'generic',coefficients:['0','0','0'],
+  description:'The nonstrict inequality is true everywhere. Under a strict inequality it fails everywhere: zero is not negative.'}
+];
+let library=defaults.slice();
+let current=null,proof=null, cursor=0,focus=-1, playback=null;
+const familyNames={generic:'Generic r(s) ≤ 0',positive_x:'Squared speed: −x(s) ≤ 0',velocity:'Velocity',acceleration_plus:'Acceleration (+)',acceleration_minus:'Acceleration (−)',jerk:'Jerk²'};
+const stateTag={PROVEN:'Proven',SPLIT:'Split',VIOLATED:'Violation',UNKNOWN_DEPTH:'Depth limit',UNKNOWN_NODES:'Node limit',PENDING:'Pending'};
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmt(v,digits=4) {
+ const x=P.num(v);
+ return Number.isFinite(x)?x.toFixed(digits).replace(/\.?0+$/,''):P.repr(v);
+}
+function statusKind(status){return status==='CERTIFIED'?'good':status.startsWith('VIOLATED')?'bad':'warn';}
+function stop(){if(playback){clearInterval(playback);playback=null;}$('play').textContent='▶ Play';}
+function selectedExample(){
+ const id=$('preset').value;
+ return library.find(x=>x.id===id) || library[0];
+}
+function loadExample(example) {
+ stop();current=example;
+ $('coeffs').value=example.coefficients.join(', ');
+ $('strict').checked=!!example.strict;
+ $('depth').value='8'; $('nodes').value='2048';
+ $('exampleTitle').textContent=example.title;
+ $('description').textContent=example.description||'Imported exact rational residual coefficients.';
+ $('family').textContent=familyNames[example.family]||example.family||familyNames.generic;
+ $('preset').value=example.id;
+ $('validation').textContent='';
+ run();
+}
+function loadSelect() {
+ $('preset').innerHTML=library.map(e=>'<option value="'+escapeHtml(e.id)+'">'+escapeHtml(e.title)+'</option>').join('');
+}
+function settings(){
+ const raw=$('coeffs').value.split(/[,\n;]/).map(x=>x.trim()).filter(Boolean);
+ return {coefficients:P.parseCoeffs(raw),depth:Number($('depth').value),nodes:Number($('nodes').value),strict:$('strict').checked};
+}
+function run() {
+ stop();
+ try{
+  const s=settings();
+  proof=P.build(s.coefficients,s);
+  cursor=proof.nodes.length;focus=proof.nodes.length-1;
+  $('validation').textContent='';
+  $('validation').className='';
+  render();
+ }catch(e) {
+  proof=null;$('validation').textContent='Input error: '+e.message;
+  $('validation').className='alert';
+  $('verdict').textContent='INVALID INPUT';$('verdict').className='pill bad';
+  $('plot').innerHTML='';$('tree').innerHTML='';$('inspector').textContent='Correct the input to construct a proof.';
+ }
+}
+function shown(){return proof?proof.nodes.slice(0,cursor):[];}
+function metric(target,value){$(target).textContent=value;}
+function renderMetrics(){
+ if(!proof)return;
+ const finished=cursor===proof.nodes.length, status=finished?proof.status:'IN PROGRESS';
+ $('verdict').textContent=status.replaceAll('_',' ');
+ $('verdict').className='pill '+(finished?statusKind(status):'warn');
+ const B=proof.original.map(P.parse);
+ metric('degree',String(proof.degree));
+ metric('initialHull',P.repr(P.max?P.max(B):B.reduce((x,y)=>P.cmp(x,y)>0?x:y)));
+ metric('leaves',String(shown().filter(n=>n.state==='PROVEN').length));
+ metric('processed',String(shown().filter(n=>n.state!=='PENDING').length));
+ const ok=finished&&proof.replay.pass;
+ $('replay').textContent=finished? (ok?'PASS · shared-arithmetic replay':'Not a complete certificate'):'Not yet complete';
+ $('replay').className=ok?'mini-good':'mini-muted';
+ $('stepCounter').textContent=cursor+' / '+proof.nodes.length+' nodes';
+ $('prev').disabled=cursor===0;$('next').disabled=cursor===proof.nodes.length;
+}
+function renderTree(){
+ if(!proof)return;
+ const elements=proof.nodes.map((n,i)=>{
+  if(i>=cursor)return '<button class="node unseen" disabled><b>'+escapeHtml(n.path||'root')+'</b><small>unseen</small></button>';
+  const kind=n.state==='PROVEN'?'good':n.state==='VIOLATED'?'bad':n.state==='SPLIT'?'neutral':'warn';
+  return '<button class="node '+kind+(focus===i?' focused':'')+'" data-index="'+i+'"><b>'+
+   escapeHtml(n.path||'root')+'</b><small>'+escapeHtml(stateTag[n.state]||n.state)+'</small></button>';
+ });
+ $('tree').innerHTML=elements.join('');
+ $('tree').querySelectorAll('[data-index]').forEach(btn=>btn.addEventListener('click',()=>{
+  focus=Number(btn.dataset.index); render();
+ }));
+}
+function plot(){
+ if(!proof)return;
+ const b=proof.original.map(P.parse), samples=240;
+ const nodes=shown().filter(n=>n.state==='PROVEN'||n.state==='VIOLATED'||n.state==='UNKNOWN_DEPTH'||n.state==='PENDING');
+ const active=proof.nodes[Math.min(focus,cursor-1)]||null;
+ const values=Array.from({length:samples+1},(_,i)=>P.sample(b,i/samples));
+ const hullVals=[0,...values];
+ for(const n of nodes)hullVals.push(P.num(n.lower),P.num(n.upper));
+ if(active)hullVals.push(P.num(active.lower),P.num(active.upper));
+ const finite=hullVals.filter(Number.isFinite);
+ if(finite.length!==hullVals.length){
+  $('plot').innerHTML='<text x="30" y="35" fill="#f2ba7e">Cannot plot values outside finite JavaScript Number range; exact proof remains available.</text>';return;
+ }
+ const W=1000,H=400,left=64,right=24,top=18,bottom=51;
+ const mn=Math.min(...finite),mx=Math.max(...finite),span=Math.max(0.3,mx-mn);
+ const min=mn-0.12*span,max=mx+0.12*span;
+ const X=s=>left+s*(W-left-right);
+ const Y=v=>top+(max-v)/(max-min)*(H-top-bottom);
+ let out='';
+ for(let i=0;i<=5;i++){
+  const y=min+(max-min)*i/5;
+  out+='<line x1="'+left+'" y1="'+Y(y)+'" x2="'+(W-right)+'" y2="'+Y(y)+'" class="gridline"/>';
+  out+='<text x="52" y="'+(Y(y)+4)+'" class="tick" text-anchor="end">'+y.toFixed(2)+'</text>';
+ }
+ for(let i=0;i<=10;i++){
+  const x=X(i/10);
+  out+='<line x1="'+x+'" y1="'+top+'" x2="'+x+'" y2="'+(H-bottom)+'" class="gridline vertical"/>';
+  if(i%2===0)out+='<text x="'+x+'" y="'+(H-25)+'" class="tick" text-anchor="middle">'+(i/10).toFixed(1)+'</text>';
+ }
+ if(min<=0&&max>=0)out+='<line x1="'+left+'" y1="'+Y(0)+'" x2="'+(W-right)+'" y2="'+Y(0)+'" class="zero"/>';
+ for(const n of nodes) {
+  const l=P.num(n.l),r=P.num(n.r),lo=P.num(n.lower),hi=P.num(n.upper);
+  const cls=n.state==='PROVEN'?'hull-good':n.state==='VIOLATED'?'hull-bad':'hull-unknown';
+  out+='<rect class="'+cls+'" x="'+X(l)+'" y="'+Y(hi)+'" width="'+Math.max(1,X(r)-X(l))+
+        '" height="'+Math.max(1,Y(lo)-Y(hi))+'"><title>'+escapeHtml(n.path||'root')+
+        ': exact Bernstein hull ['+escapeHtml(P.repr(n.lower))+', '+escapeHtml(P.repr(n.upper))+']</title></rect>';
+ }
+ const pts=values.map((v,i)=>X(i/samples)+','+Y(v)).join(' ');
+ out+='<polyline class="curve" points="'+pts+'"/>';
+ if($('polygon').checked && active){
+  const local=active.b.map(P.num),l=P.num(active.l),r=P.num(active.r),n=local.length-1;
+  out+='<polyline class="control" points="'+local.map((v,i)=>X(l+(r-l)*i/n)+','+Y(v)).join(' ')+'"/>';
+  local.forEach((v,i)=>out+='<circle class="control-dot" cx="'+X(l+(r-l)*i/n)+'" cy="'+Y(v)+'" r="4.5"/>');
+ }
+ const t=Number($('probe').value)/1000;
+ const probe=P.at(b,P.R(BigInt($('probe').value),1000n));
+ if(Number.isFinite(P.num(probe))){
+  out+='<line class="probe-line" x1="'+X(t)+'" y1="'+top+'" x2="'+X(t)+'" y2="'+(H-bottom)+'"/>';
+  out+='<circle class="probe-dot" cx="'+X(t)+'" cy="'+Y(P.num(probe))+'" r="5.5"/>';
+ }
+ if(proof.witness&&cursor===proof.nodes.length){
+  const w=proof.witness, sx=P.num(w.at),sy=P.num(w.value);
+  out+='<circle class="witness-dot" cx="'+X(sx)+'" cy="'+Y(sy)+'" r="10"/>';
+  out+='<text class="witness-label" x="'+Math.min(W-190,X(sx)+12)+'" y="'+(Y(sy)-12)+'">Exact '+escapeHtml(w.kind)+' witness</text>';
+ }
+ out+='<text class="axis-name" x="'+(W/2)+'" y="'+(H-5)+'" text-anchor="middle">Path parameter s ∈ [0,1]</text>';
+ $('plot').innerHTML=out;
+ metric('probeValue','s='+t.toFixed(3)+' → r(s) = '+P.repr(probe)+' ≈ '+fmt(probe,6));
+}
+function inspect(){
+ if(!proof)return;
+ const n=proof.nodes[Math.min(focus,cursor-1)]||null;
+ if(!n){$('inspector').innerHTML='<p>Advance one node to inspect its interval and exact bounds.</p>';return;}
+ let explanation='';
+ if(n.state==='PROVEN')explanation='All Bernstein coefficients are ≤ 0 on this child interval. The convex-hull property proves the inequality at every point—not just at sampled points.';
+ else if(n.state==='SPLIT')explanation='At least one Bernstein coefficient is positive, but this is <b>not</b> evidence of a trajectory violation. Midpoint de Casteljau subdivision preserves the polynomial exactly and tightens local hulls.';
+ else if(n.state==='VIOLATED')explanation='The polynomial itself has an exact noncompliant point (endpoint or midpoint). This is a rigorous witness; it is not inferred from a positive control coefficient.';
+ else explanation='The configured proof budget was exhausted. Inconclusive does not mean violated.';
+ let html='<p class="inspector-lede">'+explanation+'</p>';
+ html+='<div class="inspect-grid"><div><span>Current dyadic interval</span><strong>['+P.repr(n.l)+', '+P.repr(n.r)+']</strong></div>';
+ html+='<div><span>Exact coefficient bounds</span><strong>['+P.repr(n.lower)+', '+P.repr(n.upper)+']</strong></div>';
+ html+='<div><span>Decision</span><strong>'+escapeHtml(stateTag[n.state]||n.state)+'</strong></div>';
+ html+='<div><span>Subdivision depth</span><strong>'+n.level+'</strong></div></div>';
+ html+='<div class="coef-row">'+n.b.map((v,i)=>'<div class="coef-pill"><small>b'+i+'</small><b>'+escapeHtml(P.repr(v))+'</b></div>').join('')+'</div>';
+ if(proof.witness&&n.state==='VIOLATED')html+='<p class="witness-text">Exact witness: s = <b>'+P.repr(proof.witness.at)+
+  '</b>, r(s) = <b>'+P.repr(proof.witness.value)+'</b>. '+(proof.witness.kind==='ZERO'?'Strict inequality requires r(s) < 0 at every interior point.':'A positive residual proves the nonstrict inequality fails.')+'</p>';
+ $('inspector').innerHTML=html;
+}
+function render(){
+ if(!proof)return;
+ if(cursor>0 && (focus>=cursor || focus<0)) focus=cursor-1;
+ renderMetrics();renderTree();plot();inspect();
+}
+function download(name,body){
+ const blob=new Blob([body],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),500);
+}
+function fileImport(file){
+ if(!file)return;
+ file.text().then(txt=>{
+  const obj=JSON.parse(txt);
+  let incoming;
+  if(Array.isArray(obj.examples)) incoming=obj.examples;
+  else if(Array.isArray(obj.coefficients)) incoming=[obj];
+  else throw Error('Import expects {examples:[{coefficients:...}]} or a single residual object');
+  if(incoming.length>250)throw Error('Import exceeds 250 examples');
+  const clean=incoming.map((e,i)=>{
+   const b=P.parseCoeffs(e.coefficients);
+   return {id:'import-'+Date.now()+'-'+i,title:String(e.title||'Imported '+(i+1)).slice(0,120),
+    coefficients:b.map(P.repr),strict:!!e.strict,description:String(e.description||'Imported polynomial model only.').slice(0,1500),
+    family:String(e.family||'generic').slice(0,40)};
+  });
+  library=defaults.concat(clean);
+  loadSelect();loadExample(clean[0]);
+ }).catch(e=>{$('validation').textContent='Import rejected: '+e.message;$('validation').className='alert';});
+}
+$('preset').addEventListener('change',()=>loadExample(selectedExample()));
+$('run').addEventListener('click',run);
+$('depth').addEventListener('input',()=>{$('depthValue').textContent=$('depth').value;});
+$('nodes').addEventListener('input',()=>{$('nodesValue').textContent=$('nodes').value;});
+$('prev').addEventListener('click',()=>{stop();cursor=Math.max(0,cursor-1);focus=cursor-1;render();});
+$('next').addEventListener('click',()=>{stop();cursor=Math.min(proof.nodes.length,cursor+1);focus=cursor-1;render();});
+$('reset').addEventListener('click',()=>{stop();cursor=0;focus=-1;render();});
+$('play').addEventListener('click',()=>{
+ if(playback){stop();return;}
+ if(!proof)return;
+ if(cursor>=proof.nodes.length){cursor=0;focus=-1;}
+ $('play').textContent='Ⅱ Pause';
+ playback=setInterval(()=>{
+  if(cursor>=proof.nodes.length){stop();return;}
+  cursor++;focus=cursor-1;render();
+ },430);
+});
+$('polygon').addEventListener('change',plot);
+$('probe').addEventListener('input',plot);
+$('export').addEventListener('click',()=>{
+ if(!proof)return;
+ const json={schema_version:1,scope:'SINGLE_EXACT_ENTERED_RESIDUAL_NOT_NATIVE_CERTIFICATE',
+  title:current?current.title:'Custom',family:current?current.family:'generic',
+  strict:proof.strict,coefficients:proof.original,proof:P.serializeProof(proof)};
+ download('bernstein-proof-example.json',JSON.stringify(json,null,2));
+});
+$('importFile').addEventListener('change',e=>{fileImport(e.target.files[0]);e.target.value='';});
+$('coeffs').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')run();});
+loadSelect();loadExample(defaults[0]);
+})();
+</script>
+</body>
+</html>
