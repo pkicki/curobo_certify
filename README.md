@@ -2,6 +2,21 @@
 
 Study continuous certification of unchanged cuRobo TimeOpt trajectories by adaptive Bernstein subdivision, with explicit measurement of added latency.
 
+## Interactive Bernstein Proof Lab (2026-11-13)
+
+The standalone interactive [Bernstein Proof Lab](reports/bernstein_proof_lab.html) lets you edit exact rational Bernstein residual coefficients, animate adaptive subdivision and inspect rigorous *mathematical* upper/lower hulls, exact global peak brackets, strict interior zeros, violation witnesses and proof leaves. Download the HTML and open locally. The source is in `web/proof_core.js`, `web/proof_app.js` and `web/proof_template.html`.
+
+Build/reproduce it with `python scripts/build_proof_playground.py`. Run `node --test tests/proof_core.test.cjs`. Export individual constraint residuals from the analytic q/x fixture with:
+
+```bash
+python scripts/export_playground_residuals.py fixtures/boundary_multispan_analytic.json \
+  --span-index 0 --joint 0 --out /tmp/analytic_residuals.json
+```
+
+Import `/tmp/analytic_residuals.json` in the HTML. **Important:** even a PASS in this playground proves one exact serialized mathematical polynomial only, never native CUDA equivalence or a full multi-span, multi-family K3 certificate. The browser's structural replay shares arithmetic with the builder.
+
+New detailed [native integration + experimental campaign](docs/INTERACTIVE_BERNSTEIN_CAMPAIGN_20261113.md) and [coding agent handoff](docs/AGENT_NATIVE_BERNSTEIN_20261113.md) describe the correctness gates, fast full-proof implementation, real hard-case harvesting, end-to-end benchmarks and visual diagnostics. The reported unpublished local integration branch is NOT included in this independent public branch.
+
 ## Start here
 
 - [Implementation and experiment plan](docs/CAMPAIGN_PLAN.md)
