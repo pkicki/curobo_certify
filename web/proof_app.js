@@ -76,6 +76,10 @@ function renderMetrics(){
  $('verdict').textContent=status.replaceAll('_',' ');
  $('verdict').className='pill '+(finished?statusKind(status):'warn');
  const B=proof.original.map(P.parse);
+
+ const tight=P.peakBracket(B,5);
+ metric('peakBracket','['+P.repr(tight.lower)+', '+P.repr(tight.upper)+']');
+ metric('gapBracket','['+P.repr(tight.gapLower)+', '+P.repr(tight.gapUpper)+']');
  metric('degree',String(proof.degree));
  metric('initialHull',P.repr(P.max?P.max(B):B.reduce((x,y)=>P.cmp(x,y)>0?x:y)));
  metric('leaves',String(shown().filter(n=>n.state==='PROVEN').length));
