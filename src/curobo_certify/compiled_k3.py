@@ -185,6 +185,21 @@ def certify_and_verify(producer: Producer, verifier: Verifier, geometry, timing,
     return r
 
 
+
+@lru_cache(maxsize=1)
+def _immutable_native_table() -> np.ndarray:
+    """Avoid NPZ-like disk reads in every fresh-request native bound evaluation.
+
+    Cached bytes are read-only. The pinned source-table digest remains the
+    provenance authority and must be checked when starting the run.
+    """
+    table = np.ascontiguousarray(
+        np.load(ROOT / "fixtures/timeopt_timing_polynomial_c301cb.npy"),
+        dtype=np.float32)
+    table.setflags(write=False)
+    return table
+
+
 def native_bounds(producer: Producer, geometry, timing, *, pieces=16, delta=1e-6, div_ulps=2.0, sqrt_ulps=3.0,
                   native_table=None) -> np.ndarray:
     """Compiled rigorous native FP32 error bounds [ns, D, 3] (velocity, acceleration, jerk)."""
@@ -195,8 +210,8 @@ def native_bounds(producer: Producer, geometry, timing, *, pieces=16, delta=1e-6
     L.k3c_native_bounds.restype = C.c_int
     g = np.ascontiguousarray(geometry, dtype=np.float32)
     tc = np.ascontiguousarray(np.asarray(timing).reshape(-1), dtype=np.float32)
-    table = np.ascontiguousarray(np.load(ROOT / "fixtures/timeopt_timing_polynomial_c301cb.npy") if native_table is None
-                                 else native_table, dtype=np.float32)
+    table = (_immutable_native_table() if native_table is None
+             else np.ascontiguousarray(native_table, dtype=np.float32))
     ns = len(producer.common_spans(g.shape[0]))
     out = np.zeros((ns, g.shape[1], 3))
     got = L.k3c_native_bounds(_ptr(g, C.c_float), g.shape[0], g.shape[1], _ptr(tc, C.c_float), _ptr(table, C.c_float),
