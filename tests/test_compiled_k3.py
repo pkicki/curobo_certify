@@ -90,6 +90,15 @@ class CompiledK3Tests(unittest.TestCase):
         self.assertFalse(res["pass"])
         self.assertEqual(res["reason"], "leaf hull exceeds zero")
 
+    def test_tightened_witness_is_not_a_violation(self):
+        geo, timing, qs, qg, lim = smooth_case(10)
+        E = K.native_bounds(self.P, geo, timing)
+        # limits just above the model peak but below peak + error bound
+        tight = {k: v * 1e-3 for k, v in lim.items()}
+        r = K.certify_and_verify(self.P, self.V, geo, timing, qs, qg, tight, tighten=E * 0 + 1e-9)
+        self.assertEqual(r["final"], "UNKNOWN_TIGHTENED_WITNESS")
+        self.assertEqual(r["status"], "VIOLATED")
+
     def test_boundary_obligations(self):
         geo, timing, qs, qg, lim = smooth_case(4)
         r = K.certify_and_verify(self.P, self.V, geo, timing, qs + np.float32(1e-3), qg, lim)

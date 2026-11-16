@@ -1,0 +1,51 @@
+{
+ "generated_from": [
+  "hardcase_seed20261116/tightness_79paths.json",
+  "native_linkage/*.json",
+  "compiled_k3/*.json",
+  "benchmarks/*.json"
+ ],
+ "questions": [
+  {
+   "q": "1. How frequently do real TimeOpt trajectories require subdivision?",
+   "a": "Exact analysis of 79 real native outputs (79 = 16 earlier + 63 new; 1363-ish residuals per path). <b>Default solver margins, physical limits:</b> 1/48 paths need any subdivision (1 of 65424 residuals); 47 certify at depth 0. <b>Against the solver's own 0.95-scaled contract:</b> 48/48 need subdivision and 9/48 genuinely violate it. <b>Margin arm (scale 1.00), physical:</b> 31/31 need subdivision, 12/31 genuinely violate. Subdivision is rare when a margin separates the solver contract from the certified contract and ubiquitous when it does not."
+  },
+  {
+   "q": "2. How conservative are the initial Bernstein bounds?",
+   "a": "For the 522 real residuals whose depth-0 hull was inconclusive but which are feasible, the exact hull overestimate (U0 \u2212 true peak, lower bracket) has median 2.71e-02 and max 1.84e-01 in normalized residual units (i.e. fractions of a squared/linear limit). Exact peak brackets needed depth \u2264 16 (median 1). Over both contracts 212954/215354 residuals (98.89%) are already proven by the initial hull."
+  },
+  {
+   "q": "3. Which constraints cause the most difficult proofs?",
+   "a": "Families of residuals that were not proven at depth 0 (all contracts): {'jerk': 649, 'acceleration_minus': 608, 'acceleration_plus': 584, 'velocity': 559}. Genuine physical violations (margin arm) by family: {'jerk': 12, 'acceleration_minus': 3, 'acceleration_plus': 1}; worst is jerk (\u2248 +0.36% over the limit). Squared-speed positivity never needed subdivision and no strict-positivity failure occurred."
+  },
+  {
+   "q": "4. Does adaptive subdivision outperform uniform subdivision?",
+   "a": "On identical frozen outputs, in every contract and population measured, adaptive matches or exceeds the coverage of every uniform level while touching only the inconclusive residuals, so its cost stays near H0; uniform levels pay for every residual. <b>planning contract, default outputs</b>: H0: 0 cert / 0 viol / 48 unknown, mean nodes 1363, p50 1.84 ms; U1: 9 cert / 0 viol / 39 unknown, mean nodes 4089, p50 2.21 ms; U2: 21 cert / 0 viol / 27 unknown, mean nodes 9541, p50 2.89 ms; U4: 37 cert / 0 viol / 11 unknown, mean nodes 42253, p50 18.71 ms; U6: 39 cert / 0 viol / 9 unknown, mean nodes 173101, p50 89.47 ms; A: 39 cert / 9 viol / 0 unknown, mean nodes 1224, p50 3.26 ms; A-nw: 39 cert / 0 viol / 9 unknown, mean nodes 1481, p50 3.05 ms <b>physical contract, margin outputs</b>: H0: 0 cert / 0 viol / 31 unknown, mean nodes 1363, p50 1.84 ms; U1: 1 cert / 0 viol / 30 unknown, mean nodes 4089, p50 2.21 ms; U2: 6 cert / 0 viol / 25 unknown, mean nodes 9541, p50 2.87 ms; U4: 14 cert / 0 viol / 17 unknown, mean nodes 42253, p50 6.88 ms; U6: 19 cert / 0 viol / 12 unknown, mean nodes 173101, p50 89.96 ms; A: 19 cert / 12 viol / 0 unknown, mean nodes 1072, p50 3.27 ms; A-nw: 19 cert / 0 viol / 12 unknown, mean nodes 1552, p50 3.06 ms Without early witness handling (A-nw) genuine violations end as UNKNOWN instead of VIOLATED at similar cost."
+  },
+  {
+   "q": "5. What is the complete certification overhead?",
+   "a": "Frozen output, complete certificate (compiled producer + independent verifier), adaptive, physical contract: p50 3.26 ms, p95 3.31 ms over 79 paths. Native-reported contract (adds the compiled FP32 error bound, p50 9.45 ms): p50 12.75 ms, p95 12.85 ms. Fresh native requests on NVIDIA GeForce RTX 3090: native request p50 7.79 ms; added certification p50 13.13 ms (95% CI 13.11\u201313.15), p95 13.20 ms; stage medians plan_ms 7.69 ms, d2h_ms 0.05 ms, native_bound_ms 9.69 ms, producer_ms 2.18 ms, verifier_ms 1.29 ms."
+  },
+  {
+   "q": "6. How much faster is the compiled full certifier?",
+   "a": "Previous fully verified Python path (outward certificate + replay, same 8 pilot paths): p50 1457 ms; previous compiled hull-only screen 84.7 ms (not a certificate). Compiled complete producer + independent verifier, physical contract, adaptive: p50 3.26 ms \u2192 \u2248447\u00d7 faster for a strictly stronger, independently verified result (both measured on the same Ryzen 9 5900X, different sessions; not a paired comparison)."
+  },
+  {
+   "q": "7. Can native CUDA execution be rigorously certified?",
+   "a": "<b>Partially, conditionally.</b> A forward FP32 error analysis of the pinned kernel bounds every reported native value against the exact model for every float32 progress; certifying the exact model against limits minus that bound gives NATIVE_REPORTED_K3 on 16/16 frozen outputs (also with 4-ulp division/sqrt), conditional on documented CUDA FP32 semantics (A1\u2013A5). A harness compiled with upstream's NVRTC options reproduces production outputs bitwise (all 79 paths) and no dense same-progress sample exceeded the bound (max 0.121 of the bound). The time-law consistency s(t) is only a diagnostic (\u2264 4 float32 ulps observed): complete native equivalence remains <b>BLOCKED_NATIVE_LINKAGE</b>. The registered 4e-4 parity gate still fails and was not relaxed."
+  },
+  {
+   "q": "8. Which correctness and performance blockers remain?",
+   "a": "(i) BLOCKED_NATIVE_LINKAGE for time-law consistency (no rigorous continuous bound on s_native(t) \u2212 s*(t)); (ii) assumptions A1\u2013A5 are vendor/compiler specifications, no SASS audit; (iii) torque/torque-rate UNSUPPORTED_DYNAMICS; (iv) compiled certifier validated by 30,000 seeded differential cases, not formally verified; (v) formal Dev40/Holdout100/Confirm300 NOT RUN because (i) is a failed correctness gate; (vi) performance: the native FP32 bound stage dominates and the 1 ms / 3 ms added-latency targets are not met (single-threaded CPU; parallelization/GPU port not attempted); (vii) UR5e still lacks sourced acceleration/jerk limits."
+  },
+  {
+   "q": "9. Does the approach satisfy the original engineering targets?",
+   "a": "Correctness gate (zero false certificates): met on all tests run. Coverage \u226599% of eligible native successes (K3, physical, default margins): exact model 48/48 exploratory paths certifiable, native-reported 48/48 default-margin outputs (compiled, adaptive); margin-arm outputs 4/31 \u2014 but on exploratory populations, not the registered holdout. Latency: added p50 13.13 ms vs target \u22641 ms (<b>not met</b>), p95 13.20 ms vs \u22643 ms (<b>not met</b>). Decision category: CORRECT_BUT_SLOW for the model K3 contract; BLOCKED_NATIVE_LINKAGE for full native equivalence; BLOCKED_DYNAMICS for torque."
+  },
+  {
+   "q": "10. Is this a promising research direction for a publication?",
+   "a": "Yes, with a sharpened claim. Novel, evidence-backed contributions: (a) exact demonstration that sampled time-optimal planners violate their own continuous-time contract between samples (9/48 default outputs vs 0.95 limits; 12/31 margin-arm outputs vs physical limits) and that adaptive Bernstein proofs both find exact witnesses and certify the rest with \u2248H0 cost; (b) a native-reported certificate that bounds a real CUDA kernel's FP32 output for all progress values, validated bitwise; (c) a compiled producer/independent-verifier pair in single-digit milliseconds. Before submission: close time-law consistency rigorously, run the registered Dev40/Holdout100/Confirm300, add UR5e, and parallelize the native bound to approach the 1 ms target."
+  }
+ ],
+ "decision": "<b>NO-GO for deployment as a qualified native-linked certifier</b> (BLOCKED_NATIVE_LINKAGE on time-law consistency; latency targets missed; formal cohorts not run). <b>GO for continued research and a publication</b> on exact continuous-time certification of unchanged TimeOpt outputs with conditional native-reported guarantees."
+}

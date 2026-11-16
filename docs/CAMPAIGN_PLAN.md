@@ -1,5 +1,7 @@
 # TimeOpt → adaptive certification: implementation and experiment plan
 
+Status (2026-11-16): IN PROGRESS. Exact-model K3 and a compiled producer + independent verifier are implemented and validated (30,000 seeded differential cases, 0 breaches). NATIVE_REPORTED_K3 (native FP32 reported values bounded for every progress, conditional on documented CUDA FP32 semantics) certifies 16/16 frozen outputs; complete native equivalence (time-law consistency) remains BLOCKED_NATIVE_LINKAGE, so formal Dev40/Holdout100/Confirm300 are NOT RUN. Exploratory hard-case population: 63/72 native successes. See docs/NATIVE_LINKAGE_20261116.md, docs/COMPILED_K3_CERTIFIER_20261116.md and docs/PROGRESS.md. Earlier status preserved below.
+
 Status: IN PROGRESS; real-path pilot qualification is BLOCKED. Eight Panda planner/TimeOpt outputs exist, but all fail strict native-adapter parity on jerk; eight UR5e requests fail before planning because the pinned source has no verified UR5/UR5e model asset. Serialized-model K3 results are not native-linked certificates. No campaign latency or frozen Dev40/Holdout100/Confirm300 result has been collected. The HTML subdivision lab remains analytic; pilot plots are sampled diagnostics. See `docs/NATIVE_QUERY_BRIDGE.md` and `docs/PROGRESS.md` for exact artifacts and hashes. Prepared 2026-11-10 for GPT-6 Luna; recovery evidence appended 2026-11-10.
 
 ## 1. Decision to answer
@@ -213,5 +215,20 @@ Available correctness/recovery commands:
 - `python -m unittest discover -s tests -p 'test_*.py' -v`
 - `conda run -n timeopt-report-tests node --test tests/*.test.cjs`
 - `python tools/build_report.py`
+
+Commands added 2026-11-16 (branch exp/interactive-bernstein-proof-lab-20261113):
+
+- `python scripts/build_proof_playground.py`; browser acceptance: `<playwright-python> tests/browser/proof_lab_browser.py --html reports/bernstein_proof_lab.html --out runs/browser_qa/proof_lab --analytic <bundle.json>`
+- `python scripts/certify_native_reported.py --npz <npz...> --out runs/native_linkage/native_reported_16paths.json [--div-ulps 4 --sqrt-ulps 4]`
+- `CUDA_VISIBLE_DEVICES=1 conda run -n curobo-timeopt-c301cb python scripts/native_same_s_falsify.py --npz <npz...> --out runs/native_linkage/same_s_falsify_16paths.json`
+- `CUDA_VISIBLE_DEVICES=1 conda run -n curobo-timeopt-c301cb python scripts/native_time_consistency.py --npz <npz...> --out runs/native_linkage/time_consistency_16paths.json`
+- `CUDA_VISIBLE_DEVICES=1 conda run -n curobo-timeopt-c301cb python scripts/native_sample_progress.py --npz <npz...> --out-dir runs/native_linkage/sample_progress`
+- `python scripts/k3_differential_campaign.py --cases 10000 --extra-flags=<flags> --out runs/compiled_k3/differential_10k_<cfg>.json`
+- `python scripts/freeze_hardcase_queries.py --out runs/hardcase_seed20261116/queries.json`; `CUDA_VISIBLE_DEVICES=1 PYTHONPATH=src conda run -n curobo-timeopt-c301cb python scripts/generate_hardcase_population.py --queries runs/hardcase_seed20261116/queries.json --out-dir runs/hardcase_seed20261116/native`
+- `python scripts/analyze_hardcases.py --npz <npz...> --out runs/hardcase_seed20261116/tightness_79paths.json --bundle-out runs/hardcase_seed20261116/proof_lab_real_bundle.json`
+- `taskset -c <core> python scripts/bench_certification_methods.py --npz <npz...> --sweeps --out runs/benchmarks/frozen_part<k>.json`
+- `CUDA_VISIBLE_DEVICES=<gpu> PYTHONPATH=src taskset -c 3 conda run -n curobo-timeopt-c301cb python scripts/bench_fresh_requests.py --queries runs/hardcase_seed20261116/queries.json --ids <default-condition ids> --out runs/benchmarks/fresh_<gpu>.json`
+- `python scripts/summarize_benchmarks.py --frozen runs/benchmarks/frozen_native_79paths.json --fresh runs/benchmarks/fresh_rtx3090.json runs/benchmarks/fresh_a100.json --out runs/benchmarks/summary.json`
+- `python scripts/make_research_answers.py && python scripts/build_research_report.py` → `reports/native_certification_research_report.html`
 
 `python benchmarks/run_certification.py --manifest <manifest.json> --out <dir>` deliberately refuses to write timing rows because the real pilot fails adapter parity and no verified UR5 model exists. Dev40/Holdout100/Confirm300, complete fresh-request measurement, source-cluster bootstrap and proof-tree trace persistence remain unavailable. The current report is offline and includes real sampled paths, but it is not the accepted measured campaign report. Exact environment, query, solution and proof artifacts are under ignored `runs/`; private input data must not be copied into this repository.

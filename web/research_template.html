@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TimeOpt Certification Report</title>
+<style>
+:root{--bg:#0b1020;--panel:#111a2c;--panel2:#17233a;--border:#283852;--ink:#e6eefb;--muted:#9baecb;--cyan:#6be0d9;--blue:#8bacff;--good:#77e2b8;--amber:#ffcb7f;--bad:#ff899f;--violet:#c9a7ff}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0}
+header{padding:20px clamp(16px,4vw,48px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start}
+h1{margin:4px 0 6px;font-size:clamp(22px,3vw,32px);letter-spacing:-.03em}
+h2{font-size:18px;margin:0 0 10px}
+h3{font-size:14px;margin:14px 0 6px;color:var(--cyan)}
+.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:700;color:var(--cyan)}
+.sub{color:var(--muted);max-width:900px;margin:0}
+nav{display:flex;gap:6px;flex-wrap:wrap;padding:10px clamp(16px,4vw,48px);border-bottom:1px solid var(--border);position:sticky;top:0;background:#0b1020f2;z-index:5}
+nav button{background:#17233a;border:1px solid #31445f;color:var(--ink);border-radius:9px;padding:7px 12px;font:inherit;cursor:pointer}
+nav button[aria-selected=true]{background:#77e3d5;color:#102331;border-color:#77e3d5;font-weight:700}
+main{max-width:1500px;margin:auto;padding:18px clamp(16px,3vw,40px) 60px}
+.card{background:#111a2c;border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.kpi{background:#0f182b;border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.kpi small{color:var(--muted);display:block;font-size:12px}
+.kpi b{font-size:22px;display:block;margin-top:4px}
+.pill{display:inline-block;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:800;letter-spacing:.04em;margin:1px}
+.L-exact{background:#153b35;color:var(--good);border:1px solid #2e6c58}
+.L-native{background:#2b2350;color:var(--violet);border:1px solid #6b55b0}
+.L-sampled{background:#3b3126;color:var(--amber);border:1px solid #78593d}
+.L-blocked{background:#3d2034;color:var(--bad);border:1px solid #8c4358}
+.L-notrun{background:#26303f;color:var(--muted);border:1px solid #3d4b61}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{border-bottom:1px solid #22324a;padding:6px 8px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:700;position:sticky;top:0;background:#111a2c;cursor:pointer}
+tr.click:hover{background:#18284a;cursor:pointer}
+td.num{font-family:ui-monospace,monospace;text-align:right}
+select,input,button.btn{background:#0d1628;color:var(--ink);border:1px solid #334562;border-radius:8px;padding:6px 8px;font:inherit}
+button.btn{cursor:pointer;background:#202f4b}
+label{color:var(--muted);font-size:12px;font-weight:700}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.controls>div{display:flex;flex-direction:column;gap:3px}
+svg{width:100%;height:auto;display:block;background:#0c1525;border:1px solid #22334c;border-radius:10px}
+svg text{fill:#95a8c4;font:11px ui-monospace,monospace}
+.tree{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.node{border-radius:7px;border:1px solid #43526a;background:#1d2b46;color:var(--ink);padding:4px 7px;font:11px ui-monospace,monospace;cursor:pointer}
+.node.PROVEN{border-color:#327c65;background:#173b37}.node.VIOLATED{border-color:#8a4056;background:#48273b}
+.node.UNKNOWN_DEPTH,.node.PENDING{border-color:#926b41;background:#3f352c}.node.sel{outline:2px solid var(--cyan)}
+.mono{font-family:ui-monospace,monospace;overflow-wrap:anywhere}
+.note{border-left:3px solid var(--amber);background:#2a2418;padding:8px 12px;border-radius:0 8px 8px 0;color:#f1dcb7;margin:10px 0;font-size:13px}
+.answer{border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#0f182b}
+.answer b{color:var(--cyan)}
+.legend span{margin-right:12px;font-size:12px;color:var(--muted)}
+.two{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header><div><div class="eyebrow">cuRoboV2-Fast TimeOpt · continuous-time K3 certification · research report</div>
+<h1>Native TimeOpt certification and adaptive Bernstein proofs</h1>
+<p class="sub" id="subtitle">Offline, self-contained. Exact rational computations in the browser use BigInt; plots of curves use floating point for display only.</p></div>
+<div class="legend" id="legend"></div></header>
+<nav id="tabs" role="tablist"></nav>
+<main id="main"></main>
+<script>/* __DATA__ */</script>
+<script>/* __PROOF_CORE__ */</script>
+<script>/* __MODEL_CORE__ */</script>
+<script>/* __RESEARCH_APP__ */</script>
+</body>
+</html>

@@ -178,6 +178,10 @@ def certify_and_verify(producer: Producer, verifier: Verifier, geometry, timing,
     else:
         r["verification"] = None
         r["final"] = r["status"]
+        # A witness against TIGHTENED limits (native error bound subtracted) is not a
+        # violation of the original limits by the native output: fail to UNKNOWN.
+        if tighten is not None and r["status"] == "VIOLATED":
+            r["final"] = "UNKNOWN_TIGHTENED_WITNESS"
     return r
 
 
