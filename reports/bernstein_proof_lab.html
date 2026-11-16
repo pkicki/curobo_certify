@@ -477,6 +477,10 @@ function run() {
  try{
   const s=settings();
   proof=P.build(s.coefficients,s);
+  // The preset's title/description describe the preset polynomial only.
+  const edited=!current||s.coefficients.map(P.repr).join(',')!==current.coefficients.map(c=>P.repr(P.parse(c))).join(',');
+  $('exampleTitle').textContent=edited?'Custom polynomial (edited)':current.title;
+  $('description').textContent=edited?'Edited coefficients: the preset explanation no longer applies. The verdict below is for exactly these coefficients.':(current.description||'Imported exact rational residual coefficients.');
   cursor=proof.nodes.length;focus=proof.nodes.length-1;
   $('validation').textContent='';
   $('validation').className='';
