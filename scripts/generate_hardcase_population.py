@@ -33,7 +33,21 @@ def set_condition(condition: str):
             return dataclasses.replace(TrajectoryTimeOptCfg(**kw), limit_scale=1.0, jerk_limit_scale=1.0)
         st.TrajectoryTimeOptCfg = patched
         return {"limit_scale": 1.0, "jerk_limit_scale": 1.0, "override": "runtime solver_timeopt.TrajectoryTimeOptCfg"}
-    raise ValueError(condition)
+    # Generic registered margin sweep conditions are strictly parsed and
+    # re-constructed from Decimal; only the two TimeOpt planning scales vary.
+    # Preserve the pinned 0.95 path as the unpatched baseline.
+    from curobo_certify.margin_campaign import parse_label
+    level = parse_label(condition)
+    if level == 0.95:
+        st.TrajectoryTimeOptCfg = TrajectoryTimeOptCfg
+        return {"limit_scale": 0.95, "jerk_limit_scale": 0.95, "override": False}
+    scale = float(level)
+    def patched(**kw):
+        return dataclasses.replace(TrajectoryTimeOptCfg(**kw), limit_scale=scale,
+                                   jerk_limit_scale=scale)
+    st.TrajectoryTimeOptCfg = patched
+    return {"limit_scale": scale, "jerk_limit_scale": scale,
+            "override": "runtime solver_timeopt.TrajectoryTimeOptCfg"}
 
 
 def main():
@@ -55,6 +69,9 @@ def main():
         if a.skip_existing and path.exists():
             records.append(json.loads(path.read_text()))
             continue
+        from curobo_certify.query_pipeline import verify_query
+        if not verify_query(row):
+            raise SystemExit("SOURCE_QUERY_HASH_MISMATCH " + str(row.get("source_id")))
         cond = set_condition(row["solver_condition"])
         t0 = time.perf_counter()
         try:
