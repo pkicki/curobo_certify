@@ -36,6 +36,16 @@ class ProofPlaygroundTests(unittest.TestCase):
         data=export(model,span_index=0,family='positive_x')
         self.assertEqual(len(data['examples']),1)
         self.assertTrue(data['examples'][0]['strict'])
+    def test_strict_endpoint_flags_mark_interior_knots(self):
+        model=json.loads((ROOT/'fixtures/boundary_multispan_analytic.json').read_text())
+        n=len(model['spans'])
+        self.assertGreaterEqual(n,2)
+        first=export(model,span_index=0,family='positive_x')['examples'][0]
+        last=export(model,span_index=n-1,family='positive_x')['examples'][0]
+        self.assertEqual((first['strict_left'],first['strict_right']),(False,True))
+        self.assertEqual((last['strict_left'],last['strict_right']),(True,False))
+        vel=export(model,span_index=0,family='velocity',joint=0)['examples'][0]
+        self.assertEqual((vel['strict'],vel['strict_left'],vel['strict_right']),(False,False,False))
     def test_oversized_unfiltered_export_fails_closed(self):
         model=json.loads((ROOT/'fixtures/boundary_multispan_analytic.json').read_text())
         with self.assertRaises(ValueError):

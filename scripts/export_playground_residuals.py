@@ -40,6 +40,10 @@ def export(model: dict, *, span_index: int | None = None,
                 "id": f"s{i}-{name}-j{joint_id}",
                 "title": label, "family": name,
                 "strict": name == "positive_x",
+                # A span end is an interior point of the whole trajectory unless it is the
+                # first/last span end, so strict x>0 must hold there as well.
+                "strict_left": name == "positive_x" and i > 0,
+                "strict_right": name == "positive_x" and i < len(model["spans"]) - 1,
                 "coefficients": list(coeff),
                 "description": (f"Exact mathematical residual on [{span.left}, {span.right}] "
                     f"from serialized polynomial span {i}; not native FP32 equivalent. "

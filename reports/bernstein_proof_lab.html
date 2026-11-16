@@ -108,7 +108,7 @@ svg .witness-label{fill:#ffd0db;font:13px system-ui,sans-serif;font-weight:bold}
 .coef-pill small{display:block;font-size:10px;color:var(--muted)}
 .coef-pill b{font:600 13px ui-monospace,monospace;color:#e5eaf7}
 .witness-text{padding:12px;background:#492639;border:1px solid #814d5d;border-radius:9px;color:#ffd1db;margin:14px 0 0}
-.mini-good{color:var(--good)}.mini-muted{color:var(--muted)}
+.mini-good{color:var(--good)}.mini-muted{color:var(--muted)}.mini-bad{color:var(--bad)}
 footer{max-width:1360px;margin:0 auto 40px;padding:0 30px;color:var(--muted);font-size:12px}
 code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radius:5px;padding:2px 5px}
 @media(max-width:1020px){.page{grid-template-columns:1fr}.sidebar{position:static}.sidebar .card{margin-bottom:0}.metrics{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start}.badge{white-space:normal}}
@@ -129,6 +129,10 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
  <p class="small">Edit any coefficient: integers, decimals and exact fractions such as <code>2/5</code> work. Ctrl+Enter reruns the proof. Degrees 1–16.</p>
  <div class="row"><label for="strict">Require strict r(s) &lt; 0 in the interior</label><input type="checkbox" id="strict"></div>
  <p class="small">For −x(s), strict negativity means x(s)&gt;0 for interior s. This toggle does not prove endpoint time integrability.</p>
+ <div class="row"><label for="strictLeft">…also strict at s = 0 (interior knot)</label><input type="checkbox" id="strictLeft"></div>
+ <div class="row"><label for="strictRight">…also strict at s = 1 (interior knot)</label><input type="checkbox" id="strictRight"></div>
+ <p class="small">A span's end is an <em>interior</em> point of the whole trajectory unless it is the first/last span; exported real residuals set these flags.</p>
+ <div class="row"><label for="witnesses">Early exact witness search</label><input type="checkbox" id="witnesses" checked></div>
  <div class="range-header"><label for="depth">Maximum subdivision depth</label><span class="value" id="depthValue">8</span></div>
  <input type="range" id="depth" min="0" max="12" value="8">
  <div class="range-header"><label for="nodes">Maximum processed nodes</label><span class="value" id="nodesValue">2048</span></div>
@@ -153,7 +157,7 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
  <section class="card" style="margin-top:18px">
   <div class="flex"><h2>Residual and its bounds</h2><label style="margin:0"><input type="checkbox" id="polygon" checked> Show active control polygon</label></div>
   <div class="legend"><span><i class="key"></i>Residual r(s) · sampled for display</span><span><i class="key control"></i>Local Bernstein control polygon</span><span><i class="key hull"></i>Proven interval hull</span><span><i class="key zero"></i>Constraint boundary (0)</span></div>
-  <div class="tightness"><div><small>Rigorous global peak bracket · 32 dyadic cells</small><strong id="peakBracket">—</strong></div><div><small>Initial hull overestimation bracket</small><strong id="gapBracket">—</strong></div></div>
+  <div class="tightness"><div><small>Rigorous global peak bracket · 32 dyadic cells</small><strong id="peakBracket">—</strong></div><div><small>Initial hull overestimation bracket</small><strong id="gapBracket">—</strong></div><div><small>Adaptive vs uniform subdivision (nonstrict hull test)</small><strong id="uniformCompare">—</strong></div><div><small>Imported proof replay (status flags ignored)</small><strong id="importedReplay">—</strong></div></div>
   <div class="plot-wrap"><svg id="plot" viewBox="0 0 1000 400" role="img" aria-label="Sampled residual with exact Bernstein interval hulls"></svg></div>
   <div class="probe"><label for="probe">Probe at s</label><div><input type="range" min="0" max="1000" step="1" value="500" id="probe"><p class="probe-output" id="probeValue">—</p></div></div>
   <p class="explain">The turquoise curve is drawn using sampled floating-point values for <b>visual intuition only</b>. Rectangles are determined by exact rational Bernstein coefficient bounds. To prove r(s) ≤ 0, every terminal leaf must have maximum coefficient ≤ 0. To disprove it, find an exact positive value r(s) &gt; 0.</p>
@@ -217,7 +221,13 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
   function max(v){return v.reduce((a,b)=>cmp(a,b)>0?a:b);}
   function eq(a,b){return cmp(a,b)===0;}
   function repr(a){return a.d===1n?String(a.n):String(a.n)+'/'+String(a.d);}
-  function num(a){return Number(a.n)/Number(a.d);}
+  function bitlen(x){x=abs(x);return x===0n?0:x.toString(2).length;}
+  function num(a){ // VISUALIZATION ONLY: scale huge numerators/denominators together.
+    let n=a.n,d=a.d;
+    const excess=Math.max(bitlen(n),bitlen(d))-1000;
+    if(excess>0){n>>=BigInt(excess);d>>=BigInt(excess);if(d===0n)return n<0n?-Infinity:Infinity;}
+    return Number(n)/Number(d);
+  }
   function split(b) {
     const rows=[b.slice()];
     while(rows[rows.length-1].length>1) {
@@ -274,10 +284,10 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
     if(!Array.isArray(values)||values.length<2||values.length>17) throw Error('Require 2–17 coefficients (degree 1–16)');
     return values.map(parse);
   }
-  function strictWitness(node) {
+  function strictWitness(node,strictLeft=false,strictRight=false) {
     const b=node.b;
-    if(cmp(node.l,ZERO)>0 && cmp(b[0],ZERO)===0) return {at:node.l,value:b[0],kind:'ZERO'};
-    if(cmp(node.r,ONE)<0 && cmp(b[b.length-1],ZERO)===0) return {at:node.r,value:b[b.length-1],kind:'ZERO'};
+    if((cmp(node.l,ZERO)>0||strictLeft) && cmp(b[0],ZERO)===0) return {at:node.l,value:b[0],kind:'ZERO'};
+    if((cmp(node.r,ONE)<0||strictRight) && cmp(b[b.length-1],ZERO)===0) return {at:node.r,value:b[b.length-1],kind:'ZERO'};
     const m=div(add(node.l,node.r),R(2));
     const v=split(b)[0].slice(-1)[0];
     return cmp(v,ZERO)===0 ? {at:m,value:v,kind:'ZERO'} : null;
@@ -287,9 +297,13 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
     if(b.length<2||b.length>17)throw Error('Require 2–17 Bernstein coefficients');
     const depth=options.depth===undefined?8:Number(options.depth), nodesBudget=options.nodes===undefined?2048:Number(options.nodes);
     const strict=!!options.strict;
+    // strictLeft/strictRight: also require r<0 at s=0 / s=1 (e.g. a span end that is an
+    // interior knot of the trajectory). Only meaningful together with strict.
+    const strictLeft=strict&&!!options.strictLeft, strictRight=strict&&!!options.strictRight;
+    const witnesses=options.witnesses===undefined?true:!!options.witnesses;
     if(!Number.isInteger(depth)||depth<0||depth>24||!Number.isInteger(nodesBudget)||nodesBudget<1||nodesBudget>32768)throw Error('Invalid proof budget');
     const queue=[{path:'',l:ZERO,r:ONE,b,level:0}], nodes=[], leaves=[];
-    let witness=null, status='CERTIFIED', processed=0;
+    let witness=null, status='CERTIFIED', processed=0, depthLimited=0;
     while(queue.length) {
       if(processed>=nodesBudget) {
         status='UNKNOWN_NODES';
@@ -302,10 +316,11 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
       const midpoint=div(add(node.l,node.r),R(2));
       const midpointValue=split(node.b)[0].slice(-1)[0];
       let found=null;
-      if(cmp(node.b[0],ZERO)>0) found={at:node.l,value:node.b[0],kind:'POSITIVE'};
+      if(!witnesses){}
+      else if(cmp(node.b[0],ZERO)>0) found={at:node.l,value:node.b[0],kind:'POSITIVE'};
       else if(cmp(node.b[node.b.length-1],ZERO)>0) found={at:node.r,value:node.b[node.b.length-1],kind:'POSITIVE'};
       else if(cmp(midpointValue,ZERO)>0) found={at:midpoint,value:midpointValue,kind:'POSITIVE'};
-      if(!found && strict) found=strictWitness(node);
+      if(!found && strict && witnesses) found=strictWitness(node,strictLeft,strictRight);
       if(found) {
         node.state='VIOLATED'; witness={...found,path:node.path};
         nodes.push(node); status=found.kind==='ZERO'?'VIOLATED_STRICT':'VIOLATED';
@@ -314,29 +329,43 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
       const hullPass=cmp(node.upper,ZERO)<=0;
       // A nonzero nonpositive Bernstein polynomial is strictly negative in the OPEN
       // interval: all Bernstein basis weights are positive in the open interval.
-      const strictlyInside=!eq(node.lower,ZERO);
+      // Endpoints that must be strict are additionally required to be nonzero.
+      const strictlyInside=!eq(node.lower,ZERO)
+        &&!((cmp(node.l,ZERO)>0||strictLeft)&&eq(node.b[0],ZERO))
+        &&!((cmp(node.r,ONE)<0||strictRight)&&eq(node.b[node.b.length-1],ZERO));
       if(hullPass && (!strict || strictlyInside)) {
         node.state='PROVEN';nodes.push(node);
         leaves.push({path:node.path,coefficients:node.b.map(repr),lower:repr(node.lower),upper:repr(node.upper)});
         continue;
       }
-      if(node.level>=depth) { node.state='UNKNOWN_DEPTH';nodes.push(node);status='UNKNOWN_DEPTH';break; }
+      // Depth exhaustion is UNKNOWN for this leaf, but remaining queued nodes are still
+      // examined so that an exact witness elsewhere is not hidden by an early stop.
+      if(node.level>=depth) { node.state='UNKNOWN_DEPTH';nodes.push(node);depthLimited++;continue; }
       node.state='SPLIT';nodes.push(node);
       const [left,right]=split(node.b);
       queue.push({path:node.path+'L',l:node.l,r:midpoint,b:left,level:node.level+1},
                  {path:node.path+'R',l:midpoint,r:node.r,b:right,level:node.level+1});
     }
-    return {scope:'EXACT_RATIONAL_ENTERED_POLYNOMIAL_ONLY',status,strict,
-      degree:b.length-1,maxDepth:depth,maxNodes:nodesBudget,processed,leaves,nodes,
-      witness,original:b.map(repr),replay:status==='CERTIFIED'?replay(b,leaves,strict):{pass:false,reason:'No complete certificate'}};
+    if(status==='CERTIFIED'&&depthLimited)status='UNKNOWN_DEPTH';
+    const opts={strict,strictLeft,strictRight};
+    return {scope:'EXACT_RATIONAL_ENTERED_POLYNOMIAL_ONLY',status,strict,strictLeft,strictRight,witnesses,
+      degree:b.length-1,maxDepth:depth,maxNodes:nodesBudget,processed,depthLimited,leaves,nodes,
+      witness,original:b.map(repr),replay:status==='CERTIFIED'?replay(b,leaves,opts):{pass:false,reason:'No complete certificate'}};
   }
-  function replay(root,leaves,strict=false) {
+  const MAX_PATH=24, MAX_LEAVES=32768;
+  function replay(root,leaves,options=false) {
     // Structural replay with SAME rational arithmetic; not an independent checker.
+    const o=typeof options==='object'&&options?options:{strict:!!options};
+    const strict=!!o.strict, strictLeft=strict&&!!o.strictLeft, strictRight=strict&&!!o.strictRight;
     try {
-      if(!leaves.length) return {pass:false,reason:'Empty leaf set'};
+      root=root.map(parse);
+      if(root.length<2||root.length>17) return {pass:false,reason:'Require 2-17 root coefficients'};
+      if(!Array.isArray(leaves)||!leaves.length) return {pass:false,reason:'Empty leaf set'};
+      if(leaves.length>MAX_LEAVES) return {pass:false,reason:'Too many leaves'};
       const paths=new Map();
       for(const leaf of leaves) {
-        if(!/^[LR]*$/.test(leaf.path)||paths.has(leaf.path))return {pass:false,reason:'Malformed or duplicate path'};
+        if(!leaf||typeof leaf.path!=='string'||!/^[LR]*$/.test(leaf.path)||leaf.path.length>MAX_PATH||paths.has(leaf.path))return {pass:false,reason:'Malformed, too deep or duplicate path'};
+        if(!Array.isArray(leaf.coefficients))return {pass:false,reason:'Missing leaf coefficients'};
         let b=root.slice(),l=ZERO,r=ONE;
         for(const dir of leaf.path){
           const mid=div(add(l,r),R(2));
@@ -348,14 +377,16 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
         if(cmp(max(b),ZERO)>0)return {pass:false,reason:'Leaf hull exceeds zero'};
         if(strict){
           if(eq(min(b),ZERO))return {pass:false,reason:'Identically zero leaf'};
-          if(cmp(l,ZERO)>0 && eq(b[0],ZERO))return {pass:false,reason:'Interior zero at left knot'};
-          if(cmp(r,ONE)<0 && eq(b[b.length-1],ZERO))return {pass:false,reason:'Interior zero at right knot'};
+          if((cmp(l,ZERO)>0||strictLeft) && eq(b[0],ZERO))return {pass:false,reason:'Zero at a strict left endpoint'};
+          if((cmp(r,ONE)<0||strictRight) && eq(b[b.length-1],ZERO))return {pass:false,reason:'Zero at a strict right endpoint'};
         }
         paths.set(leaf.path,true);
       }
+      for(const p of paths.keys())
+        for(let k=0;k<p.length;k++) if(paths.has(p.slice(0,k)))return {pass:false,reason:'Overlapping leaves (a leaf is an ancestor of another)'};
       function full(p,depth=0){
         if(paths.has(p))return true;
-        if(depth>24)return false;
+        if(depth>MAX_PATH)return false;
         return full(p+'L',depth+1)&&full(p+'R',depth+1);
       }
       if(!full(''))return {pass:false,reason:'Leaves do not cover [0,1]'};
@@ -363,9 +394,22 @@ code{font-family:ui-monospace,Consolas,monospace;background:#25344b;border-radiu
     }catch(e){return {pass:false,reason:String(e.message||e)};}
   }
   function serializeProof(proof) {
-    return JSON.parse(JSON.stringify(proof,(_,v)=>typeof v==='bigint'?v.toString():v));
+    return JSON.parse(JSON.stringify(proof,(_,v)=>{
+      if(v&&typeof v==='object'&&typeof v.n==='bigint'&&typeof v.d==='bigint'&&Object.keys(v).length===2)return repr(v);
+      return typeof v==='bigint'?v.toString():v;
+    }));
   }
-  return {R,parse,add,sub,mul,div,cmp,repr,num,at,sample,split,parseCoeffs,peakBracket,build,replay,serializeProof};
+  function uniform(coeffs,level) {
+    // Uniform subdivision comparator: all 2^level dyadic cells, no early exit, no witnesses.
+    const b=coeffs.map(parse);
+    if(!Number.isInteger(level)||level<0||level>12)throw Error('Invalid uniform level');
+    let cells=[b];
+    for(let k=0;k<level;k++){const next=[];for(const c of cells)next.push(...split(c));cells=next;}
+    const failing=cells.filter(c=>cmp(max(c),ZERO)>0).length;
+    return {level,cells:cells.length,failing,status:failing?'UNKNOWN_UNIFORM':'CERTIFIED',
+      worstUpper:max(cells.map(max))};
+  }
+  return {R,parse,add,sub,mul,div,cmp,eq,min,max,repr,num,at,sample,split,parseCoeffs,peakBracket,build,replay,serializeProof,uniform,MAX_PATH};
 });
 </script>
 <script>
@@ -390,7 +434,7 @@ const defaults=[
   description:'The nonstrict inequality is true everywhere. Under a strict inequality it fails everywhere: zero is not negative.'}
 ];
 let library=defaults.slice();
-let current=null,proof=null, cursor=0,focus=-1, playback=null;
+let current=null,proof=null, cursor=0,focus=-1, playback=null, importedReplay=null;
 const familyNames={generic:'Generic r(s) ≤ 0',positive_x:'Squared speed: −x(s) ≤ 0',velocity:'Velocity',acceleration_plus:'Acceleration (+)',acceleration_minus:'Acceleration (−)',jerk:'Jerk²'};
 const stateTag={PROVEN:'Proven',SPLIT:'Split',VIOLATED:'Violation',UNKNOWN_DEPTH:'Depth limit',UNKNOWN_NODES:'Node limit',PENDING:'Pending'};
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -408,7 +452,11 @@ function loadExample(example) {
  stop();current=example;
  $('coeffs').value=example.coefficients.join(', ');
  $('strict').checked=!!example.strict;
+ $('strictLeft').checked=!!example.strictLeft; $('strictRight').checked=!!example.strictRight;
+ $('witnesses').checked=true;
  $('depth').value='8'; $('nodes').value='2048';
+ $('depthValue').textContent='8'; $('nodesValue').textContent='2048';
+ importedReplay=example.importedReplay||null;
  $('exampleTitle').textContent=example.title;
  $('description').textContent=example.description||'Imported exact rational residual coefficients.';
  $('family').textContent=familyNames[example.family]||example.family||familyNames.generic;
@@ -421,7 +469,8 @@ function loadSelect() {
 }
 function settings(){
  const raw=$('coeffs').value.split(/[,\n;]/).map(x=>x.trim()).filter(Boolean);
- return {coefficients:P.parseCoeffs(raw),depth:Number($('depth').value),nodes:Number($('nodes').value),strict:$('strict').checked};
+ return {coefficients:P.parseCoeffs(raw),depth:Number($('depth').value),nodes:Number($('nodes').value),strict:$('strict').checked,
+  strictLeft:$('strictLeft').checked,strictRight:$('strictRight').checked,witnesses:$('witnesses').checked};
 }
 function run() {
  stop();
@@ -437,6 +486,8 @@ function run() {
   $('validation').className='alert';
   $('verdict').textContent='INVALID INPUT';$('verdict').className='pill bad';
   $('plot').innerHTML='';$('tree').innerHTML='';$('inspector').textContent='Correct the input to construct a proof.';
+  for(const id of ['degree','initialHull','leaves','processed','peakBracket','gapBracket','uniformCompare','replay','stepCounter','importedReplay'])$(id).textContent='—';
+  $('prev').disabled=true;$('next').disabled=true;
  }
 }
 function shown(){return proof?proof.nodes.slice(0,cursor):[];}
@@ -455,6 +506,13 @@ function renderMetrics(){
  metric('initialHull',P.repr(P.max?P.max(B):B.reduce((x,y)=>P.cmp(x,y)>0?x:y)));
  metric('leaves',String(shown().filter(n=>n.state==='PROVEN').length));
  metric('processed',String(shown().filter(n=>n.state!=='PENDING').length));
+ // Uniform comparator (nonstrict hull test only, no witnesses): smallest level <= 8 that certifies.
+ let uniformText='no Uk (k ≤ 8) certifies';
+ for(let k=0;k<=8;k++){const u=P.uniform(B,k);if(u.status==='CERTIFIED'){uniformText='U'+k+': '+u.cells+' cells';break;}}
+ const adaptiveText=proof.status==='CERTIFIED'?'adaptive: '+proof.nodes.length+' nodes / '+proof.leaves.length+' leaves':'adaptive: '+proof.status.replaceAll('_',' ');
+ metric('uniformCompare',adaptiveText+' · '+uniformText);
+ metric('importedReplay',importedReplay?(importedReplay.pass?'PASS · ':'REJECTED · ')+importedReplay.reason:'No imported proof');
+ $('importedReplay').className=importedReplay?(importedReplay.pass?'mini-good':'mini-bad'):'mini-muted';
  const ok=finished&&proof.replay.pass;
  $('replay').textContent=finished? (ok?'PASS · shared-arithmetic replay':'Not a complete certificate'):'Not yet complete';
  $('replay').className=ok?'mini-good':'mini-muted';
@@ -571,11 +629,26 @@ function fileImport(file){
   else if(Array.isArray(obj.coefficients)) incoming=[obj];
   else throw Error('Import expects {examples:[{coefficients:...}]} or a single residual object');
   if(incoming.length>250)throw Error('Import exceeds 250 examples');
+  const flag=(e,key)=>{
+   if(e[key]===undefined)return false;
+   if(typeof e[key]!=='boolean')throw Error('Field "'+key+'" must be true or false');
+   return e[key];
+  };
   const clean=incoming.map((e,i)=>{
+   if(!e||typeof e!=='object')throw Error('Example '+(i+1)+' is not an object');
    const b=P.parseCoeffs(e.coefficients);
+   const strict=flag(e,'strict'),strictLeft=flag(e,'strict_left'),strictRight=flag(e,'strict_right');
+   // An exported proof is replayed structurally against the imported coefficients; its
+   // own status flags are ignored. Failure is shown, never silently dropped.
+   let importedReplay=null;
+   if(e.proof&&typeof e.proof==='object'){
+    importedReplay=P.replay(b,e.proof.leaves,{strict,strictLeft,strictRight});
+    if(e.proof.status==='CERTIFIED'&&!importedReplay.pass)importedReplay.reason='claimed CERTIFIED but '+importedReplay.reason;
+   }
    return {id:'import-'+Date.now()+'-'+i,title:String(e.title||'Imported '+(i+1)).slice(0,120),
-    coefficients:b.map(P.repr),strict:!!e.strict,description:String(e.description||'Imported polynomial model only.').slice(0,1500),
-    family:String(e.family||'generic').slice(0,40)};
+    coefficients:b.map(P.repr),strict,strictLeft,strictRight,importedReplay,
+    description:String(e.description||'Imported polynomial model only.').slice(0,1500),
+    family:String(e.family||'generic').slice(0,40),scope:String(e.scope||obj.scope||'IMPORTED_UNSPECIFIED').slice(0,120)};
   });
   library=defaults.concat(clean);
   loadSelect();loadExample(clean[0]);
@@ -585,9 +658,9 @@ $('preset').addEventListener('change',()=>loadExample(selectedExample()));
 $('run').addEventListener('click',run);
 $('depth').addEventListener('input',()=>{$('depthValue').textContent=$('depth').value;});
 $('nodes').addEventListener('input',()=>{$('nodesValue').textContent=$('nodes').value;});
-$('prev').addEventListener('click',()=>{stop();cursor=Math.max(0,cursor-1);focus=cursor-1;render();});
-$('next').addEventListener('click',()=>{stop();cursor=Math.min(proof.nodes.length,cursor+1);focus=cursor-1;render();});
-$('reset').addEventListener('click',()=>{stop();cursor=0;focus=-1;render();});
+$('prev').addEventListener('click',()=>{if(!proof)return;stop();cursor=Math.max(0,cursor-1);focus=cursor-1;render();});
+$('next').addEventListener('click',()=>{if(!proof)return;stop();cursor=Math.min(proof.nodes.length,cursor+1);focus=cursor-1;render();});
+$('reset').addEventListener('click',()=>{if(!proof)return;stop();cursor=0;focus=-1;render();});
 $('play').addEventListener('click',()=>{
  if(playback){stop();return;}
  if(!proof)return;
@@ -599,12 +672,14 @@ $('play').addEventListener('click',()=>{
  },430);
 });
 $('polygon').addEventListener('change',plot);
+for(const id of ['strict','strictLeft','strictRight','witnesses'])$(id).addEventListener('change',run);
 $('probe').addEventListener('input',plot);
 $('export').addEventListener('click',()=>{
  if(!proof)return;
  const json={schema_version:1,scope:'SINGLE_EXACT_ENTERED_RESIDUAL_NOT_NATIVE_CERTIFICATE',
   title:current?current.title:'Custom',family:current?current.family:'generic',
-  strict:proof.strict,coefficients:proof.original,proof:P.serializeProof(proof)};
+  strict:proof.strict,strict_left:proof.strictLeft,strict_right:proof.strictRight,
+  coefficients:proof.original,proof:P.serializeProof(proof)};
  download('bernstein-proof-example.json',JSON.stringify(json,null,2));
 });
 $('importFile').addEventListener('change',e=>{fileImport(e.target.files[0]);e.target.value='';});

@@ -19,7 +19,7 @@ const defaults=[
   description:'The nonstrict inequality is true everywhere. Under a strict inequality it fails everywhere: zero is not negative.'}
 ];
 let library=defaults.slice();
-let current=null,proof=null, cursor=0,focus=-1, playback=null;
+let current=null,proof=null, cursor=0,focus=-1, playback=null, importedReplay=null;
 const familyNames={generic:'Generic r(s) ≤ 0',positive_x:'Squared speed: −x(s) ≤ 0',velocity:'Velocity',acceleration_plus:'Acceleration (+)',acceleration_minus:'Acceleration (−)',jerk:'Jerk²'};
 const stateTag={PROVEN:'Proven',SPLIT:'Split',VIOLATED:'Violation',UNKNOWN_DEPTH:'Depth limit',UNKNOWN_NODES:'Node limit',PENDING:'Pending'};
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -37,7 +37,11 @@ function loadExample(example) {
  stop();current=example;
  $('coeffs').value=example.coefficients.join(', ');
  $('strict').checked=!!example.strict;
+ $('strictLeft').checked=!!example.strictLeft; $('strictRight').checked=!!example.strictRight;
+ $('witnesses').checked=true;
  $('depth').value='8'; $('nodes').value='2048';
+ $('depthValue').textContent='8'; $('nodesValue').textContent='2048';
+ importedReplay=example.importedReplay||null;
  $('exampleTitle').textContent=example.title;
  $('description').textContent=example.description||'Imported exact rational residual coefficients.';
  $('family').textContent=familyNames[example.family]||example.family||familyNames.generic;
@@ -50,7 +54,8 @@ function loadSelect() {
 }
 function settings(){
  const raw=$('coeffs').value.split(/[,\n;]/).map(x=>x.trim()).filter(Boolean);
- return {coefficients:P.parseCoeffs(raw),depth:Number($('depth').value),nodes:Number($('nodes').value),strict:$('strict').checked};
+ return {coefficients:P.parseCoeffs(raw),depth:Number($('depth').value),nodes:Number($('nodes').value),strict:$('strict').checked,
+  strictLeft:$('strictLeft').checked,strictRight:$('strictRight').checked,witnesses:$('witnesses').checked};
 }
 function run() {
  stop();
@@ -66,6 +71,8 @@ function run() {
   $('validation').className='alert';
   $('verdict').textContent='INVALID INPUT';$('verdict').className='pill bad';
   $('plot').innerHTML='';$('tree').innerHTML='';$('inspector').textContent='Correct the input to construct a proof.';
+  for(const id of ['degree','initialHull','leaves','processed','peakBracket','gapBracket','uniformCompare','replay','stepCounter','importedReplay'])$(id).textContent='—';
+  $('prev').disabled=true;$('next').disabled=true;
  }
 }
 function shown(){return proof?proof.nodes.slice(0,cursor):[];}
@@ -84,6 +91,13 @@ function renderMetrics(){
  metric('initialHull',P.repr(P.max?P.max(B):B.reduce((x,y)=>P.cmp(x,y)>0?x:y)));
  metric('leaves',String(shown().filter(n=>n.state==='PROVEN').length));
  metric('processed',String(shown().filter(n=>n.state!=='PENDING').length));
+ // Uniform comparator (nonstrict hull test only, no witnesses): smallest level <= 8 that certifies.
+ let uniformText='no Uk (k ≤ 8) certifies';
+ for(let k=0;k<=8;k++){const u=P.uniform(B,k);if(u.status==='CERTIFIED'){uniformText='U'+k+': '+u.cells+' cells';break;}}
+ const adaptiveText=proof.status==='CERTIFIED'?'adaptive: '+proof.nodes.length+' nodes / '+proof.leaves.length+' leaves':'adaptive: '+proof.status.replaceAll('_',' ');
+ metric('uniformCompare',adaptiveText+' · '+uniformText);
+ metric('importedReplay',importedReplay?(importedReplay.pass?'PASS · ':'REJECTED · ')+importedReplay.reason:'No imported proof');
+ $('importedReplay').className=importedReplay?(importedReplay.pass?'mini-good':'mini-bad'):'mini-muted';
  const ok=finished&&proof.replay.pass;
  $('replay').textContent=finished? (ok?'PASS · shared-arithmetic replay':'Not a complete certificate'):'Not yet complete';
  $('replay').className=ok?'mini-good':'mini-muted';
@@ -200,11 +214,26 @@ function fileImport(file){
   else if(Array.isArray(obj.coefficients)) incoming=[obj];
   else throw Error('Import expects {examples:[{coefficients:...}]} or a single residual object');
   if(incoming.length>250)throw Error('Import exceeds 250 examples');
+  const flag=(e,key)=>{
+   if(e[key]===undefined)return false;
+   if(typeof e[key]!=='boolean')throw Error('Field "'+key+'" must be true or false');
+   return e[key];
+  };
   const clean=incoming.map((e,i)=>{
+   if(!e||typeof e!=='object')throw Error('Example '+(i+1)+' is not an object');
    const b=P.parseCoeffs(e.coefficients);
+   const strict=flag(e,'strict'),strictLeft=flag(e,'strict_left'),strictRight=flag(e,'strict_right');
+   // An exported proof is replayed structurally against the imported coefficients; its
+   // own status flags are ignored. Failure is shown, never silently dropped.
+   let importedReplay=null;
+   if(e.proof&&typeof e.proof==='object'){
+    importedReplay=P.replay(b,e.proof.leaves,{strict,strictLeft,strictRight});
+    if(e.proof.status==='CERTIFIED'&&!importedReplay.pass)importedReplay.reason='claimed CERTIFIED but '+importedReplay.reason;
+   }
    return {id:'import-'+Date.now()+'-'+i,title:String(e.title||'Imported '+(i+1)).slice(0,120),
-    coefficients:b.map(P.repr),strict:!!e.strict,description:String(e.description||'Imported polynomial model only.').slice(0,1500),
-    family:String(e.family||'generic').slice(0,40)};
+    coefficients:b.map(P.repr),strict,strictLeft,strictRight,importedReplay,
+    description:String(e.description||'Imported polynomial model only.').slice(0,1500),
+    family:String(e.family||'generic').slice(0,40),scope:String(e.scope||obj.scope||'IMPORTED_UNSPECIFIED').slice(0,120)};
   });
   library=defaults.concat(clean);
   loadSelect();loadExample(clean[0]);
@@ -214,9 +243,9 @@ $('preset').addEventListener('change',()=>loadExample(selectedExample()));
 $('run').addEventListener('click',run);
 $('depth').addEventListener('input',()=>{$('depthValue').textContent=$('depth').value;});
 $('nodes').addEventListener('input',()=>{$('nodesValue').textContent=$('nodes').value;});
-$('prev').addEventListener('click',()=>{stop();cursor=Math.max(0,cursor-1);focus=cursor-1;render();});
-$('next').addEventListener('click',()=>{stop();cursor=Math.min(proof.nodes.length,cursor+1);focus=cursor-1;render();});
-$('reset').addEventListener('click',()=>{stop();cursor=0;focus=-1;render();});
+$('prev').addEventListener('click',()=>{if(!proof)return;stop();cursor=Math.max(0,cursor-1);focus=cursor-1;render();});
+$('next').addEventListener('click',()=>{if(!proof)return;stop();cursor=Math.min(proof.nodes.length,cursor+1);focus=cursor-1;render();});
+$('reset').addEventListener('click',()=>{if(!proof)return;stop();cursor=0;focus=-1;render();});
 $('play').addEventListener('click',()=>{
  if(playback){stop();return;}
  if(!proof)return;
@@ -228,12 +257,14 @@ $('play').addEventListener('click',()=>{
  },430);
 });
 $('polygon').addEventListener('change',plot);
+for(const id of ['strict','strictLeft','strictRight','witnesses'])$(id).addEventListener('change',run);
 $('probe').addEventListener('input',plot);
 $('export').addEventListener('click',()=>{
  if(!proof)return;
  const json={schema_version:1,scope:'SINGLE_EXACT_ENTERED_RESIDUAL_NOT_NATIVE_CERTIFICATE',
   title:current?current.title:'Custom',family:current?current.family:'generic',
-  strict:proof.strict,coefficients:proof.original,proof:P.serializeProof(proof)};
+  strict:proof.strict,strict_left:proof.strictLeft,strict_right:proof.strictRight,
+  coefficients:proof.original,proof:P.serializeProof(proof)};
  download('bernstein-proof-example.json',JSON.stringify(json,null,2));
 });
 $('importFile').addEventListener('change',e=>{fileImport(e.target.files[0]);e.target.value='';});

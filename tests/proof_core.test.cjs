@@ -114,3 +114,94 @@ test('global maximum bracket and hull gap are rigorous for exact polynomial',()=
    assert.ok(P.cmp(y,t.upper)<=0);
  }
 });
+
+// ---- Regression tests added 2026-11-16 (defects found during Proof Lab audit) ----
+test('strict endpoint flags: zero at an interior trajectory knot is a strict violation',()=>{
+ // -x(s) for x(s)=s on a middle span: x vanishes at the span's left end.
+ const b=['0','-1/2','-1'];
+ assert.equal(P.build(b,{strict:true}).status,'CERTIFIED');
+ const p=P.build(b,{strict:true,strictLeft:true});
+ assert.equal(p.status,'VIOLATED_STRICT');
+ assert.equal(P.repr(p.witness.at),'0');
+ assert.equal(P.build(b,{strict:true,strictRight:true}).status,'CERTIFIED');
+});
+test('strict endpoint flags are enforced by replay and without witness search',()=>{
+ const b=B(['0','-1/2','-1']);
+ const ok=P.build(b,{strict:true});
+ assert.equal(P.replay(b,ok.leaves,{strict:true}).pass,true);
+ assert.equal(P.replay(b,ok.leaves,{strict:true,strictLeft:true}).pass,false);
+ const nw=P.build(b,{strict:true,strictLeft:true,witnesses:false,depth:4});
+ assert.equal(nw.status,'UNKNOWN_DEPTH');
+});
+test('depth exhaustion does not hide a witness in a later queued node',()=>{
+ // Found by exhaustive search over small integer quintics: at depth limit 1 the left child
+ // is inconclusive (UNKNOWN_DEPTH) and the right child has an exact positive witness.
+ const c=['-1','-1','3','-4','3','-1'];
+ const p=P.build(c,{depth:1});
+ assert.equal(p.nodes.find(n=>n.path==='L').state,'UNKNOWN_DEPTH');
+ assert.equal(p.status,'VIOLATED');
+ assert.equal(p.witness.path,'R');
+ assert.ok(P.cmp(P.at(B(c),p.witness.at),P.R(0))>0);
+ // Without witness handling the same budget can only say UNKNOWN.
+ assert.equal(P.build(c,{depth:1,witnesses:false}).status,'UNKNOWN_DEPTH');
+});
+test('replay rejects overlapping leaves and over-deep paths',()=>{
+ const b=B(['-1','2/5','-1']),p=P.build(b);
+ const root={path:'',coefficients:b.map(P.repr)};
+ // root alone is not provable, so overlap must be detected structurally with a provable root
+ const s=B(['-1','-1']), ps=P.build(s);
+ assert.equal(P.replay(s,ps.leaves).pass,true);
+ const [lc,rc]=P.split(s);
+ const extra={path:'L',coefficients:lc.map(P.repr)};
+ assert.equal(P.replay(s,ps.leaves.concat([extra])).pass,false);
+ assert.equal(P.replay(b,[{path:'L'.repeat(25),coefficients:['0','0','0']}]).pass,false);
+ assert.equal(P.replay(b,[{path:'L'}]).pass,false); // missing coefficients
+ assert.ok(root);
+});
+test('without early witness handling a genuine violation is only UNKNOWN',()=>{
+ const p=P.build(['-1','2','-1'],{witnesses:false,depth:6});
+ assert.equal(p.status,'UNKNOWN_DEPTH');
+ assert.equal(p.witness,null);
+});
+test('uniform comparator matches adaptive outcome on false-alarm example',()=>{
+ assert.equal(P.uniform(['-1','2/5','-1'],0).status,'UNKNOWN_UNIFORM');
+ const u1=P.uniform(['-1','2/5','-1'],1);
+ assert.equal(u1.status,'CERTIFIED');assert.equal(u1.cells,2);
+});
+test('plot conversion handles huge numerators and denominators',()=>{
+ const big=P.R(10n**400n+1n,3n*10n**400n);
+ assert.ok(Math.abs(P.num(big)-1/3)<1e-12);
+ assert.equal(P.num(P.R(10n**400n,1n)),Infinity);
+});
+test('serialized proof uses exact rational strings',()=>{
+ const j=P.serializeProof(P.build(['-1','2/5','-1']));
+ assert.equal(j.nodes[0].l,'0');assert.equal(j.nodes[0].upper,'2/5');
+ assert.equal(j.nodes[1].r,'1/2');
+});
+test('seeded exhaustive soundness: CERTIFIED never contradicted by exact dyadic evaluation',()=>{
+ let seed=20261116;
+ const rnd=()=>{seed=(seed*1103515245+12345)%2147483648;return seed;};
+ let certified=0,violated=0;
+ for(let trial=0;trial<300;trial++){
+  const deg=1+rnd()%6;
+  const c=Array.from({length:deg+1},()=>P.R(BigInt((rnd()%41)-30),BigInt(1+rnd()%7)));
+  const strict=rnd()%2===0;
+  const p=P.build(c,{depth:6,nodes:512,strict});
+  if(p.status==='CERTIFIED'){
+   certified++;
+   assert.equal(p.replay.pass,true);
+   for(let i=0;i<=64;i++){
+    const y=P.at(c,P.R(BigInt(i),64n));
+    assert.ok(P.cmp(y,P.R(0))<=0);
+    if(strict&&i>0&&i<64)assert.ok(P.cmp(y,P.R(0))<0);
+   }
+  }
+  if(p.status.startsWith('VIOLATED')){
+   violated++;
+   const y=P.at(c,p.witness.at);
+   assert.equal(P.repr(y),P.repr(p.witness.value));
+   assert.ok(p.status==='VIOLATED'?P.cmp(y,P.R(0))>0:P.cmp(y,P.R(0))===0);
+  }
+ }
+ assert.ok(certified>20&&violated>20,`certified=${certified} violated=${violated}`);
+});
