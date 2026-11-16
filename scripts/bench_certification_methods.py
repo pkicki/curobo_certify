@@ -41,11 +41,14 @@ SWEEP = {**{f"A-d{d}": ("adaptive", d, 8192, True) for d in (0, 2, 4, 8, 12, 16)
          **{f"A-n{n}": ("adaptive", 12, n, True) for n in (2048, 8192, 32768)}}
 
 
-def limits_of(a, contract):
+def limits_of(a, contract, planning_scale=0.95):
     lim = {n: np.minimum(np.abs(a[k][0]), np.abs(a[k][1])).astype(np.float64)
            for n, k in (("velocity", "velocity_limits"), ("acceleration", "acceleration_limits"), ("jerk", "jerk_limits"))}
     if contract == "planning":
-        lim = {k: (v.astype(np.float32) * np.float32(0.95)).astype(np.float64) for k, v in lim.items()}
+        if not 0 < float(planning_scale) <= 1:
+            raise ValueError("invalid planning scale")
+        lim = {k: (v.astype(np.float32) * np.float32(planning_scale)).astype(np.float64)
+               for k, v in lim.items()}
     return lim
 
 
@@ -73,6 +76,37 @@ def run_once(P, V, args, method, tighten, native_stage):
             "ms_total": (t3 - t0) / 1e6}
 
 
+
+def margin_index_from_records(query_path: Path, records_dir: Path):
+    """Associate exact frozen NPZ SHA with the source query's true margin.
+
+    No source-id substring heuristics, no benchmark-row guessing. A collision
+    between different planning scales of identical NPZ bytes is a blocker.
+    """
+    from curobo_certify.margin_campaign import check_manifest, as_margin
+    manifest = json.loads(query_path.read_text())
+    check_manifest(manifest)
+    entries = {}
+    for query in manifest:
+        rec_path = records_dir / (query["source_id"] + ".json")
+        if not rec_path.exists():
+            continue  # retained failed/never-run entry, cannot benchmark
+        record = json.loads(rec_path.read_text())
+        if record.get("status") == "FAILED_RETAINED":
+            continue
+        if record.get("source_query_sha256") != query["source_query_sha256"]:
+            raise ValueError("source query hash mismatch for " + query["source_id"])
+        if record.get("source_query") != query or record.get("planner_success") is not True:
+            raise ValueError("missing matching frozen successful native source")
+        sha = record.get("arrays_sha256")
+        if not isinstance(sha, str) or len(sha) != 64:
+            raise ValueError("missing original NPZ hash")
+        scale = float(as_margin(query["planning_margin"]))
+        if sha in entries and entries[sha][0] != scale:
+            raise ValueError("two different margin arms point to identical frozen NPZ bytes")
+        entries[sha] = (scale, query["source_id"], query["solver_condition"])
+    return entries
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--npz", nargs="+", type=Path, required=True)
@@ -81,8 +115,16 @@ def main():
     ap.add_argument("--repeats", type=int, default=10)
     ap.add_argument("--sweeps", action="store_true")
     ap.add_argument("--seed", type=int, default=20261110)
+    ap.add_argument("--margin-queries", type=Path,
+                    help="frozen multi-margin source query manifest for planning-scale replay")
+    ap.add_argument("--margin-records-dir", type=Path,
+                    help="generator output records; required with --margin-queries")
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
+    if bool(a.margin_queries) != bool(a.margin_records_dir):
+        ap.error("--margin-queries and --margin-records-dir must be provided together")
+    margin_index = (margin_index_from_records(a.margin_queries, a.margin_records_dir)
+                    if a.margin_queries else None)
     methods = dict(METHODS, **(SWEEP if a.sweeps else {}))
     with tempfile.TemporaryDirectory() as d:
         builds = [K.build("k3_certifier.cpp", Path(d) / "c.so"), K.build("k3_verifier.cpp", Path(d) / "v.so")]
@@ -95,9 +137,14 @@ def main():
                 arr = {k: z[k].copy() for k in z.files}
             parse_ms = (time.perf_counter_ns() - t0) / 1e6
             before = hashlib.sha256(arr["effective_geometry"].tobytes() + arr["timing_controls"].tobytes()).hexdigest()
+            source_sha = hashlib.sha256(raw).hexdigest()
+            if margin_index is not None and source_sha not in margin_index:
+                raise SystemExit("NPZ not in frozen margin source registry: " + path.stem)
+            margin_entry = margin_index.get(source_sha) if margin_index is not None else None
+            planning_scale = margin_entry[0] if margin_entry else 0.95
             for contract in a.contracts:
                 args = (arr["effective_geometry"], arr["timing_controls"], arr["requested_start"][0],
-                        arr["requested_goal"][0], limits_of(arr, contract))
+                        arr["requested_goal"][0], limits_of(arr, contract, planning_scale))
                 native = True if contract == "native" else None
                 names = list(methods)
                 for name in names:
@@ -115,6 +162,8 @@ def main():
                         raise SystemExit(f"nondeterministic outcome {path.stem} {contract} {name}")
                     rows.append({"path": path.stem, "source_npz_sha256": hashlib.sha256(raw).hexdigest(),
                                  "contract": contract, "method": name, "parse_ms": parse_ms,
+                                 "planning_scale": planning_scale, "source_query_id": margin_entry[1] if margin_entry else None,
+                                 "solver_condition": margin_entry[2] if margin_entry else "default_margin_0p95",
                                  **{k: first[k] for k in ("final", "producer", "families", "nodes", "leaves",
                                                           "max_depth_used", "split_residuals")},
                                  "repeats_ms_total": [x["ms_total"] for x in reps[name]],
