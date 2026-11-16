@@ -1,0 +1,4 @@
+{
+  global: k3c_*; k3v_*;
+  local: *;
+};
