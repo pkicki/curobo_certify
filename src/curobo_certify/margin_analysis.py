@@ -13,7 +13,18 @@ import random
 import statistics
 from pathlib import Path
 
+from decimal import Decimal
+
 from .margin_campaign import as_margin, check_manifest, digest
+
+
+def margin_key(value) -> str:
+    """Single canonical string for a margin (3 decimals): '0.95' and '0.950' agree.
+
+    Regression (2026-11-17): the manifest summary used '0.950' while pair grouping
+    used str(Decimal('0.95')) == '0.95', raising KeyError for every analysis."""
+    s = format(as_margin(value).quantize(Decimal("0.001")), "f")
+    return s[:-1] if s.endswith("0") else s  # registered names: 0.90 0.95 0.975 0.99 1.00
 
 PASS = "CERTIFIED"
 KNOWN = {"CERTIFIED", "VIOLATED", "UNKNOWN_DEPTH", "UNKNOWN_NODES",
@@ -165,10 +176,10 @@ def build_analysis(manifest: list[dict], records_dir: Path, *,
     unexpected = sorted(x.name for x in records_dir.glob("*.json") if x.name not in expected and x.name != "summary.json")
     if unexpected:
         raise ValueError("unregistered records present (do not silently pool): "+repr(unexpected[:10]))
-    margins = desc["margins"]
+    margins = [margin_key(m) for m in desc["margins"]]
     by_margin = {}
     for margin in margins:
-        group = [r for r in rows if as_margin(r["margin"]) == as_margin(margin)]
+        group = [r for r in rows if margin_key(r["margin"]) == margin_key(margin)]
         native = [r for r in group if r["native_duration_s"] is not None]
         med_duration = _median([r["native_duration_s"] for r in native])
         by_margin[margin] = {
@@ -177,7 +188,9 @@ def build_analysis(manifest: list[dict], records_dir: Path, *,
                 r["planner_status"] == "NOT_RUN" for r in group),
             "duration_p50_s_success_only": med_duration,
             "model_certified": sum(r["model_k3_status"] == PASS for r in group),
-            "model_violated": sum(r["model_k3_status"] == "VIOLATED" for r in group),
+            "model_violated": sum(r["model_k3_status"] in ("VIOLATED", "VIOLATED_BOUNDARY") for r in group),
+            "model_unknown": sum(r["model_k3_status"] not in ("CERTIFIED", "VIOLATED", "VIOLATED_BOUNDARY", "NOT_RUN")
+                                 for r in group),
             "native_reported_certified": sum(r["native_reported_status"] == PASS for r in group),
             "native_reported_unknown_tightened": sum(
                 r["native_reported_status"] == "UNKNOWN_TIGHTENED_WITNESS" for r in group),
@@ -190,17 +203,21 @@ def build_analysis(manifest: list[dict], records_dir: Path, *,
         }
     pairs: dict[str, dict] = {}
     for row in rows:
-        m = str(as_margin(row["margin"]))
+        m = margin_key(row["margin"])
         pairs.setdefault(row["pair_id"], {})[m] = row
-    base = str(as_margin("0.95"))
+    base = margin_key("0.95")
     comparisons = {}
     for margin in margins:
-        m = str(as_margin(margin))
+        m = margin_key(margin)
+        if m == base:
+            continue  # the baseline is not compared with itself
         gains = []
         pair_rows = []
         counts = {"baseline_only_success": 0, "candidate_only_success": 0,
                   "both_failed_or_not_run": 0}
         for pid, group in sorted(pairs.items()):
+            if base not in group or m not in group:
+                raise ValueError(f"pair {pid} lacks a registered arm")
             anchor, arm = group[base], group[m]
             a, b = anchor["native_duration_s"], arm["native_duration_s"]
             if a is None or b is None:

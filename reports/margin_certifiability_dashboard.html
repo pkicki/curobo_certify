@@ -89,7 +89,7 @@ function fill(){
   function count(key,status){return rs.filter(function(r){return r[key]===status}).length}
   var tr=document.createElement('tr');
   [m,rs.length+' / '+count('planner_status','NOT_RUN'),successful.length,count('planner_status','FAILED_RETAINED'),
-   f(med(ds),4),count('model_k3_status','CERTIFIED'),count('model_k3_status','VIOLATED'),
+   f(med(ds),4),count('model_k3_status','CERTIFIED'),count('model_k3_status','VIOLATED')+count('model_k3_status','VIOLATED_BOUNDARY'),
    count('native_reported_status','CERTIFIED'),count('native_reported_status','UNKNOWN_TIGHTENED_WITNESS'),
    count('native_reported_status','NOT_RUN'),f(med(ms),2)].forEach(function(x){td(tr,x)});
   summary.appendChild(tr);
@@ -105,10 +105,13 @@ function fill(){
  });
  $('status').textContent='Loaded '+data.denominators.source_queries+' source queries; '+data.denominators.attempted_gpu_queries+' GPU attempts. Scope: '+data.scope;
 }
-function importData(file){if(!file)return;file.text().then(function(txt){
- data=valid(JSON.parse(txt));var scenes=Array.from(new Set(data.rows.map(function(r){return r.scene}))).sort();
+function setData(x){
+ data=valid(x);var scenes=Array.from(new Set(data.rows.map(function(r){return r.scene}))).sort();
  $('scene').textContent='';var o=document.createElement('option');o.value='all';o.textContent='All scenes';$('scene').appendChild(o);
  scenes.forEach(function(s){var op=document.createElement('option');op.value=s;op.textContent=s;$('scene').appendChild(op)});fill();
+}
+function importData(file){if(!file)return;file.text().then(function(txt){
+ setData(JSON.parse(txt));
 }).catch(function(e){$('status').className='alert';$('status').textContent='REJECTED input: '+e.message})}
 $('upload').addEventListener('change',function(ev){importData(ev.target.files[0]);ev.target.value=''});
 $('scene').addEventListener('change',fill);$('contract').addEventListener('change',fill);
@@ -118,7 +121,7 @@ $('csv').addEventListener('click',function(){
  var text=[keys.join(',')].concat(last.map(function(r){return keys.map(function(k){return q(r[k])}).join(',')})).join('\n');
  var url=URL.createObjectURL(new Blob([text],{type:'text/csv'})),a=document.createElement('a');a.href=url;a.download='margin-source-rows.csv';a.click();setTimeout(function(){URL.revokeObjectURL(url)},500);
 });
-if(data){try{valid(data);fill()}catch(e){$('status').textContent='Invalid embedded analysis: '+e.message}}
+if(data){try{setData(data)}catch(e){$('status').textContent='Invalid embedded analysis: '+e.message}}
 })();
 </script>
 </body></html>

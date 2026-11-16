@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path as _P
+sys.path.insert(0, str(_P(__file__).resolve().parents[1] / "src"))
 """Offline regression gates for matched planning-margin experiment integrity."""
 import json
 import math
@@ -82,7 +85,8 @@ class MarginCampaignTests(unittest.TestCase):
             pair=a["paired_to_0p95"]["1.00"]["duration_gain_pct_paired_success_only"]
             self.assertEqual(pair["n"],1)
             self.assertAlmostEqual(pair["median"],10)
-            self.assertEqual(pair["ci95"],[10,10])
+            for v in pair["ci95"]:
+                self.assertAlmostEqual(v, 10, places=9)  # floating gain 100*(a-b)/a
             self.assertEqual(a["summary_by_margin"]["1.00"]["full_physical_time_certified"],0)
 
     def test_correct_physical_vs_native_certification_status(self):
@@ -143,3 +147,21 @@ class MarginCampaignTests(unittest.TestCase):
 
 if __name__=="__main__":
     unittest.main()
+
+
+class MarginKeyRegression(unittest.TestCase):
+    def test_equivalent_margin_strings_share_one_key(self):
+        from curobo_certify.margin_analysis import margin_key
+        for a, b in (("0.95", "0.950"), ("1", "1.00"), ("0.9", "0.900"), ("0.975", "0.9750")):
+            self.assertEqual(margin_key(a), margin_key(b))
+        self.assertEqual([margin_key(x) for x in ("0.90", "0.95", "0.975", "0.99", "1.00")],
+                         ["0.90", "0.95", "0.975", "0.99", "1.00"])
+
+    def test_full_registered_design_analysis_runs(self):
+        from curobo_certify.margin_analysis import build_analysis
+        rows = freeze(20261117, 1)
+        with tempfile.TemporaryDirectory() as d:
+            a = build_analysis(rows, Path(d), bootstrap=100)
+        self.assertEqual(sorted(a["summary_by_margin"]), ["0.90", "0.95", "0.975", "0.99", "1.00"])
+        self.assertNotIn("0.95", a["paired_to_0p95"])
+        self.assertEqual(a["summary_by_margin"]["0.975"]["not_run"], 12)
