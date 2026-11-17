@@ -74,6 +74,8 @@ class IA:
 
     # ---- arithmetic -----------------------------------------------------------------
     def __add__(self, o):
+        if getattr(o, '_is_dual', False):
+            return NotImplemented
         o = IA.of(o)
         return IA(_dn(self.lo + o.lo), _up(self.hi + o.hi))
 
@@ -83,13 +85,19 @@ class IA:
         return IA(-self.hi, -self.lo)
 
     def __sub__(self, o):
+        if getattr(o, '_is_dual', False):
+            return NotImplemented
         o = IA.of(o)
         return IA(_dn(self.lo - o.hi), _up(self.hi - o.lo))
 
     def __rsub__(self, o):
+        if getattr(o, '_is_dual', False):
+            return NotImplemented
         return IA.of(o) - self
 
     def __mul__(self, o):
+        if getattr(o, '_is_dual', False):
+            return NotImplemented
         o = IA.of(o)
         p = np.stack(np.broadcast_arrays(self.lo * o.lo, self.lo * o.hi, self.hi * o.lo, self.hi * o.hi))
         # 0 * inf -> nan would hide a blow-up: map nan to +-inf so finite() fails
@@ -183,9 +191,68 @@ def _trig(a: IA, cosine: bool) -> IA:
     return IA(lo, hi)
 
 
-def isin(a: IA) -> IA:
+def isin(a):
+    if getattr(a, "_is_dual", False):
+        return a.sin()
     return _trig(a, False)
 
 
-def icos(a: IA) -> IA:
+def icos(a):
+    if getattr(a, "_is_dual", False):
+        return a.cos()
     return _trig(a, True)
+
+
+class DIA:
+    """Forward-mode dual interval: value v and derivative d (w.r.t. one scalar parameter), both IA.
+    Every operation encloses value and derivative of the exact function over the box (chain rule
+    evaluated in outward interval arithmetic). Used for rigorous first-order Taylor models."""
+
+    __slots__ = ("v", "d")
+    _is_dual = True
+    __array_priority__ = 2000
+
+    def __init__(self, v, d):
+        self.v, self.d = v, d
+
+    @staticmethod
+    def lift(o):
+        if isinstance(o, DIA):
+            return o
+        o = IA.of(o)
+        return DIA(o, IA(np.zeros_like(o.lo)))
+
+    def __add__(self, o):
+        o = DIA.lift(o)
+        return DIA(self.v + o.v, self.d + o.d)
+
+    __radd__ = __add__
+
+    def __neg__(self):
+        return DIA(-self.v, -self.d)
+
+    def __sub__(self, o):
+        o = DIA.lift(o)
+        return DIA(self.v - o.v, self.d - o.d)
+
+    def __rsub__(self, o):
+        return DIA.lift(o) - self
+
+    def __mul__(self, o):
+        o = DIA.lift(o)
+        return DIA(self.v * o.v, self.d * o.v + self.v * o.d)
+
+    __rmul__ = __mul__
+
+    def scale(self, c):
+        return DIA(self.v.scale(c), self.d.scale(c))
+
+    def sin(self):
+        return DIA(_trig(self.v, False), _trig(self.v, True) * self.d)
+
+    def cos(self):
+        return DIA(_trig(self.v, True), -(_trig(self.v, False) * self.d))
+
+    @property
+    def shape(self):
+        return self.v.shape
