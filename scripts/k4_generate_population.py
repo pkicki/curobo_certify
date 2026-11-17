@@ -14,11 +14,45 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
-import generate_formal_cohort as GF  # noqa: E402
 import generate_hardcase_population as GH  # noqa: E402
 import generate_native_pilot as G  # noqa: E402
 from curobo_certify import k4_population as P  # noqa: E402
 from curobo_certify.formal_cohorts import first_k_selection  # noqa: E402
+
+
+def solve(row: dict, out_dir: Path, gpu: str, compat) -> dict:
+    """K4 copy of the frozen K3 worker wrapper (generate_formal_cohort.solve), without mutating the
+    hashed source row (the frozen K3 file is not modified)."""
+    import time
+    from curobo_certify.query_pipeline import verify_query
+    path = out_dir / f"{row['source_id']}.json"
+    if path.exists():
+        return json.loads(path.read_text())
+    if not verify_query(row):
+        raise SystemExit("SOURCE_QUERY_HASH_MISMATCH " + row["source_id"])
+    cond = GH.set_condition(row["solver_condition"])
+    GH._CONSTRUCTED.clear()
+    t0 = time.perf_counter()
+    meta = {"cohort": row["cohort"], "arm": row["arm"], "repeat": row["repeat"], "pool_order": row["pool_order"],
+            "protocol": row["protocol"], "payload": row["payload"]}
+    try:
+        rec = G._run_row(row, out_dir, {"panda": "franka.yml"})
+        audit = GH.config_audit(cond["limit_scale"])
+        if audit["status"] != "PASS":
+            raise RuntimeError(f"TIMEOPT_CONFIG_AUDIT_FAILED {audit}")
+        rec.update({"cuda_compatibility": compat, "solver_condition": row["solver_condition"], **meta,
+                    "timeopt_scales": cond, "timeopt_config_audit": audit, "gpu": gpu,
+                    "request_wall_seconds_incl_planner_setup": time.perf_counter() - t0,
+                    "evidence_kind": "real_native_planner_timeopt_k4_population"})
+        path.write_text(json.dumps(rec, indent=2, sort_keys=True, allow_nan=False) + "\n")
+        print(f"{row['source_id']}: {rec['status']} T={rec['native_duration_seconds']:.6g}s", flush=True)
+    except Exception as exc:  # retained failure
+        G._dump_failure(path, row, "planner_or_timeopt", f"{type(exc).__name__}: {exc}", cuda_compatibility=compat,
+                        solver_condition=row["solver_condition"], gpu=gpu, timeopt_scales=cond,
+                        timeopt_config_audit=GH.config_audit(cond["limit_scale"]), **meta,
+                        request_wall_seconds_incl_planner_setup=time.perf_counter() - t0)
+        print(f"{row['source_id']}: FAILED_RETAINED {type(exc).__name__}: {exc}", flush=True)
+    return json.loads(path.read_text())
 
 
 def main():
@@ -40,13 +74,11 @@ def main():
     compat = G._install_cuda_property_compatibility()
     GH.install_config_observer()
     a.out_dir.mkdir(parents=True, exist_ok=True)
-    for r in rows:  # GF.solve expects these keys
-        r.setdefault("population_flag", P.PROTOCOL)
     key = lambda r: (r["arm"], r["repeat"])  # noqa: E731
     prim0 = sorted((r for r in rows if key(r) == ("primary", 0)), key=lambda r: r["pool_order"])
     status = []
     for r in prim0:
-        rec = GF.solve(r, a.out_dir, gpu, compat)
+        rec = solve(r, a.out_dir, gpu, compat)
         status.append((r["pool_order"], rec.get("planner_success") is True))
         if sum(ok for _, ok in status) >= P.K:
             break
@@ -55,7 +87,7 @@ def main():
     rest = [r for r in rows if r["pair_id"] in pairs and key(r) != ("primary", 0)]
     rest.sort(key=lambda r: (r["pool_order"], r["arm"], r["repeat"]))
     for r in rest:
-        GF.solve(r, a.out_dir, gpu, compat)
+        solve(r, a.out_dir, gpu, compat)
     ledger = []
     for r in rows:
         if r["pair_id"] not in pairs:

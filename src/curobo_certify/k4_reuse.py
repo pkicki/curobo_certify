@@ -53,7 +53,9 @@ def _leaf_bounds(path):
 
 
 class GeometryCache:
-    def __init__(self, model, spans, mode="box"):
+    def __init__(self, model, spans, mode="box", backend=None):
+        """backend: optional compiled coefficient backend (k4_compiled.CompiledCoefficients)."""
+        self.backend = backend
         if mode not in ("box", "tm1"):
             raise ValueError("mode")
         self.model, self.mode, self.dof = model, mode, model.dof
@@ -100,17 +102,22 @@ class GeometryCache:
         box = [IA(lo[r], hi[r]) for r in range(4 * d)]
         q, qp, qpp, qppp = box[:d], box[d:2 * d], box[2 * d:3 * d], box[3 * d:]
         M = self.model
+        coef = self.backend.coefficients if self.backend is not None else M.coefficients
         if self.mode == "box":
-            A, B, G = M.coefficients(q, qp, qpp)
+            A, B, G = coef(q, qp, qpp)
             for i, k in enumerate(miss):
                 self.store[k] = tuple([c[j][i] for j in range(d)] for c in (A, B, G))
         else:
             cq = [IA(cen[r, 0], cen[r, 1]) for r in range(3 * d)]
-            A0, B0, G0 = M.coefficients(cq[:d], cq[d:2 * d], cq[2 * d:])
-            dq = [DIA(q[j], qp[j]) for j in range(d)]
-            dqp = [DIA(qp[j], qpp[j]) for j in range(d)]
-            dqpp = [DIA(qpp[j], qppp[j]) for j in range(d)]
-            A1, B1, G1 = M.coefficients(dq, dqp, dqpp)
+            A0, B0, G0 = coef(cq[:d], cq[d:2 * d], cq[2 * d:])
+            if self.backend is not None:
+                A1d, B1d, G1d = self.backend.slopes(q, qp, qpp, qppp)
+                A1 = [DIA(None, x) for x in A1d]; B1 = [DIA(None, x) for x in B1d]; G1 = [DIA(None, x) for x in G1d]
+            else:
+                dq = [DIA(q[j], qp[j]) for j in range(d)]
+                dqp = [DIA(qp[j], qpp[j]) for j in range(d)]
+                dqpp = [DIA(qpp[j], qppp[j]) for j in range(d)]
+                A1, B1, G1 = M.coefficients(dq, dqp, dqpp)
             for i, (si, path) in enumerate(miss):
                 a, b = _leaf_bounds(path)
                 H = (self.lefts[si][1] - self.lefts[si][0]) * (b - a) / 2
