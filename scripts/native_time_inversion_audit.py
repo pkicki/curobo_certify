@@ -64,9 +64,11 @@ def lipschitz(spans):
     if xmin <= 0:
         raise ValueError("x not certified positive by hull")
     sx_lo = Fraction(int((xmin * 10**12) ** 0.5 * 0.999999), 10**6)  # rational lower bound of sqrt(xmin)
-    assert sx_lo * sx_lo <= xmin
+    if not sx_lo * sx_lo <= xmin:
+        raise ValueError("sqrt lower bound failed")  # explicit check (asserts vanish under -O)
     sx_hi = Fraction(int((xmax * 10**12) ** 0.5 * 1.000001) + 1, 10**6)
-    assert sx_hi * sx_hi >= xmax
+    if not sx_hi * sx_hi >= xmax:
+        raise ValueError("sqrt upper bound failed")
     prev_j = None
     for sp in spans:
         h = sp.right - sp.left

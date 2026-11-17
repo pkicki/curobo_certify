@@ -11,7 +11,8 @@ Method (all binary64 with explicit outward rounding by np.nextafter):
   * smooth cells: midpoint rule  ∫ = h f(c) + R,  |R| <= h^3/24 sup|f''|,
     f'' = 3/4 x^{-5/2} x'^2 - 1/2 x^{-3/2} x''  bounded with interval Horner on the cell;
   * cells containing an interior timing knot: zeroth-order hull bound h*[fmin, fmax];
-  * prefix sums: recursive summation, error <= gamma_{n} * sum|terms| added explicitly.
+  * prefix sums: recursive summation, error <= gamma_N * S_N with S_N bounded via math.fsum
+    (rounded up) and added explicitly; monotonicity/finiteness checked, else fail closed.
 Requires x > 0 on [0,1] (checked; otherwise status UNKNOWN_POSITIVITY). Zero-speed
 endpoints are handled separately in time_law_enclosures (root substitution).
 This module bounds the MATHEMATICAL inverse only; native inversion is audited
@@ -19,6 +20,7 @@ against it by scripts/native_time_inversion_audit.py.
 """
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from fractions import Fraction
 
@@ -101,6 +103,10 @@ class TimeGrid:
 
 
 def build_grid(timing_controls, log2_cells: int = 22) -> TimeGrid:
+    # A cell of width 2^-L can contain two timing knots (spacing 1/29) only if 2^-L > 1/29; the
+    # straddle logic below handles at most ONE knot per cell, so L >= 5 is required (R0 1.6).
+    if not isinstance(log2_cells, int) or not 5 <= log2_cells <= 26:
+        raise ValueError("log2_cells must be an integer in [5, 26]")
     N = 1 << log2_cells
     polys = span_polys(timing_controls)
     k = np.arange(N, dtype=np.float64)
@@ -137,7 +143,7 @@ def build_grid(timing_controls, log2_cells: int = 22) -> TimeGrid:
         inv3 = up(inv_s * up(inv_s * inv_s))              # >= x^{-3/2}
         inv5 = up(inv3 * up(inv_s * inv_s))               # >= x^{-5/2}
         F2 = up(up(0.75 * up(inv5 * up(a1 * a1))) + up(0.5 * up(inv3 * a2)))
-        R = up(F2 * (h * h * h / 24.0))                    # h^3/24 exact (dyadic h)
+        R = up(F2 * up(h * h * h / 24.0))                  # h^3 exact (dyadic); /24 rounded up
         worst_R = max(worst_R, float(R.max()))
         lo_int[sel] = dn(dn(h * f_mid[0]) - R)
         hi_int[sel] = up(up(h * f_mid[1]) + R)
@@ -155,15 +161,26 @@ def build_grid(timing_controls, log2_cells: int = 22) -> TimeGrid:
         fl, fh = _inv_sqrt(np.array([xl]), np.array([xh]))
         lo_int[idx], hi_int[idx] = dn(h * fl[0]), up(h * fh[0])
         fmin[idx], fmax[idx] = fl[0], fh[0]
-    if np.any(lo_int <= 0) or np.any(~np.isfinite(hi_int)):
+    finite = [np.isfinite(v).all() for v in (lo_int, hi_int, fmin, fmax)]
+    if not all(finite) or np.any(lo_int <= 0) or np.any(lo_int > hi_int) or np.any(fmin <= 0) or np.any(fmin > fmax):
         return TimeGrid(N, None, None, None, None, "UNKNOWN_NUMERICAL", 0.0, worst_R)
-    # Recursive summation error bound: |fl(S_k) - S_k| <= gamma_{N} * sum_i |t_i| (u = 2^-53).
+    # Prefix sums by np.cumsum (sequential recursive summation of nonnegative terms). Standard bound
+    # (Higham, Accuracy and Stability, eq. 4.4): |fl(S_k) - S_k| <= gamma_{k-1} sum_{i<k} t_i
+    # <= gamma_N * S_N, gamma_N = N u / (1 - N u), u = 2^-53. S_N is bounded ABOVE rigorously by
+    # up(math.fsum(hi_int)) (fsum is correctly rounded, so fsum >= S_N(1 - u) and one nextafter step
+    # up covers it); the product with gamma is rounded up. No empirical slack factor (R0 1.8b; the
+    # former (1+1e-9) factor was sound but unjustified in code). lo_int terms are <= hi_int terms,
+    # so the same E bounds the lo-prefix error.
     u = 2.0 ** -53
     gamma = up(N * u / (1 - N * u))
-    E = float(up(up(gamma * float(np.sum(hi_int)) * (1 + 1e-9)) + 1e-300))
+    S_hi = up(math.fsum(hi_int.tolist()))
+    E = float(up(gamma * S_hi))
     T_lo = np.concatenate([[0.0], dn(np.cumsum(lo_int) - E)])
     T_hi = np.concatenate([[0.0], up(np.cumsum(hi_int) + E)])
     T_lo[1:] = np.maximum(T_lo[1:], 0.0)
+    if (not np.isfinite(T_hi).all() or np.any(np.diff(T_lo) < 0) or np.any(np.diff(T_hi) < 0)
+            or np.any(T_lo > T_hi)):
+        return TimeGrid(N, None, None, None, None, "UNKNOWN_NUMERICAL", E, worst_R)
     return TimeGrid(N, T_lo, T_hi, fmin, fmax, "BOUNDED_EXACT_MODEL", E, worst_R)
 
 

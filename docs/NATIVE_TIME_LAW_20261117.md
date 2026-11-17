@@ -3,6 +3,15 @@
 Date 2026-11-17, branch `exp/margin-duration-native-time-20261117`, upstream `NVlabs/curobo@c301cb00…`,
 RTX 3090 (production GPU for all frozen outputs).
 
+> **ERRATUM (2026-11-17, independent review R0, finding U1).** The "certified" ε_s below is NOT an
+> upper bound: the kernel reduced the distance from s_native to the bracket (near end), a lower bound
+> on |s_native − s*|. All ε values and L·ε state bounds in this document are withdrawn as bounds; the
+> corrected audit (T1 v2, far-end distance) and the re-issued 224-path values are in
+> `docs/T1_V2_CONTRACT_20261117.md`. Also withdrawn: the wording that native samples are samples of a
+> trajectory "whose physical derivatives are the certified quantities" — reported v/a/j arrays are
+> sampled quantities; no between-request interpolation contract exists. The text below is preserved
+> unchanged as historical evidence.
+
 ## The question
 
 The native sampler returns, for a requested time `t`, a progress `s_native(t)` (Newton iterations on a
