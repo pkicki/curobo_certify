@@ -1,0 +1,145 @@
+{
+  "cohorts": {
+    "Panda-Confirm300": {
+      "cohort": "Panda-Confirm300",
+      "file": "Panda-Confirm300.json",
+      "k_eligible": 300,
+      "pairs": 525,
+      "pool": 525,
+      "rows": 1050,
+      "seed": 304294456,
+      "sha256": "2e0edfcbb64a2f0651af339b170d81f7569698f4ae24e4ed6ee3215dc03b06fd",
+      "strata_counts_in_pool": {
+        "collision_primitives_3d/large": 43,
+        "collision_primitives_3d/medium": 44,
+        "collision_primitives_3d/small": 44,
+        "collision_table/large": 44,
+        "collision_table/medium": 43,
+        "collision_table/small": 44,
+        "collision_test/large": 44,
+        "collision_test/medium": 44,
+        "collision_test/small": 44,
+        "empty/large": 43,
+        "empty/medium": 44,
+        "empty/small": 44
+      },
+      "upstream_sha": "c301cb00a87012c2808b1a60649c4065c9b3c95a"
+    },
+    "Panda-Dev40": {
+      "cohort": "Panda-Dev40",
+      "file": "Panda-Dev40.json",
+      "k_eligible": 40,
+      "pairs": 70,
+      "pool": 70,
+      "rows": 140,
+      "seed": 559656179,
+      "sha256": "2df71f84f9fe5c3bfe2acee5910bdf605c7fe3b80ca66de7241dfc493a9be86e",
+      "strata_counts_in_pool": {
+        "collision_primitives_3d/large": 6,
+        "collision_primitives_3d/medium": 5,
+        "collision_primitives_3d/small": 6,
+        "collision_table/large": 6,
+        "collision_table/medium": 6,
+        "collision_table/small": 6,
+        "collision_test/large": 6,
+        "collision_test/medium": 6,
+        "collision_test/small": 6,
+        "empty/large": 6,
+        "empty/medium": 6,
+        "empty/small": 5
+      },
+      "upstream_sha": "c301cb00a87012c2808b1a60649c4065c9b3c95a"
+    },
+    "Panda-Holdout100": {
+      "cohort": "Panda-Holdout100",
+      "file": "Panda-Holdout100.json",
+      "k_eligible": 100,
+      "pairs": 175,
+      "pool": 175,
+      "rows": 350,
+      "seed": 213817639,
+      "sha256": "8d5a409dd4a49ef1a2750129c45d0b028a46c937eae6c1a35af354d24d83f4ec",
+      "strata_counts_in_pool": {
+        "collision_primitives_3d/large": 15,
+        "collision_primitives_3d/medium": 14,
+        "collision_primitives_3d/small": 15,
+        "collision_table/large": 15,
+        "collision_table/medium": 15,
+        "collision_table/small": 15,
+        "collision_test/large": 14,
+        "collision_test/medium": 14,
+        "collision_test/small": 15,
+        "empty/large": 15,
+        "empty/medium": 14,
+        "empty/small": 14
+      },
+      "upstream_sha": "c301cb00a87012c2808b1a60649c4065c9b3c95a"
+    }
+  },
+  "leakage_audit": {
+    "cohorts": {
+      "Panda-Confirm300": {
+        "min_linf_goal_distance_to_other_cohorts_rad": 0.04712697101568142,
+        "min_linf_goal_distance_to_prior_rad": 0.04387245716496847,
+        "min_linf_goal_distance_within_cohort_rad": 0.03410547137233655,
+        "pass": true,
+        "seed": [
+          304294456
+        ],
+        "seed_reused": false,
+        "source_id_reused": false
+      },
+      "Panda-Dev40": {
+        "min_linf_goal_distance_to_other_cohorts_rad": 0.06010498457640079,
+        "min_linf_goal_distance_to_prior_rad": 0.06259884720880814,
+        "min_linf_goal_distance_within_cohort_rad": 0.12446187150466526,
+        "pass": true,
+        "seed": [
+          559656179
+        ],
+        "seed_reused": false,
+        "source_id_reused": false
+      },
+      "Panda-Holdout100": {
+        "min_linf_goal_distance_to_other_cohorts_rad": 0.04712697101568142,
+        "min_linf_goal_distance_to_prior_rad": 0.06683552774229423,
+        "min_linf_goal_distance_within_cohort_rad": 0.0507830369081472,
+        "pass": true,
+        "seed": [
+          213817639
+        ],
+        "seed_reused": false,
+        "source_id_reused": false
+      }
+    },
+    "pass": true,
+    "prior_studies": {
+      "exploratory_seed20261111": 8,
+      "hardcase_seed20261116": 72,
+      "margins_seed20261117": 180,
+      "pilot_initial_unresolved": 0,
+      "pilot_seed20261110": 8
+    },
+    "shared_fixed_strata": {
+      "scenes": [
+        "empty",
+        "collision_table",
+        "collision_test",
+        "collision_primitives_3d"
+      ],
+      "start": "pinned planner HOME (all studies)"
+    }
+  },
+  "original_dual_robot_protocol": "BLOCKED_UR5E_MODEL_LIMITS",
+  "population_flag": "AMENDED_POPULATION_PANDA_ONLY",
+  "primary_margin": "0.95",
+  "prior_query_files_sha256": {
+    "exploratory_seed20261111": "b5ea14e7a5af3c34f2b7b82ffe20d78fca44148ef6d758ce66599c5f4ded43e8",
+    "hardcase_seed20261116": "5e880ae5b010798dceb57b5bd7e78fe91db5958052fd4c619d767148d64eb9a4",
+    "margins_seed20261117": "2aeeedf05a99c71896ab2c82b34b314f66d77257beabe0f9c33c41b23b8c6745",
+    "pilot_initial_unresolved": "31c5fd580d53ab39cc2b1e710acef9f07aed93933c3fef72398a4c056859a2d9",
+    "pilot_seed20261110": "a74a635476d9442c0137136e4e414cb610c79542537af99baab573aa34025767"
+  },
+  "protocol": "panda_only_formal_qualification_v1",
+  "secondary_margin": "0.99"
+}
