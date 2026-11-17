@@ -135,13 +135,55 @@ def _validate_record(row, record, *, verify_arrays: bool):
             "arrays_sha256": sha, "source_array_verification": verification}
 
 
+def index_tightness(file: Path | None) -> dict:
+    """Exact per-path residual classes (scripts/analyze_hardcases.py) keyed by NPZ SHA."""
+    if file is None:
+        return {}
+    data = _read_json(file)
+    if data.get("scope") != "EXACT_SERIALIZED_MODEL_TIGHTNESS_EXPLORATORY":
+        raise ValueError("unknown tightness evidence scope")
+    out = {}
+    for r in data["rows"]:
+        entry = {}
+        for c in ("physical", "planning"):
+            rows = r["contracts"][c]["nontrivial_residuals"]
+            viol = [x for x in rows if x["class"] == "GENUINE_VIOLATION"]
+            entry[c] = {"split_certifiable": sum(x["class"] == "SPLIT_CERTIFIABLE" for x in rows),
+                        "genuine_violations": len(viol),
+                        "worst_witness_residual": max((x["peak_lower"] for x in viol), default=None),
+                        "max_bracket_depth": max((x["bracket_depth"] for x in rows), default=0),
+                        "sampled_max_utilization": r["contracts"][c]["sampled_max_utilization_S32768"]}
+        entry["planning_scale"] = r.get("planning_scale")
+        out[r["source_npz_sha256"]] = entry
+    return out
+
+
+def index_time_audit(file: Path | None) -> dict:
+    """Exhaustive float32 time-law / reported-value audit rows keyed by NPZ SHA."""
+    if file is None:
+        return {}
+    data = _read_json(file)
+    if data.get("scope") != "NATIVE_TIME_INVERSION_EXHAUSTIVE_FP32_TIMES":
+        raise ValueError("unknown time-audit evidence scope")
+    out = {}
+    for r in data["rows"]:
+        if r.get("grid_status") == "BOUNDED_EXACT_MODEL" and r.get("crosscheck_consistent") is True:
+            out[r["source_npz_sha256"]] = {"eps_s": r["eps_s_certified_max"],
+                                           "reported_all_float32_times": r["exhaustive_reported_status"],
+                                           "times_enumerated": r["times_enumerated"]}
+    return out
+
+
 def build_analysis(manifest: list[dict], records_dir: Path, *,
-                   benchmark_file: Path | None = None,
+                   benchmark_file: Path | None = None, tightness_file: Path | None = None,
+                   time_audit_file: Path | None = None,
                    verify_arrays=False, seed=20261117, bootstrap=4000) -> dict:
     desc = check_manifest(manifest)
     if bootstrap < 100:
         raise ValueError("bootstrap must have at least 100 resamples")
     index = index_benchmark(benchmark_file)
+    tight = index_tightness(tightness_file)
+    audit = index_time_audit(time_audit_file)
     found = set()
     rows = []
     for query in manifest:
@@ -171,6 +213,18 @@ def build_analysis(manifest: list[dict], records_dir: Path, *,
                 raise ValueError("unqualified tightened-limit violation in native contract")
             d[key + "_status"] = entry["status"] if entry else "NOT_RUN"
             d[key + "_latency_ms"] = entry["latency_p50_ms"] if entry else None
+        te = tight.get(d["arrays_sha256"]) if d["arrays_sha256"] else None
+        if te is not None and te["planning_scale"] is not None and abs(te["planning_scale"] - float(as_margin(query["planning_margin"]))) > 1e-6:
+            raise ValueError("tightness evidence planning scale disagrees with source query")
+        d["exact_tightness"] = te
+        au = audit.get(d["arrays_sha256"]) if d["arrays_sha256"] else None
+        d["time_audit"] = au
+        if au is not None:
+            # Scoped contract (docs/NATIVE_TIME_LAW_20261117.md): every float32 requested time audited,
+            # native progress within eps_s of the exact inverse, reported values within limits.
+            d["time_law_status"] = ("AUDITED_LINKED_CONDITIONAL"
+                                    if au["reported_all_float32_times"] == "CERTIFIED_EXHAUSTIVE" and d["model_k3_status"] == PASS
+                                    else "AUDITED_NOT_CERTIFIED")
         rows.append(d)
     expected = {q["source_id"] + ".json" for q in manifest}
     unexpected = sorted(x.name for x in records_dir.glob("*.json") if x.name not in expected and x.name != "summary.json")
@@ -198,7 +252,20 @@ def build_analysis(manifest: list[dict], records_dir: Path, *,
             "native_reported_latency_p50_ms": _median([
                 r["native_reported_latency_ms"] for r in group
                 if r["native_reported_latency_ms"] is not None]),
+            "physical_paths_needing_subdivision": sum(1 for r in group if r.get("exact_tightness") and
+                                                      (r["exact_tightness"]["physical"]["split_certifiable"] > 0 or
+                                                       r["exact_tightness"]["physical"]["genuine_violations"] > 0)),
+            "physical_paths_genuinely_violating": sum(1 for r in group if r.get("exact_tightness") and
+                                                      r["exact_tightness"]["physical"]["genuine_violations"] > 0),
+            "solver_contract_paths_genuinely_violating": sum(1 for r in group if r.get("exact_tightness") and
+                                                             r["exact_tightness"]["planning"]["genuine_violations"] > 0),
+            "worst_physical_witness_residual": max((r["exact_tightness"]["physical"]["worst_witness_residual"]
+                                                    for r in group if r.get("exact_tightness") and
+                                                    r["exact_tightness"]["physical"]["worst_witness_residual"] is not None), default=None),
+            "tightness_not_run": sum(1 for r in native if not r.get("exact_tightness")),
             "full_physical_time_certified": 0,
+            "native_time_linked_audited_certified": sum(r["time_law_status"] == "AUDITED_LINKED_CONDITIONAL" for r in group),
+            "native_time_audited_not_certified": sum(r["time_law_status"] == "AUDITED_NOT_CERTIFIED" for r in group),
             "time_law_proven": False,
         }
     pairs: dict[str, dict] = {}

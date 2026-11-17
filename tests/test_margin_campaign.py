@@ -165,3 +165,28 @@ class MarginKeyRegression(unittest.TestCase):
         self.assertEqual(sorted(a["summary_by_margin"]), ["0.90", "0.95", "0.975", "0.99", "1.00"])
         self.assertNotIn("0.95", a["paired_to_0p95"])
         self.assertEqual(a["summary_by_margin"]["0.975"]["not_run"], 12)
+
+
+class TightnessJoinTests(MarginCampaignTests):
+    def _tightness(self, folder, scale_left, scale_right, viol_right=1):
+        def row(sha, scale, viol):
+            residual = [{"class": "GENUINE_VIOLATION", "peak_lower": 0.004, "bracket_depth": 3, "family": "jerk"}] * viol
+            c = {"nontrivial_residuals": residual, "sampled_max_utilization_S32768": {"jerk": 1.0}, "class_counts": {}}
+            return {"source_npz_sha256": sha, "planning_scale": scale, "contracts": {"physical": c, "planning": c}}
+        f = Path(folder) / "tight.json"
+        f.write_text(json.dumps({"scope": "EXACT_SERIALIZED_MODEL_TIGHTNESS_EXPLORATORY",
+                                 "rows": [row("a" * 64, scale_left, 0), row("b" * 64, scale_right, viol_right)]}))
+        return f
+
+    def test_tightness_joined_by_hash_with_scale_check(self):
+        with tempfile.TemporaryDirectory() as t:
+            records, left, right = self._fixture(t)
+            ok = self._tightness(t, float(left["planning_margin"]), float(right["planning_margin"]))
+            a = build_analysis(self.rows, records, tightness_file=ok, bootstrap=100)
+            from curobo_certify.margin_analysis import margin_key
+            s = a["summary_by_margin"][margin_key(right["planning_margin"])]
+            self.assertEqual(s["physical_paths_genuinely_violating"], 1)
+            self.assertAlmostEqual(s["worst_physical_witness_residual"], 0.004)
+            bad = self._tightness(t, 0.5, float(right["planning_margin"]))
+            with self.assertRaises(ValueError):
+                build_analysis(self.rows, records, tightness_file=bad, bootstrap=100)

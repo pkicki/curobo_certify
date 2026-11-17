@@ -22,6 +22,8 @@ def main():
     p.add_argument("--records-dir", required=True, type=Path)
     p.add_argument("--certification-benchmark", type=Path,
                    help="frozen full producer + verifier benchmark JSON")
+    p.add_argument("--time-audit", type=Path, help="exhaustive float32 time-law audit JSON (scripts/native_time_inversion_audit.py)")
+    p.add_argument("--tightness", type=Path, help="exact per-path tightness JSON (scripts/analyze_hardcases.py)")
     p.add_argument("--verify-arrays", action="store_true",
                    help="re-hash original frozen NPZ bytes; required for qualification")
     p.add_argument("--seed", type=int, default=20261117)
@@ -38,7 +40,7 @@ def main():
     queries = json.loads(data)
     check_manifest(queries)
     analysis = build_analysis(
-        queries, a.records_dir, benchmark_file=a.certification_benchmark,
+        queries, a.records_dir, benchmark_file=a.certification_benchmark, tightness_file=a.tightness, time_audit_file=a.time_audit,
         verify_arrays=a.verify_arrays, seed=a.seed, bootstrap=a.bootstrap)
     analysis["source_query_file_sha256"] = digest(data)
     analysis["source_query_path"] = str(a.queries)

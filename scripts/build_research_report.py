@@ -37,7 +37,7 @@ def load(p: Path, sources: dict):
     return json.loads(p.read_text())
 
 
-def path_payload(npz: Path, meta: dict | None, samples: int) -> dict:
+def path_payload(npz: Path, meta: dict | None, samples: int, planning_scale: float = 0.95) -> dict:
     with np.load(npz, allow_pickle=False) as z:
         a = {k: z[k].copy() for k in z.files}
     geo = a["effective_geometry"].astype("<f4")
@@ -68,6 +68,7 @@ def path_payload(npz: Path, meta: dict | None, samples: int) -> dict:
             "duration": float(a["native_duration"][0]),
             "scene": sq.get("scene_id") or (meta or {}).get("scene_config"), "magnitude": sq.get("magnitude_stratum", "small(pilot)"),
             "condition": sq.get("solver_condition", "default_margin_0p95"),
+            "planning_scale": float(planning_scale), "pair_id": sq.get("pair_id"),
             "samples": {"progress": base64.b64encode(prog[idx].astype("<f4").tobytes()).decode(),
                         "vaj": base64.b64encode(st[1:4][:, idx].astype("<f4").tobytes()).decode(), "count": int(len(idx)),
                         "label": "SAMPLED_DIAGNOSTIC native S32768 (subsampled + per-joint extrema); x = " + prog_label}}
@@ -76,7 +77,7 @@ def path_payload(npz: Path, meta: dict | None, samples: int) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=ROOT / "reports/native_certification_research_report.html")
-    ap.add_argument("--samples", type=int, default=384)
+    ap.add_argument("--samples", type=int, default=256)
     a = ap.parse_args()
     sources = {}
     R = ROOT / "runs"
@@ -93,7 +94,22 @@ def main():
         "fresh_3090": load(R / "benchmarks/fresh_rtx3090.json", sources),
         "fresh_a100": load(R / "benchmarks/fresh_a100.json", sources),
         "answers": load(ROOT / "reports/research_answers.json", sources),
+        "margin_analysis": load(R / "margins/analysis.json", sources),
+        "margin_tightness": load(R / "margins/tightness_145paths.json", sources),
+        "margin_bench": load(R / "margins/cert_bench.json", sources),
+        "time_audit": load(R / "margins/time_inversion_audit_224paths.json", sources),
+        "l1_summary": load(R / "margins/l1_summary.json", sources),
+        "fp_unit_audit": load(R / "margins/fp_unit_audit_rtx3090.json", sources),
+        "sass_audit": load(R / "margins/sass_audit_rtx3090.json", sources),
+        "margin_answers": load(ROOT / "reports/margin_campaign_answers.json", sources),
+        "campaigns_mt4": {n: load(R / f"compiled_k3/differential_10k_{n}_mt4.json", sources) for n in ("O3", "O0", "native")},
     }
+    if data["margin_bench"]:
+        for r in data["margin_bench"]["rows"]:
+            for k in list(r):
+                if k.startswith("repeats_ms_") and k != "repeats_ms_total":
+                    r[k] = [float(np.median(r[k]))]
+
     # strip bulky raw arrays
     if data["native_reported"]:
         for r in data["native_reported"]["rows"]:
@@ -119,6 +135,16 @@ def main():
         meta = json.loads(meta_p.read_text()) if meta_p.exists() else None
         paths.append(path_payload(npz, meta, a.samples))
         sources[str(npz.relative_to(ROOT))] = paths[-1]["npz_sha256"]
+    mq, md = R / "margins/queries.json", R / "margins/native"
+    if mq.exists() and md.exists():
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from bench_certification_methods import margin_index_from_records
+        idx = margin_index_from_records(mq, md)
+        for npz in sorted(md.glob("*.npz")):
+            meta = json.loads(npz.with_suffix(".json").read_text())
+            scale = idx[sha(npz)][0]
+            paths.append(path_payload(npz, meta, a.samples, scale))
+            sources[str(npz.relative_to(ROOT))] = paths[-1]["npz_sha256"]
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=ROOT, text=True).strip()
     payload = {"meta": {"branch": branch, "built_from_commit": head, "upstream": "NVlabs/curobo@c301cb00a87012c2808b1a60649c4065c9b3c95a",

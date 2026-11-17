@@ -65,6 +65,9 @@ def classify(U0, L, U, strict):
     return "UNRESOLVED"
 
 
+_SCALES: dict = {}
+
+
 def analyze(path_str: str) -> dict:
     path = Path(path_str)
     raw = path.read_bytes()
@@ -73,9 +76,13 @@ def analyze(path_str: str) -> dict:
     spans = extract_timeopt_spans(a["effective_geometry"], a["timing_controls"])
     phys = {n: np.minimum(np.abs(a[k][0]), np.abs(a[k][1])).astype(np.float32)
             for n, k in (("velocity", "velocity_limits"), ("acceleration", "acceleration_limits"), ("jerk", "jerk_limits"))}
-    contracts = {"physical": phys, "planning": {k: v * np.float32(0.95) for k, v in phys.items()}}
+    sha = hashlib.sha256(raw).hexdigest()
+    # Planning contract uses the source-hash-backed TimeOpt scale of THIS output (0.95 pinned default otherwise).
+    scale = np.float32(_SCALES.get(sha, (0.95,))[0])
+    contracts = {"physical": phys, "planning": {k: v * scale for k, v in phys.items()}}
     states = a["diagnostic_32768_states"].astype(np.float64)
-    out = {"path": path.stem, "source_npz_sha256": hashlib.sha256(raw).hexdigest(),
+    out = {"path": path.stem, "source_npz_sha256": sha, "planning_scale": float(scale),
+           "source_query_id": _SCALES.get(sha, (None, None))[1],
            "native_duration_s": float(a["native_duration"][0]), "common_spans": len(spans), "contracts": {}}
     bundle = []
     for cname, lim in contracts.items():
@@ -122,14 +129,26 @@ def analyze(path_str: str) -> dict:
     return out
 
 
+def _set_scales(s):
+    global _SCALES
+    _SCALES = s
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--npz", nargs="+", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=12)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--bundle-out", type=Path)
+    ap.add_argument("--margin-queries", type=Path)
+    ap.add_argument("--margin-records-dir", type=Path)
     a = ap.parse_args()
-    with mp.Pool(a.workers) as pool:
+    global _SCALES
+    if a.margin_queries:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from bench_certification_methods import margin_index_from_records
+        _SCALES = {k: (v[0], v[1]) for k, v in margin_index_from_records(a.margin_queries, a.margin_records_dir).items()}
+    with mp.Pool(a.workers, initializer=_set_scales, initargs=(_SCALES,)) as pool:
         rows = pool.map(analyze, [str(p) for p in a.npz])
     bundle = []
     for r in rows:

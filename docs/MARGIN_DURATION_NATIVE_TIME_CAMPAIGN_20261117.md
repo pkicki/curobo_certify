@@ -1,6 +1,8 @@
 # Margin, duration, certifiability, time law, and bound latency campaign
 
-Prepared 2026-11-17. STATUS: IMPLEMENTATION HANDOFF; ALL NEW CODE REQUIRES FULL TEST AND GPU VERIFICATION. Base: 5c7c0fcf2c52d35cbeece32dbcff0e80f30df661. Work branch: exp/margin-duration-native-time-20261117. No PR, merge, forced update, historical output rewrite, or main change.
+Prepared 2026-11-17. STATUS: IMPLEMENTATION HANDOFF; ALL NEW CODE REQUIRES FULL TEST AND GPU VERIFICATION.
+
+**Execution status (2026-11-17, see docs/PROGRESS.md):** G0 PASS after fixes (commit ca68a16); G1 PASS (180/180 requests, 145 native successes, constructed config audited); G2 PASS (zero unsound certificates; 3,045 benchmark rows); G3 delivered (`runs/margins/analysis.json`, `reports/margin_certifiability_results.html`, research report tabs); T1 PASS for a scoped per-output exhaustive float32 audit contract (docs/NATIVE_TIME_LAW_20261117.md), not a universal proof; L1: fresh added p50 12.32 → 2.04 ms, p95 2.06 ms (≤3 ms met, ≤1 ms p50 not met); G4 (Dev40/Holdout100/Confirm300) NOT RUN. Base: 5c7c0fcf2c52d35cbeece32dbcff0e80f30df661. Work branch: exp/margin-duration-native-time-20261117. No PR, merge, forced update, historical output rewrite, or main change.
 
 ## Goals and precise scientific contracts
 

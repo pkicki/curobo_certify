@@ -1,0 +1,41 @@
+{
+ "questions": [
+  {
+   "q": "Planning success and duration by margin (36 frozen source queries \u00d7 5 margins = 180 requests)",
+   "a": "<b>0.90</b>: 29/36 solved, duration p50 0.5080 s; <b>0.95</b>: 29/36 solved, duration p50 0.4920 s; <b>0.975</b>: 29/36 solved, duration p50 0.4903 s; <b>0.99</b>: 29/36 solved, duration p50 0.4861 s; <b>1.00</b>: 29/36 solved, duration p50 0.4781 s. The 7 failures are the same source queries at every margin (failure is query-, not margin-dependent); every arm therefore has the same 29 matched pairs and no differential-missingness bias. Constructed TimeOpt configuration audited on all 180 requests: only limit_scale and jerk_limit_scale differ from the pinned default."
+  },
+  {
+   "q": "Paired duration change relative to the pinned 0.95 margin (source-pair bootstrap, 4,000 resamples)",
+   "a": "<b>0.90</b>: median -3.33% [-3.97, -2.68] (n=29); <b>0.975</b>: median 1.34% [1.03, 1.84] (n=29); <b>0.99</b>: median 2.33% [1.82, 2.89] (n=29); <b>1.00</b>: median 2.93% [2.12, 3.53] (n=29). Positive = faster. Removing the 5% margin entirely saves \u22483% of duration."
+  },
+  {
+   "q": "Exact continuous-time feasibility (serialized model, physical limits; compiled producer + independent verifier)",
+   "a": "<b>0.90</b>: 29 certified / 0 exact violations / 0 unknown; 0 need adaptive subdivision; solver's own scaled contract genuinely violated by 8; <b>0.95</b>: 29 certified / 0 exact violations / 0 unknown; 0 need adaptive subdivision; solver's own scaled contract genuinely violated by 8; <b>0.975</b>: 29 certified / 0 exact violations / 0 unknown; 17 need adaptive subdivision; solver's own scaled contract genuinely violated by 3; <b>0.99</b>: 29 certified / 0 exact violations / 0 unknown; 28 need adaptive subdivision; solver's own scaled contract genuinely violated by 5; <b>1.00</b>: 17 certified / 12 exact violations / 0 unknown; 29 need adaptive subdivision; solver's own scaled contract genuinely violated by 12. Worst physical witness at 1.00: normalized residual 0.00588. Feasibility is preserved up to 0.99 but proofs need subdivision; at 1.00, 12/29 outputs genuinely violate a physical limit between solver samples."
+  },
+  {
+   "q": "Native-reported certificate (A1\u2013A5 conditional analytic bound) by margin",
+   "a": "<b>0.90</b>: 29 certified, 0 unknown (witness only against tightened limits); <b>0.95</b>: 29 certified, 0 unknown (witness only against tightened limits); <b>0.975</b>: 29 certified, 0 unknown (witness only against tightened limits); <b>0.99</b>: 28 certified, 1 unknown (witness only against tightened limits); <b>1.00</b>: 5 certified, 24 unknown (witness only against tightened limits)"
+  },
+  {
+   "q": "Native time\u2192progress inversion versus the exact time law",
+   "a": "Every float32 requested time of 224 real outputs (2.364e+11 times, NVIDIA GeForce RTX 3090) was executed with the pinned progress_at_time and compared with a rigorous enclosure of the exact inverse: certified max |s_native \u2212 s*| \u2264 2.44e-07; induced state shift \u2264 8e-06 (v), 8.5e-06 (a), 0.00026 (j, off-knot) of the limits. Reported values within physical limits at every float32 time on 200/224 outputs; all exceedances are scale-1.00 outputs and coincide exactly with the exact-model violation witnesses."
+  },
+  {
+   "q": "Certification latency after optimization (RTX 3090, paired fresh requests)",
+   "a": "Added p50 12.32 ms (1 thread) \u2192 2.04 ms (8 threads); paired \u0394 -10.29 ms [-10.32, -10.26]; p95 2.06 ms; pooled p99 2.36 ms. Target p95 \u2264 3 ms met; p50 \u2264 1 ms not met. Outputs identical across thread counts."
+  },
+  {
+   "q": "Arithmetic assumptions",
+   "a": "Exhaustive over all positive normal float32 inputs on NVIDIA GeForce RTX 3090: rcp_1_div_y \u2264 0.975 ulp, sqrtf \u2264 0.944 ulp, rsqrtf \u2264 1.514 ulp, div_by_6 \u2264 0.667 ulp; SASS shows MUFU.RCP/MUFU.SQRT/MUFU.RSQ, FFMA contraction and .FTZ, consistent with A1\u2013A4."
+  },
+  {
+   "q": "Soundness of the parallel compiled certifier",
+   "a": "O3: 10000 cases, 0 breaches ; O0: 10000 cases, 0 breaches ; native: 10000 cases, 0 breaches (seeded adversarial cases vs exact Fraction reference, 4 OpenMP threads per call)."
+  }
+ ],
+ "decision": "<b>Paper: GO</b> \u2014 exploratory but rigorous results: exact continuous-time violations of time-optimal outputs between samples as the planning margin is removed, adaptive proofs at \u2248H0 cost, an exhaustively audited native time law and reported-value contract, and \u22482 ms complete certification. <b>Native reported-value certification (per audited output): GO for research use</b>, conditional on the audited compiled code path and GPU. <b>Native physical-time certification as a qualified deployment claim: NO-GO</b> until the per-output audit contract is reviewed independently, frozen, and run on the registered Dev40/Holdout100/Confirm300 cohorts (not run). <b>Margin policy: no margin is recommended from these exploratory data</b>; 0.99 kept every output feasible with \u22482.3% shorter durations, 1.00 produced genuine violations in 12/29 outputs.",
+ "sources": [
+  "runs/margins/*",
+  "runs/compiled_k3/*_mt4.json"
+ ]
+}

@@ -9,7 +9,7 @@ with sync_playwright() as pw:
         pg.on("pageerror", lambda e: errs.append(str(e)))
         pg.on("console", lambda m: errs.append(m.text) if m.type == "error" else None)
         pg.goto("file://" + html)
-        for tab in ["overview", "explorer", "population", "adaptive", "latency", "native", "correctness", "provenance"]:
+        for tab in ["overview", "margins", "timelaw", "explorer", "population", "adaptive", "latency", "native", "correctness", "provenance"]:
             pg.click(f"nav button[data-tab={tab}]")
             pg.wait_for_timeout(400 if tab != "explorer" else 2500)
             pg.screenshot(path=f"{out}/{eng}_{tab}.png", full_page=True)

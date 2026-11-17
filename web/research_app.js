@@ -10,11 +10,12 @@ const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const L = {exact: '<span class="pill L-exact">EXACT</span>', native: '<span class="pill L-native">NATIVE (A1–A5)</span>',
   sampled: '<span class="pill L-sampled">SAMPLED</span>', blocked: '<span class="pill L-blocked">BLOCKED</span>',
-  notrun: '<span class="pill L-notrun">NOT RUN</span>'};
+  notrun: '<span class="pill L-notrun">NOT RUN</span>',
+  audited: '<span class="pill L-audit">AUDITED (every float32 t)</span>'};
 const fmt = (v, d = 3) => v === null || v === undefined || Number.isNaN(v) ? '—' : (Math.abs(v) >= 1e4 || (Math.abs(v) < 1e-3 && v !== 0) ? v.toExponential(2) : (+v).toFixed(d));
 const med = a => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor((s.length - 1) / 2)] : NaN; };
 const pct = (a, q) => { const s = [...a].sort((x, y) => x - y); if (!s.length) return NaN; const i = (s.length - 1) * q / 100, lo = Math.floor(i); return s[lo] + (s[Math.min(lo + 1, s.length - 1)] - s[lo]) * (i - lo); };
-$('#legend').innerHTML = `${L.exact} ${L.native} ${L.sampled} ${L.blocked} ${L.notrun}`;
+$('#legend').innerHTML = `${L.exact} ${L.native} ${L.audited} ${L.sampled} ${L.blocked} ${L.notrun}`;
 
 /* ---------------- SVG helpers ---------------- */
 const tick = v => v === 0 ? '0' : Math.abs(v) >= 1e4 || Math.abs(v) < 1e-2 ? Number(v).toExponential(1) : String(Number(v.toPrecision(3)));
@@ -37,7 +38,7 @@ const poly = (pts, stroke, w = 2, dash = '') => `<polyline fill="none" stroke="$
 const COLORS = ['#6be0d9', '#ffcb7f', '#c9a7ff', '#ff899f', '#8bacff', '#77e2b8', '#f2a6e0', '#d6e685', '#9fd3ff'];
 
 /* ---------------- tabs ---------------- */
-const TABS = [['overview', 'Answers'], ['explorer', 'Trajectory explorer'], ['population', 'Real-path population'],
+const TABS = [['overview', 'Answers'], ['margins', 'Planning margins'], ['timelaw', 'Native time law'], ['explorer', 'Trajectory explorer'], ['population', 'Real-path population'],
   ['adaptive', 'Adaptive vs uniform'], ['latency', 'Latency'], ['native', 'Native linkage'], ['correctness', 'Correctness'], ['provenance', 'Provenance']];
 const sections = {};
 for (const [id, title] of TABS) {
@@ -70,7 +71,13 @@ function overview(el) {
   if (f) h += `<div class="kpi"><small>Fresh request added latency p50 / p95 (${esc(f.gpu)})</small><b>${fmt(f.added_ms.p50, 2)} / ${fmt(f.added_ms.p95, 2)} ms</b><small>targets ≤1 / ≤3 ms: ${f.targets.added_p50_le_1ms ? 'met' : 'NOT met'} / ${f.targets.added_p95_le_3ms ? 'met' : 'NOT met'}</small></div>`;
   else h += `<div class="kpi"><small>Fresh request latency</small><b>${L.notrun}</b></div>`;
   h += '</div></div>';
-  h += '<div class="card"><h2>Answers to the ten research questions</h2>';
+  const MA = D.data.margin_answers;
+  if (MA) {
+    h += `<div class="card"><h2>Campaign 2026-11-17: planning margins, native time law, latency</h2>`;
+    for (const q of MA.questions) h += `<div class="answer"><b>${esc(q.q)}</b><p>${q.a}</p></div>`;
+    h += `<div class="answer"><b>Decisions</b><p>${MA.decision}</p></div></div>`;
+  }
+  h += '<div class="card"><h2>Answers to the ten research questions (campaign 2026-11-16)</h2>';
   if (!A) h += `<p>${L.notrun} answers file missing.</p>`;
   else for (const q of A.questions) h += `<div class="answer"><b>${esc(q.q)}</b><p>${q.a}</p></div>`;
   if (A) h += `<div class="answer"><b>Decision</b><p>${A.decision}</p></div>`;
@@ -89,7 +96,8 @@ function contractLimits(p, contract) {
   if (contract === 'physical') return {exact: p.limits, float: p.limits_float};
   const exact = {}, flt = {};
   for (const k in p.limits_float) {
-    flt[k] = p.limits_float[k].map(v => Math.fround(Math.fround(v) * Math.fround(0.95)));  // float32 product, as analysed
+    const sc = Math.fround(p.planning_scale || 0.95);  // this output's source-hash-backed TimeOpt scale
+    flt[k] = p.limits_float[k].map(v => Math.fround(Math.fround(v) * sc));  // float32 product, as analysed
     exact[k] = flt[k].map(v => P.repr(M.f32(f32bits(v))));
   }
   return {exact, float: flt};
@@ -100,7 +108,7 @@ function explorer(el) {
   <p class="sub">Select a frozen real output. The model is rebuilt <b>exactly</b> from its float32 controls (BigInt rationals); the selected residual's Bernstein hulls, proof tree, peak bracket and witnesses are exact for the serialized model. Native samples are ${L.sampled} only. Whole-path status comes from the recorded exact analysis.</p>
   <div class="controls">
    <div><label for="xp">Trajectory</label><select id="xp"></select></div>
-   <div><label for="xc">Contract</label><select id="xc"><option value="physical">physical limits</option><option value="planning">planning-scaled 0.95×</option></select></div>
+   <div><label for="xc">Contract</label><select id="xc"><option value="physical">physical limits</option><option value="planning">solver planning-scaled (path's own scale)</option></select></div>
    <div><label for="xf">Constraint family</label><select id="xf">${M.FAMILIES.map(f => `<option>${f}</option>`).join('')}</select></div>
    <div><label for="xj">Joint</label><select id="xj"></select></div>
    <div><label for="xs">Common span <span id="xsv"></span></label><input id="xs" type="range" min="0" max="46" value="0"></div>
@@ -112,7 +120,7 @@ function explorer(el) {
    <div class="card"><h3>Residual on selected span r(u) ≤ 0, u∈[0,1]</h3><div id="xres"></div><div id="xbr" class="mono" style="font-size:12px"></div></div></div>
   <div class="card"><h3>Adaptive proof tree (exact, breadth-first) — click a node</h3><div id="xtree" class="tree"></div><div id="xinsp" class="mono" style="font-size:12px"></div></div>`;
   const sel = $('#xp', el);
-  sel.innerHTML = D.paths.map(p => `<option value="${esc(p.id)}">${esc(p.id)} · ${esc(p.condition)} · ${esc(p.scene || '')}</option>`).join('');
+  sel.innerHTML = D.paths.map(p => `<option value="${esc(p.id)}">${esc(p.id)} · scale ${fmt(p.planning_scale || 0.95, 3)} · ${esc(p.scene || '')}</option>`).join('');
   const go = () => { readControls(); runExplorer(); };
   for (const id of ['#xp', '#xc', '#xf', '#xj', '#xd']) $(id, el).addEventListener('change', go);
   $('#xs', el).addEventListener('input', go);
@@ -132,8 +140,15 @@ function readControls() {
   ST.joint = +$('#xj').value || 0; ST.span = changedPath ? 0 : +$('#xs').value; ST.depth = Math.max(0, Math.min(20, +$('#xd').value || 0));
   ST.focus = -1; syncControls();
 }
+function tightRow(id) {
+  for (const src of [D.data.tightness, D.data.margin_tightness]) {
+    const r = src && src.rows.find(x => x.path === id);
+    if (r) return r;
+  }
+  return null;
+}
 function jumpWorst() {
-  const tz = D.data.tightness && D.data.tightness.rows.find(r => r.path === ST.path);
+  const tz = tightRow(ST.path);
   const rows = tz ? tz.contracts[ST.contract].nontrivial_residuals : [];
   if (!rows.length) { $('#xstatus').innerHTML += ' <span class="pill L-notrun">no residual needs subdivision under this contract</span>'; return; }
   const w = rows.reduce((a, b) => (b.peak_lower > a.peak_lower ? b : a));
@@ -144,7 +159,7 @@ function runExplorer() {
   const lim = contractLimits(p, ST.contract);
   const [Ls, Rs] = m.spans[ST.span];
   $('#xsv').textContent = `${ST.span} · s∈[${P.repr(Ls)}, ${P.repr(Rs)}]`;
-  const tz = D.data.tightness && D.data.tightness.rows.find(r => r.path === ST.path);
+  const tz = tightRow(ST.path);
   const cc = tz ? tz.contracts[ST.contract] : null;
   $('#xstatus').innerHTML = cc ? `Whole-path exact residual classes (${ST.contract}) ${L.exact}: ${Object.entries(cc.class_counts).map(([k, v]) => `<span class="pill ${k === 'GENUINE_VIOLATION' ? 'L-blocked' : k === 'H0_CERTIFIED' ? 'L-exact' : 'L-sampled'}">${k} ${v}</span>`).join(' ')} · native duration ${fmt(p.duration, 4)} s · sampled max utilization v/a/j ${L.sampled} ${['velocity', 'acceleration', 'jerk'].map(k => fmt(cc.sampled_max_utilization_S32768[k], 4)).join(' / ')}` : `${L.notrun} no recorded whole-path analysis`;
   drawPhysical(p, m, lim);
@@ -212,6 +227,66 @@ function drawResidual(b, r) {
   for (const btn of $('#xtree').querySelectorAll('button')) btn.onclick = () => { ST.focus = +btn.dataset.i; drawResidual(b, r); };
   const n = focus;
   $('#xinsp').innerHTML = `Node ${esc(n.path || 'root')} · ${n.state} · u∈[${esc(P.repr(n.l))}, ${esc(P.repr(n.r))}] (s∈[${fmt(P.num(sp.L) + h * P.num(n.l), 6)}, ${fmt(P.num(sp.L) + h * P.num(n.r), 6)}]) · exact coefficient bounds [${esc(P.repr(n.lower))}, ${esc(P.repr(n.upper))}]<br>coefficients: ${n.b.map(c => esc(P.repr(c))).join(', ')}`;
+}
+
+/* ---------------- planning margins ---------------- */
+function margins(el) {
+  const A = D.data.margin_analysis;
+  if (!A) { el.innerHTML = `<div class="card">${L.notrun} margin analysis not available.</div>`; return; }
+  const ms = Object.keys(A.summary_by_margin).sort((a, b) => +a - +b);
+  let h = `<div class="card"><h2>Matched planning-margin sweep ${L.exact}</h2>
+  <p class="sub">${A.denominators.source_queries} registered requests = ${A.denominators.pairs} frozen source queries × ${ms.length} TimeOpt planning scales (limit_scale = jerk_limit_scale; physical limits unchanged; constructed native config audited). Exact certificates are for the serialized model (compiled producer + independent verifier); native-reported certificates are ${L.native}; the physical-time column is the exhaustive time-law audit (see the next tab). Durations are native outputs.</p>
+  <table><tr><th>margin</th><th>submitted</th><th>native success</th><th>failed</th><th>duration p50 [s]</th><th>exact model K3 certified</th><th>exact violated</th><th>needs subdivision</th><th>violates solver's own scaled contract</th><th>worst physical witness residual</th><th>native-reported certified</th><th>native: unknown (tightened)</th><th>time-law audited &amp; certified</th><th>native cert. p50 [ms] (1 thread)</th></tr>`;
+  for (const m of ms) {
+    const s = A.summary_by_margin[m];
+    h += `<tr><td>${m}</td><td class="num">${s.attempted}</td><td class="num">${s.native_success}</td><td class="num">${s.native_failed}</td><td class="num">${fmt(s.duration_p50_s_success_only, 4)}</td><td class="num">${s.model_certified}</td><td class="num" style="color:${s.model_violated ? '#ff899f' : ''}">${s.model_violated}</td><td class="num">${s.physical_paths_needing_subdivision ?? '—'}</td><td class="num">${s.solver_contract_paths_genuinely_violating ?? '—'}</td><td class="num">${s.worst_physical_witness_residual == null ? '—' : fmt(s.worst_physical_witness_residual, 5)}</td><td class="num">${s.native_reported_certified}</td><td class="num">${s.native_reported_unknown_tightened}</td><td class="num">${s.native_time_linked_audited_certified ?? '—'}</td><td class="num">${fmt(s.native_reported_latency_p50_ms, 2)}</td></tr>`;
+  }
+  h += '</table></div>';
+  // forest plot of paired gains
+  const W = 760, H = 240, cmp = A.paired_to_0p95, keys = Object.keys(cmp).sort((a, b) => +a - +b);
+  const vals = keys.flatMap(k => (cmp[k].duration_gain_pct_paired_success_only.ci95 || [])).concat([0]);
+  const F = frame(W, H, [Math.min(...vals) - 0.5, Math.max(...vals) + 0.5], [0, keys.length + 1], {xlabel: 'paired duration change vs 0.95 [%] (positive = faster); median and 95% pair-bootstrap CI'});
+  let s = F.s + `<line x1="${F.X(0)}" x2="${F.X(0)}" y1="14" y2="${H - 34}" stroke="#ff899f" stroke-dasharray="5 4"/>`;
+  keys.forEach((k, i) => {
+    const b = cmp[k].duration_gain_pct_paired_success_only, y = F.Y(keys.length - i);
+    if (b.ci95) s += `<line x1="${F.X(b.ci95[0])}" x2="${F.X(b.ci95[1])}" y1="${y}" y2="${y}" stroke="#6be0d9" stroke-width="3"/>`;
+    const right = F.X(b.median) > W * 0.6;
+    if (b.median != null) s += `<circle cx="${F.X(b.median)}" cy="${y}" r="6" fill="#ffcb7f"/><text x="${F.X(b.median) + (right ? -10 : 10)}" y="${y - 10}" text-anchor="${right ? 'end' : 'start'}">${k}: ${fmt(b.median, 2)}% (n=${b.n})</text>`;
+  });
+  h += `<div class="card"><h2>Paired duration change relative to the pinned 0.95 margin</h2>${svg(W, H, s, 'forest plot')}<p class="sub">Missingness per arm: ${keys.map(k => `${k}: baseline-only ${cmp[k].missingness.baseline_only_success}, candidate-only ${cmp[k].missingness.candidate_only_success}, neither ${cmp[k].missingness.both_failed_or_not_run}`).join(' · ')}. Exploratory; no margin is selected as a policy from these data.</p></div>`;
+  // per-pair duration lines
+  const rows = A.rows.filter(r => r.native_duration_s != null);
+  const pairs = [...new Set(rows.map(r => r.pair_id))];
+  const F2 = frame(W, 300, [+ms[0], +ms[ms.length - 1]], [Math.min(...rows.map(r => r.native_duration_s)) * 0.97, Math.max(...rows.map(r => r.native_duration_s)) * 1.03], {xlabel: 'planning margin (TimeOpt limit scale)'});
+  let s2 = F2.s;
+  pairs.forEach((pid, i) => {
+    const pts = rows.filter(r => r.pair_id === pid).sort((a, b) => +a.margin - +b.margin);
+    s2 += poly(pts.map(r => [F2.X(+r.margin), F2.Y(r.native_duration_s)]), COLORS[i % COLORS.length], 1.2);
+    for (const r of pts) {
+      const st = r.exact_tightness ? (r.exact_tightness.physical.genuine_violations ? '#ff899f' : (r.exact_tightness.physical.split_certifiable ? '#ffcb7f' : '#77e2b8')) : '#9baecb';
+      s2 += `<circle cx="${F2.X(+r.margin)}" cy="${F2.Y(r.native_duration_s)}" r="4" fill="${st}"><title>${esc(r.source_id)} T=${fmt(r.native_duration_s, 5)} s</title></circle>`;
+    }
+  });
+  h += `<div class="card"><h2>Duration of each source query across margins</h2>${svg(W, 300, s2, 'duration by margin')}<div class="legend"><span style="color:#77e2b8">● physical K3 at depth 0</span><span style="color:#ffcb7f">● needs adaptive subdivision</span><span style="color:#ff899f">● genuine physical violation (exact witness)</span></div><p class="sub">Click-through: choose the source ID in the trajectory explorer to inspect its residuals, hulls and proof trees.</p></div>`;
+  el.innerHTML = h;
+}
+
+/* ---------------- native time law ---------------- */
+function timelaw(el) {
+  const T = D.data.time_audit;
+  if (!T) { el.innerHTML = `<div class="card">${L.notrun} exhaustive time-law audit not available.</div>`; return; }
+  const ok = T.rows.filter(r => r.eps_s_certified_max != null);
+  const eps = ok.map(r => r.eps_s_certified_max);
+  let h = `<div class="card"><h2>Native time → progress inversion, every float32 requested time</h2>
+  <p class="sub">For each frozen native output, every float32 requested time t in [0, T_native] (≈10<sup>9</sup> values per path) was run through the pinned upstream <code>progress_at_time</code> on ${esc(T.gpu)} and compared with a rigorous enclosure of the exact inverse s*(t) of the mathematical time law ∫ds/√x (2<sup>22</sup>-cell outward-rounded grid ${L.exact}). The same enumeration checked every reported native v/a/j against the physical limits. For these two results the native values are observed on the GPU, so no FP32 rounding assumption is needed; they rely on the harness executing the same compiled upstream code as production (bitwise reproduction of saved production samples) and on the rigorous CPU time-law enclosure.</p>
+  <p class="sub">Physical-time linkage: a native sample at time t differs from the exact continuous trajectory's state at the same t by at most E(same-progress, ${L.native}) + L·ε_s (inversion shift, shown below). Jerk is one-sided at geometry knots: near a knot (within ε_s in progress) the native jerk equals the exact trajectory's jerk on the other side of the knot.</p>
+  <div class="grid"><div class="kpi"><small>paths audited</small><b>${ok.length}</b></div><div class="kpi"><small>max certified |s_native − s*|</small><b>${fmt(Math.max(...eps), 3)}</b></div><div class="kpi"><small>median certified |s_native − s*|</small><b>${fmt(med(eps), 3)}</b></div><div class="kpi"><small>reported values within physical limits at every float32 time</small><b>${ok.filter(r => r.exhaustive_reported_status === 'CERTIFIED_EXHAUSTIVE').length} / ${ok.length}</b></div></div>
+  <table><tr><th>path</th><th>float32 times</th><th>certified ε_s</th><th>CPU cross-check</th><th>inversion shift L·ε_s / v_lim</th><th>… / a_lim</th><th>… / j_lim (off-knot)</th><th>max reported |v|/v_lim</th><th>|a|/a_lim</th><th>|j|/j_lim</th><th>status</th></tr>`;
+  for (const r of ok) {
+    const R = r.exhaustive_reported;
+    h += `<tr><td>${esc(r.path)}</td><td class="num">${r.times_enumerated.toLocaleString()}</td><td class="num">${fmt(r.eps_s_certified_max, 3)}</td><td>${r.crosscheck_consistent ? 'consistent' : 'INCONSISTENT'}</td><td class="num">${fmt(r.relative_deviation_vs_limits.v, 2)}</td><td class="num">${fmt(r.relative_deviation_vs_limits.a, 2)}</td><td class="num">${fmt(r.relative_deviation_vs_limits.j, 2)}</td>${['velocity', 'acceleration', 'jerk'].map(k => `<td class="num" style="color:${R[k].max_utilization > 1 ? '#ff899f' : ''}">${Number(R[k].max_utilization).toFixed(7)}</td>`).join('')}<td>${r.exhaustive_reported_status === 'CERTIFIED_EXHAUSTIVE' ? L.audited : '<span class="pill L-blocked">EXCEEDS LIMIT</span>'}</td></tr>`;
+  }
+  el.innerHTML = h + '</table></div>';
 }
 
 /* ---------------- population ---------------- */
@@ -310,7 +385,19 @@ function latency(el) {
     }
     h += '</table>';
   }
-  h += '</div><div class="card"><h2>Fresh native requests: added latency of certification</h2>';
+  const S1 = D.data.l1_summary;
+  if (S1) {
+    h += `<h3>L1 optimisation: native bound + producer + verifier on identical frozen outputs (${Object.values(S1.configs)[0].complete_ms.n} paths)</h3><table><tr><th>configuration</th><th>complete p50 [ms]</th><th>95% CI</th><th>p95</th><th>p99</th><th>native bound p50</th><th>paired Δ vs pieces=16, threads=1</th><th>outcomes</th></tr>`;
+    for (const [k, v] of Object.entries(S1.configs)) h += `<tr><td>${esc(k)}</td><td class="num">${fmt(v.complete_ms.p50, 2)}</td><td class="num">[${fmt(v.complete_p50_ci95[0], 2)}, ${fmt(v.complete_p50_ci95[1], 2)}]</td><td class="num">${fmt(v.complete_ms.p95, 2)}</td><td class="num">${fmt(v.complete_ms.p99, 2)}</td><td class="num">${fmt(v.native_bound_ms.p50, 2)}</td><td class="num">${v.paired_diff_vs_baseline_ms ? `${fmt(v.paired_diff_vs_baseline_ms.median, 2)} [${fmt(v.paired_diff_vs_baseline_ms.ci95[0], 2)}, ${fmt(v.paired_diff_vs_baseline_ms.ci95[1], 2)}]` : '—'}</td><td>${esc(JSON.stringify(v.statuses))}</td></tr>`;
+    h += `</table><p class="sub">Thread-count mismatches in status or bound hash: ${S1.correctness.thread_count_mismatches.length}. Fewer pieces give looser (still rigorous) bounds and fewer native-reported certificates.</p>`;
+    if (S1.fresh) {
+      const F = S1.fresh;
+      h += `<h3>Fresh paired requests on ${esc(F.gpu)} (${F.queries} queries): native only vs + certificate with 1 and 8 threads</h3><table><tr><th>arm</th><th>added p50 [ms]</th><th>95% CI</th><th>p95</th><th>pooled p99</th><th>pooled max</th><th>p50≤1 ms</th><th>p95≤3 ms</th></tr>`;
+      for (const [arm, v] of Object.entries(F.arms)) h += `<tr><td>${arm === 'B1' ? '1 thread' : arm === 'B8' ? '8 threads' : esc(arm)}</td><td class="num">${fmt(v.added_ms.p50, 2)}</td><td class="num">[${fmt(v.added_p50_ci95[0], 2)}, ${fmt(v.added_p50_ci95[1], 2)}]</td><td class="num">${fmt(v.added_ms.p95, 2)}</td><td class="num">${fmt(v.pooled_requests.p99, 2)}</td><td class="num">${fmt(v.pooled_requests.max, 2)}</td><td>${F.targets[arm].p50_le_1ms ? 'MET' : 'NOT MET'}</td><td>${F.targets[arm].p95_le_3ms ? 'MET' : 'NOT MET'}</td></tr>`;
+      h += `</table><p class="sub">Paired difference (8 threads − 1 thread) per query: median ${fmt(F.paired_last_minus_first_arm_ms.median, 2)} ms [${fmt(F.paired_last_minus_first_arm_ms.ci95[0], 2)}, ${fmt(F.paired_last_minus_first_arm_ms.ci95[1], 2)}]. Native request p50 ${fmt(F.native_ms.p50, 2)} ms. Nondeterministic native outputs across repeats: ${F.nondeterministic_queries.map(esc).join(', ') || 'none'}.</p>`;
+    }
+  }
+  h += '</div><div class="card"><h2>Fresh native requests: added latency of certification (campaign 2026-11-16, single-threaded)</h2>';
   for (const key of ['fresh_3090', 'fresh_a100']) {
     const F = D.data[key];
     if (!F) { h += `<p>${key}: ${L.notrun}</p>`; continue; }
@@ -339,6 +426,8 @@ function native(el) {
     }
     h += '</table>';
   } else h += L.notrun;
+  const FU = D.data.fp_unit_audit, SA = D.data.sass_audit;
+  if (FU) h += `<h3>Arithmetic assumptions checked on ${esc(FU.gpu)}</h3><p>Exhaustive over all ${FU.inputs.toLocaleString()} positive normal float32 inputs with cuRobo's NVRTC options: ${Object.entries(FU.results).map(([k, v]) => `${esc(k)} ≤ ${fmt(v.max_error_ulps, 3)} ulp`).join(', ')}. SASS of <code>sample_with_progress_kernel</code>: ${SA ? Object.entries(SA.functions).filter(([f]) => f.includes('sample_with_progress')).map(([, r]) => `MUFU ${esc(JSON.stringify(r.mufu))}, ${r.ffma_total} FFMA, ${r.ftz_modified} .FTZ-modified, FCHK ${r.fp_instructions.FCHK || 0}`).join('') : '—'}.</p>`;
   if (NR) h += `<h3>Assumptions</h3><ul>${NR.arithmetic_model.assumptions.map(a => `<li>${esc(a)}</li>`).join('')}</ul><p>Not claimed: ${NR.not_claimed.map(esc).join('; ')}.</p>`;
   el.innerHTML = h + '</div>';
 }
@@ -346,7 +435,7 @@ function native(el) {
 /* ---------------- correctness ---------------- */
 function correctness(el) {
   let h = `<div class="card"><h2>Compiled certifier soundness campaigns ${L.exact}</h2><p class="sub">Seeded adversarial cases (near-active limits, hidden violations, broken rest, zero-speed endpoints, interior zero speed, negative x dips, overflow, NaN/Inf, tiny budgets). Breach = false certificate, false witness, or verifier disagreement. Finite tests; not a universal proof.</p><table><tr><th>build</th><th>cases</th><th>breaches</th><th>reference-certified</th><th>compiled+verified certified</th><th>top outcomes (producer / final / exact reference)</th></tr>`;
-  for (const [n, c] of Object.entries(D.data.campaigns || {})) {
+  for (const [n, c] of Object.entries(Object.assign({}, D.data.campaigns || {}, Object.fromEntries(Object.entries(D.data.campaigns_mt4 || {}).map(([k, v]) => [k + ' (parallel build, 4 threads)', v]))))) {
     if (!c) { h += `<tr><td>${n}</td><td colspan="5">${L.notrun}</td></tr>`; continue; }
     h += `<tr><td>${n} ${esc(c.extra_flags || '')}</td><td class="num">${c.cases}</td><td class="num">${c.breaches}</td><td class="num">${c.reference_certified}</td><td class="num">${c.compiled_also_certified}</td><td>${c.confusion.slice(0, 6).map(x => `${esc(x.producer)}/${esc(x.final)}/${esc(x.reference)}: ${x.count}`).join('<br>')}</td></tr>`;
   }
@@ -366,7 +455,7 @@ function provenance(el) {
   el.innerHTML = h + '</table></div>';
 }
 
-const RENDER = {overview, explorer, population, adaptive, latency, native, correctness, provenance};
+const RENDER = {overview, margins, timelaw, explorer, population, adaptive, latency, native, correctness, provenance};
 let first = 'overview';
 try { const t = localStorage.getItem('report-tab'); if (t && RENDER[t]) first = t; } catch (e) { /* ignore */ }
 show(first);
