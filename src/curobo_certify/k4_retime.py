@@ -137,3 +137,100 @@ def optimize_timing(geometry, r_native, Gm, h, *, r_min_frac=0.25):
                    bounds=[(l_, None) for l_ in lb], options={"maxiter": 400, "verbose": 0})
     return res.x, {"native_feasible_in_sufficient_program": feasible0, "T_native_obj": T(r0), "T_opt_obj": T(res.x),
                    "optimizer_status": int(res.status), "constraint_violation": float(np.max(Gm @ res.x - h))}
+
+
+# ---------------------------------------------------------------------------------------------------
+# Practical optimiser (HEURISTIC constraint model; rigour comes ONLY from the post-hoc K3+K4 proofs).
+# Dense sampled constraints (TOPP-style) with a safety factor, solved by sequential linear programming
+# (HiGHS) on the convex duration objective with a multiplicative trust region and exact line search.
+# ---------------------------------------------------------------------------------------------------
+def sampled_constraints(geometry, model, vlim, alim, tlo, thi, *, jlim=None, per_span=16, safety=0.98):
+    from scipy.interpolate import BSpline
+    from .k4_interval import IA
+    from .k4_reference import eval_poly
+    spans = extract_timeopt_spans(geometry, np.zeros(32, dtype=np.float32) + np.float32(1.0))
+    s_all, qp_all, qpp_all, q_all, qppp_all = [], [], [], [], []
+    for sp in spans:
+        h = sp.right - sp.left
+        for t in range(per_span):
+            u = Q(t, per_span - 1)
+            s_all.append(float(sp.left + h * u))
+            q_all.append([float(eval_poly(p, u)) for p in sp.q])
+            qp_all.append([float(eval_poly(dpoly(p, 1, h), u)) for p in sp.q])
+            qpp_all.append([float(eval_poly(dpoly(p, 2, h), u)) for p in sp.q])
+            qppp_all.append([float(eval_poly(dpoly(p, 3, h), u)) for p in sp.q])
+    s = np.array(s_all); q = np.array(q_all); qp = np.array(qp_all); qpp = np.array(qpp_all); qppp = np.array(qppp_all)
+    knots = np.r_[[0.0] * 3, np.arange(30) / 29.0, [1.0] * 3]
+    N = np.stack([BSpline(knots, np.eye(32)[k], 3)(s) for k in range(32)], 1)
+    Np = np.stack([BSpline(knots, np.eye(32)[k], 3).derivative()(s) for k in range(32)], 1)
+    Npp = np.stack([BSpline(knots, np.eye(32)[k], 3).derivative(2)(s) for k in range(32)], 1)
+    A, B, G = model.coefficients([IA(q[:, j]) for j in range(7)], [IA(qp[:, j]) for j in range(7)],
+                                 [IA(qpp[:, j]) for j in range(7)])
+    rows, rhs = [], []
+    for j in range(7):
+        a_, b_, g_ = A[j].mid(), B[j].mid(), G[j].mid()
+        rows.append((qp[:, j:j + 1] ** 2) * N); rhs.append(np.full(len(s), safety * vlim[j] ** 2))
+        acc = qpp[:, j:j + 1] * N + 0.5 * qp[:, j:j + 1] * Np
+        rows.append(acc); rhs.append(np.full(len(s), safety * alim[j]))
+        rows.append(-acc); rhs.append(np.full(len(s), safety * alim[j]))
+        tq = a_[:, None] * N + b_[:, None] * Np
+        rows.append(tq); rhs.append(safety * thi[j] - g_)
+        rows.append(-tq); rhs.append(g_ - safety * tlo[j])
+    jerk = {"N": N, "L": [qppp[:, j:j + 1] * N + 1.5 * qpp[:, j:j + 1] * Np + 0.5 * qp[:, j:j + 1] * Npp for j in range(7)],
+            "bound": [(safety * float(jl)) ** 2 for jl in jlim]} if jlim is not None else None
+    return np.vstack(rows), np.concatenate(rhs), jerk
+
+
+def _jerk_ok(jerk, r):
+    if jerk is None:
+        return True
+    x = jerk["N"] @ r
+    return all((x * (L @ r) ** 2 <= b).all() for L, b in zip(jerk["L"], jerk["bound"]))
+
+
+def _jerk_rows(jerk, r):
+    """Linearisation of g_j(r) = x(r) L_j(r)^2 <= bound at r (SLP rows: grad . r' <= bound - g + grad . r)."""
+    x = jerk["N"] @ r
+    rows, rhs = [], []
+    for L, b in zip(jerk["L"], jerk["bound"]):
+        l_ = L @ r
+        g = x * l_ ** 2
+        grad = (l_ ** 2)[:, None] * jerk["N"] + (2 * x * l_)[:, None] * L
+        rows.append(grad); rhs.append(b - g + grad @ r)
+    return np.vstack(rows), np.concatenate(rhs)
+
+
+def slp_optimize(geometry, r0, Gm, h, *, jerk=None, iters=40, trust=0.2, r_floor_frac=0.25):
+    from scipy.optimize import linprog
+    T, dT = duration_objective(geometry)
+    r = np.asarray(r0, float).copy()
+    floor = np.maximum(r * r_floor_frac, 1e-6)
+    hist = [T(r)]
+    feasible0 = bool((Gm @ r <= h + 1e-9).all()) and _jerk_ok(jerk, r)
+    for _ in range(iters):
+        g = dT(r)
+        lb = np.maximum(floor, r * (1 - trust))
+        ub = r * (1 + trust)
+        A_ub, b_ub = Gm, h
+        if jerk is not None:
+            Jr, Jh = _jerk_rows(jerk, r)
+            A_ub, b_ub = np.vstack([Gm, Jr]), np.concatenate([h, Jh])
+        res = linprog(g, A_ub=A_ub, b_ub=b_ub, bounds=list(zip(lb, ub)), method="highs")
+        if res.status != 0:
+            break
+        d = res.x - r
+        best, bt = None, T(r)
+        for step in (1.0, 0.5, 0.25, 0.125):
+            cand = r + step * d
+            if (Gm @ cand <= h + 1e-9).all() and _jerk_ok(jerk, cand) and T(cand) < bt - 1e-12:
+                best, bt = cand, T(cand)
+                break
+        if best is None:
+            trust *= 0.5
+            if trust < 1e-3:
+                break
+            continue
+        r = best
+        hist.append(bt)
+    return r, {"native_feasible_in_sampled_program": feasible0, "T_obj_native": hist[0], "T_obj_opt": hist[-1],
+               "iterations": len(hist) - 1}

@@ -28,7 +28,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from curobo_certify import compiled_k3 as K  # noqa: E402
 from curobo_certify import time_law_grid as TG  # noqa: E402
 from curobo_certify.k4_panda_model import PandaModel, load_contract  # noqa: E402
-from curobo_certify.k4_retime import build_constraints, optimize_timing  # noqa: E402
+from curobo_certify.k4_retime import sampled_constraints, slp_optimize  # noqa: E402
 from curobo_certify.k4_reuse import GeometryCache  # noqa: E402
 from curobo_certify.k4_verify import verify_k4  # noqa: E402
 from curobo_certify.spline_polynomials import extract_timeopt_spans  # noqa: E402
@@ -76,8 +76,8 @@ def main():
             lim = limits_of(arr, "physical")
             cache = GeometryCache(M, extract_timeopt_spans(geo, tc0), "tm1")
             base = full_certify(P, V, M, c, arr, geo, tc0, lo, hi, cache)
-            Gm, h = build_constraints(geo, cache, lim["velocity"], lim["acceleration"], lo, hi, depth=1)
-            r_opt, info = optimize_timing(geo, tc0.astype(np.float64), Gm, h)
+            Gm, h, jerk = sampled_constraints(geo, M, lim["velocity"], lim["acceleration"], lo, hi, jlim=lim["jerk"])
+            r_opt, info = slp_optimize(geo, tc0.astype(np.float64), Gm, h, jerk=jerk)
             accepted, lam_acc, tries = None, 0.0, []
             lam_lo, lam_hi = 0.0, 1.0
             for step in range(10):
@@ -107,7 +107,7 @@ def main():
                    "seconds": time.perf_counter() - t0}
             rows.append(row)
             print(json.dumps({k: row[k] for k in ("path", "native", "accepted_lambda", "gain_vs_native_pct", "seconds")}
-                             | {"native_feasible_in_program": info["native_feasible_in_sufficient_program"]}), flush=True)
+                             | {"native_feasible_in_program": info["native_feasible_in_sampled_program"]}), flush=True)
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps({"scope": "K4_P6_CERTIFIED_RETIMING_EXPLORATORY", "contract_sha256": c["contract_sha256"],
                                  "rows": rows}, indent=1) + "\n")
