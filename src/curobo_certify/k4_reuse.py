@@ -134,6 +134,9 @@ class GeometryCache:
         if (lower.shape != (self.dof,) or upper.shape != (self.dof,) or not np.isfinite(lower).all()
                 or not np.isfinite(upper).all() or not (lower < upper).all() or not spans_tile_unit_interval(spans)):
             return K4PathResult("INVALID_INPUT", SCOPE, 0, 0, reason="limits finite/ordered; spans tile [0, 1]")
+        if any(len(sp.x) > 4 or any(len(p) > 4 for p in sp.q) for sp in spans):
+            # tm1 / box bookkeeping assumes cubic q and x (TimeOpt); higher degree is refused (review L-TM1)
+            return K4PathResult("INVALID_INPUT", SCOPE, 0, 0, reason="q and x must be at most cubic")
         res = self._certify(spans, lower, upper, max_depth=max_depth, max_nodes=max_nodes)
         res.input_digest = k4_input_digest(spans, self.model.contract_sha256, lower, upper)
         return res

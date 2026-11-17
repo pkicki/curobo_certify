@@ -199,7 +199,7 @@ def verify_k4(spans, contract, result, lower, upper, *, expect_physical=True, re
     try:
         return _verify_k4(spans, contract, result, lower, upper, expect_physical=expect_physical, refine=refine,
                           batch=batch, expected=expected_contract_sha256)
-    except (ValueError, KeyError, TypeError, ZeroDivisionError, AttributeError) as ex:
+    except (ValueError, KeyError, TypeError, ZeroDivisionError, AttributeError, IndexError) as ex:
         return {"pass": False, "reason": f"malformed certificate: {type(ex).__name__}: {ex}"}
 
 
@@ -228,6 +228,31 @@ def _verify_k4(spans, contract, result, lower, upper, *, expect_physical, refine
             return {"pass": False, "reason": "recorded leaf box outside limits"}
     W = WorldFrameDynamics(contract)
     dof = W.dof
+    # Recorded boxes must actually enclose the torque: rigorous world-frame point torque at each leaf
+    # midpoint must lie inside the recorded box (rejects zeroed / too-narrow boxes; review F-P2-4).
+    from .k4_reference import eval_poly
+    mids, rec = [], []
+    if any(not (isinstance(si, int) and 0 <= si < len(spans)) for (si, *_r) in result.leaves):
+        return {"pass": False, "reason": "leaf refers to a span outside the path"}
+    for (si, path, blo, bhi) in result.leaves:
+        a_, b_ = _leaf_interval(path)
+        sp = spans[si]
+        h = sp.right - sp.left
+        u = (a_ + b_) / 2
+        vals = [eval_poly(p, u) for p in ([tuple(p) for p in sp.q] + [dpoly(p, 1, h) for p in sp.q]
+                                         + [dpoly(p, 2, h) for p in sp.q] + [tuple(sp.x), dpoly(sp.x, 1, h)])]
+        mids.append(vals)
+        rec.append((blo, bhi))
+    if mids:
+        cols = list(zip(*mids))
+        bx = [IA(np.array([float(np.nextafter(float(v), -np.inf)) for v in col]),
+                 np.array([float(np.nextafter(float(v), np.inf)) for v in col])) for col in cols]
+        pt = W.leaf_torque(bx[:dof], bx[dof:2 * dof], bx[2 * dof:3 * dof], bx[3 * dof], bx[3 * dof + 1])
+        plo = np.stack([t.lo for t in pt], 1)
+        phi = np.stack([t.hi for t in pt], 1)
+        RL = np.array([r[0] for r in rec]); RH = np.array([r[1] for r in rec])
+        if not ((plo >= RL - 1e-9 * np.maximum(1, np.abs(RL))) & (phi <= RH + 1e-9 * np.maximum(1, np.abs(RH)))).all():
+            return {"pass": False, "reason": "recorded leaf box does not contain the rigorous midpoint torque"}
     by_span = {}
     for (si, path, _lo, _hi) in result.leaves:
         by_span.setdefault(si, []).append(path)

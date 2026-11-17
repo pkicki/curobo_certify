@@ -9,7 +9,9 @@ mpmath.iv (rigorous) or mpmath.mp (160-bit points), on a model parsed by the rev
 pinned URDF (falls back to the reviewer's own reading of contract v2 when the URDF is absent).
 
 `unittest.expectedFailure` marks DESIRED behaviour that the reviewed code does not yet have
-(review findings). When a finding is fixed the test reports "unexpected success": update it.
+(open review findings). When a finding is fixed the test reports "unexpected success": update it.
+Re-review at c5bd01e (ADDENDUM_FIXES.md): F-P2-1/2/3/5, F-G3 and N-IA1(int)/N-V1 are now plain
+regression assertions; F-P2-4 (partial), R1 (affine replay regression) and L-TM1 stay open.
 Dense sampling is falsification evidence only, not a proof.
 """
 from __future__ import annotations
@@ -104,11 +106,23 @@ class IntervalLayer(unittest.TestCase):
             self.assertTrue(fq(c.lo) <= fr <= fq(c.hi))
         self.assertEqual(IA.const(Q(1, 2)).lo, IA.const(Q(1, 2)).hi)   # exact when representable
 
-    def test_const_of_nonfraction_hazard_is_documented(self):
-        # FINDING N-IA1 (API hazard, no current call site affected): IA.const / IA.of of a Python int
-        # (or a Fraction passed to scale()) is rounded to nearest, NOT enclosed.
-        self.assertEqual(float(IA.const(2 ** 53 + 1).hi), 2.0 ** 53)
-        self.assertLess(fq(IA.const(2 ** 53 + 1).hi), 2 ** 53 + 1)
+    def test_const_of_int_encloses_and_scale_rejects_inexact(self):
+        # N-IA1 fixed at c5bd01e: Python ints are enclosed outward; scale() rejects inexact constants.
+        for v in (2 ** 53 + 1, -(2 ** 60 + 3), 3, 10 ** 30 + 7):
+            for c in (IA.const(v), IA.of(v)):
+                self.assertTrue(fq(c.lo) <= v <= fq(c.hi))
+        for bad in (Q(1, 3), 2 ** 53 + 1):
+            with self.assertRaises(ValueError):
+                IA(1.0).scale(bad)
+        r = IA(3.0).scale(Q(1, 2))
+        self.assertEqual((float(r.lo), float(r.hi)), (np.nextafter(1.5, 0), np.nextafter(1.5, 9)))
+
+    def test_residual_nonint_nonfraction_inputs_are_rounded(self):
+        # RESIDUAL (low, no call site): numpy ints, str and Decimal still go through float() (nearest).
+        from decimal import Decimal
+        self.assertLess(fq(IA.const(np.int64(2 ** 53 + 1)).hi), 2 ** 53 + 1)
+        self.assertGreater(fq(IA.const("0.1").lo), Q(1, 10))
+        self.assertGreater(fq(IA.const(Decimal("0.1")).lo), Q(1, 10))
 
     @unittest.skipUnless(HAVE_MPMATH, "mpmath required")
     def test_trig_encloses_exact_range(self):
@@ -310,50 +324,87 @@ class PathAndVerifierAttacks(unittest.TestCase):
         split = [x for x in L if x[0] != 0] + [(0, "L", [0] * 7, [0] * 7), (0, "R", [0] * 7, [0] * 7)]
         self.assertTrue(self.V(replace(self.res, leaves=split))["pass"])
 
-    def test_verifier_bad_path_symbol_raises_instead_of_rejecting(self):
-        # FINDING N-V1 (cosmetic, fail-closed): a malformed leaf path raises ValueError out of verify_k4.
+    def test_verifier_bad_path_symbol_rejected(self):
+        # N-V1 fixed at c5bd01e: malformed input returns pass False instead of raising.
         L = [x for x in self.res.leaves if x[0] != 0] + [(0, "L", [0] * 7, [0] * 7), (0, "X", [0] * 7, [0] * 7)]
-        with self.assertRaises(ValueError):
-            self.V(replace(self.res, leaves=L))
+        v = self.V(replace(self.res, leaves=L))
+        self.assertFalse(v["pass"])
+        self.assertIn("malformed", v["reason"])
+        self.assertFalse(self.V(replace(self.res, leaves=[(0, None, [0] * 7, [0] * 7)]))["pass"])
+        self.assertFalse(self.V(object())["pass"])
 
-    def test_verifier_ignores_stored_leaf_boxes(self):
-        # FINDING F-P2-4: stored leaf enclosures (and worst_utilization) are never checked.
+    def test_recorded_leaf_boxes_outside_limits_rejected(self):
+        # F-P2-4 part fixed at c5bd01e: a recorded box outside the limits is rejected.
+        L = list(self.res.leaves)
+        si, p, lo, hi = L[0]
+        L[0] = (si, p, lo, [hi[0] + 1000.0] + list(hi[1:]))
+        self.assertFalse(self.V(replace(self.res, leaves=L))["pass"])
+
+    @unittest.expectedFailure
+    def test_FINDING_under_enclosing_recorded_boxes_should_be_rejected(self):
+        # F-P2-4 still OPEN (low): recorded boxes are only checked against the limits, not against the
+        # verifier's recomputation, so zeroed (under-enclosing) boxes and utilisation still pass.
         nar = replace(self.res, leaves=[(a, b, [0.0] * 7, [0.0] * 7) for (a, b, _, _) in self.res.leaves],
                       worst_utilization=[0.0] * 7)
-        self.assertTrue(self.V(nar)["pass"])
+        self.assertFalse(self.V(nar)["pass"])
 
     def test_limits_physical_gate(self):
         self.assertFalse(self.V(self.res, PHYS_LO * 0.95, PHYS_HI * 0.95)["pass"])
-        self.assertTrue(self.V(self.res, PHYS_LO * 0.95, PHYS_HI * 0.95, expect_physical=False)["pass"])
+        # c5bd01e: the input digest binds a result to the limits it was produced with. A physical-limit
+        # result is NOT re-usable under other limits (intended; stricter, still sound) ...
+        self.assertFalse(self.V(self.res, PHYS_LO * 0.95, PHYS_HI * 0.95, expect_physical=False)["pass"])
+        # ... and a result produced with the scaled limits verifies with expect_physical=False only.
+        r95 = certify_path(self.spans, self.M, PHYS_LO * 0.95, PHYS_HI * 0.95)
+        self.assertEqual(r95.status, "CERTIFIED")
+        self.assertTrue(self.V(r95, PHYS_LO * 0.95, PHYS_HI * 0.95, expect_physical=False)["pass"])
+        self.assertFalse(self.V(r95, PHYS_LO * 0.95, PHYS_HI * 0.95)["pass"])
+        self.assertFalse(self.V(r95)["pass"])
         self.assertFalse(self.V(self.res, PHYS_LO * 2, PHYS_HI * 2)["pass"])
         self.assertEqual(certify_path(self.spans, self.M, PHYS_LO * np.nan, PHYS_HI).status, "INVALID_INPUT")
         self.assertEqual(certify_path(self.spans, self.M, PHYS_LO, PHYS_LO).status, "INVALID_INPUT")
 
-    @unittest.expectedFailure
-    def test_FINDING_nonfinite_limits_should_be_rejected(self):
-        # F-P2-5: +-inf limits give a vacuous CERTIFIED from the producer.
+    def test_nonfinite_limits_rejected(self):
+        # F-P2-5 fixed at c5bd01e (producer and verifier).
         self.assertEqual(certify_path(self.spans, self.M, PHYS_LO * np.inf, PHYS_HI * np.inf).status, "INVALID_INPUT")
+        self.assertEqual(certify_path(self.spans, self.M, PHYS_LO, PHYS_HI * np.inf).status, "INVALID_INPUT")
+        self.assertFalse(self.V(self.res, PHYS_LO * np.inf, PHYS_HI * np.inf, expect_physical=False)["pass"])
 
-    @unittest.expectedFailure
-    def test_FINDING_verifier_should_check_contract_hash(self):
-        # F-P2-1: verify_k4 docstring promises a contract-hash check; a tampered model (hash unchanged) passes.
+    def test_verifier_checks_contract_hash(self):
+        # F-P2-1 fixed at c5bd01e: recomputed hash must equal the recorded AND the frozen v2 SHA.
         bad = copy.deepcopy(self.c)
         bad["model"]["links"][7]["mass"] = "0.0001"
         self.assertFalse(self.V(self.res, contract=bad)["pass"])
+        g0 = copy.deepcopy(self.c)
+        g0["model"]["gravity"] = ["0", "0", "0"]
+        self.assertFalse(self.V(self.res, contract=g0)["pass"])
+        # re-hashed tampered contract (self-consistent) is still refused: it is not the frozen SHA
+        import hashlib
+        g0["contract_sha256"] = hashlib.sha256(json.dumps(g0["model"], sort_keys=True,
+                                                          separators=(",", ":")).encode()).hexdigest()
+        self.assertFalse(self.V(self.res, contract=g0)["pass"])
+        lo, hi = PHYS_LO * 0.3, PHYS_HI * 0.3
+        w = certify_path(self.spans, self.M, lo, hi)
+        self.assertFalse(verify_k4_witness(self.spans, bad, w, lo, hi)["pass"])
+        self.assertFalse(verify_k4_witness(self.spans, g0, w, lo, hi)["pass"])
 
-    @unittest.expectedFailure
-    def test_FINDING_span_coverage_of_unit_interval(self):
-        # F-P2-2: neither producer nor verifier checks that the spans tile [0,1]; a prefix of the spans
-        # (covering only [0, 8/19]) is CERTIFIED and verified although the claim is "every s in [0,1]".
-        sub = self.spans[:20]
-        r = certify_path(sub, self.M, PHYS_LO, PHYS_HI)
-        self.assertFalse(r.status == "CERTIFIED" and self.V(r, spans=sub)["pass"])
+    def test_span_coverage_of_unit_interval(self):
+        # F-P2-2 fixed at c5bd01e (producer, verifier and GeometryCache).
+        sp = list(self.spans)
+        for bad in (sp[:20], sp[1:], sp[:5] + sp[6:], sp[::-1], sp[:3] + [sp[4], sp[3]] + sp[5:]):
+            self.assertEqual(certify_path(bad, self.M, PHYS_LO, PHYS_HI).status, "INVALID_INPUT")
+            self.assertFalse(self.V(self.res, spans=bad)["pass"])
+        from curobo_certify.k4_reuse import GeometryCache
+        self.assertEqual(GeometryCache(self.M, sp, "box").certify(sp[:20], PHYS_LO, PHYS_HI).status, "INVALID_INPUT")
 
-    @unittest.expectedFailure
-    def test_FINDING_path_result_binds_inputs(self):
-        # F-P2-3: the G3 input digest was added to k4_reference only; K4PathResult carries no digest of
-        # spans / contract / limits / source.
-        self.assertTrue(any("digest" in f or "sha" in f for f in self.res.__dataclass_fields__))
+    def test_path_result_binds_inputs(self):
+        # F-P2-3 fixed at c5bd01e: digest over contract SHA, limits and exact spans (q and x).
+        from curobo_certify.boundary_reference import Span
+        self.assertEqual(len(self.res.input_digest), 64)
+        self.assertFalse(self.V(replace(self.res, input_digest=""))["pass"])
+        self.assertFalse(self.V(replace(self.res, input_digest="0" * 64))["pass"])
+        sp = list(self.spans)
+        sp[3] = Span(sp[3].left, sp[3].right, sp[3].q, tuple(c * Q(99, 100) for c in sp[3].x))   # other timing
+        self.assertFalse(self.V(self.res, spans=sp)["pass"])
 
     def test_witness_forgeries_rejected(self):
         lo, hi = PHYS_LO * 0.3, PHYS_HI * 0.3
@@ -373,6 +424,46 @@ class PathAndVerifierAttacks(unittest.TestCase):
         r = certify_path(self.spans, self.M, PHYS_LO * 0.62, PHYS_HI * 0.62, max_depth=-1)
         self.assertIn(r.status, ("UNKNOWN_DEPTH", "VIOLATED_TORQUE"))
         self.assertEqual(certify_path(self.spans[:1], self.M, PHYS_LO[:6], PHYS_HI[:6]).status, "INVALID_INPUT")
+
+
+# =============================================================================== P3 GeometryCache (box / tm1), short look
+@unittest.skipUnless(HAVE_MPMATH, "mpmath required")
+class GeometryCacheAgainstOracle(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.c = load_contract(C2)
+        cls.M = PandaModel(cls.c)
+        cls.spans = C.fixture_spans(ROOT)
+        cls.orc = C.oracle("iv", cls.c)
+
+    def test_box_and_tm1_leaves_contain_oracle_and_verify(self):
+        from curobo_certify.boundary_reference import Span
+        from curobo_certify.k4_reuse import GeometryCache
+        alt = [Span(s.left, s.right, s.q, tuple(Q(1, 2) * v for v in s.x)) for s in self.spans]
+        for mode in ("box", "tm1"):
+            G = GeometryCache(self.M, self.spans, mode)
+            for sp, f in ((self.spans, 1.0), (self.spans, 0.34), (alt, 1.0), (self.spans, 0.3)):
+                lo, hi = PHYS_LO * f, PHYS_HI * f
+                r = G.certify(sp, lo, hi, max_depth=10)
+                st, bad = C.check_path_result(self.orc, sp, r, lo, hi, random.Random(2), 3)
+                self.assertEqual(bad, [], (mode, f))
+                if r.status == "CERTIFIED":
+                    self.assertTrue(verify_k4(sp, self.c, r, lo, hi, expect_physical=(f == 1.0))["pass"], (mode, f))
+                else:
+                    self.assertEqual(r.status, "VIOLATED_TORQUE")
+                    self.assertTrue(verify_k4_witness(sp, self.c, r, lo, hi)["pass"])
+
+    @unittest.expectedFailure
+    def test_FINDING_tm1_should_reject_x_degree_above_3(self):
+        # L-TM1 (latent): GeometryCache.certify (tm1) elevates x to degree 3 and reads 4 Bernstein
+        # coefficients; a higher-degree x silently drops coefficients. extract_timeopt_spans is cubic,
+        # but the public API accepts any Span; it should refuse.
+        from curobo_certify.boundary_reference import Span
+        from curobo_certify.k4_reuse import GeometryCache
+        q = tuple((Q(k, 10), Q(0), Q(1, 2), Q(0)) for k in range(7))
+        s4 = [Span(Q(0), Q(1), q, (Q(1), Q(0), Q(0), Q(0), Q(400)))]
+        r = GeometryCache(self.M, s4, "tm1").certify(s4, PHYS_LO * 1e5, PHYS_HI * 1e5, max_depth=3)
+        self.assertEqual(r.status, "INVALID_INPUT")
 
 
 # =============================================================================== G1 / G3 fixes (k4_reference)
@@ -403,12 +494,27 @@ class G1G3Fixes(unittest.TestCase):
         self.assertNotEqual(d, input_digest([PathSpan.from_values(0, 1, [[0, 1]], [2])], self.P, self.lim))
         self.assertEqual(self.r.input_digest, d)
 
-    @unittest.expectedFailure
-    def test_FINDING_stripped_digest_should_not_bypass_binding(self):
-        # F-G3: replay checks the digest only `if result.input_digest`; stripping it disables the binding.
-        from curobo_certify.k4_reference import replay_witness
+    def test_stripped_digest_does_not_bypass_binding(self):
+        # F-G3 fixed at c5bd01e (both replays).
+        from curobo_certify.k4_reference import certify_torque, replay_torque_leaves, replay_witness
         stripped = replace(self.r, input_digest="")
         self.assertFalse(replay_witness(self.sp, self.P, [(-Q(1, 3), Q(1, 3))], stripped))
+        self.assertFalse(replay_witness(self.sp, self.P, self.lim, stripped))
+        rc = certify_torque(self.sp, self.P, [(-1, 1)])
+        self.assertTrue(replay_torque_leaves(self.sp, self.P, [(-1, 1)], rc))
+        self.assertFalse(replay_torque_leaves(self.sp, self.P, [(-1, 1)], replace(rc, input_digest="")))
+
+    @unittest.expectedFailure
+    def test_FINDING_R1_affine_certificates_should_replay(self):
+        # R1 (REGRESSION introduced by the F-G3 fix, fail-closed): k4_affine.certify_with_prepared_geometry
+        # never sets input_digest, so every genuine affine CERTIFIED now fails replay_torque_leaves.
+        from curobo_certify.k4_affine import certify_with_prepared_geometry, prepare_geometry
+        from curobo_certify.k4_reference import PathSpan, PlanarTwoLink, replay_torque_leaves
+        m = PlanarTwoLink(1, 1, 1, Q(1, 2), Q(1, 2), 0, 0, 0)
+        s = [PathSpan.from_values(0, 1, [[0, 0, Q(1, 2)], [0]], [1])]
+        r = certify_with_prepared_geometry(s, m, [(-3, 3), (-1, 1)], prepare_geometry(s, m, depth=3))
+        self.assertEqual(r.status, "CERTIFIED")
+        self.assertTrue(replay_torque_leaves(s, m, [(-3, 3), (-1, 1)], r))
 
 
 if __name__ == "__main__":

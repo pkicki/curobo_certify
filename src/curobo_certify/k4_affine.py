@@ -95,7 +95,7 @@ def verify_prepared_geometry(spans,model,prepared):
     return True
 
 
-def certify_with_prepared_geometry(spans,model,limits,prepared):
+def _certify_with_prepared_geometry(spans,model,limits,prepared):
     """Conservative certificate for a new timing law using verified frozen geometry.
 
     Returns UNKNOWN for inconclusive interval bounds; no claim about arbitrary
@@ -124,3 +124,14 @@ def certify_with_prepared_geometry(spans,model,limits,prepared):
                         reason="verified geometry coefficient boxes + timing Bernstein hulls")
     except (ValueError,ZeroDivisionError,TypeError,AttributeError) as exc:
         return K4Result("INVALID_INPUT",SCOPE,0,(),reason=str(exc))
+
+
+def certify_with_prepared_geometry(spans,model,limits,prepared):
+    """Wrapper setting the input digest on every result (P2 re-review R1): replay is strict about digests."""
+    import dataclasses
+    from .k4_reference import input_digest
+    res = _certify_with_prepared_geometry(spans, model, limits, prepared)
+    try:
+        return dataclasses.replace(res, input_digest=input_digest(spans, model, limits))
+    except (ValueError, TypeError, AttributeError):
+        return res
