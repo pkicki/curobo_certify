@@ -1,0 +1,28 @@
+{
+ "scope": "EXHAUSTIVE_POSITIVE_NORMAL_FLOAT32_UNARY_AUDIT",
+ "gpu": "NVIDIA A100-PCIE-40GB",
+ "arch": "sm_80",
+ "inputs": 2130706432,
+ "results": {
+  "rcp_1_div_y": {
+   "max_error_ulps": 0.9748725891113281,
+   "worst_input": 4.313759723010495e+37
+  },
+  "sqrtf": {
+   "max_error_ulps": 0.9438104629516602,
+   "worst_input": 2.4805163838760353e+38
+  },
+  "rsqrtf": {
+   "max_error_ulps": 1.514485239982605,
+   "worst_input": 8.640915977564201e+37
+  },
+  "div_by_6": {
+   "max_error_ulps": 0.6666666865348816,
+   "worst_input": 3.4028232635611926e+38
+  }
+ },
+ "assumption_check": {
+  "A3_division_2ulp_documented": true,
+  "A4_sqrtf_3ulp_assumed": true
+ }
+}

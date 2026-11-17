@@ -1,0 +1,162 @@
+{
+ "scope": "T1_V2_BINARY_AND_SASS_AUDIT",
+ "gpu": "NVIDIA A100-PCIE-40GB",
+ "arch": "sm_80",
+ "nvrtc_version": [
+  12,
+  9
+ ],
+ "driver_version": 12020,
+ "torch_cuda": "12.4",
+ "builds": {
+  "production_sampler": {
+   "sources": {
+    "timeopt_path_kernel.cuh": "1a7ef9ea4971c22374824d9037609b94581234bf2aa64dc57e435ede60c7df06"
+   },
+   "combined_source_sha256": "3465190042dc30dd87d6723851b5d3fbd71322406803055bc52f7d735fd1e201",
+   "nvrtc_options": {
+    "std": "c++17",
+    "arch": "sm_80",
+    "ftz": true,
+    "fma": true,
+    "prec_div": false,
+    "prec_sqrt": false,
+    "lineinfo": true,
+    "device_code_optimize": true
+   },
+   "kernels": [
+    "curobo::trajectory::timeopt::sample_with_progress_kernel"
+   ],
+   "cubin_sha256_nondeterministic": "c717fad34d7cd9bbbd3517fc213d21c8c9269e4a1ce47d4b60e954d1d1cf3c56",
+   "sass_sha256": "592e6d1067f1d420954aa48ba8117c3945fd711589e96c3196abf1a37b13676c",
+   "deterministic_recompile": true,
+   "functions": {
+    "_ZN6curobo10trajectory7timeopt27sample_with_progress_kernelEPKfS3_S3_S3_S3_S3_S3_S3_S3_PKbS5_PfS6_iiiiii": {
+     "total": 600,
+     "fp64": {
+      "I2F": 10,
+      "I2F.RP": 1,
+      "MUFU.RCP": 8,
+      "MUFU.RSQ": 1,
+      "MUFU.SQRT": 2
+     },
+     "fp32_ftz": 194
+    }
+   }
+  },
+  "t1_v2_audit": {
+   "sources": {
+    "timeopt_common.cuh": "abc4482ee4d568531c7d73bcbc6547cc4c8d4d53934de89ff5f523a4e9fe40ca",
+    "timeopt_path_kernel.cuh": "1a7ef9ea4971c22374824d9037609b94581234bf2aa64dc57e435ede60c7df06",
+    "same_s_harness.cuh": "206cd38634b54d6044dbe700fb102b2e999dcd520ea97b2bb9209d973b4ad958",
+    "time_inverse_audit_v2.cuh": "fab9450549764262087be1cc41c4eff600921f9f80f950df1bd1a22ef6603d38"
+   },
+   "combined_source_sha256": "c2a73ad79d4967b04617a44deb9d3149fda6d8d61bc4a86481910db38bfaafc4",
+   "nvrtc_options": {
+    "std": "c++17",
+    "arch": "sm_80",
+    "ftz": true,
+    "fma": true,
+    "prec_div": false,
+    "prec_sqrt": false,
+    "lineinfo": true,
+    "device_code_optimize": true
+   },
+   "kernels": [
+    "curobo_certify_harness_v2::inverse_audit_v2",
+    "curobo_certify_harness_v2::progress_chunk_v2"
+   ],
+   "cubin_sha256_nondeterministic": "754576ee0fb0d8483adfb03b1b90ae4383a642f39baef304a36bada5b57123c6",
+   "sass_sha256": "52e18756d5000a716f7becd31907b5252a5a761a0bda1a9068ba2136fdab3f63",
+   "deterministic_recompile": true,
+   "functions": {
+    "_ZN25curobo_certify_harness_v217progress_chunk_v2EPKfS1_S1_S1_S1_S1_S1_S1_jjPfS2_S2_iiii": {
+     "total": 512,
+     "fp64": {
+      "I2F": 8,
+      "MUFU.RCP": 6,
+      "MUFU.RSQ": 1,
+      "MUFU.SQRT": 2
+     },
+     "fp32_ftz": 183
+    },
+    "_ZN25curobo_certify_harness_v216inverse_audit_v2EPKfS1_S1_S1_S1_ijjS1_PKdS3_S3_S3_iPyS4_S4_S4_": {
+     "total": 792,
+     "fp64": {
+      "DADD.RM": 2,
+      "DADD.RP": 4,
+      "DFMA": 34,
+      "DFMA.RM": 2,
+      "DFMA.RP": 2,
+      "DMUL": 13,
+      "DMUL.RM": 1,
+      "DMUL.RP": 1,
+      "DSETP.GE.AND": 3,
+      "DSETP.GEU.AND": 3,
+      "DSETP.GT.AND": 10,
+      "DSETP.GTU.AND": 3,
+      "DSETP.NAN.AND": 4,
+      "F2F.F32.F64.RP": 3,
+      "I2F": 5,
+      "I2F.F64.S64": 5,
+      "I2F.F64.U32": 2,
+      "MUFU.RCP": 2,
+      "MUFU.RCP64H": 5,
+      "MUFU.RSQ": 1,
+      "MUFU.SQRT": 1
+     },
+     "fp32_ftz": 74
+    },
+    "_ZN22curobo_certify_harness11same_s_evalEPKfS1_S1_S1_S1_S1_Pfiiii": {
+     "total": 328,
+     "fp64": {
+      "I2F": 3,
+      "MUFU.RCP": 4,
+      "MUFU.SQRT": 1
+     },
+     "fp32_ftz": 109
+    },
+    "_ZN22curobo_certify_harness13progress_evalEPKfS1_S1_S1_S1_S1_S1_S1_S1_PfS2_iiiii": {
+     "total": 512,
+     "fp64": {
+      "I2F": 8,
+      "MUFU.RCP": 6,
+      "MUFU.RSQ": 1,
+      "MUFU.SQRT": 2
+     },
+     "fp32_ftz": 183
+    },
+    "_ZN6curobo10trajectory7timeopt27sample_with_progress_kernelEPKfS3_S3_S3_S3_S3_S3_S3_S3_PKbS5_PfS6_iiiiii": {
+     "total": 600,
+     "fp64": {
+      "I2F": 10,
+      "I2F.RP": 1,
+      "MUFU.RCP": 8,
+      "MUFU.RSQ": 1,
+      "MUFU.SQRT": 2
+     },
+     "fp32_ftz": 194
+    }
+   }
+  }
+ },
+ "nvdisasm": "Build cuda_12.4.r12.4/compiler.33961263_0",
+ "checks": {
+  "inverse_kernel_found": true,
+  "directed_rounding_ops_present": true,
+  "rounding_moded_ops": {
+   "DADD.RM": 2,
+   "DADD.RP": 4,
+   "DFMA.RM": 2,
+   "DFMA.RP": 2,
+   "DMUL.RM": 1,
+   "DMUL.RP": 1,
+   "F2F.F32.F64.RP": 3
+  },
+  "no_ftz_f32_to_f64_conversion": true,
+  "f2f_ops": {
+   "F2F.F32.F64.RP": 3
+  },
+  "deterministic": true
+ }
+}
