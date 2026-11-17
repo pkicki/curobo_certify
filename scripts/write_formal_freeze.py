@@ -117,6 +117,18 @@ def main():
             "latency": "added fresh p50 <= 1 ms (aspiration) and p95 <= 3 ms (per-query medians, arm B8); "
                        "label FAILED_PARTIAL_TARGET if either misses; thresholds immutable",
             "physical_time_execution": "NOT_ESTABLISHED (no interpolation contract)"},
+        "candidate_designation": "PARTIAL_PERFORMANCE (Dev40: soundness PASS, coverage 40/40, fresh added p50 2.03 ms "
+                                 "misses the 1 ms aspiration; p95 2.17 ms meets 3 ms). No algorithm/tolerance change "
+                                 "after Dev40; only the merge-tool fix (v1.1).",
+        "a100_replication_preregistered": {
+            "subset": "the first 40 eligible PRIMARY (0.95) outputs of Panda-Confirm300 in frozen pool order, plus the "
+                      "secondary (0.99) outputs of the same source queries where natively successful",
+            "gpu": "NVIDIA A100-PCIE-40GB (CUDA_VISIBLE_DEVICES=0), fresh NVRTC compile for sm_80",
+            "runs": ["t1_binary_audit.py on A100 (SASS identity + directed-rounding checks, sm_80)",
+                     "fp_unit_audit.py on A100 (exhaustive positive-normal FP32 unit audit for A1-A5)",
+                     "native_time_audit_v2.py on A100 over the RTX-3090-frozen outputs (A100 executable)",
+                     "bench_fresh_requests.py on A100 for the subset's primary source queries (same settings)"],
+            "rule": "RTX 3090 results are NOT transferred; A100 claims are only those measured on A100"},
         "opened_cohorts": a.open, "gate_reason": a.reason,
         "history": ([prev] if prev and "history" not in prev else (prev.get("history", []) + [{k: v for k, v in prev.items() if k != "history"}])) if prev else [],
     }

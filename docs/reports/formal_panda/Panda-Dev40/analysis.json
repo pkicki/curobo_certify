@@ -1,0 +1,5353 @@
+{
+ "cohort": "Panda-Dev40",
+ "population_flag": "AMENDED_POPULATION_PANDA_ONLY",
+ "original_protocol": "BLOCKED_UR5E_MODEL_LIMITS",
+ "query_manifest_sha256": "2df71f84f9fe5c3bfe2acee5910bdf605c7fe3b80ca66de7241dfc493a9be86e",
+ "first_k": {
+  "attempted": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42
+  ],
+  "selected": [
+   0,
+   1,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42
+  ],
+  "shortfall": 0
+ },
+ "gpu": "NVIDIA GeForce RTX 3090",
+ "contracts_note": "MODEL_K3: exact serialized model, continuous time; NATIVE_REPORTED_K3: conditional (A1-A5) FP32 reported values at every native progress; T1: per-output exhaustive float32 requested-time audit on this binary/GPU. None is a physical execution claim.",
+ "arms": {
+  "primary": {
+   "attempted_source_queries": 43,
+   "native_success": 40,
+   "native_failures": 3,
+   "eligible": 40,
+   "native_success_rate": {
+    "k": 40,
+    "n": 43,
+    "fraction": 0.9302325581395349,
+    "one_sided_95_lower_exact": 0.8294368731116151,
+    "two_sided_95_exact": [
+     0.8093927681142077,
+     0.9853745030048678
+    ],
+    "meets_99_descriptive": false,
+    "meets_99_inferential_one_sided": false
+   },
+   "MODEL_K3": {
+    "CERTIFIED": 40,
+    "VIOLATED": 0,
+    "VIOLATED_BOUNDARY": 0,
+    "UNKNOWN": 0,
+    "coverage": {
+     "k": 40,
+     "n": 40,
+     "fraction": 1.0,
+     "one_sided_95_lower_exact": 0.9278424754944854,
+     "two_sided_95_exact": [
+      0.9119026971211975,
+      1.0
+     ],
+     "meets_99_descriptive": true,
+     "meets_99_inferential_one_sided": false
+    },
+    "status_counts": {
+     "CERTIFIED": 40
+    }
+   },
+   "NATIVE_REPORTED_K3": {
+    "CERTIFIED": 40,
+    "UNKNOWN_TIGHTENED_WITNESS": 0,
+    "coverage": {
+     "k": 40,
+     "n": 40,
+     "fraction": 1.0,
+     "one_sided_95_lower_exact": 0.9278424754944854,
+     "two_sided_95_exact": [
+      0.9119026971211975,
+      1.0
+     ],
+     "meets_99_descriptive": true,
+     "meets_99_inferential_one_sided": false
+    },
+    "status_counts": {
+     "CERTIFIED": 40
+    }
+   },
+   "T1_AUDITED_FLOAT32_TIMES": {
+    "audited_consistent": 40,
+    "audit_fraction": {
+     "k": 40,
+     "n": 40,
+     "fraction": 1.0,
+     "one_sided_95_lower_exact": 0.9278424754944854,
+     "two_sided_95_exact": [
+      0.9119026971211975,
+      1.0
+     ],
+     "meets_99_descriptive": true,
+     "meets_99_inferential_one_sided": false
+    },
+    "reported_within_limits": 40,
+    "reported_exceeds": 0,
+    "times_enumerated_total": 42236084028,
+    "eps_s": {
+     "p50": 1.4647649493326753e-07,
+     "p95": 2.2482876929075247e-07,
+     "p99": 2.3611336985140952e-07,
+     "max": 2.4198487835747073e-07,
+     "n": 40
+    },
+    "offline_audit_s": {
+     "p50": 10.43349477450829,
+     "p95": 11.148119524749927,
+     "p99": 11.636709210616537,
+     "max": 11.698534070979804,
+     "n": 40
+    },
+    "relative_state_deviation_max": {
+     "v": 7.028672562262369e-06,
+     "a": 7.548104531448102e-06,
+     "j": 0.00023069622739814699
+    }
+   },
+   "exact_genuine_violation_outputs": 0,
+   "by_scene": {
+    "collision_primitives_3d": {
+     "attempted": 12,
+     "eligible": 12,
+     "model_k3_certified": 12
+    },
+    "collision_table": {
+     "attempted": 9,
+     "eligible": 8,
+     "model_k3_certified": 8
+    },
+    "collision_test": {
+     "attempted": 11,
+     "eligible": 9,
+     "model_k3_certified": 9
+    },
+    "empty": {
+     "attempted": 11,
+     "eligible": 11,
+     "model_k3_certified": 11
+    }
+   }
+  },
+  "secondary": {
+   "attempted_source_queries": 43,
+   "native_success": 40,
+   "native_failures": 3,
+   "eligible": 40,
+   "native_success_rate": {
+    "k": 40,
+    "n": 43,
+    "fraction": 0.9302325581395349,
+    "one_sided_95_lower_exact": 0.8294368731116151,
+    "two_sided_95_exact": [
+     0.8093927681142077,
+     0.9853745030048678
+    ],
+    "meets_99_descriptive": false,
+    "meets_99_inferential_one_sided": false
+   },
+   "MODEL_K3": {
+    "CERTIFIED": 40,
+    "VIOLATED": 0,
+    "VIOLATED_BOUNDARY": 0,
+    "UNKNOWN": 0,
+    "coverage": {
+     "k": 40,
+     "n": 40,
+     "fraction": 1.0,
+     "one_sided_95_lower_exact": 0.9278424754944854,
+     "two_sided_95_exact": [
+      0.9119026971211975,
+      1.0
+     ],
+     "meets_99_descriptive": true,
+     "meets_99_inferential_one_sided": false
+    },
+    "status_counts": {
+     "CERTIFIED": 40
+    }
+   },
+   "NATIVE_REPORTED_K3": {
+    "CERTIFIED": 40,
+    "UNKNOWN_TIGHTENED_WITNESS": 0,
+    "coverage": {
+     "k": 40,
+     "n": 40,
+     "fraction": 1.0,
+     "one_sided_95_lower_exact": 0.9278424754944854,
+     "two_sided_95_exact": [
+      0.9119026971211975,
+      1.0
+     ],
+     "meets_99_descriptive": true,
+     "meets_99_inferential_one_sided": false
+    },
+    "status_counts": {
+     "CERTIFIED": 40
+    }
+   },
+   "T1_AUDITED_FLOAT32_TIMES": {
+    "audited_consistent": 40,
+    "audit_fraction": {
+     "k": 40,
+     "n": 40,
+     "fraction": 1.0,
+     "one_sided_95_lower_exact": 0.9278424754944854,
+     "two_sided_95_exact": [
+      0.9119026971211975,
+      1.0
+     ],
+     "meets_99_descriptive": true,
+     "meets_99_inferential_one_sided": false
+    },
+    "reported_within_limits": 40,
+    "reported_exceeds": 0,
+    "times_enumerated_total": 42225322476,
+    "eps_s": {
+     "p50": 1.4102518974823397e-07,
+     "p95": 1.8518424340641102e-07,
+     "p99": 2.1719735713077168e-07,
+     "max": 2.3368697554815299e-07,
+     "n": 40
+    },
+    "offline_audit_s": {
+     "p50": 10.47752444643993,
+     "p95": 11.656967331748456,
+     "p99": 11.792214102852158,
+     "max": 11.809804584132507,
+     "n": 40
+    },
+    "relative_state_deviation_max": {
+     "v": 5.703313493231353e-06,
+     "a": 7.527065964624091e-06,
+     "j": 0.0002678355960236149
+    }
+   },
+   "exact_genuine_violation_outputs": 0,
+   "by_scene": {
+    "collision_primitives_3d": {
+     "attempted": 12,
+     "eligible": 12,
+     "model_k3_certified": 12
+    },
+    "collision_table": {
+     "attempted": 9,
+     "eligible": 8,
+     "model_k3_certified": 8
+    },
+    "collision_test": {
+     "attempted": 11,
+     "eligible": 9,
+     "model_k3_certified": 9
+    },
+    "empty": {
+     "attempted": 11,
+     "eligible": 11,
+     "model_k3_certified": 11
+    }
+   }
+  }
+ },
+ "paired_duration_0p99_vs_0p95": {
+  "n": 40,
+  "median": 2.402628704476035,
+  "ci95": [
+   1.8255148592611778,
+   2.7468421718645275
+  ],
+  "bootstrap_unit": "pair_id",
+  "resamples": 10000,
+  "seed": 20261117,
+  "definition": "100*(T_0.95 - T_0.99)/T_0.95 per source query; positive = 0.99 faster",
+  "pairs_primary_eligible": 40,
+  "pairs_with_secondary_success": 40
+ },
+ "frozen_output_methods_primary": {
+  "physical/H0": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.0980215,
+    "p95": 3.120821275,
+    "p99": 3.13224168,
+    "max": 3.1377360000000003,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.0887615,
+    3.10450975
+   ]
+  },
+  "physical/U1": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.88641125,
+    "p95": 3.9072538,
+    "p99": 3.91054019,
+    "max": 3.9117995,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.8800072500000002,
+    3.889484
+   ]
+  },
+  "physical/U2": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 5.62027725,
+    "p95": 5.662890624999999,
+    "p99": 5.672495985,
+    "max": 5.6761575,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    5.6078075,
+    5.630803
+   ]
+  },
+  "physical/U4": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 19.175614,
+    "p95": 19.3618029,
+    "p99": 19.447301655,
+    "max": 19.472119499999998,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    19.132365749999998,
+    19.238547750000002
+   ]
+  },
+  "physical/U6": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 92.40170549999999,
+    "p95": 95.6421307,
+    "p99": 96.71284667,
+    "max": 97.3373915,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    92.29237624999999,
+    92.72972874999999
+   ]
+  },
+  "physical/A": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.31611925,
+    "p95": 3.3431811249999996,
+    "p99": 3.35761456,
+    "max": 3.3604209999999997,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.3108269999999997,
+    3.3223884999999997
+   ]
+  },
+  "physical/A-nw": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.09570075,
+    "p95": 3.11694565,
+    "p99": 3.129877935,
+    "max": 3.1355265,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.0873749999999998,
+    3.09881675
+   ]
+  },
+  "physical/A-d0": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.31845,
+    "p95": 3.34829005,
+    "p99": 3.35523919,
+    "max": 3.3591895000000003,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.31351,
+    3.32213225
+   ]
+  },
+  "physical/A-d2": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.31563825,
+    "p95": 3.34399875,
+    "p99": 3.3548431649999997,
+    "max": 3.357291,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.30723275,
+    3.32156725
+   ]
+  },
+  "physical/A-d4": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.31615825,
+    "p95": 3.3372600250000004,
+    "p99": 3.35728976,
+    "max": 3.3634385,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.30839,
+    3.32373625
+   ]
+  },
+  "physical/A-d8": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.315509,
+    "p95": 3.351757625,
+    "p99": 3.3554922549999997,
+    "max": 3.3568945,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.306795,
+    3.320964
+   ]
+  },
+  "physical/A-d12": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.317058,
+    "p95": 3.34431595,
+    "p99": 3.3501605899999998,
+    "max": 3.351104,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.30707875,
+    3.320571
+   ]
+  },
+  "physical/A-d16": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.31819225,
+    "p95": 3.3496516,
+    "p99": 3.35682303,
+    "max": 3.3598155,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.3081845000000003,
+    3.3217625
+   ]
+  },
+  "physical/A-n2048": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.3147165000000003,
+    "p95": 3.340429825,
+    "p99": 3.349545955,
+    "max": 3.35353,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.30952175,
+    3.3238415000000003
+   ]
+  },
+  "physical/A-n8192": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.31816225,
+    "p95": 3.3510890250000003,
+    "p99": 3.3658337,
+    "max": 3.3701705,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.30795625,
+    3.32235325
+   ]
+  },
+  "physical/A-n32768": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.3140345,
+    "p95": 3.33472975,
+    "p99": 3.3487267650000003,
+    "max": 3.3560144999999997,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    3.3068282499999997,
+    3.3210905
+   ]
+  },
+  "planning/H0": {
+   "n": 40,
+   "certified": 0,
+   "violated": 0,
+   "unknown": 40,
+   "per_path_median_ms": {
+    "p50": 1.8759234999999999,
+    "p95": 1.8916280749999999,
+    "p99": 1.89901052,
+    "max": 1.9006805,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    1.8646245125,
+    1.8799375
+   ]
+  },
+  "planning/U1": {
+   "n": 40,
+   "certified": 3,
+   "violated": 0,
+   "unknown": 37,
+   "per_path_median_ms": {
+    "p50": 2.26130025,
+    "p95": 3.8622468000000003,
+    "p99": 3.8895264899999997,
+    "max": 3.8916945,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.25319775,
+    2.2653109999999996
+   ]
+  },
+  "planning/U2": {
+   "n": 40,
+   "certified": 16,
+   "violated": 0,
+   "unknown": 24,
+   "per_path_median_ms": {
+    "p50": 2.965026,
+    "p95": 5.652780075,
+    "p99": 5.6865480250000005,
+    "max": 5.7080575,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.94622775,
+    5.601801249999999
+   ]
+  },
+  "planning/U4": {
+   "n": 40,
+   "certified": 24,
+   "violated": 0,
+   "unknown": 16,
+   "per_path_median_ms": {
+    "p50": 19.131505,
+    "p95": 19.3568592,
+    "p99": 19.4536683,
+    "max": 19.510932,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    7.1854525,
+    19.221778
+   ]
+  },
+  "planning/U6": {
+   "n": 40,
+   "certified": 26,
+   "violated": 0,
+   "unknown": 14,
+   "per_path_median_ms": {
+    "p50": 92.3123255,
+    "p95": 94.85289617500001,
+    "p99": 95.59999011000001,
+    "max": 95.65195800000001,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    59.456345750000004,
+    92.56063975
+   ]
+  },
+  "planning/A": {
+   "n": 40,
+   "certified": 26,
+   "violated": 14,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.3165955,
+    "p95": 3.3466135500000003,
+    "p99": 3.3683481,
+    "max": 3.375957,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.6926915,
+    3.3284572499999996
+   ]
+  },
+  "planning/A-nw": {
+   "n": 40,
+   "certified": 26,
+   "violated": 0,
+   "unknown": 14,
+   "per_path_median_ms": {
+    "p50": 3.0955975000000002,
+    "p95": 3.121769025,
+    "p99": 3.1491576850000005,
+    "max": 3.1554985,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.55370125,
+    3.10605975
+   ]
+  },
+  "planning/A-d0": {
+   "n": 40,
+   "certified": 0,
+   "violated": 0,
+   "unknown": 40,
+   "per_path_median_ms": {
+    "p50": 2.0927082500000003,
+    "p95": 2.107975375,
+    "p99": 2.121124955,
+    "max": 2.1230225,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.08119825,
+    2.0960152499999998
+   ]
+  },
+  "planning/A-d2": {
+   "n": 40,
+   "certified": 16,
+   "violated": 7,
+   "unknown": 17,
+   "per_path_median_ms": {
+    "p50": 2.1105625000000003,
+    "p95": 3.33877795,
+    "p99": 3.36650292,
+    "max": 3.3815264999999997,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.0857965000000003,
+    3.30761625
+   ]
+  },
+  "planning/A-d4": {
+   "n": 40,
+   "certified": 24,
+   "violated": 13,
+   "unknown": 3,
+   "per_path_median_ms": {
+    "p50": 3.3206887500000004,
+    "p95": 3.34627885,
+    "p99": 3.3756515749999996,
+    "max": 3.3847025,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.094082,
+    3.3283015000000002
+   ]
+  },
+  "planning/A-d8": {
+   "n": 40,
+   "certified": 26,
+   "violated": 14,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.3204455,
+    "p95": 3.359074975,
+    "p99": 3.3764527899999996,
+    "max": 3.3868225,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.69932,
+    3.328167
+   ]
+  },
+  "planning/A-d12": {
+   "n": 40,
+   "certified": 26,
+   "violated": 14,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.32302675,
+    "p95": 3.352340325,
+    "p99": 3.3680707300000003,
+    "max": 3.3770185,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.6982975,
+    3.32906775
+   ]
+  },
+  "planning/A-d16": {
+   "n": 40,
+   "certified": 26,
+   "violated": 14,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.324498,
+    "p95": 3.3514893249999997,
+    "p99": 3.3737865949999994,
+    "max": 3.38324,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.6939692500000003,
+    3.3275682499999997
+   ]
+  },
+  "planning/A-n2048": {
+   "n": 40,
+   "certified": 26,
+   "violated": 14,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.32105425,
+    "p95": 3.3490387,
+    "p99": 3.3762717099999997,
+    "max": 3.3820675,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.698621,
+    3.3293142500000004
+   ]
+  },
+  "planning/A-n8192": {
+   "n": 40,
+   "certified": 26,
+   "violated": 14,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.316853,
+    "p95": 3.3470877999999997,
+    "p99": 3.3697112649999994,
+    "max": 3.3828294999999997,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.69946225,
+    3.3280804999999996
+   ]
+  },
+  "planning/A-n32768": {
+   "n": 40,
+   "certified": 26,
+   "violated": 14,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 3.319784,
+    "p95": 3.3468341999999995,
+    "p99": 3.3756639449999994,
+    "max": 3.3874125,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    2.69353075,
+    3.3297972499999995
+   ]
+  },
+  "native/H0": {
+   "n": 40,
+   "certified": 38,
+   "violated": 0,
+   "unknown": 2,
+   "per_path_median_ms": {
+    "p50": 12.09617575,
+    "p95": 12.205287675,
+    "p99": 12.2149643,
+    "max": 12.2151905,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.080331999999999,
+    12.12495925
+   ]
+  },
+  "native/U1": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.886073249999999,
+    "p95": 13.013375900000002,
+    "p99": 13.039162525000002,
+    "max": 13.051799500000001,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.873712999999999,
+    12.924546249999999
+   ]
+  },
+  "native/U2": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 14.62406875,
+    "p95": 14.736525299999998,
+    "p99": 14.784287334999998,
+    "max": 14.786656,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    14.60907275,
+    14.65322025
+   ]
+  },
+  "native/U4": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 28.23039975,
+    "p95": 28.398717625,
+    "p99": 28.438653105,
+    "max": 28.454459999999997,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    28.16997,
+    28.25090575
+   ]
+  },
+  "native/U6": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 101.55445125,
+    "p95": 104.87699309999999,
+    "p99": 105.49126922999999,
+    "max": 105.51033749999999,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    101.39197375,
+    101.73852725
+   ]
+  },
+  "native/A": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.318983249999999,
+    "p95": 12.4202114,
+    "p99": 12.474408815,
+    "max": 12.488367499999999,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.3014595,
+    12.3525955
+   ]
+  },
+  "native/A-nw": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.101285,
+    "p95": 12.197261025000001,
+    "p99": 12.217985505000001,
+    "max": 12.2268075,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.07776825,
+    12.1338
+   ]
+  },
+  "native/A-d0": {
+   "n": 40,
+   "certified": 38,
+   "violated": 0,
+   "unknown": 2,
+   "per_path_median_ms": {
+    "p50": 12.3171385,
+    "p95": 12.431544575,
+    "p99": 12.44722807,
+    "max": 12.455335,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.294466499999999,
+    12.348599499999999
+   ]
+  },
+  "native/A-d2": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.322409749999998,
+    "p95": 12.412882924999998,
+    "p99": 12.444372005,
+    "max": 12.4571135,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.304988250000001,
+    12.339209
+   ]
+  },
+  "native/A-d4": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.32547025,
+    "p95": 12.412587149999998,
+    "p99": 12.427580805,
+    "max": 12.436005,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.30376225,
+    12.34150525
+   ]
+  },
+  "native/A-d8": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.3170975,
+    "p95": 12.417248449999999,
+    "p99": 12.427813375,
+    "max": 12.428549499999999,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.29235025,
+    12.3466335
+   ]
+  },
+  "native/A-d12": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.3211795,
+    "p95": 12.419562,
+    "p99": 12.43668599,
+    "max": 12.4406675,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.296221,
+    12.35232475
+   ]
+  },
+  "native/A-d16": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.31738825,
+    "p95": 12.440419299999999,
+    "p99": 12.484329305000001,
+    "max": 12.484466000000001,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.3038335,
+    12.330930500000001
+   ]
+  },
+  "native/A-n2048": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.3234375,
+    "p95": 12.4211527,
+    "p99": 12.44466684,
+    "max": 12.4571835,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.3051985,
+    12.34544225
+   ]
+  },
+  "native/A-n8192": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.317756,
+    "p95": 12.440694624999999,
+    "p99": 12.44972971,
+    "max": 12.4554865,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.30605975,
+    12.33858825
+   ]
+  },
+  "native/A-n32768": {
+   "n": 40,
+   "certified": 40,
+   "violated": 0,
+   "unknown": 0,
+   "per_path_median_ms": {
+    "p50": 12.321139500000001,
+    "p95": 12.423876949999999,
+    "p99": 12.461828235,
+    "max": 12.4812945,
+    "n": 40
+   },
+   "ci95_median_ms": [
+    12.306263999999999,
+    12.34173575
+   ]
+  }
+ },
+ "fresh_latency_primary": {
+  "arm": "B8",
+  "queries": 43,
+  "per_query_median_added_ms": {
+   "p50": 2.0323,
+   "p95": 2.16969745,
+   "p99": 2.2470493300000003,
+   "max": 2.2850859999999997,
+   "n": 43
+  },
+  "ci95_median_added_ms": [
+   2.0254965,
+   2.039461
+  ],
+  "pooled_requests_added_ms": {
+   "p50": 2.0302340000000005,
+   "p95": 2.353549649999997,
+   "p99": 3.5513274899999976,
+   "max": 8.567423999999999,
+   "n": 430
+  },
+  "by_status": {
+   "CERTIFIED": {
+    "p50": 2.0334442499999996,
+    "p95": 2.1755020750000003,
+    "p99": 2.2497662350000005,
+    "max": 2.2850859999999997,
+    "n": 40
+   },
+   "NATIVE_FAILURE": {
+    "p50": 0.009040999999999855,
+    "p95": 0.037960249999999356,
+    "p99": 0.04053084999999932,
+    "max": 0.04117349999999931,
+    "n": 3
+   }
+  },
+  "stage_ms_pooled": {
+   "plan_ms": {
+    "p50": 7.5620805,
+    "p95": 8.757063099999998,
+    "p99": 9.205016199999998,
+    "max": 13.729942,
+    "n": 400
+   },
+   "d2h_ms": {
+    "p50": 0.0490885,
+    "p95": 0.050782999999999995,
+    "p99": 0.05920790999999999,
+    "max": 0.066105,
+    "n": 400
+   },
+   "native_bound_ms": {
+    "p50": 1.2544075000000001,
+    "p95": 1.2862811999999997,
+    "p99": 1.8831569099999996,
+    "max": 1.986246,
+    "n": 400
+   },
+   "producer_ms": {
+    "p50": 0.4553575,
+    "p95": 0.48417744999999995,
+    "p99": 0.7149905199999996,
+    "max": 0.772872,
+    "n": 400
+   },
+   "verifier_ms": {
+    "p50": 0.346761,
+    "p95": 0.36560149999999997,
+    "p99": 0.5209644999999997,
+    "max": 0.570241,
+    "n": 400
+   }
+  },
+  "native_ms_per_query_median": {
+   "p50": 7.638897,
+   "p95": 19.68406424999998,
+   "p99": 21.438246689999996,
+   "max": 21.781546499999997,
+   "n": 43
+  },
+  "distinct_output_digest_queries": 2,
+  "targets": {
+   "p50_le_1ms": false,
+   "p95_le_3ms": true
+  },
+  "label": "FAILED_PARTIAL_TARGET",
+  "statuses_by_arm_disagree": null,
+  "secondary_arms": {
+   "B1": {
+    "p50": 12.308689999999999,
+    "p95": 12.429963399999998,
+    "p99": 12.458478060000001,
+    "max": 12.473559000000002,
+    "n": 43
+   }
+  }
+ },
+ "t1_evidence": [
+  {
+   "gpu": "NVIDIA GeForce RTX 3090",
+   "capability": [
+    8,
+    6
+   ],
+   "compile_flags": [
+    "-O3",
+    "--ftz=true",
+    "--fmad=true",
+    "--prec-div=false",
+    "--prec-sqrt=false",
+    "--generate-line-info"
+   ],
+   "source_sha256": {
+    "timeopt_common.cuh": "abc4482ee4d568531c7d73bcbc6547cc4c8d4d53934de89ff5f523a4e9fe40ca",
+    "timeopt_path_kernel.cuh": "1a7ef9ea4971c22374824d9037609b94581234bf2aa64dc57e435ede60c7df06",
+    "same_s_harness.cuh": "206cd38634b54d6044dbe700fb102b2e999dcd520ea97b2bb9209d973b4ad958",
+    "time_inverse_audit_v2.cuh": "fab9450549764262087be1cc41c4eff600921f9f80f950df1bd1a22ef6603d38",
+    "timeopt_path_helpers.cuh": "c66a2f8eaa5a3e159b27aaec134852b1c12d8cb010eb309a146ca3e1bb682e77"
+   },
+   "grid_module_sha256": "f2c410b76644d51b11dafd458c3eb3f5b9b1551ead2afeff5e0e1f7c12c655d3",
+   "driver_script_sha256": "ce380518921e0df7ed9689ced36ca71be886a6fd133069c912ade5b3f332c705"
+  }
+ ],
+ "fresh_evidence": [
+  {
+   "gpu": "NVIDIA GeForce RTX 3090",
+   "contract": "native",
+   "threads_arms": [
+    1,
+    8
+   ],
+   "warmups": 50,
+   "repeats": 10,
+   "query_manifest_sha256": "2932cf28c2f54919aba07e026e921e5f3124c0bdcf8f82def565a35e6827add8",
+   "builds": [
+    {
+     "source": "src/curobo_certify/native/k3_certifier.cpp",
+     "source_sha256": "9ed562936c70dc04b37f5983ef12da2a4ac8d16300834c0e9a67c349cd31a793",
+     "exports_map_sha256": "b82625cc4e7b00a3dab18c1fb4c213f5dd1e24fff6db79485948e0af53006de5",
+     "binary_sha256": "87b5def0289a302b9ca7ff1eec4b4d6190779d356454c3932b2fdf2b44cd2586",
+     "command": [
+      "g++",
+      "-std=c++17",
+      "-O3",
+      "-shared",
+      "-fPIC",
+      "-fopenmp",
+      "-fvisibility=hidden",
+      "-fvisibility-inlines-hidden",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "/home/pkicki/curobo_certify/src/curobo_certify/native/k3_certifier.cpp",
+      "-Wl,--version-script=/home/pkicki/curobo_certify/src/curobo_certify/native/exports.map",
+      "-o",
+      "/tmp/tmph_5ptsiq/c.so"
+     ],
+     "compiler": "g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
+    },
+    {
+     "source": "src/curobo_certify/native/k3_verifier.cpp",
+     "source_sha256": "b8a6b913b24be2c75a16f8b63016472947a8ca85f17cc9eddf668dd0dbf25393",
+     "exports_map_sha256": "b82625cc4e7b00a3dab18c1fb4c213f5dd1e24fff6db79485948e0af53006de5",
+     "binary_sha256": "75a62afa503d3b7cac324a41b3d49feeb81295854c30e3ab3ae6556d327e3f47",
+     "command": [
+      "g++",
+      "-std=c++17",
+      "-O3",
+      "-shared",
+      "-fPIC",
+      "-fopenmp",
+      "-fvisibility=hidden",
+      "-fvisibility-inlines-hidden",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "/home/pkicki/curobo_certify/src/curobo_certify/native/k3_verifier.cpp",
+      "-Wl,--version-script=/home/pkicki/curobo_certify/src/curobo_certify/native/exports.map",
+      "-o",
+      "/tmp/tmph_5ptsiq/v.so"
+     ],
+     "compiler": "g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
+    }
+   ]
+  }
+ ],
+ "hard_stops": [],
+ "gate": "PASS_SOUNDNESS",
+ "rows": {
+  "primary": [
+   {
+    "source_id": "panda-dev40-0000-margin_0p950",
+    "pair_id": "panda-dev40-0000",
+    "pool_order": 0,
+    "scene": "collision_table",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "a077074eeb38d8e6c38392032827032accc2658947c62cc119656b406ed0ac81",
+    "native_duration_s": 0.27011844515800476,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.950019896030426,
+     "event_aware": 0.950019896030426
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.337123,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.488367499999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.443936383793698e-07,
+    "T1_reported_max_util": {
+     "v": 0.5818538135628056,
+     "a": 0.9500200907389323,
+     "j": 0.9498077392578125
+    },
+    "T1_offline_s": 11.540008787997067,
+    "T1_stages_s": {
+     "grid_s": 2.0245352550409734,
+     "saved_production_replay_s": 0.10337304207496345,
+     "gpu_enumeration_s": 8.470099713886157,
+     "cpu_crosscheck_s": 0.5193897839635611,
+     "lipschitz_s": 0.20560130500234663
+    },
+    "T1_times": 1049251064,
+    "T1_relative_deviation": {
+     "v": 9.030226148510144e-07,
+     "a": 2.158352949383373e-06,
+     "j": 6.741839159630242e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0001-margin_0p950",
+    "pair_id": "panda-dev40-0001",
+    "pool_order": 1,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "f265ef295a7e072b87678ebdb7135b4630b8b2fed776189aa9002df930cc2c45",
+    "native_duration_s": 0.8158124685287476,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9490972757339478,
+     "event_aware": 0.9490972757339478
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3604209999999997,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.452576,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.1925192211492686e-07,
+    "T1_reported_max_util": {
+     "v": 0.9490973582015061,
+     "a": 0.9445536295572917,
+     "j": 0.9474771728515625
+    },
+    "T1_offline_s": 10.850357729941607,
+    "T1_stages_s": {
+     "grid_s": 2.0312190749682486,
+     "saved_production_replay_s": 0.002385839121416211,
+     "gpu_enumeration_s": 8.266728512942791,
+     "cpu_crosscheck_s": 0.1749770538881421,
+     "lipschitz_s": 0.16690576798282564
+    },
+    "T1_times": 1062263063,
+    "T1_relative_deviation": {
+     "v": 3.4802461879259066e-06,
+     "a": 3.9399451843414e-06,
+     "j": 9.7964836747533e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0002-margin_0p950",
+    "pair_id": "panda-dev40-0002",
+    "pool_order": 2,
+    "scene": "collision_table",
+    "magnitude": "large",
+    "native_status": "FAILED_RETAINED",
+    "planner_success": false,
+    "eligible": false,
+    "failure_reason": "RuntimeError: native planner/TimeOpt failure: success=[[False]], status=None"
+   },
+   {
+    "source_id": "panda-dev40-0003-margin_0p950",
+    "pair_id": "panda-dev40-0003",
+    "pool_order": 3,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "e2af2a7d1268e6bedbeede5fd94bbac011675c989a70a6dde3d44dec979ab1a4",
+    "native_duration_s": 0.5359787344932556,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9560664892196655,
+     "event_aware": 0.9560685157775879
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3403635,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3728685,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 2.150226379171727e-07,
+    "T1_reported_max_util": {
+     "v": 0.9484068760577427,
+     "a": 0.9491824467976888,
+     "j": 0.9560698852539062
+    },
+    "T1_offline_s": 10.888987669022754,
+    "T1_stages_s": {
+     "grid_s": 2.0314787419047207,
+     "saved_production_replay_s": 0.0030000729020684958,
+     "gpu_enumeration_s": 8.304797349032015,
+     "cpu_crosscheck_s": 0.17532962188124657,
+     "lipschitz_s": 0.16518161189742386
+    },
+    "T1_times": 1057568232,
+    "T1_relative_deviation": {
+     "v": 4.315959457336372e-06,
+     "a": 5.78723357635433e-06,
+     "j": 0.0001950783330233553
+    }
+   },
+   {
+    "source_id": "panda-dev40-0004-margin_0p950",
+    "pair_id": "panda-dev40-0004",
+    "pool_order": 4,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "FAILED_RETAINED",
+    "planner_success": false,
+    "eligible": false,
+    "failure_reason": "RuntimeError: native planner/TimeOpt failure: success=[[False]], status=None"
+   },
+   {
+    "source_id": "panda-dev40-0005-margin_0p950",
+    "pair_id": "panda-dev40-0005",
+    "pool_order": 5,
+    "scene": "empty",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "8eb2cb7cc47d1cc33b87200f6d35fb84d48fc172d6e68a2d152f30d736dca589",
+    "native_duration_s": 0.5213649868965149,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9501944780349731,
+     "event_aware": 0.9501948952674866
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.316854,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3854765,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.7150001951904414e-07,
+    "T1_reported_max_util": {
+     "v": 0.9417308268433237,
+     "a": 0.9384642918904622,
+     "j": 0.9501951293945312
+    },
+    "T1_offline_s": 10.78970202198252,
+    "T1_stages_s": {
+     "grid_s": 2.016950174001977,
+     "saved_production_replay_s": 0.002176671987399459,
+     "gpu_enumeration_s": 8.220708000008017,
+     "cpu_crosscheck_s": 0.1754935320932418,
+     "lipschitz_s": 0.164010836975649
+    },
+    "T1_times": 1057323054,
+    "T1_relative_deviation": {
+     "v": 3.123241548269239e-06,
+     "a": 4.350587736167624e-06,
+     "j": 0.0001392629257047528
+    }
+   },
+   {
+    "source_id": "panda-dev40-0006-margin_0p950",
+    "pair_id": "panda-dev40-0006",
+    "pool_order": 6,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "d3b2e5cd0fd00bb4331bd1acf2f4426c9e170c54f01b5b2e71ed83ed67376288",
+    "native_duration_s": 0.6892722845077515,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.952669620513916,
+     "event_aware": 0.9526814818382263
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.322059,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.2886885,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.655942867273552e-07,
+    "T1_reported_max_util": {
+     "v": 0.9498230276397843,
+     "a": 0.9501798629760743,
+     "j": 0.9526831665039063
+    },
+    "T1_offline_s": 10.189764913870022,
+    "T1_stages_s": {
+     "grid_s": 2.011562092928216,
+     "saved_production_replay_s": 0.0021420270204544067,
+     "gpu_enumeration_s": 7.62761192698963,
+     "cpu_crosscheck_s": 0.17629777500405908,
+     "lipschitz_s": 0.16797205107286572
+    },
+    "T1_times": 1060140071,
+    "T1_relative_deviation": {
+     "v": 3.791979698552685e-06,
+     "a": 5.1194422965038836e-06,
+     "j": 0.00012244248118131206
+    }
+   },
+   {
+    "source_id": "panda-dev40-0007-margin_0p950",
+    "pair_id": "panda-dev40-0007",
+    "pool_order": 7,
+    "scene": "collision_test",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "af91ff78e8b2a6f8df72459c21c8edd133f88adb7cc8dbe23ab5d4713e74cc44",
+    "native_duration_s": 0.7985641360282898,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9499645233154297,
+     "event_aware": 0.9499645233154297
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3246485,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.290802,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.8988046690537885e-07,
+    "T1_reported_max_util": {
+     "v": 0.9496465430785112,
+     "a": 0.9494407018025716,
+     "j": 0.9499645385742187
+    },
+    "T1_offline_s": 11.051146224839613,
+    "T1_stages_s": {
+     "grid_s": 2.0206650251057,
+     "saved_production_replay_s": 0.002367171924561262,
+     "gpu_enumeration_s": 8.479649530025199,
+     "cpu_crosscheck_s": 0.17663624789565802,
+     "lipschitz_s": 0.1660661620553583
+    },
+    "T1_times": 1061973684,
+    "T1_relative_deviation": {
+     "v": 5.560171185230356e-06,
+     "a": 6.1283902675265555e-06,
+     "j": 0.0001671619205718465
+    }
+   },
+   {
+    "source_id": "panda-dev40-0008-margin_0p950",
+    "pair_id": "panda-dev40-0008",
+    "pool_order": 8,
+    "scene": "collision_table",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "dfa12a2fbaa55a27603dff7d19d3c8453d378d0884b76df8765461ec0054c807",
+    "native_duration_s": 0.4886030852794647,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9549696445465088,
+     "event_aware": 0.9549729824066162
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.307265,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.369830499999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.481885476550815e-07,
+    "T1_reported_max_util": {
+     "v": 0.9490358799879384,
+     "a": 0.9498339970906575,
+     "j": 0.9549735107421875
+    },
+    "T1_offline_s": 10.861392724094912,
+    "T1_stages_s": {
+     "grid_s": 2.005649689817801,
+     "saved_production_replay_s": 0.004286326002329588,
+     "gpu_enumeration_s": 8.300706329988316,
+     "cpu_crosscheck_s": 0.1783322300761938,
+     "lipschitz_s": 0.167338483966887
+    },
+    "T1_times": 1056582192,
+    "T1_relative_deviation": {
+     "v": 2.449557069737503e-06,
+     "a": 3.7608563520141843e-06,
+     "j": 0.00012201926092120405
+    }
+   },
+   {
+    "source_id": "panda-dev40-0009-margin_0p950",
+    "pair_id": "panda-dev40-0009",
+    "pool_order": 9,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "d6eb9e76a3a944e77d933022a6eb3a09344a5b18bd97b2b9b3f53ded13b1783c",
+    "native_duration_s": 0.29335594177246094,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9495612978935242,
+     "event_aware": 0.9495619535446167
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.323034,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.307158,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5920842599825846e-07,
+    "T1_reported_max_util": {
+     "v": 0.678203257817307,
+     "a": 0.9495625178019206,
+     "j": 0.9428043823242187
+    },
+    "T1_offline_s": 10.482426989125088,
+    "T1_stages_s": {
+     "grid_s": 2.0124208240304142,
+     "saved_production_replay_s": 0.002195748034864664,
+     "gpu_enumeration_s": 7.916369134094566,
+     "cpu_crosscheck_s": 0.1791140038985759,
+     "lipschitz_s": 0.1659546480514109
+    },
+    "T1_times": 1050030785,
+    "T1_relative_deviation": {
+     "v": 2.244474944285489e-06,
+     "a": 2.630477950960713e-06,
+     "j": 0.00023069622739814699
+    }
+   },
+   {
+    "source_id": "panda-dev40-0010-margin_0p950",
+    "pair_id": "panda-dev40-0010",
+    "pool_order": 10,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "c2e0aa367d8d0b74ef250aeec8094ea5c48490d59e1b90f7d957b3738f06cf6e",
+    "native_duration_s": 0.2919827699661255,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9494574069976807,
+     "event_aware": 0.9497212767601013
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3426525,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.363228,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4524503910706699e-07,
+    "T1_reported_max_util": {
+     "v": 0.6296412836193498,
+     "a": 0.9494579315185547,
+     "j": 0.9497943725585938
+    },
+    "T1_offline_s": 10.270851021865383,
+    "T1_stages_s": {
+     "grid_s": 1.9989942989777774,
+     "saved_production_replay_s": 0.0021129101514816284,
+     "gpu_enumeration_s": 7.723935473943129,
+     "cpu_crosscheck_s": 0.17365218698978424,
+     "lipschitz_s": 0.16857798909768462
+    },
+    "T1_times": 1049984709,
+    "T1_relative_deviation": {
+     "v": 1.8323193399741118e-06,
+     "a": 2.508088442720103e-06,
+     "j": 0.00021222642133463006
+    }
+   },
+   {
+    "source_id": "panda-dev40-0011-margin_0p950",
+    "pair_id": "panda-dev40-0011",
+    "pool_order": 11,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "0dca8498879030701632eeeb50b629c86c4962a0ae5a0ab42e48c87a6707a607",
+    "native_duration_s": 0.26204583048820496,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9499534368515015,
+     "event_aware": 0.9499537944793701
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.2963240000000003,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.418508,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5308596346130798e-07,
+    "T1_reported_max_util": {
+     "v": 0.6013561797165308,
+     "a": 0.9499540328979492,
+     "j": 0.9499974975585938
+    },
+    "T1_offline_s": 10.857831310946494,
+    "T1_stages_s": {
+     "grid_s": 1.9900275659747422,
+     "saved_production_replay_s": 0.0020595798268914223,
+     "gpu_enumeration_s": 8.324857985135168,
+     "cpu_crosscheck_s": 0.1735807261429727,
+     "lipschitz_s": 0.16539060906507075
+    },
+    "T1_times": 1048980192,
+    "T1_relative_deviation": {
+     "v": 1.4110154557462972e-06,
+     "a": 2.440848129245093e-06,
+     "j": 0.00017903981729896774
+    }
+   },
+   {
+    "source_id": "panda-dev40-0012-margin_0p950",
+    "pair_id": "panda-dev40-0012",
+    "pool_order": 12,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "6b4fb34ff4e3de3253a65080c64da09c5aa500871be93ce8b337cc7214d86e61",
+    "native_duration_s": 0.5037103891372681,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9495211243629456,
+     "event_aware": 0.9495212435722351
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3173945,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.349388999999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 2.4198487835747073e-07,
+    "T1_reported_max_util": {
+     "v": 0.9381264859369757,
+     "a": 0.9495213190714519,
+     "j": 0.947552001953125
+    },
+    "T1_offline_s": 10.999937874963507,
+    "T1_stages_s": {
+     "grid_s": 1.9983974718488753,
+     "saved_production_replay_s": 0.0045537808910012245,
+     "gpu_enumeration_s": 8.448860222939402,
+     "cpu_crosscheck_s": 0.17608616291545331,
+     "lipschitz_s": 0.16775934910401702
+    },
+    "T1_times": 1057026859,
+    "T1_relative_deviation": {
+     "v": 3.3557551228655543e-06,
+     "a": 5.282705553868863e-06,
+     "j": 8.387676637260914e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0013-margin_0p950",
+    "pair_id": "panda-dev40-0013",
+    "pool_order": 13,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "70e2a6821fe2db271e79e9d2274d5ebc5947a54437b6c939935931572009122b",
+    "native_duration_s": 0.3055248260498047,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9483436942100525,
+     "event_aware": 0.9483775496482849
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.353225,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.311066,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4390901981187199e-07,
+    "T1_reported_max_util": {
+     "v": 0.6514817961655934,
+     "a": 0.9312454223632812,
+     "j": 0.9484296875
+    },
+    "T1_offline_s": 10.97779796901159,
+    "T1_stages_s": {
+     "grid_s": 1.989979956066236,
+     "saved_production_replay_s": 0.003111751051619649,
+     "gpu_enumeration_s": 8.42741433205083,
+     "cpu_crosscheck_s": 0.17971014697104692,
+     "lipschitz_s": 0.16857043909840286
+    },
+    "T1_times": 1050439105,
+    "T1_relative_deviation": {
+     "v": 7.018000471933446e-07,
+     "a": 2.1645057006061322e-06,
+     "j": 2.5927843763867326e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0014-margin_0p950",
+    "pair_id": "panda-dev40-0014",
+    "pool_order": 14,
+    "scene": "collision_table",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "81f2484985f83006bd8104d5d20a5628450ee42f2715ce6c15307e49f8121111",
+    "native_duration_s": 0.2697972059249878,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9496500492095947,
+     "event_aware": 0.9496501684188843
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.284749,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3868365,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.2310454167163698e-07,
+    "T1_reported_max_util": {
+     "v": 0.6149584806367387,
+     "a": 0.9496503829956054,
+     "j": 0.9459871215820312
+    },
+    "T1_offline_s": 9.260193510912359,
+    "T1_stages_s": {
+     "grid_s": 2.011339379940182,
+     "saved_production_replay_s": 0.0021562508773058653,
+     "gpu_enumeration_s": 6.68767407303676,
+     "cpu_crosscheck_s": 0.17504245997406542,
+     "lipschitz_s": 0.16729233809746802
+    },
+    "T1_times": 1049240285,
+    "T1_relative_deviation": {
+     "v": 1.349560515746285e-06,
+     "a": 1.962067879371061e-06,
+     "j": 0.00015960479982464365
+    }
+   },
+   {
+    "source_id": "panda-dev40-0015-margin_0p950",
+    "pair_id": "panda-dev40-0015",
+    "pool_order": 15,
+    "scene": "collision_table",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "6a7b211cb9e709421fa0d75ec833d2bd8fc6d239ecb1b8ba6850a8b29dd84848",
+    "native_duration_s": 0.849250316619873,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9495775699615479,
+     "event_aware": 0.9495775699615479
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3300895,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.315469499999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 2.2692972834192915e-07,
+    "T1_reported_max_util": {
+     "v": 0.9495777031378407,
+     "a": 0.9485123952229818,
+     "j": 0.9489105834960937
+    },
+    "T1_offline_s": 9.316808153875172,
+    "T1_stages_s": {
+     "grid_s": 1.9953380641527474,
+     "saved_production_replay_s": 0.00216084998100996,
+     "gpu_enumeration_s": 6.7638924131169915,
+     "cpu_crosscheck_s": 0.1775701199658215,
+     "lipschitz_s": 0.16811109706759453
+    },
+    "T1_times": 1062824057,
+    "T1_relative_deviation": {
+     "v": 7.028672562262369e-06,
+     "a": 7.548104531448102e-06,
+     "j": 0.00019557091008631542
+    }
+   },
+   {
+    "source_id": "panda-dev40-0016-margin_0p950",
+    "pair_id": "panda-dev40-0016",
+    "pool_order": 16,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "fd5ec9182af0cd8abda6f47292db408fdb62a14a02a41dce51f2f8749ce9f11b",
+    "native_duration_s": 0.8856114745140076,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.94978266954422,
+     "event_aware": 0.94978266954422
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.330619,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.326225,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 2.0490935526140674e-07,
+    "T1_reported_max_util": {
+     "v": 0.9497827979292331,
+     "a": 0.9493203481038411,
+     "j": 0.949472900390625
+    },
+    "T1_offline_s": 10.130118295084685,
+    "T1_stages_s": {
+     "grid_s": 1.9830443400423974,
+     "saved_production_replay_s": 0.0020948550663888454,
+     "gpu_enumeration_s": 7.601215703878552,
+     "cpu_crosscheck_s": 0.17137793893925846,
+     "lipschitz_s": 0.16178683494217694
+    },
+    "T1_times": 1063434096,
+    "T1_relative_deviation": {
+     "v": 6.51774780529477e-06,
+     "a": 6.996665895287936e-06,
+     "j": 0.00017087084083422806
+    }
+   },
+   {
+    "source_id": "panda-dev40-0017-margin_0p950",
+    "pair_id": "panda-dev40-0017",
+    "pool_order": 17,
+    "scene": "collision_test",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "c7dd414233aef3a4e8b961d961a41b5a08811a2f3b9776e15628a4f3453e1139",
+    "native_duration_s": 0.8543999195098877,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9497568011283875,
+     "event_aware": 0.9497568011283875
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.298653,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.350694,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.407279910381476e-07,
+    "T1_reported_max_util": {
+     "v": 0.9497569281426118,
+     "a": 0.9470066070556641,
+     "j": 0.9499656982421875
+    },
+    "T1_offline_s": 9.40360379498452,
+    "T1_stages_s": {
+     "grid_s": 1.9496226948685944,
+     "saved_production_replay_s": 0.0020991528872400522,
+     "gpu_enumeration_s": 6.910077283158898,
+     "cpu_crosscheck_s": 0.17449209094047546,
+     "lipschitz_s": 0.16359464707784355
+    },
+    "T1_times": 1062910453,
+    "T1_relative_deviation": {
+     "v": 4.1814200709135535e-06,
+     "a": 4.603590098032028e-06,
+     "j": 0.00010384772903302657
+    }
+   },
+   {
+    "source_id": "panda-dev40-0018-margin_0p950",
+    "pair_id": "panda-dev40-0018",
+    "pool_order": 18,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "80899c61ce40f74479cbfa835b15d7156f970e949e3eca20ea2359f9ea98589a",
+    "native_duration_s": 0.8453695178031921,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9492479562759399,
+     "event_aware": 0.9492480754852295
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.317002,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.2800855,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.455572657960147e-07,
+    "T1_reported_max_util": {
+     "v": 0.9492480825938977,
+     "a": 0.9389926274617513,
+     "j": 0.94786328125
+    },
+    "T1_offline_s": 10.04358569602482,
+    "T1_stages_s": {
+     "grid_s": 1.9947637030854821,
+     "saved_production_replay_s": 0.0028114309534430504,
+     "gpu_enumeration_s": 7.49956413009204,
+     "cpu_crosscheck_s": 0.17650351696647704,
+     "lipschitz_s": 0.1650991728529334
+    },
+    "T1_times": 1062758948,
+    "T1_relative_deviation": {
+     "v": 4.251894486106806e-06,
+     "a": 4.931133692730549e-06,
+     "j": 0.00011925875865521957
+    }
+   },
+   {
+    "source_id": "panda-dev40-0019-margin_0p950",
+    "pair_id": "panda-dev40-0019",
+    "pool_order": 19,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "28ae3d6479702bdafb26a23b33f8da82a338e0e67e121268fd063ace34ce6689",
+    "native_duration_s": 0.27063173055648804,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9497522711753845,
+     "event_aware": 0.949752688407898
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.315022,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3419485,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.283195274481841e-07,
+    "T1_reported_max_util": {
+     "v": 0.6235764081138613,
+     "a": 0.9497529983520507,
+     "j": 0.9496138916015625
+    },
+    "T1_offline_s": 10.314891014946625,
+    "T1_stages_s": {
+     "grid_s": 2.015399133786559,
+     "saved_production_replay_s": 0.0021478449925780296,
+     "gpu_enumeration_s": 7.754297913983464,
+     "cpu_crosscheck_s": 0.16984776803292334,
+     "lipschitz_s": 0.1627306288573891
+    },
+    "T1_times": 1049268287,
+    "T1_relative_deviation": {
+     "v": 1.0626651955804158e-06,
+     "a": 2.062958674183538e-06,
+     "j": 0.00011954663939351137
+    }
+   },
+   {
+    "source_id": "panda-dev40-0020-margin_0p950",
+    "pair_id": "panda-dev40-0020",
+    "pool_order": 20,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "e5bcdc70148059a16e5f53a332aae7b3882d94a7dcba570c9e6cb0bd0c47ee68",
+    "native_duration_s": 0.46612316370010376,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9499801993370056,
+     "event_aware": 0.9499809145927429
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.330286,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.408704,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.7411996111604822e-07,
+    "T1_reported_max_util": {
+     "v": 0.9475357438785892,
+     "a": 0.9497973759969075,
+     "j": 0.9499810791015625
+    },
+    "T1_offline_s": 10.627159086056054,
+    "T1_stages_s": {
+     "grid_s": 2.025119898142293,
+     "saved_production_replay_s": 0.0022166359703987837,
+     "gpu_enumeration_s": 8.050009294878691,
+     "cpu_crosscheck_s": 0.17650271416641772,
+     "lipschitz_s": 0.1646748201455921
+    },
+    "T1_times": 1055827891,
+    "T1_relative_deviation": {
+     "v": 2.7626851712885036e-06,
+     "a": 4.014100871168062e-06,
+     "j": 0.00012203067043615673
+    }
+   },
+   {
+    "source_id": "panda-dev40-0021-margin_0p950",
+    "pair_id": "panda-dev40-0021",
+    "pool_order": 21,
+    "scene": "collision_table",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "2e58835b658a24e18891711a09035ec214d12bd23c3d434a545ce11b89ebea69",
+    "native_duration_s": 0.49726828932762146,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.952048659324646,
+     "event_aware": 0.9520492553710938
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3242995,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.236592,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.1510822872651261e-07,
+    "T1_reported_max_util": {
+     "v": 0.9489497031058323,
+     "a": 0.9493560155232748,
+     "j": 0.9520514526367188
+    },
+    "T1_offline_s": 10.465844821883366,
+    "T1_stages_s": {
+     "grid_s": 2.0165473569650203,
+     "saved_production_replay_s": 0.0025647941511124372,
+     "gpu_enumeration_s": 7.890535379061475,
+     "cpu_crosscheck_s": 0.1760842928197235,
+     "lipschitz_s": 0.16919884900562465
+    },
+    "T1_times": 1056872948,
+    "T1_relative_deviation": {
+     "v": 2.006345858701666e-06,
+     "a": 3.0057943575026114e-06,
+     "j": 0.00010668547031179363
+    }
+   },
+   {
+    "source_id": "panda-dev40-0022-margin_0p950",
+    "pair_id": "panda-dev40-0022",
+    "pool_order": 22,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "67eec135716fa78670459d04900e52211fc43bc35bb7fe730b9a0c8f8573f376",
+    "native_duration_s": 0.30004391074180603,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9493314623832703,
+     "event_aware": 0.9493315815925598
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.318372,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.288618,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.521581936003713e-07,
+    "T1_reported_max_util": {
+     "v": 0.6746922016076319,
+     "a": 0.9493319193522135,
+     "j": 0.9482337646484374
+    },
+    "T1_offline_s": 10.401144727133214,
+    "T1_stages_s": {
+     "grid_s": 2.028137386078015,
+     "saved_production_replay_s": 0.0021647769026458263,
+     "gpu_enumeration_s": 7.822633970994502,
+     "cpu_crosscheck_s": 0.17541740904562175,
+     "lipschitz_s": 0.165928159840405
+    },
+    "T1_times": 1050255196,
+    "T1_relative_deviation": {
+     "v": 1.3772934554680732e-06,
+     "a": 2.6071125393346892e-06,
+     "j": 0.00013509552788137398
+    }
+   },
+   {
+    "source_id": "panda-dev40-0023-margin_0p950",
+    "pair_id": "panda-dev40-0023",
+    "pool_order": 23,
+    "scene": "empty",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "fb2cd11d5e72f8090d4d39e87c2ad9d889455489f4083d5974767a260b9138b7",
+    "native_duration_s": 0.531686544418335,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9566011428833008,
+     "event_aware": 0.9566017985343933
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3116535000000002,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.363208,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.980994710493178e-07,
+    "T1_reported_max_util": {
+     "v": 0.9497255774689943,
+     "a": 0.9500233968098958,
+     "j": 0.9566024780273438
+    },
+    "T1_offline_s": 9.615289839915931,
+    "T1_stages_s": {
+     "grid_s": 2.01904544304125,
+     "saved_production_replay_s": 0.0022084489464759827,
+     "gpu_enumeration_s": 7.038028645794839,
+     "cpu_crosscheck_s": 0.17698272201232612,
+     "lipschitz_s": 0.16470280196517706
+    },
+    "T1_times": 1057496221,
+    "T1_relative_deviation": {
+     "v": 3.963224733791654e-06,
+     "a": 5.318078220638334e-06,
+     "j": 0.00018132019288455745
+    }
+   },
+   {
+    "source_id": "panda-dev40-0024-margin_0p950",
+    "pair_id": "panda-dev40-0024",
+    "pool_order": 24,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "faa200b6b1a324e2aebc1dd3030814bd84cd5504d65f717eaeffee9cde211ccd",
+    "native_duration_s": 0.5007160902023315,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9504138231277466,
+     "event_aware": 0.9504148960113525
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3099309999999997,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.406855499999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.277095691420982e-07,
+    "T1_reported_max_util": {
+     "v": 0.9344152677342046,
+     "a": 0.9439323425292969,
+     "j": 0.9504150390625
+    },
+    "T1_offline_s": 9.732927838107571,
+    "T1_stages_s": {
+     "grid_s": 2.0093275180552155,
+     "saved_production_replay_s": 0.0022966160904616117,
+     "gpu_enumeration_s": 7.17023918684572,
+     "cpu_crosscheck_s": 0.1760151118505746,
+     "lipschitz_s": 0.16730649094097316
+    },
+    "T1_times": 1056976623,
+    "T1_relative_deviation": {
+     "v": 1.6660193049278443e-06,
+     "a": 2.802221254625543e-06,
+     "j": 3.7258616541864696e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0025-margin_0p950",
+    "pair_id": "panda-dev40-0025",
+    "pool_order": 25,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "f743862c6f0fd96f0919f386eee34d1a78d0f034a06ba40a2d6d1eb6db5031c0",
+    "native_duration_s": 0.3006439507007599,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9492309093475342,
+     "event_aware": 0.9492310881614685
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.317043,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.322497,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5037659295558115e-07,
+    "T1_reported_max_util": {
+     "v": 0.6911298749886409,
+     "a": 0.9492314656575521,
+     "j": 0.9472218627929687
+    },
+    "T1_offline_s": 9.660756565863267,
+    "T1_stages_s": {
+     "grid_s": 2.0068351780064404,
+     "saved_production_replay_s": 0.0022936200257390738,
+     "gpu_enumeration_s": 7.100600687088445,
+     "cpu_crosscheck_s": 0.17525616590864956,
+     "lipschitz_s": 0.16717863199301064
+    },
+    "T1_times": 1050275330,
+    "T1_relative_deviation": {
+     "v": 1.3025674716298468e-06,
+     "a": 2.505444026285393e-06,
+     "j": 0.00011237642584605431
+    }
+   },
+   {
+    "source_id": "panda-dev40-0026-margin_0p950",
+    "pair_id": "panda-dev40-0026",
+    "pool_order": 26,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "3b5a4fa02f47825d7d43bb718e115e8a021a85367495cb4597b1c2a091508519",
+    "native_duration_s": 0.501986563205719,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9481745362281799,
+     "event_aware": 0.9482743740081787
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3153845,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.399232000000001,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4369604173225525e-07,
+    "T1_reported_max_util": {
+     "v": 0.9459034616643462,
+     "a": 0.9483201980590821,
+     "j": 0.948036376953125
+    },
+    "T1_offline_s": 9.591385439038277,
+    "T1_stages_s": {
+     "grid_s": 1.978934874990955,
+     "saved_production_replay_s": 0.0021739639341831207,
+     "gpu_enumeration_s": 7.058921986026689,
+     "cpu_crosscheck_s": 0.17597565008327365,
+     "lipschitz_s": 0.16736299311742187
+    },
+    "T1_times": 1056997938,
+    "T1_relative_deviation": {
+     "v": 2.3792680156057517e-06,
+     "a": 3.8063072920104423e-06,
+     "j": 0.00013422965241171564
+    }
+   },
+   {
+    "source_id": "panda-dev40-0027-margin_0p950",
+    "pair_id": "panda-dev40-0027",
+    "pool_order": 27,
+    "scene": "collision_table",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "b6168c05d73651ca5ef22ea477920ac2e155acbe1ec4e7e041ba9835332bb332",
+    "native_duration_s": 0.835671067237854,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9496572613716125,
+     "event_aware": 0.9496572017669678
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3147385,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.277431,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.3624284633806383e-07,
+    "T1_reported_max_util": {
+     "v": 0.9496572856170235,
+     "a": 0.948032824198405,
+     "j": 0.9489080810546875
+    },
+    "T1_offline_s": 11.091263653011993,
+    "T1_stages_s": {
+     "grid_s": 1.959113874938339,
+     "saved_production_replay_s": 0.002107077045366168,
+     "gpu_enumeration_s": 8.575004074024037,
+     "cpu_crosscheck_s": 0.17569112195633352,
+     "lipschitz_s": 0.16965020215138793
+    },
+    "T1_times": 1062596235,
+    "T1_relative_deviation": {
+     "v": 4.197089692706092e-06,
+     "a": 4.458868038203225e-06,
+     "j": 0.00012036843377895263
+    }
+   },
+   {
+    "source_id": "panda-dev40-0028-margin_0p950",
+    "pair_id": "panda-dev40-0028",
+    "pool_order": 28,
+    "scene": "empty",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "839423165041fb86bc14025216abc0a1093b18f07aa9b7664ce5c5378207c19e",
+    "native_duration_s": 0.5240681767463684,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9506438374519348,
+     "event_aware": 0.9506442546844482
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3263705000000003,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.2859055,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4604965770104172e-07,
+    "T1_reported_max_util": {
+     "v": 0.9441107375947522,
+     "a": 0.9439166386922201,
+     "j": 0.9506444702148438
+    },
+    "T1_offline_s": 10.119615717092529,
+    "T1_stages_s": {
+     "grid_s": 1.9910850620362908,
+     "saved_production_replay_s": 0.0020271060056984425,
+     "gpu_enumeration_s": 7.572993220062926,
+     "cpu_crosscheck_s": 0.17649815091863275,
+     "lipschitz_s": 0.16780145606026053
+    },
+    "T1_times": 1057368406,
+    "T1_relative_deviation": {
+     "v": 2.8472018764980025e-06,
+     "a": 3.82854969333446e-06,
+     "j": 0.00013233523553618878
+    }
+   },
+   {
+    "source_id": "panda-dev40-0029-margin_0p950",
+    "pair_id": "panda-dev40-0029",
+    "pool_order": 29,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "9b91000717a25859fa4304e8c2d569fce9409a43cc844032d49d25b0fb495be7",
+    "native_duration_s": 0.8050586581230164,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9500002861022949,
+     "event_aware": 0.9500007033348083
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3093325,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3592185,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.8272474733294075e-07,
+    "T1_reported_max_util": {
+     "v": 0.9499550073986494,
+     "a": 0.9499719619750977,
+     "j": 0.9500009765625
+    },
+    "T1_offline_s": 11.698534070979804,
+    "T1_stages_s": {
+     "grid_s": 1.9837716380134225,
+     "saved_production_replay_s": 0.005216961959376931,
+     "gpu_enumeration_s": 9.15511615620926,
+     "cpu_crosscheck_s": 0.17585185100324452,
+     "lipschitz_s": 0.16504914197139442
+    },
+    "T1_times": 1062082644,
+    "T1_relative_deviation": {
+     "v": 5.039981884741548e-06,
+     "a": 6.123883120678412e-06,
+     "j": 0.00016077166286254844
+    }
+   },
+   {
+    "source_id": "panda-dev40-0030-margin_0p950",
+    "pair_id": "panda-dev40-0030",
+    "pool_order": 30,
+    "scene": "collision_table",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "ea0d4388909e07805fb047ad4066904ea02cf98357a981d5dce8a69b60ff35d6",
+    "native_duration_s": 0.5131863951683044,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9498299956321716,
+     "event_aware": 0.9498302936553955
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.322718,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3264015,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.76175021238123e-07,
+    "T1_reported_max_util": {
+     "v": 0.937728463923322,
+     "a": 0.9485846201578776,
+     "j": 0.9498304443359376
+    },
+    "T1_offline_s": 10.057322572916746,
+    "T1_stages_s": {
+     "grid_s": 1.9700071099214256,
+     "saved_production_replay_s": 0.002931667026132345,
+     "gpu_enumeration_s": 7.536772087914869,
+     "cpu_crosscheck_s": 0.1758210628759116,
+     "lipschitz_s": 0.1679524159990251
+    },
+    "T1_times": 1057185840,
+    "T1_relative_deviation": {
+     "v": 2.1995099319187356e-06,
+     "a": 3.744688794879953e-06,
+     "j": 4.12192298079643e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0031-margin_0p950",
+    "pair_id": "panda-dev40-0031",
+    "pool_order": 31,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "6d90da161b1ab97f9518d6650f97ed6567be85fa20871d84930ac3ff8bc5b572",
+    "native_duration_s": 0.2813764810562134,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.949739933013916,
+     "event_aware": 0.9496982097625732
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3306785000000003,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.298581500000001,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.1321882453785292e-07,
+    "T1_reported_max_util": {
+     "v": 0.6621231026950508,
+     "a": 0.9493902842203776,
+     "j": 0.94993408203125
+    },
+    "T1_offline_s": 9.216845341958106,
+    "T1_stages_s": {
+     "grid_s": 1.9789623999968171,
+     "saved_production_replay_s": 0.0020047221332788467,
+     "gpu_enumeration_s": 6.698111076839268,
+     "cpu_crosscheck_s": 0.17339678201824427,
+     "lipschitz_s": 0.16583764902316034
+    },
+    "T1_times": 1049628821,
+    "T1_relative_deviation": {
+     "v": 1.607618275028901e-06,
+     "a": 1.8723443962520067e-06,
+     "j": 0.00016844028795194599
+    }
+   },
+   {
+    "source_id": "panda-dev40-0032-margin_0p950",
+    "pair_id": "panda-dev40-0032",
+    "pool_order": 32,
+    "scene": "collision_table",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "7c40c67dcaacb7bd09cc475bcd63c1bbdc79a2a7481457aab300796a466558d7",
+    "native_duration_s": 0.26245012879371643,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9495161175727844,
+     "event_aware": 0.9495161175727844
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3032205,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.354496999999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.403323892645858e-07,
+    "T1_reported_max_util": {
+     "v": 0.4691534760745119,
+     "a": 0.949516487121582,
+     "j": 0.9462296752929688
+    },
+    "T1_offline_s": 11.050909225130454,
+    "T1_stages_s": {
+     "grid_s": 1.9802988378796726,
+     "saved_production_replay_s": 0.002051200019195676,
+     "gpu_enumeration_s": 8.529715836979449,
+     "cpu_crosscheck_s": 0.171252858126536,
+     "lipschitz_s": 0.1649134650360793
+    },
+    "T1_times": 1048993758,
+    "T1_relative_deviation": {
+     "v": 6.762058827186721e-07,
+     "a": 1.9545985374705903e-06,
+     "j": 5.788411550148392e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0033-margin_0p950",
+    "pair_id": "panda-dev40-0033",
+    "pool_order": 33,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "0505059fbb6cc24fd6458559108c4b016ef138488700ee15fa305cf977915b4c",
+    "native_duration_s": 0.8549289703369141,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.949747622013092,
+     "event_aware": 0.949747622013092
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.311426,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.306511,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.8762760589652316e-07,
+    "T1_reported_max_util": {
+     "v": 0.9497478298701983,
+     "a": 0.9494403203328451,
+     "j": 0.9494318237304687
+    },
+    "T1_offline_s": 10.227348919026554,
+    "T1_stages_s": {
+     "grid_s": 1.9831437459215522,
+     "saved_production_replay_s": 0.0021776400972157717,
+     "gpu_enumeration_s": 7.702602172968909,
+     "cpu_crosscheck_s": 0.17278321809135377,
+     "lipschitz_s": 0.16541205206885934
+    },
+    "T1_times": 1062919329,
+    "T1_relative_deviation": {
+     "v": 5.74380791874121e-06,
+     "a": 6.373714094566046e-06,
+     "j": 0.00015612952278081576
+    }
+   },
+   {
+    "source_id": "panda-dev40-0034-margin_0p950",
+    "pair_id": "panda-dev40-0034",
+    "pool_order": 34,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "f1d491ff8423c2e71dd6fb4a37d6584a7122bd707597dac2e55f304da31dcc39",
+    "native_duration_s": 0.3002302646636963,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9491918087005615,
+     "event_aware": 0.9491919875144958
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.310228,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.229032499999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.2669583782098925e-07,
+    "T1_reported_max_util": {
+     "v": 0.6934034565323458,
+     "a": 0.9491923014322917,
+     "j": 0.9474921264648437
+    },
+    "T1_offline_s": 10.658550997031853,
+    "T1_stages_s": {
+     "grid_s": 2.005486106965691,
+     "saved_production_replay_s": 0.0021810168400406837,
+     "gpu_enumeration_s": 8.107412436977029,
+     "cpu_crosscheck_s": 0.17322354391217232,
+     "lipschitz_s": 0.16678372095339
+    },
+    "T1_times": 1050261449,
+    "T1_relative_deviation": {
+     "v": 1.0689323941159942e-06,
+     "a": 2.08622692998766e-06,
+     "j": 8.661068868498393e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0035-margin_0p950",
+    "pair_id": "panda-dev40-0035",
+    "pool_order": 35,
+    "scene": "collision_test",
+    "magnitude": "large",
+    "native_status": "FAILED_RETAINED",
+    "planner_success": false,
+    "eligible": false,
+    "failure_reason": "RuntimeError: native planner/TimeOpt failure: success=[[False]], status=None"
+   },
+   {
+    "source_id": "panda-dev40-0036-margin_0p950",
+    "pair_id": "panda-dev40-0036",
+    "pool_order": 36,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "0db1ee41f8b49ffa5686d3b203fb38a4c159240193d62b59fd19a9289cc7bf60",
+    "native_duration_s": 0.2846015989780426,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9501476287841797,
+     "event_aware": 0.9501476287841797
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.304177,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.310373,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.1601085248003074e-07,
+    "T1_reported_max_util": {
+     "v": 0.5562488370242693,
+     "a": 0.9501477559407552,
+     "j": 0.949549560546875
+    },
+    "T1_offline_s": 9.641754399053752,
+    "T1_stages_s": {
+     "grid_s": 2.002366099972278,
+     "saved_production_replay_s": 0.0020548480097204447,
+     "gpu_enumeration_s": 7.093614014098421,
+     "cpu_crosscheck_s": 0.17491051112301648,
+     "lipschitz_s": 0.16546042286790907
+    },
+    "T1_times": 1049737038,
+    "T1_relative_deviation": {
+     "v": 7.430619078407843e-07,
+     "a": 1.8314828676362706e-06,
+     "j": 7.107875687795647e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0037-margin_0p950",
+    "pair_id": "panda-dev40-0037",
+    "pool_order": 37,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "e6ec53373793c3513d3249267feefe58a8b95358ddbc5de2bb18a67ddd000396",
+    "native_duration_s": 0.83507239818573,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9495081901550293,
+     "event_aware": 0.9497003555297852
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.2898195,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.278416,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 2.2471819249858527e-07,
+    "T1_reported_max_util": {
+     "v": 0.9494727989607361,
+     "a": 0.9433175404866536,
+     "j": 0.9499009399414062
+    },
+    "T1_offline_s": 10.80548362992704,
+    "T1_stages_s": {
+     "grid_s": 1.9840475011151284,
+     "saved_production_replay_s": 0.002280554035678506,
+     "gpu_enumeration_s": 8.269427410094067,
+     "cpu_crosscheck_s": 0.17868641717359424,
+     "lipschitz_s": 0.16759977396577597
+    },
+    "T1_times": 1062586191,
+    "T1_relative_deviation": {
+     "v": 6.733485506874193e-06,
+     "a": 7.224553410105758e-06,
+     "j": 0.0001821767912887181
+    }
+   },
+   {
+    "source_id": "panda-dev40-0038-margin_0p950",
+    "pair_id": "panda-dev40-0038",
+    "pool_order": 38,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "6e5f5ecc2173432a1e807601965589fe3d812a309aa8e596d488ffabaa9aaa7d",
+    "native_duration_s": 0.2957167327404022,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9495731592178345,
+     "event_aware": 0.9495736956596375
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3121964999999998,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.253633,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.2001454763321817e-07,
+    "T1_reported_max_util": {
+     "v": 0.6800309143950126,
+     "a": 0.9495737711588542,
+     "j": 0.9483429565429687
+    },
+    "T1_offline_s": 9.701147699030116,
+    "T1_stages_s": {
+     "grid_s": 2.0087016341276467,
+     "saved_production_replay_s": 0.0021970048546791077,
+     "gpu_enumeration_s": 7.14261780702509,
+     "cpu_crosscheck_s": 0.17800598521716893,
+     "lipschitz_s": 0.16663969098590314
+    },
+    "T1_times": 1050110000,
+    "T1_relative_deviation": {
+     "v": 1.5711135936167378e-06,
+     "a": 2.03072284032989e-06,
+     "j": 0.00016246553495536387
+    }
+   },
+   {
+    "source_id": "panda-dev40-0039-margin_0p950",
+    "pair_id": "panda-dev40-0039",
+    "pool_order": 39,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "9ec4caac149cb0fc4e779a1443ad24a26ff5a73cba045f80608af72912538941",
+    "native_duration_s": 0.8822726011276245,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.949993908405304,
+     "event_aware": 0.9499941468238831
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.2977895000000004,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.304337499999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.2242036007137358e-07,
+    "T1_reported_max_util": {
+     "v": 0.9499490880406937,
+     "a": 0.9499900817871094,
+     "j": 0.9499942626953125
+    },
+    "T1_offline_s": 10.72230467502959,
+    "T1_stages_s": {
+     "grid_s": 2.008393911877647,
+     "saved_production_replay_s": 0.004760425072163343,
+     "gpu_enumeration_s": 8.147393980063498,
+     "cpu_crosscheck_s": 0.1715266229584813,
+     "lipschitz_s": 0.16636589891277254
+    },
+    "T1_times": 1063378079,
+    "T1_relative_deviation": {
+     "v": 3.839307977723034e-06,
+     "a": 4.242570702201966e-06,
+     "j": 9.911520171477866e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0040-margin_0p950",
+    "pair_id": "panda-dev40-0040",
+    "pool_order": 40,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "5843ec7a1d0b1381cc360c82c62eb330f83b584fb263629ac85f7f6b5225e668",
+    "native_duration_s": 0.28061443567276,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9501007795333862,
+     "event_aware": 0.9501017332077026
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.29005,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.2790865,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4690333216549334e-07,
+    "T1_reported_max_util": {
+     "v": 0.660248310489179,
+     "a": 0.9501019159952799,
+     "j": 0.9499708862304688
+    },
+    "T1_offline_s": 10.270841958932579,
+    "T1_stages_s": {
+     "grid_s": 1.960831647971645,
+     "saved_production_replay_s": 0.002931256080046296,
+     "gpu_enumeration_s": 7.767944040009752,
+     "cpu_crosscheck_s": 0.17043218784965575,
+     "lipschitz_s": 0.16448616911657155
+    },
+    "T1_times": 1049603251,
+    "T1_relative_deviation": {
+     "v": 1.2822702026591133e-06,
+     "a": 2.4611699851316625e-06,
+     "j": 0.00014363934198731448
+    }
+   },
+   {
+    "source_id": "panda-dev40-0041-margin_0p950",
+    "pair_id": "panda-dev40-0041",
+    "pool_order": 41,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "03f66c2897497bd4e1fe153e2a5192c156ceea7308aa4e39bb44d56e3ba35418",
+    "native_duration_s": 0.4898195266723633,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9543432593345642,
+     "event_aware": 0.9543483257293701
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.293611,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.101639500000001,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.7044517619524413e-07,
+    "T1_reported_max_util": {
+     "v": 0.949425022971768,
+     "a": 0.9497112274169922,
+     "j": 0.9543499145507812
+    },
+    "T1_offline_s": 10.732630980201066,
+    "T1_stages_s": {
+     "grid_s": 1.9635852321516722,
+     "saved_production_replay_s": 0.0022578120697289705,
+     "gpu_enumeration_s": 8.221541384933516,
+     "cpu_crosscheck_s": 0.1744058090262115,
+     "lipschitz_s": 0.16616131295450032
+    },
+    "T1_times": 1056623009,
+    "T1_relative_deviation": {
+     "v": 2.755044285417943e-06,
+     "a": 4.474292411982293e-06,
+     "j": 0.0001589519031588136
+    }
+   },
+   {
+    "source_id": "panda-dev40-0042-margin_0p950",
+    "pair_id": "panda-dev40-0042",
+    "pool_order": 42,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "68b3a89ef5a319533822bf6399e0d52ffcaa21acf49ed4c87c1793eeb4f7ecbe",
+    "native_duration_s": 0.4804522395133972,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9500269293785095,
+     "event_aware": 0.9500291347503662
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.2688795,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.1856235,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.1234089214440246e-07,
+    "T1_reported_max_util": {
+     "v": 0.9484201398042731,
+     "a": 0.9495705922444662,
+     "j": 0.9500301513671875
+    },
+    "T1_offline_s": 11.12749377405271,
+    "T1_stages_s": {
+     "grid_s": 1.9676862440537661,
+     "saved_production_replay_s": 0.0026776150334626436,
+     "gpu_enumeration_s": 8.608270953875035,
+     "cpu_crosscheck_s": 0.17291902215220034,
+     "lipschitz_s": 0.16402089782059193
+    },
+    "T1_times": 1056308695,
+    "T1_relative_deviation": {
+     "v": 1.9590366400769916e-06,
+     "a": 2.833985885671992e-06,
+     "j": 0.00010441067126152507
+    }
+   }
+  ],
+  "secondary": [
+   {
+    "source_id": "panda-dev40-0000-margin_0p990",
+    "pair_id": "panda-dev40-0000",
+    "pool_order": 0,
+    "scene": "collision_table",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "86e1f9079616d41f0127e819d3b311a903d0a1dc841f483f6596fbded994fa86",
+    "native_duration_s": 0.26838940382003784,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9898810982704163,
+     "event_aware": 0.9898810982704163
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1365,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3331749999999998,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3398965,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.3421322364592925e-07,
+    "T1_reported_max_util": {
+     "v": 0.586294702251362,
+     "a": 0.9810570398966472,
+     "j": 0.9898811645507812
+    },
+    "T1_offline_s": 9.703212077962235,
+    "T1_stages_s": {
+     "grid_s": 2.0233656091149896,
+     "saved_production_replay_s": 0.0024838049430400133,
+     "gpu_enumeration_s": 7.128533641109243,
+     "cpu_crosscheck_s": 0.17483889497816563,
+     "lipschitz_s": 0.1641289689578116
+    },
+    "T1_times": 1049193047,
+    "T1_relative_deviation": {
+     "v": 7.119706724312361e-07,
+     "a": 2.0079725278011395e-06,
+     "j": 3.381865817768311e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0001-margin_0p990",
+    "pair_id": "panda-dev40-0001",
+    "pool_order": 1,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "1137a9c6332d2b57c56ea7a8326077503fa9fad5119abf43f80da7303a37f761",
+    "native_duration_s": 0.7921179533004761,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9890961050987244,
+     "event_aware": 0.9890961050987244
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3329055,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.4039225,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4157561167849053e-07,
+    "T1_reported_max_util": {
+     "v": 0.9890962137923014,
+     "a": 0.9784591674804688,
+     "j": 0.9859811401367188
+    },
+    "T1_offline_s": 9.742361370008439,
+    "T1_stages_s": {
+     "grid_s": 2.023908699862659,
+     "saved_production_replay_s": 0.002267285017296672,
+     "gpu_enumeration_s": 7.164755392121151,
+     "cpu_crosscheck_s": 0.17648336803540587,
+     "lipschitz_s": 0.16546740499325097
+    },
+    "T1_times": 1061865535,
+    "T1_relative_deviation": {
+     "v": 4.222174090610839e-06,
+     "a": 4.735735927735523e-06,
+     "j": 0.00012423249818817992
+    }
+   },
+   {
+    "source_id": "panda-dev40-0002-margin_0p990",
+    "pair_id": "panda-dev40-0002",
+    "pool_order": 2,
+    "scene": "collision_table",
+    "magnitude": "large",
+    "native_status": "FAILED_RETAINED",
+    "planner_success": false,
+    "eligible": false,
+    "failure_reason": "RuntimeError: native planner/TimeOpt failure: success=[[False]], status=None"
+   },
+   {
+    "source_id": "panda-dev40-0003-margin_0p990",
+    "pair_id": "panda-dev40-0003",
+    "pool_order": 3,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "1be8b616da9f49402554104d9dd9c315105abee166519bead456b8936a5247ce",
+    "native_duration_s": 0.5250009298324585,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9899556040763855,
+     "event_aware": 0.9899558424949646
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.372124,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.308847499999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5663643182506348e-07,
+    "T1_reported_max_util": {
+     "v": 0.9884683233780329,
+     "a": 0.9898805618286133,
+     "j": 0.989956298828125
+    },
+    "T1_offline_s": 9.721354746026918,
+    "T1_stages_s": {
+     "grid_s": 2.032419978873804,
+     "saved_production_replay_s": 0.0023723740596324205,
+     "gpu_enumeration_s": 7.132780358195305,
+     "cpu_crosscheck_s": 0.18021374382078648,
+     "lipschitz_s": 0.1636161699425429
+    },
+    "T1_times": 1057384055,
+    "T1_relative_deviation": {
+     "v": 2.839262301313569e-06,
+     "a": 4.075404274490571e-06,
+     "j": 0.00010156328506597095
+    }
+   },
+   {
+    "source_id": "panda-dev40-0004-margin_0p990",
+    "pair_id": "panda-dev40-0004",
+    "pool_order": 4,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "FAILED_RETAINED",
+    "planner_success": false,
+    "eligible": false,
+    "failure_reason": "RuntimeError: native planner/TimeOpt failure: success=[[False]], status=None"
+   },
+   {
+    "source_id": "panda-dev40-0005-margin_0p990",
+    "pair_id": "panda-dev40-0005",
+    "pool_order": 5,
+    "scene": "empty",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "1cb14d92861d92b0c07c560513db2550066e723407158788bd4bb2f61613ec6d",
+    "native_duration_s": 0.509321391582489,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9900056719779968,
+     "event_aware": 0.9900057911872864
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3318725000000002,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3265895,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.2148382211307762e-07,
+    "T1_reported_max_util": {
+     "v": 0.978062640180536,
+     "a": 0.9890477498372395,
+     "j": 0.9900059204101562
+    },
+    "T1_offline_s": 11.764700785977766,
+    "T1_stages_s": {
+     "grid_s": 1.9828189068939537,
+     "saved_production_replay_s": 0.0026846639811992645,
+     "gpu_enumeration_s": 9.224912374047562,
+     "cpu_crosscheck_s": 0.17669914499856532,
+     "lipschitz_s": 0.16638316889293492
+    },
+    "T1_times": 1057120996,
+    "T1_relative_deviation": {
+     "v": 2.1416045151877228e-06,
+     "a": 3.1613548264828754e-06,
+     "j": 8.599813117404602e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0006-margin_0p990",
+    "pair_id": "panda-dev40-0006",
+    "pool_order": 6,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "4062b6beae794434d0a186a92d0fcba0e0eb207a3f92be7cb35a9d6968ea996f",
+    "native_duration_s": 0.6690365672111511,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9901629686355591,
+     "event_aware": 0.9901636838912964
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1366,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.3241129999999997,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3364635,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 2.3368697554815299e-07,
+    "T1_reported_max_util": {
+     "v": 0.9899845559566225,
+     "a": 0.9901641209920248,
+     "j": 0.9899925537109375
+    },
+    "T1_offline_s": 9.95217727101408,
+    "T1_stages_s": {
+     "grid_s": 2.039842060999945,
+     "saved_production_replay_s": 0.0021652409341186285,
+     "gpu_enumeration_s": 7.360422259895131,
+     "cpu_crosscheck_s": 0.17636294988915324,
+     "lipschitz_s": 0.16757592000067234
+    },
+    "T1_times": 1059800572,
+    "T1_relative_deviation": {
+     "v": 5.703313493231353e-06,
+     "a": 7.527065964624091e-06,
+     "j": 0.0002093904881522847
+    }
+   },
+   {
+    "source_id": "panda-dev40-0007-margin_0p990",
+    "pair_id": "panda-dev40-0007",
+    "pool_order": 7,
+    "scene": "collision_test",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "568c23927df7be8b67d4371687540063e84e5f9c73f80fcbde06808896c63b6f",
+    "native_duration_s": 0.7734836935997009,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9899414777755737,
+     "event_aware": 0.9899415969848633
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3286115,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.308807000000002,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.3531959552892658e-07,
+    "T1_reported_max_util": {
+     "v": 0.9899416954203133,
+     "a": 0.9898063023885091,
+     "j": 0.9896351318359375
+    },
+    "T1_offline_s": 11.180325164925307,
+    "T1_stages_s": {
+     "grid_s": 2.0350584068801254,
+     "saved_production_replay_s": 0.0022447300143539906,
+     "gpu_enumeration_s": 8.589476938126609,
+     "cpu_crosscheck_s": 0.17622519913129508,
+     "lipschitz_s": 0.16592687997035682
+    },
+    "T1_times": 1061552904,
+    "T1_relative_deviation": {
+     "v": 3.920600324946934e-06,
+     "a": 4.597105749289038e-06,
+     "j": 0.00011836090953468144
+    }
+   },
+   {
+    "source_id": "panda-dev40-0008-margin_0p990",
+    "pair_id": "panda-dev40-0008",
+    "pool_order": 8,
+    "scene": "collision_table",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "5595a3afd1fd064d537b94c940b9c1cfca7e23153ca2f6b5d3a4a1be09f0d493",
+    "native_duration_s": 0.4964069426059723,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9823141694068909,
+     "event_aware": 0.9824444651603699
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.321998,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3434065,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.1898201535132102e-07,
+    "T1_reported_max_util": {
+     "v": 0.9442115118177518,
+     "a": 0.9823148091634114,
+     "j": 0.9827366943359375
+    },
+    "T1_offline_s": 9.785980596905574,
+    "T1_stages_s": {
+     "grid_s": 2.0132690030150115,
+     "saved_production_replay_s": 0.0021102060563862324,
+     "gpu_enumeration_s": 7.223199096042663,
+     "cpu_crosscheck_s": 0.17716116504743695,
+     "lipschitz_s": 0.16602896596305072
+    },
+    "T1_times": 1056844046,
+    "T1_relative_deviation": {
+     "v": 1.421103599517523e-06,
+     "a": 2.8659650419096303e-06,
+     "j": 3.8661334851733345e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0009-margin_0p990",
+    "pair_id": "panda-dev40-0009",
+    "pool_order": 9,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "ab584db1e7f86142ec01a2eb4a09c40a0a64a6de2b54ce2193149e017601fe49",
+    "native_duration_s": 0.28571972250938416,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9895722270011902,
+     "event_aware": 0.9895939826965332
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3090479999999998,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.416879999999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5288937049717788e-07,
+    "T1_reported_max_util": {
+     "v": 0.7025233236405674,
+     "a": 0.9895724614461263,
+     "j": 0.9896343994140625
+    },
+    "T1_offline_s": 10.62527335411869,
+    "T1_stages_s": {
+     "grid_s": 2.0161934590432793,
+     "saved_production_replay_s": 0.002471158979460597,
+     "gpu_enumeration_s": 8.063510444015265,
+     "cpu_crosscheck_s": 0.17460736189968884,
+     "lipschitz_s": 0.16475456696934998
+    },
+    "T1_times": 1049774556,
+    "T1_relative_deviation": {
+     "v": 1.6842484345668224e-06,
+     "a": 2.71661368173662e-06,
+     "j": 0.00018377755041008205
+    }
+   },
+   {
+    "source_id": "panda-dev40-0010-margin_0p990",
+    "pair_id": "panda-dev40-0010",
+    "pool_order": 10,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "926323b5e9ebbe82f2f5d93adbaf811e775b95692eb10352d52770354b44daf2",
+    "native_duration_s": 0.2868117392063141,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9897555708885193,
+     "event_aware": 0.9897563457489014
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1366,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3316765000000004,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.337209000000001,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.236364681744817e-07,
+    "T1_reported_max_util": {
+     "v": 0.6407977387175667,
+     "a": 0.9897563934326172,
+     "j": 0.98918115234375
+    },
+    "T1_offline_s": 9.65790700004436,
+    "T1_stages_s": {
+     "grid_s": 1.9915771649684757,
+     "saved_production_replay_s": 0.002416865900158882,
+     "gpu_enumeration_s": 7.120433883974329,
+     "cpu_crosscheck_s": 0.17399919498711824,
+     "lipschitz_s": 0.16708004707470536
+    },
+    "T1_times": 1049811198,
+    "T1_relative_deviation": {
+     "v": 1.5573490432650872e-06,
+     "a": 2.183682010102435e-06,
+     "j": 0.0001851168302118726
+    }
+   },
+   {
+    "source_id": "panda-dev40-0011-margin_0p990",
+    "pair_id": "panda-dev40-0011",
+    "pool_order": 11,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "912ad557f2679ed738f3429bbfdfd035312f58831451017680867a2a2c38916e",
+    "native_duration_s": 0.2582385540008545,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9896003007888794,
+     "event_aware": 0.9895519018173218
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1368,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.330314,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.410629,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.521652848168742e-07,
+    "T1_reported_max_util": {
+     "v": 0.6079211861604096,
+     "a": 0.988596789042155,
+     "j": 0.989906005859375
+    },
+    "T1_offline_s": 10.909185490105301,
+    "T1_stages_s": {
+     "grid_s": 1.9778250851668417,
+     "saved_production_replay_s": 0.0024647170212119818,
+     "gpu_enumeration_s": 8.384573920164257,
+     "cpu_crosscheck_s": 0.17366788210347295,
+     "lipschitz_s": 0.16718699294142425
+    },
+    "T1_times": 1048852441,
+    "T1_relative_deviation": {
+     "v": 1.328331423940976e-06,
+     "a": 2.5033183825254694e-06,
+     "j": 0.00017089034251743012
+    }
+   },
+   {
+    "source_id": "panda-dev40-0012-margin_0p990",
+    "pair_id": "panda-dev40-0012",
+    "pool_order": 12,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "916c029c3b183c926bf7706bd8bada2d33dab504b62a03c5105c267659012010",
+    "native_duration_s": 0.4990794062614441,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9879390001296997,
+     "event_aware": 0.9878613352775574
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.314552,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.363046,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.2616789035746478e-07,
+    "T1_reported_max_util": {
+     "v": 0.9666250155794213,
+     "a": 0.9862312952677409,
+     "j": 0.9896846923828125
+    },
+    "T1_offline_s": 11.423017239198089,
+    "T1_stages_s": {
+     "grid_s": 1.9965046590659767,
+     "saved_production_replay_s": 0.005184464156627655,
+     "gpu_enumeration_s": 8.866291088052094,
+     "cpu_crosscheck_s": 0.1772397980093956,
+     "lipschitz_s": 0.1688142200000584
+    },
+    "T1_times": 1056933719,
+    "T1_relative_deviation": {
+     "v": 1.5351232361825474e-06,
+     "a": 2.9235914149509963e-06,
+     "j": 2.4660982531270507e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0013-margin_0p990",
+    "pair_id": "panda-dev40-0013",
+    "pool_order": 13,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "c91c16b71703502946ba22d7df6cb193c74cf6cad4c7600b69a5a7616917b4b2",
+    "native_duration_s": 0.3003060221672058,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.984356701374054,
+     "event_aware": 0.9846910834312439
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.322577,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.2894255,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.6143414427460812e-07,
+    "T1_reported_max_util": {
+     "v": 0.6625804827148719,
+     "a": 0.9684438705444336,
+     "j": 0.9849417724609375
+    },
+    "T1_offline_s": 9.865797654958442,
+    "T1_stages_s": {
+     "grid_s": 1.9887354669626802,
+     "saved_production_replay_s": 0.004237449960783124,
+     "gpu_enumeration_s": 7.324507026933134,
+     "cpu_crosscheck_s": 0.17493280698545277,
+     "lipschitz_s": 0.16573222097940743
+    },
+    "T1_times": 1050263991,
+    "T1_relative_deviation": {
+     "v": 7.817272575610968e-07,
+     "a": 2.469626212472331e-06,
+     "j": 2.725212647985238e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0014-margin_0p990",
+    "pair_id": "panda-dev40-0014",
+    "pool_order": 14,
+    "scene": "collision_table",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "3dee72df44ebd4eef8ae7ffe32370b2599b9563984485bed3709e02dcc968f09",
+    "native_duration_s": 0.2648702561855316,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9878486394882202,
+     "event_aware": 0.9878485798835754
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1369,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.342603,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.326434500000001,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.3661835396305833e-07,
+    "T1_reported_max_util": {
+     "v": 0.6278098452296168,
+     "a": 0.9869462331136067,
+     "j": 0.987848876953125
+    },
+    "T1_offline_s": 9.247943344060332,
+    "T1_stages_s": {
+     "grid_s": 2.005810654954985,
+     "saved_production_replay_s": 0.0021258241031318903,
+     "gpu_enumeration_s": 6.679262952180579,
+     "cpu_crosscheck_s": 0.17669478012248874,
+     "lipschitz_s": 0.1688119200989604
+    },
+    "T1_times": 1049074964,
+    "T1_relative_deviation": {
+     "v": 1.0893961550095067e-06,
+     "a": 2.215862652270077e-06,
+     "j": 0.00012053883739578985
+    }
+   },
+   {
+    "source_id": "panda-dev40-0015-margin_0p990",
+    "pair_id": "panda-dev40-0015",
+    "pool_order": 15,
+    "scene": "collision_table",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "e8be6436eb6ccf17b95f656590d9661f7c54392adb9ff6df11f9ef3b4719a048",
+    "native_duration_s": 0.8241670727729797,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.98943692445755,
+     "event_aware": 0.98943692445755
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3015685,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.355673,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.795273050220203e-07,
+    "T1_reported_max_util": {
+     "v": 0.9894371249634561,
+     "a": 0.9855117797851562,
+     "j": 0.9886907958984374
+    },
+    "T1_offline_s": 9.289891282096505,
+    "T1_stages_s": {
+     "grid_s": 1.9766026809811592,
+     "saved_production_replay_s": 0.002093703020364046,
+     "gpu_enumeration_s": 6.765212443191558,
+     "cpu_crosscheck_s": 0.1746569110546261,
+     "lipschitz_s": 0.16538978111930192
+    },
+    "T1_times": 1062403230,
+    "T1_relative_deviation": {
+     "v": 5.644869801932057e-06,
+     "a": 6.099467340569983e-06,
+     "j": 0.00016249033346067135
+    }
+   },
+   {
+    "source_id": "panda-dev40-0016-margin_0p990",
+    "pair_id": "panda-dev40-0016",
+    "pool_order": 16,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "503482f749e5f679a55949e72842bed2bc574e403c235f8af111468a934cc357",
+    "native_duration_s": 0.8582611083984375,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9896706938743591,
+     "event_aware": 0.9896708130836487
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1365,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.32062,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3151505,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5890657323325286e-07,
+    "T1_reported_max_util": {
+     "v": 0.989670939602708,
+     "a": 0.9886350631713867,
+     "j": 0.9894259033203125
+    },
+    "T1_offline_s": 9.606165186036378,
+    "T1_stages_s": {
+     "grid_s": 2.0112936429213732,
+     "saved_production_replay_s": 0.002254537073895335,
+     "gpu_enumeration_s": 7.047603213926777,
+     "cpu_crosscheck_s": 0.17274622293189168,
+     "lipschitz_s": 0.1643673221115023
+    },
+    "T1_times": 1062975233,
+    "T1_relative_deviation": {
+     "v": 5.101327438149753e-06,
+     "a": 5.587520282736052e-06,
+     "j": 0.0001376189985073961
+    }
+   },
+   {
+    "source_id": "panda-dev40-0017-margin_0p990",
+    "pair_id": "panda-dev40-0017",
+    "pool_order": 17,
+    "scene": "collision_test",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "f6886b6f8457d845222ced6925ac13d96f9084289c8704f355ef51f95101051e",
+    "native_duration_s": 0.8290596604347229,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9895226359367371,
+     "event_aware": 0.9895225167274475
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.32127,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.320917,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.524909691852372e-07,
+    "T1_reported_max_util": {
+     "v": 0.9895226268005947,
+     "a": 0.9871564229329427,
+     "j": 0.9899747314453125
+    },
+    "T1_offline_s": 9.298073590034619,
+    "T1_stages_s": {
+     "grid_s": 1.9801824160385877,
+     "saved_production_replay_s": 0.002112027956172824,
+     "gpu_enumeration_s": 6.772702832007781,
+     "cpu_crosscheck_s": 0.17376306792721152,
+     "lipschitz_s": 0.1641345617827028
+    },
+    "T1_times": 1062485314,
+    "T1_relative_deviation": {
+     "v": 4.591187325075489e-06,
+     "a": 5.022992793911438e-06,
+     "j": 0.00011637616607050268
+    }
+   },
+   {
+    "source_id": "panda-dev40-0018-margin_0p990",
+    "pair_id": "panda-dev40-0018",
+    "pool_order": 18,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "7a205d90edd0c6bd9a6ac4ad0da4742955abe626457ce5f47897e93958c7681e",
+    "native_duration_s": 0.815386176109314,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9900009632110596,
+     "event_aware": 0.9900009632110596
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1366,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.2879265,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.398868,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.387169703548352e-07,
+    "T1_reported_max_util": {
+     "v": 0.9899149486917725,
+     "a": 0.9899110158284505,
+     "j": 0.990001220703125
+    },
+    "T1_offline_s": 11.111193598015234,
+    "T1_stages_s": {
+     "grid_s": 1.9784648900385946,
+     "saved_production_replay_s": 0.002553011989220977,
+     "gpu_enumeration_s": 8.57430917210877,
+     "cpu_crosscheck_s": 0.17310981801711023,
+     "lipschitz_s": 0.16294320696033537
+    },
+    "T1_times": 1062255911,
+    "T1_relative_deviation": {
+     "v": 4.095581912856879e-06,
+     "a": 4.900608590929188e-06,
+     "j": 0.00011836214305993505
+    }
+   },
+   {
+    "source_id": "panda-dev40-0019-margin_0p990",
+    "pair_id": "panda-dev40-0019",
+    "pool_order": 19,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "ef516e358b115aa9b5d5b637f31605a2ec08a66f24c9abd67667bccb0a817e40",
+    "native_duration_s": 0.2661130428314209,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9893972277641296,
+     "event_aware": 0.9893977642059326
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3154475000000003,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.383703,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.195325864955521e-07,
+    "T1_reported_max_util": {
+     "v": 0.6347950712794834,
+     "a": 0.9893980026245117,
+     "j": 0.9894540405273438
+    },
+    "T1_offline_s": 9.72600646596402,
+    "T1_stages_s": {
+     "grid_s": 1.9908138290047646,
+     "saved_production_replay_s": 0.0025585319381207228,
+     "gpu_enumeration_s": 7.183693544007838,
+     "cpu_crosscheck_s": 0.17633170587942004,
+     "lipschitz_s": 0.16852667299099267
+    },
+    "T1_times": 1049116665,
+    "T1_relative_deviation": {
+     "v": 1.0615280914456612e-06,
+     "a": 1.982910369828111e-06,
+     "j": 0.00012459699721782994
+    }
+   },
+   {
+    "source_id": "panda-dev40-0020-margin_0p990",
+    "pair_id": "panda-dev40-0020",
+    "pool_order": 20,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "ad2be06d6660a2e996b23b9722d040a840ad1badaeb85b8f85dcab30b81d7e50",
+    "native_duration_s": 0.4544137120246887,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9899306893348694,
+     "event_aware": 0.9899795055389404
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3294185,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.2797975,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.241786549144308e-07,
+    "T1_reported_max_util": {
+     "v": 0.9896804763460811,
+     "a": 0.9899826049804688,
+     "j": 0.9895157470703125
+    },
+    "T1_offline_s": 10.796738245990127,
+    "T1_stages_s": {
+     "grid_s": 2.007262578001246,
+     "saved_production_replay_s": 0.0020986609160900116,
+     "gpu_enumeration_s": 8.237265184987336,
+     "cpu_crosscheck_s": 0.17662318516522646,
+     "lipschitz_s": 0.16741714417003095
+    },
+    "T1_times": 1055434987,
+    "T1_relative_deviation": {
+     "v": 1.927022061866284e-06,
+     "a": 2.879840642895369e-06,
+     "j": 7.944047803834995e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0021-margin_0p990",
+    "pair_id": "panda-dev40-0021",
+    "pool_order": 21,
+    "scene": "collision_table",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "ea7a5702bc84176d2d4887e7a8f9f56b9a8df78fd7f990fa9d589fa3b09a56a8",
+    "native_duration_s": 0.4943990111351013,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9899533987045288,
+     "event_aware": 0.9899542927742004
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.2877400000000003,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.392315,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4832498607120215e-07,
+    "T1_reported_max_util": {
+     "v": 0.9791938952565225,
+     "a": 0.9899545033772786,
+     "j": 0.9871217651367188
+    },
+    "T1_offline_s": 9.747780357021838,
+    "T1_stages_s": {
+     "grid_s": 2.023474426008761,
+     "saved_production_replay_s": 0.002316144062206149,
+     "gpu_enumeration_s": 7.168116130167618,
+     "cpu_crosscheck_s": 0.17658693809062243,
+     "lipschitz_s": 0.16943888901732862
+    },
+    "T1_times": 1056776671,
+    "T1_relative_deviation": {
+     "v": 2.2423049673867616e-06,
+     "a": 3.587076464119388e-06,
+     "j": 8.375442312852798e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0022-margin_0p990",
+    "pair_id": "panda-dev40-0022",
+    "pool_order": 22,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "909482fe12001047cb1f0dc180da8d166a623a567b3a341ba8e3510993099c4a",
+    "native_duration_s": 0.28935813903808594,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9902503490447998,
+     "event_aware": 0.9902504086494446
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.324619,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3656145,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.2282667682939064e-07,
+    "T1_reported_max_util": {
+     "v": 0.7126278869065008,
+     "a": 0.9895748774210612,
+     "j": 0.9902506713867187
+    },
+    "T1_offline_s": 10.560807380825281,
+    "T1_stages_s": {
+     "grid_s": 2.0076443450525403,
+     "saved_production_replay_s": 0.0021654078736901283,
+     "gpu_enumeration_s": 7.992064825026318,
+     "cpu_crosscheck_s": 0.17954882280901074,
+     "lipschitz_s": 0.169817236950621
+    },
+    "T1_times": 1049896641,
+    "T1_relative_deviation": {
+     "v": 1.0283000667102812e-06,
+     "a": 2.07008126191378e-06,
+     "j": 8.389650989578324e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0023-margin_0p990",
+    "pair_id": "panda-dev40-0023",
+    "pool_order": 23,
+    "scene": "empty",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "d0ef1f21f53b1256f5e1935f622c81f10767ca5b2fd0ef1b287c842d10df8e8c",
+    "native_duration_s": 0.5205827951431274,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9872548580169678,
+     "event_aware": 0.9872548580169678
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3403384999999997,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.341856,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.694600655355316e-07,
+    "T1_reported_max_util": {
+     "v": 0.9872550742325854,
+     "a": 0.986814308166504,
+     "j": 0.9860418701171875
+    },
+    "T1_offline_s": 10.61730287107639,
+    "T1_stages_s": {
+     "grid_s": 2.0067659951746464,
+     "saved_production_replay_s": 0.0022265829611569643,
+     "gpu_enumeration_s": 8.049900708021596,
+     "cpu_crosscheck_s": 0.1794312009587884,
+     "lipschitz_s": 0.16898579383268952
+    },
+    "T1_times": 1057309931,
+    "T1_relative_deviation": {
+     "v": 3.4605305287055267e-06,
+     "a": 4.556732733521988e-06,
+     "j": 0.00016312222729360367
+    }
+   },
+   {
+    "source_id": "panda-dev40-0024-margin_0p990",
+    "pair_id": "panda-dev40-0024",
+    "pool_order": 24,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "85789c0709507386e800990a5f5bbd4e2c6c4065d957a52f7e8d5710f9cbda58",
+    "native_duration_s": 0.48141396045684814,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9922381043434143,
+     "event_aware": 0.9922424554824829
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.3227245,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3622735,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.253815611335085e-07,
+    "T1_reported_max_util": {
+     "v": 0.9874756251253067,
+     "a": 0.9894916534423828,
+     "j": 0.9922427368164063
+    },
+    "T1_offline_s": 10.636820956133306,
+    "T1_stages_s": {
+     "grid_s": 2.010479920078069,
+     "saved_production_replay_s": 0.0022157039493322372,
+     "gpu_enumeration_s": 8.072921555954963,
+     "cpu_crosscheck_s": 0.17570984899066389,
+     "lipschitz_s": 0.16802323306910694
+    },
+    "T1_times": 1056340965,
+    "T1_relative_deviation": {
+     "v": 2.0046556259567656e-06,
+     "a": 3.041157299000874e-06,
+     "j": 7.366189452558689e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0025-margin_0p990",
+    "pair_id": "panda-dev40-0025",
+    "pool_order": 25,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "a135a2d261492c2b2ef0028a85f9911d16e292be4b76735dce97bc7092373728",
+    "native_duration_s": 0.2945845425128937,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9895686507225037,
+     "event_aware": 0.9895685315132141
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.3287005,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3021395,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.1756610263091716e-07,
+    "T1_reported_max_util": {
+     "v": 0.7087210558468403,
+     "a": 0.9895692189534505,
+     "j": 0.986838134765625
+    },
+    "T1_offline_s": 10.687902278034016,
+    "T1_stages_s": {
+     "grid_s": 2.0171683048829436,
+     "saved_production_replay_s": 0.0022383348550647497,
+     "gpu_enumeration_s": 8.11250198399648,
+     "cpu_crosscheck_s": 0.18032623594626784,
+     "lipschitz_s": 0.16884683398529887
+    },
+    "T1_times": 1050072010,
+    "T1_relative_deviation": {
+     "v": 9.673756344582717e-07,
+     "a": 1.9598183546221878e-06,
+     "j": 7.299751951398284e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0026-margin_0p990",
+    "pair_id": "panda-dev40-0026",
+    "pool_order": 26,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "ffb1894873237518d70fa3b8fcd9674b3bcfb505fb3288a76bc0b18926e389f6",
+    "native_duration_s": 0.4891475439071655,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.991945207118988,
+     "event_aware": 0.9919519424438477
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.337045,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3061255,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.9140590268307278e-07,
+    "T1_reported_max_util": {
+     "v": 0.9875191979489059,
+     "a": 0.9877994537353516,
+     "j": 0.991953857421875
+    },
+    "T1_offline_s": 10.98922392888926,
+    "T1_stages_s": {
+     "grid_s": 1.9958557698410004,
+     "saved_production_replay_s": 0.002320190891623497,
+     "gpu_enumeration_s": 8.439935337053612,
+     "cpu_crosscheck_s": 0.17521181097254157,
+     "lipschitz_s": 0.16667407401837409
+    },
+    "T1_times": 1056600461,
+    "T1_relative_deviation": {
+     "v": 3.2137403267885498e-06,
+     "a": 5.221383595510192e-06,
+     "j": 0.0001859372379414414
+    }
+   },
+   {
+    "source_id": "panda-dev40-0027-margin_0p990",
+    "pair_id": "panda-dev40-0027",
+    "pool_order": 27,
+    "scene": "collision_table",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "2d0080c860dfd90e82267906f581550cac6d4a584c5df20d11f5e6a1bda460b4",
+    "native_duration_s": 0.8114388585090637,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9897249937057495,
+     "event_aware": 0.9897250533103943
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3023455000000004,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.385841,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4001274450947676e-07,
+    "T1_reported_max_util": {
+     "v": 0.989455431126023,
+     "a": 0.9897254308064779,
+     "j": 0.9886072387695313
+    },
+    "T1_offline_s": 11.651297149946913,
+    "T1_stages_s": {
+     "grid_s": 1.991052731173113,
+     "saved_production_replay_s": 0.0022712969221174717,
+     "gpu_enumeration_s": 9.109360896982253,
+     "cpu_crosscheck_s": 0.1777082160115242,
+     "lipschitz_s": 0.16720018116757274
+    },
+    "T1_times": 1062189686,
+    "T1_relative_deviation": {
+     "v": 4.265633080944099e-06,
+     "a": 4.697736774287021e-06,
+     "j": 0.0001206468081833003
+    }
+   },
+   {
+    "source_id": "panda-dev40-0028-margin_0p990",
+    "pair_id": "panda-dev40-0028",
+    "pool_order": 28,
+    "scene": "empty",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "2715974e149c552d02ee7f4df15b74ca93bc65609e0ab7f09960afdf7b079df6",
+    "native_duration_s": 0.5174915790557861,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9899481534957886,
+     "event_aware": 0.9899483919143677
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1365,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.2991745,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.315651500000001,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.536537723723086e-07,
+    "T1_reported_max_util": {
+     "v": 0.9803577068012655,
+     "a": 0.988812001546224,
+     "j": 0.9899486083984375
+    },
+    "T1_offline_s": 9.927811159053817,
+    "T1_stages_s": {
+     "grid_s": 2.014671827899292,
+     "saved_production_replay_s": 0.0022044710349291563,
+     "gpu_enumeration_s": 7.364724976010621,
+     "cpu_crosscheck_s": 0.17544232099317014,
+     "lipschitz_s": 0.16421042708680034
+    },
+    "T1_times": 1057258069,
+    "T1_relative_deviation": {
+     "v": 2.0268215336638145e-06,
+     "a": 3.6119148982329816e-06,
+     "j": 3.818524720918717e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0029-margin_0p990",
+    "pair_id": "panda-dev40-0029",
+    "pool_order": 29,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "c68a5b95d88bf441e579dd3e3d443bb98487c65286ed63e2ec147c53b8334281",
+    "native_duration_s": 0.7813436985015869,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9900771975517273,
+     "event_aware": 0.9900774955749512
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1366,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.3170325,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3334835,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.517719283583574e-07,
+    "T1_reported_max_util": {
+     "v": 0.98990464462422,
+     "a": 0.9898551940917969,
+     "j": 0.9900777587890625
+    },
+    "T1_offline_s": 11.809804584132507,
+    "T1_stages_s": {
+     "grid_s": 1.9808912719599903,
+     "saved_production_replay_s": 0.002637870842590928,
+     "gpu_enumeration_s": 9.279201929923147,
+     "cpu_crosscheck_s": 0.17240945296362042,
+     "lipschitz_s": 0.1657151870895177
+    },
+    "T1_times": 1061684773,
+    "T1_relative_deviation": {
+     "v": 4.098730375421789e-06,
+     "a": 5.390015495722716e-06,
+     "j": 0.00012855248601433746
+    }
+   },
+   {
+    "source_id": "panda-dev40-0030-margin_0p990",
+    "pair_id": "panda-dev40-0030",
+    "pool_order": 30,
+    "scene": "collision_table",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "29344c3bc690bc1f37e224e4fe1b69473d4dc84ab2197a04cf0d719f6702b54a",
+    "native_duration_s": 0.5003224015235901,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9871217012405396,
+     "event_aware": 0.987122118473053
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1364,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3193115,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.4009865,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5446157419773954e-07,
+    "T1_reported_max_util": {
+     "v": 0.9835509811829092,
+     "a": 0.9871222813924153,
+     "j": 0.9879682006835937
+    },
+    "T1_offline_s": 9.267708412138745,
+    "T1_stages_s": {
+     "grid_s": 1.9840398819651455,
+     "saved_production_replay_s": 0.0022692440543323755,
+     "gpu_enumeration_s": 6.736838961020112,
+     "cpu_crosscheck_s": 0.173359613167122,
+     "lipschitz_s": 0.16592943691648543
+    },
+    "T1_times": 1056970018,
+    "T1_relative_deviation": {
+     "v": 2.9358345233521784e-06,
+     "a": 4.094929255211205e-06,
+     "j": 0.00013937600529377272
+    }
+   },
+   {
+    "source_id": "panda-dev40-0031-margin_0p990",
+    "pair_id": "panda-dev40-0031",
+    "pool_order": 31,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "07d29c7ebbd274dfea82beea0e71a483fad936e972e09e1bf4bd68278b829387",
+    "native_duration_s": 0.2766892611980438,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9904374480247498,
+     "event_aware": 0.9904372096061707
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1369,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.3294610000000002,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.318696,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.4151589766697725e-07,
+    "T1_reported_max_util": {
+     "v": 0.6754704875610722,
+     "a": 0.9900684356689453,
+     "j": 0.9904375610351562
+    },
+    "T1_offline_s": 9.707763413898647,
+    "T1_stages_s": {
+     "grid_s": 1.9995254389941692,
+     "saved_production_replay_s": 0.002561626024544239,
+     "gpu_enumeration_s": 7.167214738903567,
+     "cpu_crosscheck_s": 0.17373201390728354,
+     "lipschitz_s": 0.16504753101617098
+    },
+    "T1_times": 1049471544,
+    "T1_relative_deviation": {
+     "v": 1.4378969055019222e-06,
+     "a": 2.4394666992505974e-06,
+     "j": 0.00016392208140508576
+    }
+   },
+   {
+    "source_id": "panda-dev40-0032-margin_0p990",
+    "pair_id": "panda-dev40-0032",
+    "pool_order": 32,
+    "scene": "collision_table",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "09faec537b1a2f4d5a971c2c151610406dae2fa9d386ff278ccb18f914288f3b",
+    "native_duration_s": 0.25766077637672424,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9890804886817932,
+     "event_aware": 0.9890806674957275
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1365,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.323704,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3002035,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.0949463558063144e-07,
+    "T1_reported_max_util": {
+     "v": 0.4779970701004546,
+     "a": 0.9890814463297526,
+     "j": 0.986466796875
+    },
+    "T1_offline_s": 9.593428133055568,
+    "T1_stages_s": {
+     "grid_s": 1.9528824449516833,
+     "saved_production_replay_s": 0.0022921471390873194,
+     "gpu_enumeration_s": 7.107073651161045,
+     "cpu_crosscheck_s": 0.1716274751815945,
+     "lipschitz_s": 0.15986353787593544
+    },
+    "T1_times": 1048833054,
+    "T1_relative_deviation": {
+     "v": 5.492622539182425e-07,
+     "a": 1.5847944230650865e-06,
+     "j": 5.1389444018809187e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0033-margin_0p990",
+    "pair_id": "panda-dev40-0033",
+    "pool_order": 33,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "1899822187ade01fffa6ec0144506e9c53db9cbb9fb3ac4517628dd2434063fd",
+    "native_duration_s": 0.8275696039199829,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9897384643554688,
+     "event_aware": 0.9897384643554688
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1368,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.326234,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3261675,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.415324817344299e-07,
+    "T1_reported_max_util": {
+     "v": 0.9897385737482394,
+     "a": 0.9895505905151367,
+     "j": 0.9899821166992188
+    },
+    "T1_offline_s": 9.679145430913195,
+    "T1_stages_s": {
+     "grid_s": 1.968900672858581,
+     "saved_production_replay_s": 0.0021381359547376633,
+     "gpu_enumeration_s": 7.164899626048282,
+     "cpu_crosscheck_s": 0.17581877810880542,
+     "lipschitz_s": 0.16651918413117528
+    },
+    "T1_times": 1062460315,
+    "T1_relative_deviation": {
+     "v": 4.092498859572039e-06,
+     "a": 4.844374435500245e-06,
+     "j": 9.896815040752731e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0034-margin_0p990",
+    "pair_id": "panda-dev40-0034",
+    "pool_order": 34,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "b92adccb70255ac46dd3ba9563933289226a3f4d2db78d1f44e7d9c304405e79",
+    "native_duration_s": 0.29828402400016785,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9893723130226135,
+     "event_aware": 0.9893731474876404
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1363,
+    "MODEL_K3_max_depth": 0,
+    "MODEL_K3_ms_p50": 3.31908,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.275807,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.377443936689815e-07,
+    "T1_reported_max_util": {
+     "v": 0.6996406511249904,
+     "a": 0.9893732706705729,
+     "j": 0.9866193237304688
+    },
+    "T1_offline_s": 11.35069587500766,
+    "T1_stages_s": {
+     "grid_s": 1.9698959081433713,
+     "saved_production_replay_s": 0.00242693186737597,
+     "gpu_enumeration_s": 8.832941530970857,
+     "cpu_crosscheck_s": 0.17301467596553266,
+     "lipschitz_s": 0.16718280292116106
+    },
+    "T1_times": 1050196144,
+    "T1_relative_deviation": {
+     "v": 1.0443444915937392e-06,
+     "a": 2.2187280751423883e-06,
+     "j": 6.641167440391063e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0035-margin_0p990",
+    "pair_id": "panda-dev40-0035",
+    "pool_order": 35,
+    "scene": "collision_test",
+    "magnitude": "large",
+    "native_status": "FAILED_RETAINED",
+    "planner_success": false,
+    "eligible": false,
+    "failure_reason": "RuntimeError: native planner/TimeOpt failure: success=[[False]], status=None"
+   },
+   {
+    "source_id": "panda-dev40-0036-margin_0p990",
+    "pair_id": "panda-dev40-0036",
+    "pool_order": 36,
+    "scene": "empty",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "cf3bc7904802602799cc08b9f5ed9467181b224a85747fde8dc4af4f65dc8d4d",
+    "native_duration_s": 0.2794305980205536,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9898139834403992,
+     "event_aware": 0.9898489117622375
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1370,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3353355000000002,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.241682,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.3399296960869833e-07,
+    "T1_reported_max_util": {
+     "v": 0.564771890503203,
+     "a": 0.9864851633707682,
+     "j": 0.9898609619140625
+    },
+    "T1_offline_s": 10.462065828032792,
+    "T1_stages_s": {
+     "grid_s": 2.009379378054291,
+     "saved_production_replay_s": 0.0020826200488954782,
+     "gpu_enumeration_s": 7.898630016949028,
+     "cpu_crosscheck_s": 0.17762089520692825,
+     "lipschitz_s": 0.16735025495290756
+    },
+    "T1_times": 1049563528,
+    "T1_relative_deviation": {
+     "v": 9.482448484881542e-07,
+     "a": 2.2629811375080066e-06,
+     "j": 0.00011390819815361896
+    }
+   },
+   {
+    "source_id": "panda-dev40-0037-margin_0p990",
+    "pair_id": "panda-dev40-0037",
+    "pool_order": 37,
+    "scene": "collision_primitives_3d",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "1c98752c1e670284053e38a51d10f1372cc8099809df207f2968263ff8cced16",
+    "native_duration_s": 0.8087745308876038,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9890177249908447,
+     "event_aware": 0.9890177249908447
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1365,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3028045,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3187775,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.50259239717343e-07,
+    "T1_reported_max_util": {
+     "v": 0.9890178371082577,
+     "a": 0.9813700993855794,
+     "j": 0.9870736083984375
+    },
+    "T1_offline_s": 11.03440391109325,
+    "T1_stages_s": {
+     "grid_s": 1.9783480549231172,
+     "saved_production_replay_s": 0.006475179921835661,
+     "gpu_enumeration_s": 8.497406161157414,
+     "cpu_crosscheck_s": 0.17675320687703788,
+     "lipschitz_s": 0.1652235360816121
+    },
+    "T1_times": 1062144986,
+    "T1_relative_deviation": {
+     "v": 4.533387841427761e-06,
+     "a": 5.1499973816531034e-06,
+     "j": 0.00012863834446154453
+    }
+   },
+   {
+    "source_id": "panda-dev40-0038-margin_0p990",
+    "pair_id": "panda-dev40-0038",
+    "pool_order": 38,
+    "scene": "collision_primitives_3d",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "738a3a11408d5e94ca8f1b3380a4eea8bfbc3db192d36bfb581eb3878b2344a8",
+    "native_duration_s": 0.2881723940372467,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9900115132331848,
+     "event_aware": 0.9900120496749878
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.295064,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.237397999999999,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.5086467897162947e-07,
+    "T1_reported_max_util": {
+     "v": 0.6998453622542932,
+     "a": 0.9900122324625651,
+     "j": 0.9898977661132813
+    },
+    "T1_offline_s": 10.492983064847067,
+    "T1_stages_s": {
+     "grid_s": 2.0109743049833924,
+     "saved_production_replay_s": 0.0020935998763889074,
+     "gpu_enumeration_s": 7.925824468955398,
+     "cpu_crosscheck_s": 0.1832881048321724,
+     "lipschitz_s": 0.16652777697890997
+    },
+    "T1_times": 1049856854,
+    "T1_relative_deviation": {
+     "v": 2.487787788488755e-06,
+     "a": 2.686558398831362e-06,
+     "j": 0.0002678355960236149
+    }
+   },
+   {
+    "source_id": "panda-dev40-0039-margin_0p990",
+    "pair_id": "panda-dev40-0039",
+    "pool_order": 39,
+    "scene": "empty",
+    "magnitude": "large",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "5914bc13e2ce5ec22818b3785eb534522d98f2cebf904448500327d883a44d70",
+    "native_duration_s": 0.8546270132064819,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9899036288261414,
+     "event_aware": 0.9899035692214966
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1369,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.3052485000000003,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.227463,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.0833977626134583e-07,
+    "T1_reported_max_util": {
+     "v": 0.9899037676823006,
+     "a": 0.9899089177449544,
+     "j": 0.9897772827148438
+    },
+    "T1_offline_s": 9.554413776146248,
+    "T1_stages_s": {
+     "grid_s": 1.977494748076424,
+     "saved_production_replay_s": 0.0021219151094555855,
+     "gpu_enumeration_s": 7.028445106931031,
+     "cpu_crosscheck_s": 0.17311436380259693,
+     "lipschitz_s": 0.1686008251272142
+    },
+    "T1_times": 1062914263,
+    "T1_relative_deviation": {
+     "v": 3.466602463431957e-06,
+     "a": 3.8381788886833705e-06,
+     "j": 9.33025878591216e-05
+    }
+   },
+   {
+    "source_id": "panda-dev40-0040-margin_0p990",
+    "pair_id": "panda-dev40-0040",
+    "pool_order": 40,
+    "scene": "collision_test",
+    "magnitude": "small",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "72014d840c43d9943974d1421a35a4b4c2364d4fafa7e0686f6ec60120f924ab",
+    "native_duration_s": 0.2758370637893677,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9907814264297485,
+     "event_aware": 0.9907835125923157
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1369,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.297558,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.3264855,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.848567876550078e-07,
+    "T1_reported_max_util": {
+     "v": 0.6719569101433789,
+     "a": 0.9900498072306315,
+     "j": 0.9907838745117188
+    },
+    "T1_offline_s": 10.613077207934111,
+    "T1_stages_s": {
+     "grid_s": 1.977602717000991,
+     "saved_production_replay_s": 0.0025478890165686607,
+     "gpu_enumeration_s": 8.090492310002446,
+     "cpu_crosscheck_s": 0.17273223609663546,
+     "lipschitz_s": 0.16551986197009683
+    },
+    "T1_times": 1049442949,
+    "T1_relative_deviation": {
+     "v": 1.6265116040744705e-06,
+     "a": 3.170765046063818e-06,
+     "j": 0.00018406653859874995
+    }
+   },
+   {
+    "source_id": "panda-dev40-0041-margin_0p990",
+    "pair_id": "panda-dev40-0041",
+    "pool_order": 41,
+    "scene": "collision_primitives_3d",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "1e580ae26abc3dd589407522e113841a7c0835b5c1ee05a404ee451e65920099",
+    "native_duration_s": 0.47988975048065186,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9911049604415894,
+     "event_aware": 0.9911208748817444
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1367,
+    "MODEL_K3_max_depth": 2,
+    "MODEL_K3_ms_p50": 3.3037099999999997,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 12.2595135,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.3810664256652672e-07,
+    "T1_reported_max_util": {
+     "v": 0.9876646241531916,
+     "a": 0.9880726496378581,
+     "j": 0.9911223754882813
+    },
+    "T1_offline_s": 10.68406889308244,
+    "T1_stages_s": {
+     "grid_s": 1.9668670711107552,
+     "saved_production_replay_s": 0.004545127972960472,
+     "gpu_enumeration_s": 8.169488781131804,
+     "cpu_crosscheck_s": 0.17257088492624462,
+     "lipschitz_s": 0.1648728030268103
+    },
+    "T1_times": 1056289821,
+    "T1_relative_deviation": {
+     "v": 2.238659576308421e-06,
+     "a": 3.677513465052565e-06,
+     "j": 0.00012966985206564697
+    }
+   },
+   {
+    "source_id": "panda-dev40-0042-margin_0p990",
+    "pair_id": "panda-dev40-0042",
+    "pool_order": 42,
+    "scene": "collision_test",
+    "magnitude": "medium",
+    "native_status": "NATIVE_SUCCESS_PARITY_FAIL",
+    "planner_success": true,
+    "eligible": true,
+    "failure_reason": null,
+    "npz_sha256": "c83337f2db6de8c4b19e44157c21509f8525ad108f22061d3db533405fcdba97",
+    "native_duration_s": 0.4684637784957886,
+    "sampled_max_physical_ratio": {
+     "uniform_time": 0.9898775815963745,
+     "event_aware": 0.9898778200149536
+    },
+    "MODEL_K3": "CERTIFIED",
+    "MODEL_K3_producer": "CERTIFIED",
+    "MODEL_K3_leaves": 1366,
+    "MODEL_K3_max_depth": 1,
+    "MODEL_K3_ms_p50": 3.246457,
+    "NATIVE_REPORTED_K3": "CERTIFIED",
+    "NATIVE_REPORTED_ms_p50": 11.9702155,
+    "exact_genuine_violations": 0,
+    "exact_worst_witness": null,
+    "exact_unresolved": 0,
+    "T1": "AUDITED_CONSISTENT",
+    "T1_reported": "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES",
+    "T1_eps_s": 1.405344818294907e-07,
+    "T1_reported_max_util": {
+     "v": 0.9897371487176204,
+     "a": 0.9898780186971029,
+     "j": 0.98995458984375
+    },
+    "T1_offline_s": 11.09542251098901,
+    "T1_stages_s": {
+     "grid_s": 1.980565960984677,
+     "saved_production_replay_s": 0.0027158178854733706,
+     "gpu_enumeration_s": 8.557596142869443,
+     "cpu_crosscheck_s": 0.17644920689053833,
+     "lipschitz_s": 0.1659475618507713
+    },
+    "T1_times": 1055906429,
+    "T1_relative_deviation": {
+     "v": 2.500746669614253e-06,
+     "a": 3.5940999477891827e-06,
+     "j": 0.00013820747772907906
+    }
+   }
+  ]
+ }
+}
