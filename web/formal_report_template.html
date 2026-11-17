@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formal T1 Qualification</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface-0: #f5f5f3; --surface-1: #fcfcfb; --surface-2: #efeeea; --border: #dcdad3;
+  --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7973;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
+  --grid: #e6e4de; --ref: #9b9a94;
+  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
+  --good-text: #006300; --critical-text: #b42727;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface-0: #121211; --surface-1: #1a1a19; --surface-2: #242422; --border: #383835;
+    --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #9a998f;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --grid: #2c2c2a; --ref: #6f6e68; --good-text: #3fc23f; --critical-text: #ff8a8a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-0: #121211; --surface-1: #1a1a19; --surface-2: #242422; --border: #383835;
+  --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #9a998f;
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+  --grid: #2c2c2a; --ref: #6f6e68; --good-text: #3fc23f; --critical-text: #ff8a8a;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface-0); color: var(--text-primary);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { padding: 20px 16px 8px; max-width: 1240px; margin: 0 auto; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 22px 0 8px; }
+h3 { font-size: 14px; margin: 16px 0 6px; color: var(--text-secondary); }
+.sub { color: var(--text-secondary); max-width: 900px; }
+nav { position: sticky; top: 0; z-index: 5; background: var(--surface-0); border-bottom: 1px solid var(--border); }
+nav .in { max-width: 1240px; margin: 0 auto; padding: 0 16px; display: flex; gap: 2px; overflow-x: auto; }
+nav button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--text-secondary);
+  padding: 10px 10px; font: inherit; cursor: pointer; white-space: nowrap; }
+nav button[aria-selected="true"] { color: var(--text-primary); border-bottom-color: var(--series-1); }
+main { max-width: 1240px; margin: 0 auto; padding: 8px 16px 60px; }
+section[hidden] { display: none; }
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin: 10px 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; padding: 12px; min-width: 0; }
+.tile .k { color: var(--text-secondary); font-size: 12px; }
+.tile .v { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tile .n { color: var(--text-muted); font-size: 12px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 10px; font-size: 12px;
+  border: 1px solid var(--border); white-space: nowrap; }
+.badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--ref)); }
+.b-good { --c: var(--good); } .b-warn { --c: var(--warning); } .b-bad { --c: var(--critical); } .b-ser { --c: var(--serious); }
+.scope { font-size: 11px; letter-spacing: .02em; text-transform: uppercase; color: var(--text-muted); overflow-wrap: anywhere; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; background: var(--surface-1); }
+.tw { overflow-x: auto; max-height: 560px; overflow-y: auto; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px 0 10px; }
+select, input, .btn { font: inherit; background: var(--surface-1); color: var(--text-primary); border: 1px solid var(--border);
+  border-radius: 6px; padding: 5px 8px; max-width: 100%; }
+.btn { cursor: pointer; }
+svg { display: block; max-width: 100%; height: auto; overflow: visible; }
+svg text { fill: var(--text-secondary); font-size: 11px; }
+.ax line, .ax path { stroke: var(--grid); }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--text-secondary); margin: 4px 0; }
+.legend i { display: inline-block; width: 12px; height: 3px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
+#tip { position: fixed; pointer-events: none; background: var(--surface-1); color: var(--text-primary); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 8px; font-size: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.15); display: none; z-index: 20; max-width: 320px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; }
+.note { color: var(--text-secondary); font-size: 12.5px; }
+.card p, .card li, .note { overflow-wrap: anywhere; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; overflow-wrap: anywhere; }
+.themebtn { float: right; }
+@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } .tile .v { font-size: 20px; } }
+</style>
+</head>
+<body>
+<header>
+  <button class="btn themebtn" id="themeBtn" type="button" aria-label="Toggle color theme">Theme</button>
+  <h1>Formal T1 qualification — Panda-only (amended population)</h1>
+  <p class="sub">Independent review of the native time-law audit, frozen Panda-Dev40 / Panda-Holdout100 /
+  Panda-Confirm300 cohorts (AMENDED_POPULATION_PANDA_ONLY; the original dual-robot protocol is BLOCKED_UR5E_MODEL_LIMITS),
+  primary TimeOpt margin 0.95 and separate secondary arm 0.99. Three contracts are reported separately and never pooled:
+  <b>MODEL_K3</b> (exact serialized model, continuous time, proof + independent verifier),
+  <b>NATIVE_REPORTED_K3</b> (reported FP32 values at every native progress, conditional on A1–A5),
+  <b>T1_AUDITED_FLOAT32_TIMES</b> (per-output exhaustive float32 requested-time audit on the audited binary/GPU).
+  None is a claim about physical robot execution or between-request interpolation.</p>
+</header>
+<nav><div class="in" role="tablist" id="tabs"></div></nav>
+<main id="main"></main>
+<div id="tip" role="tooltip"></div>
+<script>
+const DATA = /*__DATA__*/null;
+const $ = (s, r = document) => r.querySelector(s);
+const el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [x, y] of Object.entries(a)) { if (x === "html") e.innerHTML = y; else if (x.startsWith("on")) e.addEventListener(x.slice(2), y); else e.setAttribute(x, y); } for (const c of k) e.append(c instanceof Node ? c : document.createTextNode(c ?? "")); return e; };
+const NS = "http://www.w3.org/2000/svg";
+const sv = (t, a = {}) => { const e = document.createElementNS(NS, t); for (const [x, y] of Object.entries(a)) e.setAttribute(x, y); return e; };
+const fmt = (x, d = 3) => x == null ? "—" : (Math.abs(x) >= 1e-3 || x === 0 ? (+x).toFixed(d) : (+x).toExponential(2));
+const pct = x => x == null ? "—" : (100 * x).toFixed(1) + "%";
+const COH = ["Panda-Dev40", "Panda-Holdout100", "Panda-Confirm300"];
+const ARMC = { primary: "var(--series-1)", secondary: "var(--series-2)" };
+const ARML = { primary: "0.95 primary", secondary: "0.99 secondary" };
+const tip = $("#tip");
+function showTip(ev, html) { tip.innerHTML = html; tip.style.display = "block"; const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = ev.clientX + 14, y = ev.clientY + 14; if (x + w > innerWidth - 8) x = ev.clientX - w - 14; if (y + h > innerHeight - 8) y = ev.clientY - h - 14;
+  tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px"; }
+function hideTip() { tip.style.display = "none"; }
+function badge(s) { const good = ["CERTIFIED", "AUDITED_CONSISTENT", "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES", "PASS_SOUNDNESS", "PASS"];
+  const bad = ["VIOLATED", "VIOLATED_BOUNDARY", "REJECTED_BY_VERIFIER", "HARD_STOP", "FAILED_TO_AUDIT_INTEGRITY", "REPORTED_EXCEEDS_LIMITS", "REPORTED_NONFINITE"];
+  const cls = good.includes(s) ? "b-good" : bad.includes(s) ? "b-bad" : s && s.startsWith("FAILED_PARTIAL") ? "b-warn" : s && (s.startsWith("UNKNOWN") || s === "FAILED_RETAINED") ? "b-ser" : "";
+  return el("span", { class: "badge " + cls }, s ?? "—"); }
+const theme = (() => { try { return localStorage.getItem("fqr-theme"); } catch (e) { return null; } })();
+if (theme) document.documentElement.dataset.theme = theme;
+$("#themeBtn").onclick = () => { const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const nx = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nx; try { localStorage.setItem("fqr-theme", nx); } catch (e) {} };
+
+// ---------- generic SVG chart helpers ----------
+function scale(d0, d1, r0, r1) { const k = (r1 - r0) / ((d1 - d0) || 1); const f = v => r0 + (v - d0) * k; f.inv = p => d0 + (p - r0) / k; return f; }
+function ticks(a, b, n = 5) { const s = Math.pow(10, Math.floor(Math.log10((b - a) / n || 1))); const st = [1, 2, 5, 10].map(m => m * s).find(m => (b - a) / m <= n) || s * 10;
+  const out = []; for (let v = Math.ceil(a / st) * st; v <= b + 1e-12; v += st) out.push(+v.toPrecision(12)); return out; }
+function frame(W, H, m, xs, ys, xl, yl, xt, yt) {
+  const g = sv("svg", { viewBox: `0 0 ${W} ${H}`, width: W, role: "img" });
+  const ax = sv("g", { class: "ax" });
+  for (const v of (yt || ticks(ys.d0, ys.d1))) { const y = ys(v); ax.append(sv("line", { x1: m.l, x2: W - m.r, y1: y, y2: y }));
+    const t = sv("text", { x: m.l - 6, y: y + 4, "text-anchor": "end" }); t.textContent = ys.fmt ? ys.fmt(v) : v; ax.append(t); }
+  for (const v of (xt || ticks(xs.d0, xs.d1))) { const x = xs(v); const t = sv("text", { x, y: H - m.b + 16, "text-anchor": "middle" }); t.textContent = xs.fmt ? xs.fmt(v) : v; ax.append(t); }
+  g.append(ax);
+  if (xl) { const t = sv("text", { x: (m.l + W - m.r) / 2, y: H - 4, "text-anchor": "middle" }); t.textContent = xl; g.append(t); }
+  if (yl) { const t = sv("text", { x: 12, y: m.t - 8 }); t.textContent = yl; g.append(t); }
+  return g;
+}
+function mk(d0, d1, r0, r1, f) { const s = scale(d0, d1, r0, r1); s.d0 = d0; s.d1 = d1; s.fmt = f; return s; }
+
+// ---------- tabs ----------
+const TABS = [["overview", "Overview"], ["ledger", "Ledger"], ["coverage", "Coverage & CIs"], ["durations", "Durations 0.99 vs 0.95"],
+  ["t1", "Time law (T1)"], ["latency", "Latency"], ["explorer", "Path explorer"], ["failures", "Failures & unknowns"], ["review", "R0 review"], ["prov", "Provenance"]];
+const tabs = $("#tabs"), main = $("#main"); const secs = {};
+for (const [id, label] of TABS) {
+  const b = el("button", { role: "tab", id: "tab-" + id, "aria-selected": "false", "aria-controls": "sec-" + id }, label);
+  b.onclick = () => show(id); tabs.append(b);
+  secs[id] = el("section", { id: "sec-" + id, role: "tabpanel", "aria-labelledby": "tab-" + id, hidden: "" }); main.append(secs[id]);
+}
+const built = {};
+function show(id) { for (const [k] of TABS) { $("#tab-" + k).setAttribute("aria-selected", k === id); secs[k].hidden = k !== id; }
+  if (!built[id]) { built[id] = 1; R[id](secs[id]); } try { localStorage.setItem("fqr-tab", id); } catch (e) {} }
+const ran = COH.filter(c => DATA.cohorts[c] && DATA.cohorts[c].status !== "NOT_RUN");
+
+const R = {};
+R.overview = s => {
+  s.append(el("h2", {}, "Gate outcomes"));
+  const t = el("table"); t.append(el("tr", {}, ...["Cohort", "Gate", "Attempted (primary)", "Eligible", "MODEL_K3", "NATIVE_REPORTED_K3", "T1 audited", "Fresh added p50 / p95 (ms)", "Latency label"].map(x => el("th", {}, x))));
+  for (const c of COH) { const d = DATA.cohorts[c];
+    if (!d || d.status === "NOT_RUN") { t.append(el("tr", {}, el("td", {}, c), el("td", {}, badge("NOT_RUN")), ...Array(7).fill(0).map(() => el("td", {}, "—")))); continue; }
+    const p = d.arms.primary, L = d.fresh_latency_primary;
+    t.append(el("tr", {}, el("td", {}, c), el("td", {}, badge(d.gate)), el("td", {}, p.attempted_source_queries), el("td", {}, p.eligible),
+      el("td", {}, `${p.MODEL_K3.CERTIFIED}/${p.eligible}`), el("td", {}, `${p.NATIVE_REPORTED_K3.CERTIFIED}/${p.eligible}`),
+      el("td", {}, `${p.T1_AUDITED_FLOAT32_TIMES.audited_consistent}/${p.eligible}`),
+      el("td", {}, L ? `${fmt(L.per_query_median_added_ms.p50, 2)} / ${fmt(L.per_query_median_added_ms.p95, 2)}` : "—"), el("td", {}, L ? badge(L.label) : "—"))); }
+  s.append(el("div", { class: "card tw" }, t));
+  const tot = { att: 0, el: 0, mk: 0, nr: 0, t1: 0, times: 0, viol: 0 };
+  for (const c of ran) for (const arm of ["primary", "secondary"]) { const a = DATA.cohorts[c].arms[arm]; tot.att += a.attempted_source_queries; tot.el += a.eligible;
+    tot.mk += a.MODEL_K3.CERTIFIED; tot.nr += a.NATIVE_REPORTED_K3.CERTIFIED; tot.t1 += a.T1_AUDITED_FLOAT32_TIMES.audited_consistent; tot.times += a.T1_AUDITED_FLOAT32_TIMES.times_enumerated_total; tot.viol += a.exact_genuine_violation_outputs; }
+  s.append(el("h2", {}, "All formal outputs (both arms, all opened cohorts)"));
+  const tiles = el("div", { class: "tiles" });
+  const tile = (k, v, n) => tiles.append(el("div", { class: "tile" }, el("div", { class: "k" }, k), el("div", { class: "v" }, v), el("div", { class: "n" }, n)));
+  tile("Source requests attempted", tot.att, "both arms; failures retained");
+  tile("Eligible native outputs", tot.el, "first-K primary + secondary successes");
+  tile("MODEL_K3 certified", `${tot.mk}/${tot.el}`, "proof + independent verifier");
+  tile("NATIVE_REPORTED_K3 certified", `${tot.nr}/${tot.el}`, "conditional on A1–A5");
+  tile("T1 audited consistent", `${tot.t1}/${tot.el}`, `${(tot.times / 1e9).toFixed(1)}·10⁹ float32 times`);
+  tile("Exact physical violations", tot.viol, "outputs with an exact witness");
+  s.append(tiles);
+  s.append(el("p", { class: "note" }, "Coverage targets: ≥99% of eligible, reported descriptively and as a one-sided 95% exact Clopper–Pearson lower bound (inferential claim only when the bound itself is ≥0.99). Latency targets (fresh added, per-query medians, 8 threads): p50 ≤ 1 ms (aspiration) and p95 ≤ 3 ms; thresholds were frozen before any cohort and are not moved."));
+};
+
+R.ledger = s => {
+  s.append(el("h2", {}, "Complete outcome ledger"), el("p", { class: "note" }, "Every attempted source request of every opened cohort, both arms. Native failures are retained, never replaced; eligibility follows the preregistered first-K rule."));
+  const fc = el("select", { "aria-label": "Cohort" }, el("option", { value: "" }, "All cohorts"), ...ran.map(c => el("option", { value: c }, c)));
+  const fa = el("select", { "aria-label": "Arm" }, el("option", { value: "" }, "Both arms"), el("option", { value: "primary" }, "0.95 primary"), el("option", { value: "secondary" }, "0.99 secondary"));
+  const fs = el("select", { "aria-label": "Outcome" }, ...["", "eligible", "native failure", "not certified"].map(x => el("option", { value: x }, x || "All outcomes")));
+  const q = el("input", { type: "search", placeholder: "filter id / scene", "aria-label": "Text filter" });
+  const csv = el("button", { class: "btn", type: "button" }, "Export CSV");
+  const box = el("div", { class: "card tw" }); const cnt = el("span", { class: "note" });
+  s.append(el("div", { class: "filters" }, fc, fa, fs, q, csv, cnt), box);
+  const cols = ["cohort", "arm", "source_id", "pool_order", "scene", "magnitude", "native_status", "eligible", "MODEL_K3", "NATIVE_REPORTED_K3", "T1", "T1_reported", "failure_reason"];
+  let rows = [];
+  function draw() {
+    rows = DATA.ledger.filter(r => (!fc.value || r.cohort === fc.value) && (!fa.value || r.arm === fa.value)
+      && (!fs.value || (fs.value === "eligible" ? r.eligible : fs.value === "native failure" ? r.native_status === "FAILED_RETAINED" : r.eligible && r.MODEL_K3 !== "CERTIFIED" || r.eligible && r.NATIVE_REPORTED_K3 !== "CERTIFIED"))
+      && (!q.value || (r.source_id + " " + r.scene).includes(q.value)));
+    const t = el("table"); t.append(el("tr", {}, ...cols.map(c => el("th", {}, c))));
+    for (const r of rows) t.append(el("tr", {}, ...cols.map(c => el("td", {}, ["MODEL_K3", "NATIVE_REPORTED_K3", "T1", "T1_reported", "native_status"].includes(c) && r[c] ? badge(r[c]) : String(r[c] ?? "")))));
+    box.replaceChildren(t); cnt.textContent = `${rows.length} rows`; }
+  for (const x of [fc, fa, fs]) x.onchange = draw; q.oninput = draw;
+  csv.onclick = () => { const txt = [cols.join(",")].concat(rows.map(r => cols.map(c => JSON.stringify(r[c] ?? "")).join(","))).join("\n");
+    const a = el("a", { href: URL.createObjectURL(new Blob([txt], { type: "text/csv" })), download: "formal_ledger.csv" }); a.click(); };
+  draw();
+};
+
+function ciChart(items) {
+  // items: {label, k, n, lo1, lo2, hi2}
+  const W = 720, rowH = 30, m = { l: 230, r: 30, t: 26, b: 34 }, H = m.t + m.b + rowH * items.length;
+  const xs = mk(0.8, 1.0, m.l, W - m.r, v => v.toFixed(2));
+  const g = frame(W, H, m, xs, mk(0, 1, 0, 0), "certified fraction (point, two-sided 95% exact CI, ◆ one-sided 95% lower bound)", null, ticks(0.8, 1.0, 4), []);
+  g.append(sv("line", { x1: xs(0.99), x2: xs(0.99), y1: m.t - 6, y2: H - m.b, stroke: "var(--ref)", "stroke-dasharray": "4 3" }));
+  const tt = sv("text", { x: xs(0.99) + 4, y: m.t - 8 }); tt.textContent = "0.99 target"; g.append(tt);
+  items.forEach((it, i) => { const y = m.t + rowH * i + rowH / 2;
+    const lab = sv("text", { x: m.l - 8, y: y + 4, "text-anchor": "end" }); lab.textContent = it.label; g.append(lab);
+    const c = it.color; const cl = v => xs(Math.max(0.8, v));
+    g.append(sv("line", { x1: cl(it.lo2), x2: cl(it.hi2), y1: y, y2: y, stroke: c, "stroke-width": 2 }));
+    g.append(sv("path", { d: `M${cl(it.lo1)},${y - 6}l5,6l-5,6l-5,-6z`, fill: c }));
+    const dot = sv("circle", { cx: cl(it.k / it.n), cy: y, r: 5, fill: c, stroke: "var(--surface-1)", "stroke-width": 2 }); g.append(dot);
+    const hit = sv("rect", { x: m.l, y: y - rowH / 2, width: W - m.l - m.r, height: rowH, fill: "transparent" });
+    hit.onmousemove = e => showTip(e, `<b>${it.label}</b><br>${it.k}/${it.n} = ${pct(it.k / it.n)}<br>two-sided 95%: [${fmt(it.lo2, 4)}, ${fmt(it.hi2, 4)}]<br>one-sided 95% lower: ${fmt(it.lo1, 4)}`);
+    hit.onmouseleave = hideTip; g.append(hit);
+    if (it.lo1 < 0.8) { const t = sv("text", { x: m.l + 4, y: y - 8 }); t.textContent = `lower bound ${fmt(it.lo1, 3)} (off-axis)`; g.append(t); } });
+  return g;
+}
+R.coverage = s => {
+  s.append(el("h2", {}, "Certification coverage with exact binomial intervals"));
+  s.append(el("p", { class: "note" }, "Each eligible output is its own source query within an arm, so the source-query cluster bootstrap reduces to the exact binomial here; the fixed four scenes are strata, not clusters (per-scene counts below). n=300 with 300/300 gives a one-sided lower bound just above 0.99; fewer eligible outputs or any failure cannot establish ≥99% inferentially."));
+  for (const arm of ["primary", "secondary"]) {
+    s.append(el("h3", {}, ARML[arm]));
+    const items = [];
+    for (const c of ran) { const a = DATA.cohorts[c].arms[arm];
+      for (const [k, lab] of [["MODEL_K3", "MODEL_K3"], ["NATIVE_REPORTED_K3", "NATIVE_REPORTED"], ["T1_AUDITED_FLOAT32_TIMES", "T1 audited"]]) {
+        const cv = k === "T1_AUDITED_FLOAT32_TIMES" ? a[k].audit_fraction : a[k].coverage;
+        items.push({ label: `${c} · ${lab}`, k: cv.k, n: cv.n, lo1: cv.one_sided_95_lower_exact, lo2: cv.two_sided_95_exact[0], hi2: cv.two_sided_95_exact[1], color: ARMC[arm] }); } }
+    s.append(el("div", { class: "card" }, ciChart(items)));
+    const t = el("table"); t.append(el("tr", {}, ...["Cohort", "Scene", "Attempted", "Eligible", "MODEL_K3 certified"].map(x => el("th", {}, x))));
+    for (const c of ran) for (const [sc, v] of Object.entries(DATA.cohorts[c].arms[arm].by_scene)) t.append(el("tr", {}, el("td", {}, c), el("td", {}, sc), el("td", {}, v.attempted), el("td", {}, v.eligible), el("td", {}, v.model_k3_certified)));
+    s.append(el("div", { class: "card tw" }, t));
+  }
+};
+
+R.durations = s => {
+  s.append(el("h2", {}, "Secondary arm 0.99 vs primary 0.95 — paired durations"));
+  s.append(el("p", { class: "note" }, "Gain = 100·(T₀.₉₅ − T₀.₉₉)/T₀.₉₅ per source query (positive: 0.99 faster). Bootstrap over source queries (10,000 resamples). Preregistered secondary analysis; not a validated margin-selection policy."));
+  const tiles = el("div", { class: "tiles" });
+  for (const c of ran) { const p = DATA.cohorts[c].paired_duration_0p99_vs_0p95;
+    tiles.append(el("div", { class: "tile" }, el("div", { class: "k" }, c), el("div", { class: "v" }, p.median == null ? "—" : `${p.median.toFixed(2)}%`), el("div", { class: "n" }, `95% CI [${fmt(p.ci95?.[0], 2)}, ${fmt(p.ci95?.[1], 2)}] · n=${p.n} pairs`))); }
+  s.append(tiles);
+  // scatter T0.95 vs T0.99
+  const byPair = {}; for (const p of DATA.paths) { const k = p.cohort + "|" + p.id.replace(/-margin_0p9[59]0$/, ""); (byPair[k] ||= {})[p.arm] = p; }
+  const pts = Object.values(byPair).filter(x => x.primary && x.secondary);
+  const W = 560, H = 420, m = { l: 56, r: 20, t: 24, b: 40 };
+  const all = pts.flatMap(x => [x.primary.duration, x.secondary.duration]); const lo = Math.min(...all) * 0.97, hi = Math.max(...all) * 1.02;
+  const xs = mk(lo, hi, m.l, W - m.r, v => v.toFixed(2)), ys = mk(lo, hi, H - m.b, m.t, v => v.toFixed(2));
+  const g = frame(W, H, m, xs, ys, "duration at 0.95 (s)", "duration at 0.99 (s)");
+  g.append(sv("line", { x1: xs(lo), y1: ys(lo), x2: xs(hi), y2: ys(hi), stroke: "var(--ref)", "stroke-dasharray": "4 3" }));
+  for (const x of pts) { const c = sv("circle", { cx: xs(x.primary.duration), cy: ys(x.secondary.duration), r: 4.5, fill: "var(--series-1)", stroke: "var(--surface-1)", "stroke-width": 2 });
+    c.onmousemove = e => showTip(e, `<b>${x.primary.id.replace(/-margin_0p950$/, "")}</b><br>${x.primary.cohort} · ${x.primary.scene}/${x.primary.magnitude}<br>T₀.₉₅ ${x.primary.duration.toFixed(4)} s · T₀.₉₉ ${x.secondary.duration.toFixed(4)} s<br>gain ${(100 * (x.primary.duration - x.secondary.duration) / x.primary.duration).toFixed(2)}%`);
+    c.onmouseleave = hideTip; c.onclick = () => openPath(x.secondary.id); g.append(c); }
+  s.append(el("div", { class: "card" }, el("div", { class: "note" }, "Points below the dashed diagonal are faster at 0.99. Click a point to open the 0.99 path."), g));
+};
+
+R.t1 = s => {
+  const re = DATA.reissue;
+  s.append(el("h2", {}, "Native time law: per-output exhaustive float32 audit (T1 v2)"));
+  s.append(el("p", { class: "note" }, "ε bounds |s_native(t) − s*(t)| over every float32 requested time in [+0, T_native] (and the inversion over (T_native, T_exact]) against a rigorous CPU enclosure of T(s)=∫x^{-1/2}. Offline cost per output is separate from online latency. Production identity: all q/v/a/j words of cuRobo’s own sample kernel and the audit harness are bitwise identical at every enumerated time."));
+  const W = 720, H = 300, m = { l: 64, r: 20, t: 24, b: 40 };
+  const P = DATA.paths; const emax = Math.max(...P.map(p => p.eps)) * 1.08;
+  const xs = mk(0, 1, m.l, W - m.r), ys = mk(0, emax, H - m.b, m.t, v => v.toExponential(1));
+  const g = frame(W, H, m, xs, ys, "outputs (grouped by cohort and arm)", "ε_s certified", []);
+  const groups = []; for (const c of ran) for (const arm of ["primary", "secondary"]) groups.push([c, arm]);
+  groups.forEach(([c, arm], gi) => { const x0 = (gi + 0.15) / groups.length, x1 = (gi + 0.85) / groups.length;
+    const ps = P.filter(p => p.cohort === c && p.arm === arm);
+    const lab = sv("text", { x: xs((x0 + x1) / 2), y: H - m.b + 16, "text-anchor": "middle" }); lab.textContent = `${c.replace("Panda-", "")} ${arm === "primary" ? "0.95" : "0.99"}`; g.append(lab);
+    ps.forEach((p, i) => { const c2 = sv("circle", { cx: xs(x0 + (x1 - x0) * (i + 0.5) / ps.length), cy: ys(p.eps), r: 3.2, fill: ARMC[arm] });
+      c2.onmousemove = e => showTip(e, `<b>${p.id}</b><br>ε = ${p.eps.toExponential(4)} at t=${p.eps_at}<br>${p.times.toLocaleString()} float32 times · offline ${p.t1_s}s<br>${p.T1} · ${p.T1_reported}`);
+      c2.onmouseleave = hideTip; c2.onclick = () => openPath(p.id); g.append(c2); }); });
+  s.append(el("div", { class: "card" }, el("div", { class: "legend" }, el("span", {}, el("i", { style: "background:var(--series-1)" }), "0.95 primary"), el("span", {}, el("i", { style: "background:var(--series-2)" }), "0.99 secondary")), g));
+  // v1 -> v2 correction
+  s.append(el("h3", {}, "Correction of the withdrawn v1 bound on the 224 historical outputs (R0 finding U1)"));
+  const W2 = 560, H2 = 380, m2 = { l: 64, r: 20, t: 24, b: 40 };
+  const vals = re.pairs.flat(); const lo = Math.min(...vals) * 0.95, hi = Math.max(...vals) * 1.03;
+  const x2 = mk(lo, hi, m2.l, W2 - m2.r, v => v.toExponential(1)), y2 = mk(0, Math.max(...re.pairs.map(p => p[1] - p[0])) * 1.1, H2 - m2.b, m2.t, v => v.toExponential(1));
+  const g2 = frame(W2, H2, m2, x2, y2, "withdrawn v1 ‘ε’ (near-end distance, a lower bound)", "v2 ε − v1 value", ticks(lo, hi, 4));
+  for (const [a, b] of re.pairs) g2.append(sv("circle", { cx: x2(a), cy: y2(b - a), r: 3, fill: "var(--series-1)" }));
+  s.append(el("div", { class: "card" }, el("div", { class: "note" }, `All 224 historical outputs re-audited with v2: ${Object.entries(re.status_counts).map(([k, v]) => k + " " + v).join(", ")}; reported ${Object.entries(re.reported_counts).map(([k, v]) => k + " " + v).join(", ")}; ε max ${re.eps_s_max.toExponential(6)} (v1 ‘2.44e-7’ withdrawn); ${(re.times_enumerated / 1e11).toFixed(3)}·10¹¹ times; production/harness mismatching words: ${re.production_harness_mismatch_words}. Every v2 value exceeds the v1 value (the v1 kernel measured the distance to the bracket, not a bound).`), g2));
+  // offline time
+  s.append(el("h3", {}, "Offline exhaustive audit cost per output (RTX 3090)"));
+  const t = el("table"); t.append(el("tr", {}, ...["Cohort", "arm", "n", "p50 s", "p95 s", "max s", "stage p50: grid / GPU enum / CPU check"].map(x => el("th", {}, x))));
+  for (const [c, arm] of groups) { const ps = P.filter(p => p.cohort === c && p.arm === arm); const v = ps.map(p => p.t1_s).sort((a, b) => a - b);
+    const q = f => v[Math.min(v.length - 1, Math.floor(f * (v.length - 1)))]; const med = k => { const z = ps.map(p => p.t1_stages[k]).sort((a, b) => a - b); return z[Math.floor(z.length / 2)]; };
+    t.append(el("tr", {}, el("td", {}, c), el("td", {}, ARML[arm]), el("td", {}, v.length), el("td", {}, fmt(q(0.5), 2)), el("td", {}, fmt(q(0.95), 2)), el("td", {}, fmt(v[v.length - 1], 2)),
+      el("td", {}, `${fmt(med("grid_s"), 2)} / ${fmt(med("gpu_enumeration_s"), 2)} / ${fmt(med("cpu_crosscheck_s"), 2)}`))); }
+  s.append(el("div", { class: "card tw" }, t));
+};
+
+function ecdf(series, W = 720, H = 320, xl = "", refs = []) {
+  const m = { l: 56, r: 20, t: 24, b: 40 };
+  const all = series.flatMap(s => s.v); const lo = Math.min(...all, ...refs.map(r => r.x)) * 0.95, hi = Math.max(...all, ...refs.map(r => r.x)) * 1.03;
+  const xs = mk(lo, hi, m.l, W - m.r, v => v.toFixed(1)), ys = mk(0, 1, H - m.b, m.t, v => v.toFixed(1));
+  const g = frame(W, H, m, xs, ys, xl, "fraction of queries ≤ x");
+  for (const r of refs) { g.append(sv("line", { x1: xs(r.x), x2: xs(r.x), y1: m.t, y2: H - m.b, stroke: "var(--ref)", "stroke-dasharray": "4 3" }));
+    const t = sv("text", { x: xs(r.x) + 4, y: m.t + 10 }); t.textContent = r.label; g.append(t); }
+  for (const s of series) { const v = [...s.v].sort((a, b) => a - b); let d = `M${xs(v[0])},${ys(0)}`;
+    v.forEach((x, i) => { d += `L${xs(x)},${ys(i / v.length)}L${xs(x)},${ys((i + 1) / v.length)}`; });
+    g.append(sv("path", { d, fill: "none", stroke: s.color, "stroke-width": 2 })); }
+  const cross = sv("line", { y1: m.t, y2: H - m.b, stroke: "var(--ref)", visibility: "hidden" }); g.append(cross);
+  const hit = sv("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" });
+  hit.onmousemove = e => { const r = g.getBoundingClientRect(); const px = (e.clientX - r.left) * W / r.width; const x = xs.inv(px);
+    cross.setAttribute("x1", px); cross.setAttribute("x2", px); cross.setAttribute("visibility", "visible");
+    showTip(e, `x = ${x.toFixed(3)} ms<br>` + series.map(s => `${s.label}: ${(100 * s.v.filter(z => z <= x).length / s.v.length).toFixed(1)}%`).join("<br>")); };
+  hit.onmouseleave = () => { hideTip(); cross.setAttribute("visibility", "hidden"); }; g.append(hit);
+  return g;
+}
+R.latency = s => {
+  s.append(el("h2", {}, "Fresh-request added certification latency (online)"));
+  s.append(el("p", { class: "note" }, "Paired randomized requests per primary source query: native planner+TimeOpt alone vs native + device→host copy + compiled FP32 native bound + compiled K3 producer + independent verifier (NATIVE_REPORTED contract), 50 warmups and 10 repeats, RTX 3090, 8-thread arm registered as primary. Per-query medians are the unit. The offline T1 audit is NOT part of this latency."));
+  for (const c of ran) { const d = DATA.cohorts[c]; const L = d.fresh_latency_primary; if (!L) continue;
+    s.append(el("h3", {}, `${c} — ${L.queries} queries · label `, badge(L.label)));
+    const med = a => { const z = [...a].sort((x, y) => x - y); return z[Math.floor(z.length / 2)]; };
+    const B8 = d.fresh_per_query.map(r => med(r.B8)), B1 = d.fresh_per_query.map(r => med(r.B1));
+    const box = el("div", { class: "card" }, el("div", { class: "legend" }, el("span", {}, el("i", { style: "background:var(--series-1)" }), "+cert, 8 threads (registered)"), el("span", {}, el("i", { style: "background:var(--series-2)" }), "+cert, 1 thread")),
+      ecdf([{ label: "8 threads", v: B8, color: "var(--series-1)" }, { label: "1 thread", v: B1, color: "var(--series-2)" }], 720, 300, "added latency per query (ms, median of 10 paired repeats)", [{ x: 1, label: "p50 target 1 ms" }, { x: 3, label: "p95 target 3 ms" }]));
+    s.append(box);
+    const t = el("table"); t.append(el("tr", {}, ...["Quantity", "p50", "p95", "p99", "max", "n"].map(x => el("th", {}, x))));
+    const row = (k, v) => t.append(el("tr", {}, el("td", {}, k), ...["p50", "p95", "p99", "max", "n"].map(q => el("td", {}, q === "n" ? v[q] : fmt(v[q], 3)))));
+    row("added, per-query medians (8 thr)", L.per_query_median_added_ms); row("added, all pooled requests (8 thr)", L.pooled_requests_added_ms);
+    row("native request alone, per-query medians", L.native_ms_per_query_median);
+    for (const [k, v] of Object.entries(L.stage_ms_pooled)) row("stage " + k + " (pooled)", v);
+    s.append(el("div", { class: "card tw" }, t, el("p", { class: "note" }, `95% bootstrap CI of the median added latency: [${fmt(L.ci95_median_added_ms[0], 3)}, ${fmt(L.ci95_median_added_ms[1], 3)}] ms. Queries with >1 distinct native output digest across repeats (planner nondeterminism, reported not averaged away): ${L.distinct_output_digest_queries}.`)));
+  }
+  s.append(el("h3", {}, "Frozen-output proof cost by method (primary outputs, CPU, 1 thread)"));
+  for (const c of ran) { const M = DATA.cohorts[c].frozen_output_methods_primary;
+    const t = el("table"); t.append(el("tr", {}, ...["Contract/method", "certified", "violated", "unknown", "per-path median ms p50", "p95", "95% CI of median"].map(x => el("th", {}, x))));
+    for (const [k, v] of Object.entries(M).sort()) t.append(el("tr", {}, el("td", {}, k), el("td", {}, v.certified), el("td", {}, v.violated), el("td", {}, v.unknown), el("td", {}, fmt(v.per_path_median_ms.p50, 3)), el("td", {}, fmt(v.per_path_median_ms.p95, 3)), el("td", {}, v.ci95_median_ms ? `[${fmt(v.ci95_median_ms[0], 3)}, ${fmt(v.ci95_median_ms[1], 3)}]` : "—")));
+    s.append(el("details", { class: "card" }, el("summary", {}, c), el("div", { class: "tw" }, t))); }
+};
+
+let explorerSel = null;
+function openPath(id) { show("explorer"); explorerSel.value = id; explorerSel.onchange(); }
+R.explorer = s => {
+  s.append(el("h2", {}, "Path explorer"));
+  const sel = el("select", { "aria-label": "Path" }, ...DATA.paths.map(p => el("option", { value: p.id }, `${p.cohort.replace("Panda-", "")} · ${p.id}`)));
+  explorerSel = sel; const body = el("div");
+  s.append(el("div", { class: "filters" }, sel), body);
+  sel.onchange = () => { const p = DATA.paths.find(x => x.id === sel.value); body.replaceChildren(); drawPath(body, p); };
+  sel.onchange();
+};
+function drawPath(b, p) {
+  const tiles = el("div", { class: "tiles" });
+  const tile = (k, v, n) => tiles.append(el("div", { class: "tile" }, el("div", { class: "k" }, k), el("div", { class: "v" }, v), el("div", { class: "n" }, n)));
+  tile("MODEL_K3", p.MODEL_K3, `${p.proof.leaves} leaves · depth ≤ ${p.proof.max_depth} · ${p.ms_model} ms`);
+  tile("NATIVE_REPORTED_K3", p.NATIVE_REPORTED_K3, `${p.ms_native} ms (incl. FP32 bound)`);
+  tile("T1 audit", p.T1 === "AUDITED_CONSISTENT" ? "consistent" : p.T1, `ε ${p.eps.toExponential(3)} · ${(p.times / 1e9).toFixed(3)}·10⁹ times`);
+  tile("Native duration", p.duration.toFixed(4) + " s", `${p.cohort} · ${ARML[p.arm]} · ${p.scene}/${p.magnitude}`);
+  b.append(tiles, el("div", { class: "mono note" }, `NPZ SHA-256 ${p.sha}`));
+  // sampled utilization curves
+  const W = 720, H = 300, m = { l: 50, r: 20, t: 24, b: 40 }; const C = p.curves;
+  const xs = mk(0, C.t[C.t.length - 1], m.l, W - m.r, v => v.toFixed(2)), ys = mk(0, 1.05, H - m.b, m.t, v => v.toFixed(1));
+  const g = frame(W, H, m, xs, ys, "requested time t (s)", "max over joints |value| / physical limit");
+  g.append(sv("line", { x1: m.l, x2: W - m.r, y1: ys(1), y2: ys(1), stroke: "var(--critical)", "stroke-dasharray": "5 3" }));
+  const cols = { v: "var(--series-1)", a: "var(--series-2)", j: "var(--series-3)" };
+  for (const f of ["v", "a", "j"]) { let d = ""; C[f].forEach((u, i) => d += (i ? "L" : "M") + xs(C.t[i]) + "," + ys(Math.min(u, 1.05)));
+    g.append(sv("path", { d, fill: "none", stroke: cols[f], "stroke-width": 2 })); }
+  const cross = sv("line", { y1: m.t, y2: H - m.b, stroke: "var(--ref)", visibility: "hidden" }); g.append(cross);
+  const hit = sv("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" });
+  hit.onmousemove = e => { const r = g.getBoundingClientRect(); const px = (e.clientX - r.left) * W / r.width; const t = xs.inv(px);
+    let i = 0; while (i < C.t.length - 1 && C.t[i] < t) i++; cross.setAttribute("x1", xs(C.t[i])); cross.setAttribute("x2", xs(C.t[i])); cross.setAttribute("visibility", "visible");
+    showTip(e, `t ≈ ${C.t[i]} s (sampled)<br>velocity ${C.v[i]}<br>acceleration ${C.a[i]}<br>jerk ${C.j[i]}`); };
+  hit.onmouseleave = () => { hideTip(); cross.setAttribute("visibility", "hidden"); }; g.append(hit);
+  b.append(el("div", { class: "card" }, el("div", { class: "scope" }, "SAMPLED DIAGNOSTIC — saved S8193 production samples, window-max decimated; not a proof"),
+    el("div", { class: "legend" }, ...["v", "a", "j"].map(f => el("span", {}, el("i", { style: `background:${cols[f]}` }), { v: "velocity", a: "acceleration", j: "jerk" }[f])), el("span", {}, el("i", { style: "background:var(--critical)" }), "physical limit")), g));
+  // exhaustive reported maxima + bounds
+  const t = el("table"); t.append(el("tr", {}, ...["Family", "T1 exhaustive max reported utilization (all float32 t)", "at t / joint", "L·ε state shift / limit", "initial Bernstein hull max residual (H0)"].map(x => el("th", {}, x))));
+  const fam = { v: ["velocity", "velocity"], a: ["acceleration", "acceleration_plus"], j: ["jerk", "jerk"] };
+  for (const f of ["v", "a", "j"]) t.append(el("tr", {}, el("td", {}, fam[f][0]), el("td", {}, fmt(p.reported[f].u, 6)), el("td", {}, `${(+p.reported[f].t).toPrecision(7)} s / J${p.reported[f].joint}`), el("td", {}, fmt(p.reldev[f])),
+    el("td", {}, f === "a" ? `${fmt(p.hull0.acceleration_plus, 4)} / ${fmt(p.hull0.acceleration_minus, 4)}` : fmt(p.hull0[fam[f][1]], 4))));
+  b.append(el("div", { class: "card tw" }, el("div", { class: "scope" }, "RIGOROUS (exhaustive per output; hull residuals are normalized, ≤0 means certified at depth 0)"), t));
+  // Bernstein / exact tightness of nontrivial residuals
+  if (p.nontrivial.length) { const t2 = el("table"); t2.append(el("tr", {}, ...["span", "family", "joint", "class", "U0 (initial hull)", "exact peak bracket [L*, U*]", "bracket depth", "s-interval"].map(x => el("th", {}, x))));
+    for (const x of p.nontrivial) t2.append(el("tr", {}, el("td", {}, x.span), el("td", {}, x.family), el("td", {}, x.joint), el("td", {}, badge(x.class)), el("td", {}, fmt(x.U0, 5)), el("td", {}, `[${fmt(x.Lstar, 5)}, ${fmt(x.Ustar, 5)}]`), el("td", {}, x.depth), el("td", {}, x.s ? x.s.map(v => v.toFixed(4)).join("–") : "")));
+    b.append(el("div", { class: "card tw" }, el("h3", {}, "Residuals whose initial Bernstein hull is not conclusive (exact tightness)"), t2)); }
+  else b.append(el("p", { class: "note" }, "Every residual of this output is certified by its initial Bernstein hull (no subdivision needed in the exact tightness analysis)."));
+  // proof tree
+  const keys = Object.keys(p.proof.split);
+  const pc = el("div", { class: "card" }, el("h3", {}, `Adaptive proof tree (physical contract, frozen policy A): ${p.proof.leaves} leaves, ${p.proof.nodes} nodes`));
+  if (!keys.length) pc.append(el("p", { class: "note" }, "All residual leaves at depth 0 (one Bernstein hull per span × family × joint)."));
+  for (const k of keys.slice(0, 12)) { const L = p.proof.split[k]; const W2 = 680, H2 = 26 + 14 * Math.max(...L.map(x => x[0])), x0 = 120;
+    const g2 = sv("svg", { viewBox: `0 0 ${W2} ${H2}`, width: W2 }); const lab = sv("text", { x: 0, y: 14 }); lab.textContent = k; g2.append(lab);
+    const ups = L.map(x => x[2]); const umin = Math.min(...ups), umax = Math.max(...ups);
+    for (const [dep, bits, up] of L) { const w = (W2 - x0) / 2 ** dep;
+      const pos2 = bits;  // producer: node interval = [bits, bits+1] / 2^depth
+      const sh = 0.35 + 0.65 * (umax > umin ? (up - umin) / (umax - umin) : 1);
+      const r = sv("rect", { x: x0 + pos2 * w + 1, y: 20 + 14 * (dep - 1), width: Math.max(1, w - 2), height: 10, rx: 2, fill: "var(--series-1)", "fill-opacity": sh });
+      r.onmousemove = e => showTip(e, `${k}<br>leaf depth ${dep}, index ${pos2}<br>residual upper bound ${up}`); r.onmouseleave = hideTip; g2.append(r); }
+    pc.append(g2); }
+  if (keys.length > 12) pc.append(el("p", { class: "note" }, `${keys.length - 12} more split residuals not drawn.`));
+  pc.append(el("p", { class: "note" }, "Each row is one subdivision depth; bars are the accepted leaves’ sub-intervals of the span (darker = residual upper bound closer to 0). Rendering only; the proof is the replayed leaf partition."));
+  b.append(pc);
+}
+
+R.failures = s => {
+  s.append(el("h2", {}, "Failures, unknown outcomes and violations"));
+  const nf = DATA.ledger.filter(r => r.native_status === "FAILED_RETAINED");
+  const un = DATA.paths.filter(p => p.MODEL_K3 !== "CERTIFIED" || p.NATIVE_REPORTED_K3 !== "CERTIFIED" || p.T1 !== "AUDITED_CONSISTENT" || p.T1_reported !== "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES");
+  const t = el("table"); t.append(el("tr", {}, ...["Cohort", "arm", "source", "scene/magnitude", "reason"].map(x => el("th", {}, x))));
+  for (const r of nf) t.append(el("tr", {}, el("td", {}, r.cohort), el("td", {}, ARML[r.arm]), el("td", {}, r.source_id), el("td", {}, `${r.scene}/${r.magnitude}`), el("td", { class: "mono" }, r.failure_reason || "")));
+  s.append(el("h3", {}, `Native planner/TimeOpt failures (${nf.length}), retained in denominators`), el("div", { class: "card tw" }, t));
+  const t2 = el("table"); t2.append(el("tr", {}, ...["path", "MODEL_K3", "NATIVE_REPORTED_K3", "T1", "T1 reported"].map(x => el("th", {}, x))));
+  for (const p of un) t2.append(el("tr", {}, el("td", {}, p.id), el("td", {}, badge(p.MODEL_K3)), el("td", {}, badge(p.NATIVE_REPORTED_K3)), el("td", {}, badge(p.T1)), el("td", {}, badge(p.T1_reported))));
+  s.append(el("h3", {}, `Eligible outputs not certified under every contract (${un.length})`), el("div", { class: "card tw" }, un.length ? t2 : el("p", { class: "note" }, "None.")));
+  const hs = ran.flatMap(c => DATA.cohorts[c].hard_stops.map(x => c + ": " + x));
+  s.append(el("h3", {}, "Soundness hard stops"), el("div", { class: "card" }, hs.length ? el("ul", {}, ...hs.map(x => el("li", {}, x))) : el("p", { class: "note" }, "None in any opened cohort: zero false CERTIFIED, zero verifier disagreements, zero T1 integrity failures, zero source-hash mismatches.")));
+};
+
+R.review = s => {
+  s.append(el("h2", {}, "Independent R0 review of the native time-law audit"));
+  s.append(el("div", { class: "card" }, el("p", {}, "Reviewer: an isolated Claude subagent with no part in writing the audit code, with a separately written exact-rational / Taylor-model checker (independent_checks/t1, 25 tests) and its own GPU probes. Round 1 verdict FAIL; round 2 (T1 v2) PASS; D1–D3 addendum confirmed."),
+    el("p", {}, el("b", {}, "Unsound finding U1. "), "The v1 kernel reduced max(s−hi, lo−s, 0), the distance from the native progress to the rigorous bracket — a lower bound on |s_native − s*|. The published ‘certified ε ≤ 2.44·10⁻⁷’ was therefore not a bound on any of the 224 outputs (proven counterexample: margin-20261117-0000 0.90, true error ≥ 1.911·10⁻⁷ > reported 1.905·10⁻⁷). v2 uses the far end max(s−lo, hi−s); corrected maximum 2.448771·10⁻⁷."),
+    el("p", {}, "Other fixes: fail-closed counters (processed count, empty bracket, NaN/out-of-range progress, harness/reference mismatch), exact bit-pattern float32→binary64 conversion independent of FTZ, reported-value audit on the production kernel itself with full-domain bitwise identity, inversion audit in the T_native<T_exact window, grid summation bound without empirical slack, SASS identity with the exact cache options (the recorded ‘-O3’ list is not what NVRTC receives)."),
+    el("p", { class: "note" }, "Full matrices: docs/reports/r0_independent_t1_review/REVIEW_MEMO.md and round2/REVIEW_MEMO_ROUND2.md; contract: docs/T1_V2_CONTRACT_20261117.md.")));
+};
+
+R.prov = s => {
+  const f = DATA.freeze;
+  s.append(el("h2", {}, "Frozen protocol and provenance"));
+  const t = el("table");
+  const row = (k, v) => t.append(el("tr", {}, el("th", {}, k), el("td", { class: "mono" }, typeof v === "string" ? v : JSON.stringify(v))));
+  for (const k of ["protocol", "population_flag", "original_dual_robot_protocol", "git_head_at_freeze", "upstream_curobo_sha", "opened_cohorts", "candidate_designation", "reproducibility"]) if (f[k] != null) row(k, f[k]);
+  for (const [c, v] of Object.entries(f.cohorts)) row(c, `manifest ${v.sha256} · seed ${v.seed} · K=${v.k_eligible} of pool ${v.pool}`);
+  for (const b of f.compiled_k3_builds) row(b.source, `binary ${b.binary_sha256} · ${b.compiler}`);
+  row("T1 SASS identities (RTX 3090)", f.t1_binary_audit.sass_sha256); row("NVRTC options", f.t1_binary_audit.nvrtc_options);
+  for (const [k, v] of Object.entries(f.acceptance)) row("acceptance: " + k, v);
+  for (const [k, v] of Object.entries(f.policy)) row("policy: " + k, v);
+  if (f.a100_replication_preregistered) row("A100 replication (preregistered)", f.a100_replication_preregistered);
+  s.append(el("div", { class: "card tw" }, t));
+  if (DATA.a100 && DATA.a100.length) { s.append(el("h3", {}, "A100 replication evidence"));
+    for (const x of DATA.a100) s.append(el("div", { class: "card mono" }, JSON.stringify(x.summary || x).slice(0, 4000))); }
+};
+
+let start = "overview"; try { start = localStorage.getItem("fqr-tab") || start; } catch (e) {}
+show(TABS.some(t => t[0] === start) ? start : "overview");
+</script>
+</body>
+</html>
