@@ -13,7 +13,10 @@ def main():
     parts = [json.loads(p.read_text()) for p in a.parts]
     base = {k: v for k, v in parts[0].items() if k not in ("rows", "affinity")}
     for p in parts[1:]:
-        if p["builds"] != parts[0]["builds"] or p["methods"] != parts[0]["methods"] or p["scope"] != parts[0]["scope"]:
+        # Compare build IDENTITY (source/exports/binary SHA, compiler), not the command line, which
+        # embeds each process's temporary output path (Dev40 finding, 2026-11-17).
+        ident = lambda bs: [(b["source_sha256"], b["exports_map_sha256"], b["binary_sha256"], b["compiler"]) for b in bs]  # noqa: E731
+        if ident(p["builds"]) != ident(parts[0]["builds"]) or p["methods"] != parts[0]["methods"] or p["scope"] != parts[0]["scope"]:
             raise SystemExit("MIXED_BUILDS_OR_METHODS")
     rows, seen = [], set()
     for p in parts:
