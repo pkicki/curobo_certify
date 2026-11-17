@@ -1,0 +1,58 @@
+{
+ "scope": "R0_REVIEW_CORRECTED_REDUCTION_NOT_A_REGISTERED_RERUN",
+ "gpu": "NVIDIA GeForce RTX 3090",
+ "kernel_sha256": "ae540d53f75fbe5c8b3ed52d5dd46a759af9ba1d07ed572f672defd555a28d81",
+ "rows": [
+  {
+   "path": "margin-20261117-0000-margin_0p900",
+   "times": 1050091078,
+   "processed": 1050091078,
+   "processed_equals_expected": true,
+   "empty_brackets": 0,
+   "nonfinite": 0,
+   "corrected_eps": 1.9171518772509444e-07,
+   "corrected_eps_at": 0.17535433173179626,
+   "legacy_eps": 1.904871140823161e-07,
+   "legacy_at": 0.17535433173179626,
+   "audited_eps": 1.904871140823161e-07,
+   "legacy_equals_audited": true,
+   "max_bracket_width": 2.765737194820872e-09,
+   "corrected_minus_audited": 1.2280736427783268e-09,
+   "elapsed_s": 3.9048051834106445
+  },
+  {
+   "path": "margin-20261117-0000-margin_0p950",
+   "times": 1049905208,
+   "processed": 1049905208,
+   "processed_equals_expected": true,
+   "empty_brackets": 0,
+   "nonfinite": 0,
+   "corrected_eps": 1.4467843811871717e-07,
+   "corrected_eps_at": 0.2818557918071747,
+   "legacy_eps": 1.4401500436633796e-07,
+   "legacy_at": 0.2818557918071747,
+   "audited_eps": 1.4401500436633796e-07,
+   "legacy_equals_audited": true,
+   "max_bracket_width": 2.117211073127123e-09,
+   "corrected_minus_audited": 6.634337523792055e-10,
+   "elapsed_s": 5.332632064819336
+  },
+  {
+   "path": "margin-20261117-0000-margin_0p975",
+   "times": 1049774964,
+   "processed": 1049774964,
+   "processed_equals_expected": true,
+   "empty_brackets": 0,
+   "nonfinite": 0,
+   "corrected_eps": 1.1701531832386536e-07,
+   "corrected_eps_at": 0.21237851679325104,
+   "legacy_eps": 1.1601450466969254e-07,
+   "legacy_at": 0.21237851679325104,
+   "audited_eps": 1.1601450466969254e-07,
+   "legacy_equals_audited": true,
+   "max_bracket_width": 2.290380773928291e-09,
+   "corrected_minus_audited": 1.0008136541728163e-09,
+   "elapsed_s": 5.346066474914551
+  }
+ ]
+}

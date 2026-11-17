@@ -21,7 +21,8 @@ For each frozen native output and EVERY float32 requested time t in [+0, T_nativ
 
 Additionally the inversion (C only) is enumerated on (T_native, T_exact_hi] when the native duration
 is shorter than the certified exact-model duration (q proximity in the tail window).
-Excluded (documented, production semantics): -0.0 and negative times (production tail: q at clamped
+-0.0 is equivalent to +0 (requested < 0 is false for -0; outputs bitwise identical to the audited +0).
+Excluded (documented, production semantics): negative times (production tail: q at clamped
 progress, v=a=j=0), t > max(T_native, T_exact_hi) (s* = 1, production tail v=a=j=0 exactly), NaN/Inf
 (production outputs NaN). Reported v/a/j for t > T_native are exactly 0 by upstream source
 (timeopt_path_kernel.cuh, `tail && k > 0 ? 0.0f`), not by enumeration.
@@ -191,8 +192,14 @@ def audit_path(A: AuditV2, path: Path, log2_cells: int, chunk: int, check_sample
     # reference q*(t) is still moving. The time inversion (q proximity) is audited there too, up to
     # the first float32 >= the certified upper bound of T_exact (s* = 1 from there on).
     T_exact_hi = float(grid.T_hi[-1])
-    stop_bits = f32bits(float(np.float32(T_exact_hi))) if np.float32(T_exact_hi) >= T_exact_hi else \
-        f32bits(float(np.nextafter(np.float32(T_exact_hi), np.float32(np.inf))))
+    # Smallest float32 >= T_exact_hi, decided in exact binary64 (Python floats; a numpy-2 NEP 50
+    # float32 comparison would round T_exact_hi first - R0 round-2 finding D3). For every float32
+    # t >= T_exact_hi > T_native, s* = 1 and production progress saturates at 1, so the window
+    # (T_native, stop] covers every time where the inversion error can be nonzero beyond T_native.
+    f = float(np.float32(T_exact_hi))
+    if f < T_exact_hi:
+        f = float(np.nextafter(np.float32(f), np.float32(np.inf)))
+    stop_bits = f32bits(f)
     beyond_total = max(0, stop_bits - last)
     beyond_counters = torch.zeros(5, dtype=torch.int64, device=dev)
     bstart = last + 1
@@ -259,8 +266,10 @@ def audit_path(A: AuditV2, path: Path, log2_cells: int, chunk: int, check_sample
     reported_ok = nonfinite == 0 and all(v == 0 for v in exceed.values())
     row.update({
         "status": ("AUDITED_CONSISTENT" if integrity_ok else "FAILED_TO_AUDIT_INTEGRITY"),
-        "reported_status": ("REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES" if integrity_ok and reported_ok
-                            else "REPORTED_EXCEEDS_LIMITS" if integrity_ok else "NOT_ESTABLISHED"),
+        "reported_status": ("NOT_ESTABLISHED" if not integrity_ok
+                            else "REPORTED_NONFINITE" if nonfinite > 0
+                            else "REPORTED_WITHIN_LIMITS_ALL_FLOAT32_TIMES" if reported_ok
+                            else "REPORTED_EXCEEDS_LIMITS"),
         "time_grid_tables_sha256": tab_sha, "times_enumerated": total, "chunks": chunks,
         "native_duration_s": Tn, "model_duration_bracket_s": list(grid.duration),
         "grid_summation_error_s": grid.summation_error, "grid_max_cell_remainder": grid.max_cell_remainder,

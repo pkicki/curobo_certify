@@ -1,0 +1,4 @@
+{"script": "independent_checks/t1/round2_beyond_window_check.py", "numpy": "2.1.3",
+ "paths": 224, "window_paths": 72, "max_window_times": 2,
+ "driver_stop_float_below_T_exact_hi_paths": 110, "driver_dead_branch_paths": 110,
+ "soundness": "no float32 lies strictly between RN32(T_exact_hi) and T_exact_hi; every float32 t >= T_exact_hi > T_native has s_native = 1 = s*(t); so the window covers every float32 time with possibly nonzero inversion error"}

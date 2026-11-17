@@ -1,0 +1,86 @@
+{
+ "gpu": "NVIDIA GeForce RTX 3090",
+ "audit_v2_sha256": "fab9450549764262087be1cc41c4eff600921f9f80f950df1bd1a22ef6603d38",
+ "Q1_exact_f64": {
+  "patterns": 2139095040,
+  "expected": 2139095040,
+  "mismatches": 0,
+  "first_mismatch_bits": 18446744073709551615
+ },
+ "Q2_key_ru": [
+  {
+   "e": 0.0,
+   "f32_bits": 0,
+   "f32": 0.0,
+   "upper_bound": true
+  },
+  {
+   "e": 1e-45,
+   "f32_bits": 8388608,
+   "f32": 1.1754943508222875e-38,
+   "upper_bound": true
+  },
+  {
+   "e": 1e-40,
+   "f32_bits": 8388608,
+   "f32": 1.1754943508222875e-38,
+   "upper_bound": true
+  },
+  {
+   "e": 1.1754943508222874e-38,
+   "f32_bits": 8388608,
+   "f32": 1.1754943508222875e-38,
+   "upper_bound": true
+  },
+  {
+   "e": 1.1754943508222875e-38,
+   "f32_bits": 8388608,
+   "f32": 1.1754943508222875e-38,
+   "upper_bound": true
+  },
+  {
+   "e": 1e-07,
+   "f32_bits": 869711765,
+   "f32": 1.0000000116860974e-07,
+   "upper_bound": true
+  },
+  {
+   "e": Infinity,
+   "f32_bits": 2139095040,
+   "f32": Infinity,
+   "upper_bound": true
+  }
+ ],
+ "Q3_signed_zero_production": [
+  {
+   "path": "margin-20261117-0000-margin_0p900",
+   "minus0_eq_plus0_bitwise": true,
+   "plus0_vaj_all_zero": true,
+   "plus0_jerk": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "neg_vaj_all_zero": true
+  },
+  {
+   "path": "margin-20261117-0017-margin_0p990",
+   "minus0_eq_plus0_bitwise": true,
+   "plus0_vaj_all_zero": true,
+   "plus0_jerk": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "neg_vaj_all_zero": true
+  }
+ ]
+}
