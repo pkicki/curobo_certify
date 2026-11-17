@@ -10,8 +10,8 @@ pinned URDF (falls back to the reviewer's own reading of contract v2 when the UR
 
 `unittest.expectedFailure` marks DESIRED behaviour that the reviewed code does not yet have
 (open review findings). When a finding is fixed the test reports "unexpected success": update it.
-Re-review at c5bd01e (ADDENDUM_FIXES.md): F-P2-1/2/3/5, F-G3 and N-IA1(int)/N-V1 are now plain
-regression assertions; F-P2-4 (partial), R1 (affine replay regression) and L-TM1 stay open.
+Re-review at c5bd01e and final check at d65ff61 (ADDENDUM_FIXES.md): every finding is now a plain
+regression assertion (F-P2-1..5, F-G3, R1, L-TM1, N-IA1 for ints, N-V1, N-C1).
 Dense sampling is falsification evidence only, not a proof.
 """
 from __future__ import annotations
@@ -320,9 +320,18 @@ class PathAndVerifierAttacks(unittest.TestCase):
         self.assertFalse(self.V(replace(self.res, leaves=L + [(0, "L", [0] * 7, [0] * 7)]))["pass"])   # overlap
         self.assertFalse(self.V(replace(self.res, leaves=L + [(len(self.spans), "", [0] * 7, [0] * 7)]))["pass"])
         self.assertFalse(self.V(replace(self.res, status="UNKNOWN_DEPTH"))["pass"])
-        # a DIFFERENT but complete partition is re-proven by the verifier itself: accepted, and sound
-        split = [x for x in L if x[0] != 0] + [(0, "L", [0] * 7, [0] * 7), (0, "R", [0] * 7, [0] * 7)]
+        # a DIFFERENT but complete partition with HONEST recorded boxes (the parent leaf's enclosure
+        # contains both children) is re-proven by the verifier itself: accepted, and sound ...
+        parent = [x for x in L if x[0] == 0]
+        self.assertEqual(len(parent), 1)
+        _, _, plo, phi = parent[0]
+        split = [x for x in L if x[0] != 0] + [(0, "L", plo, phi), (0, "R", plo, phi)]
         self.assertTrue(self.V(replace(self.res, leaves=split))["pass"])
+        # ... while the same partition with ZEROED (false) recorded boxes is rejected (F-P2-4, d65ff61)
+        zero = [x for x in L if x[0] != 0] + [(0, "L", [0] * 7, [0] * 7), (0, "R", [0] * 7, [0] * 7)]
+        self.assertFalse(self.V(replace(self.res, leaves=zero))["pass"])
+        # foreign span index (also as numpy int) rejected before indexing
+        self.assertFalse(self.V(replace(self.res, leaves=L[:-1] + [(10 ** 6, "", [0] * 7, [0] * 7)]))["pass"])
 
     def test_verifier_bad_path_symbol_rejected(self):
         # N-V1 fixed at c5bd01e: malformed input returns pass False instead of raising.
@@ -340,10 +349,10 @@ class PathAndVerifierAttacks(unittest.TestCase):
         L[0] = (si, p, lo, [hi[0] + 1000.0] + list(hi[1:]))
         self.assertFalse(self.V(replace(self.res, leaves=L))["pass"])
 
-    @unittest.expectedFailure
-    def test_FINDING_under_enclosing_recorded_boxes_should_be_rejected(self):
-        # F-P2-4 still OPEN (low): recorded boxes are only checked against the limits, not against the
-        # verifier's recomputation, so zeroed (under-enclosing) boxes and utilisation still pass.
+    def test_under_enclosing_recorded_boxes_rejected(self):
+        # F-P2-4 fixed at d65ff61 (falsification: rigorous midpoint torque must lie in each recorded box).
+        # RESIDUAL (low, documented in ADDENDUM): only leaf midpoints are checked; the verdict itself never
+        # relies on recorded boxes.
         nar = replace(self.res, leaves=[(a, b, [0.0] * 7, [0.0] * 7) for (a, b, _, _) in self.res.leaves],
                       worst_utilization=[0.0] * 7)
         self.assertFalse(self.V(nar)["pass"])
@@ -453,17 +462,18 @@ class GeometryCacheAgainstOracle(unittest.TestCase):
                     self.assertEqual(r.status, "VIOLATED_TORQUE")
                     self.assertTrue(verify_k4_witness(sp, self.c, r, lo, hi)["pass"])
 
-    @unittest.expectedFailure
-    def test_FINDING_tm1_should_reject_x_degree_above_3(self):
-        # L-TM1 (latent): GeometryCache.certify (tm1) elevates x to degree 3 and reads 4 Bernstein
-        # coefficients; a higher-degree x silently drops coefficients. extract_timeopt_spans is cubic,
-        # but the public API accepts any Span; it should refuse.
+    def test_tm1_rejects_degree_above_3(self):
+        # L-TM1 fixed at d65ff61: GeometryCache refuses q or x above cubic (both modes).
         from curobo_certify.boundary_reference import Span
         from curobo_certify.k4_reuse import GeometryCache
         q = tuple((Q(k, 10), Q(0), Q(1, 2), Q(0)) for k in range(7))
         s4 = [Span(Q(0), Q(1), q, (Q(1), Q(0), Q(0), Q(0), Q(400)))]
-        r = GeometryCache(self.M, s4, "tm1").certify(s4, PHYS_LO * 1e5, PHYS_HI * 1e5, max_depth=3)
-        self.assertEqual(r.status, "INVALID_INPUT")
+        for mode in ("tm1", "box"):
+            r = GeometryCache(self.M, s4, mode).certify(s4, PHYS_LO * 1e5, PHYS_HI * 1e5, max_depth=3)
+            self.assertEqual(r.status, "INVALID_INPUT")
+        q4 = (tuple((Q(k, 10), Q(0), Q(1, 2), Q(0), Q(1, 100)) for k in range(7)))
+        s5 = [Span(Q(0), Q(1), q4, (Q(1), Q(0)))]
+        self.assertEqual(GeometryCache(self.M, s5, "tm1").certify(s5, PHYS_LO, PHYS_HI).status, "INVALID_INPUT")
 
 
 # =============================================================================== G1 / G3 fixes (k4_reference)
@@ -504,10 +514,8 @@ class G1G3Fixes(unittest.TestCase):
         self.assertTrue(replay_torque_leaves(self.sp, self.P, [(-1, 1)], rc))
         self.assertFalse(replay_torque_leaves(self.sp, self.P, [(-1, 1)], replace(rc, input_digest="")))
 
-    @unittest.expectedFailure
-    def test_FINDING_R1_affine_certificates_should_replay(self):
-        # R1 (REGRESSION introduced by the F-G3 fix, fail-closed): k4_affine.certify_with_prepared_geometry
-        # never sets input_digest, so every genuine affine CERTIFIED now fails replay_torque_leaves.
+    def test_R1_affine_certificates_replay(self):
+        # R1 (regression of the F-G3 fix) fixed at d65ff61: affine results carry the input digest.
         from curobo_certify.k4_affine import certify_with_prepared_geometry, prepare_geometry
         from curobo_certify.k4_reference import PathSpan, PlanarTwoLink, replay_torque_leaves
         m = PlanarTwoLink(1, 1, 1, Q(1, 2), Q(1, 2), 0, 0, 0)
@@ -515,6 +523,7 @@ class G1G3Fixes(unittest.TestCase):
         r = certify_with_prepared_geometry(s, m, [(-3, 3), (-1, 1)], prepare_geometry(s, m, depth=3))
         self.assertEqual(r.status, "CERTIFIED")
         self.assertTrue(replay_torque_leaves(s, m, [(-3, 3), (-1, 1)], r))
+        self.assertFalse(replay_torque_leaves(s, m, [(-3, 3), (-1, 2)], r))      # bound to its limits
 
 
 if __name__ == "__main__":

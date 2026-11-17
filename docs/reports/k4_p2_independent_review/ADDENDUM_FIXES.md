@@ -131,3 +131,49 @@ a3448cd6f2fa7fe4d96b8d4ad0a21be95821f20db03ffd4ee4b1918c85f309f3  src/curobo_cer
 54da889d7d783889fdcd095d30b25602d49f6dbfa4d20b32a2569a1b0ce9e46e  tests/test_k4_path.py (*)
 a7ffced992404703847c82c7b7e616da06e9808b30004521537debed184d61a1  tests/test_independent_k4_p2.py (reviewer, updated)
 ```
+
+---
+
+## Final confirmation at `d65ff61` (re-checked at HEAD `4962bbef710bb239bfa9b1d101fd83d4f5187ab7`)
+
+`4962bbe` only adds P6 retiming code (`k4_retime.py`), which is outside P2 scope and was not reviewed. All
+P2-reviewed files are identical between `d65ff61` and `4962bbe`.
+
+| Item | Fix | Verdict |
+|---|---|---|
+| R1 affine replay regression | `certify_with_prepared_geometry` wraps the result and sets `input_digest` on every status | **FIXED**. A genuine affine certificate replays, and the replay is bound to its limits. The three tests broken by R1 pass. |
+| L-TM1 degree > 3 in tm1 | `GeometryCache.certify` returns INVALID_INPUT when q or x is above cubic | **FIXED** in both modes, for both quartic x and quartic q (`test_tm1_rejects_degree_above_3`). |
+| F-P2-4 recorded boxes | The rigorous world-frame point torque at each leaf midpoint must lie inside the recorded box (1e-9 relative slack); foreign span indices are rejected before indexing | **FIXED as falsification.** Zeroed boxes, boxes shrunk to their central 0.1%, and a foreign span index are all rejected. Residual (low, accepted): only midpoints are checked, so a box deliberately built around the true midpoint torque but too narrow elsewhere would pass. The CERTIFIED verdict never relies on recorded boxes: the verifier re-proves every leaf with its own enclosures. Treat recorded boxes and utilisation as checked-at-midpoint diagnostics. |
+
+**Test conflict** (`test_verifier_partition_attacks`): I agree that zeroed recorded boxes are false claims and must be rejected. The test now checks two cases:
+- **Re-partition with honest boxes, PASS required:** span 0 is split into L/R, both carrying the parent leaf's producer enclosure, which contains both children.
+- **Zeroed boxes, REJECT required:** the same re-partition with zeroed boxes, plus a foreign span index of 10^6.
+
+**Tests at the 4962bbe working tree, with the reviewer's updated test file:**
+- `tests.test_independent_k4_p2`: 35 OK, 0 expected failures. Every finding is now a plain regression assertion.
+- Full suite `PYTHONPATH=src:. python -m unittest discover -s tests -p 'test_*.py'`: **368 tests OK (skipped=6)**, 211 s.
+
+SHA-256 at 4962bbe, for the files changed since the previous addendum section:
+```
+95a3836638d31d77b6cf1c46574e14c64c7ac0e76343238d461a4a0ef2fce190  src/curobo_certify/k4_affine.py
+c5b80ee110d917a81c8c8e7ddd008e5860e4e12f5fae74af906108a8df43618e  src/curobo_certify/k4_reuse.py
+8796dce1bdbc995f7ed1d29f094f30aed82572d35799ddc3198c28b7968e852d  src/curobo_certify/k4_verify.py
+f7d5587bde1b1f574a63c12ddf3adc2ad455ca648d3d7f598c3551fa005a02f9  tests/test_independent_k4_p2.py (reviewer)
+```
+
+### FINAL P2 GATE VERDICT: **PASS**
+
+This covers the analytic K4 reference, the Panda interval-RNEA producer (`k4_path`), the world-frame verifier (`k4_verify`), contract v2, and the default (Python) box/tm1 GeometryCache.
+
+- **Soundness:** no unsound CERTIFIED, no false witness and no under-enclosure was found against the independent rigorous Lagrangian oracle.
+- **Findings:** all are fixed and regression-tested.
+
+Remaining low or open items, none blocking:
+- N-IA2: the FTZ check runs only at import.
+- Residual IA input types (numpy integers, str, Decimal) are rounded rather than enclosed; no call site is affected.
+- The midpoint-only recorded-box check described above.
+
+Scope:
+- `CUROBO_PINNED_PANDA_RIGID_BODY_MODEL`; physical Panda fidelity remains BLOCKED_MODEL_PHYSICAL_VALIDITY.
+- The compiled C++ backend (`k4_compiled`, `native/k4_rnea.cpp`) is NOT covered and needs its own review before it becomes a producer.
+- P4 should keep independent `verify_k4` mandatory on every certificate.
