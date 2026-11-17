@@ -77,3 +77,24 @@ Verdict: **PARITY_PASS.**
 - **Torque limits:** SOURCED.
 - **Physical Panda torque fidelity:** **`BLOCKED_MODEL_PHYSICAL_VALIDITY`.** The inertials are physically inconsistent, duplicated or injected, and their provenance is undocumented. No K4 result may be called a physical Panda torque certificate. Every certificate carries the cuRobo-model scope.
 - **Payloads of 3 kg and 5 kg:** **`BLOCKED_PAYLOAD`.** No payload experiments are run. The baseline condition is cuRobo's default `attached_object` (0.01 kg), labelled `PAYLOAD_DEFAULT_0P01KG`.
+
+## Amendment: contract v2
+
+**Finding from building the independent verifier, P2.** The link-frame RNEA and the world-frame verifier both read v1, cuRobo's float32 numbers taken exactly. Their rigorous enclosures did not intersect: the midpoints differed by 3–8e-8 N·m, while the widths were about 1e-12. The cause is that cuRobo's stored float32 fixed rotations are not orthonormal:
+
+- `panda_hand` is off by 3.4e-8;
+- the composed locked-finger transforms are off by 9.5e-7.
+
+v1 therefore did not define a rigid-body model. Two correct formulations of it legitimately disagree.
+
+**Fix: contract v2.** `docs/reports/k4/p0/panda_model_contract_v2.json`, SHA `9caa38bff95b56df89ea6dc71a08a5558474e764a613ecc480c4c38364f663e7`. It supersedes v1 (`670b1e7e…`), which stays in git history.
+
+- Every value is the exact decimal from the pinned URDF, or cuRobo's documented default (0.01 kg, 1e-4; finger lock 0.04 m; gravity 9.81), read as an exact rational.
+- Rotations are the exact URDF rpy rotations R = Rz(yaw)·Ry(pitch)·Rx(roll), enclosed with interval trigonometry.
+- `scripts/k4_model_contract_v2.py` cross-checks every value against cuRobo's stored float32:
+  - translations, masses, CoMs and inertias are equal in float32 for every link;
+  - the finger translations differ by 2.5e-8, from cuRobo's float32 composition;
+  - rotation differences are at most 1.2e-8 for the hand and 4.8e-7 for the fingers, and 8e-20 elsewhere.
+- cuRobo's float32 representation is thereby part of the native numerical error.
+
+**Result:** with v2, the producer (link frame) and the verifier (world frame, explicit Jacobian-transpose sums) intersect on 200 random states, with and without gravity. The largest midpoint gap is 2e-13; the enclosures are about 1.5e-11 wide. `tests/test_k4_path.py` checks this again on 40 states.

@@ -1,0 +1,211 @@
+{
+ "scope": "INDEPENDENT_REVIEW_SAMPLED_DIAGNOSTIC_AGAINST_RIGOROUS_POINT_ORACLE",
+ "note": "Dense oracle sampling is a falsification test, not a proof of the reviewed bounds.",
+ "git_head": "d04a9ceee74cafae886765d66bfe0b3c780fee65",
+ "python": "3.12.4",
+ "reviewed_sha256": {
+  "src/curobo_certify/k4_reference.py": "4c41d40612cbc2297930f1d5e8d71c41b081a69543988d21be087ac0a33c46ba",
+  "src/curobo_certify/k4_affine.py": "a3448cd6f2fa7fe4d96b8d4ad0a21be95821f20db03ffd4ee4b1918c85f309f3",
+  "tests/test_k4_reference.py": "19e91a642005e98b8756a05bada7c6da39a9cec1427979d63817dfa2ffa2d217",
+  "tests/test_k4_affine.py": "d3352a2e06a2634f73708befd23400014b5d09a522f5eeeb9170c677f42e6c7e",
+  "scripts/run_k4_reference_pilot.py": "aa99cacee894708785db38f82004433c46d345ab95eb8b0ca01bb1aa8ba66846",
+  "docs/K4_CERTIFIED_TORQUE_RESEARCH_PLAN_20261117.md": "f3fe64e1caa7ce6cfa6bd31e4fda174a707394e553a35438c83152ffe1c7b4d2"
+ },
+ "oracle_sha256": {
+  "independent_checks/k4/oracle.py": "97a4bec9dfc04a652818088a6e9c63e3263b9cd284a4e7990fe754f14aa5cd53",
+  "independent_checks/k4/campaign.py": "cef3ed32d4bc951a1de338e77b512ce9bfcc901bd1eb3990309a57effbf48be6",
+  "independent_checks/k4/lagrange_sympy.py": "dfe2a1f531d64541a89fa82def33b9325442735f9cb3e8ea005713fd4dad0300",
+  "independent_checks/k4/run_review.py": "7213367a9809bfcd9a3b7729b755f654e4d9b1a91a5215877f12922dc0b1cf06"
+ },
+ "params": {
+  "out": "docs/reports/k4_p1_independent_review/campaign_results.json",
+  "seeds": [
+   101,
+   202,
+   303,
+   404,
+   505,
+   606
+  ],
+  "cases": 250,
+  "max_depth": 8,
+  "max_nodes": 1500
+ },
+ "wall_s": 272.1,
+ "total": {
+  "cases": 1500,
+  "leaf_checks": 251730,
+  "counterexamples": 0,
+  "ambiguous": 0
+ },
+ "runs": [
+  {
+   "seed": 101,
+   "cases": 250,
+   "status": {
+    "CERTIFIED": 104,
+    "VIOLATED_TORQUE": 93,
+    "UNKNOWN_DEPTH": 28,
+    "VIOLATED_X": 25
+   },
+   "leaf_checks": 35048,
+   "ambiguous": 0,
+   "point_consistent": 38,
+   "counterexamples": [],
+   "replay_rejected_certified": 0,
+   "witnesses_confirmed": 93,
+   "x_witnesses_confirmed": 25,
+   "affine_status": {
+    "UNKNOWN_PREPARED_ENCLOSURE": 61,
+    "CERTIFIED": 23
+   },
+   "affine_leaf_checks": 7344,
+   "affine_replay_rejected": 0,
+   "cases_q2_nonzero_gravity_nonzero": 113,
+   "cases_negative_xprime": 186,
+   "POINT_CONSISTENT": 0,
+   "EDGE_CONSISTENT": 0,
+   "EXACT_CONTAINED": 38
+  },
+  {
+   "seed": 202,
+   "cases": 250,
+   "status": {
+    "CERTIFIED": 91,
+    "VIOLATED_TORQUE": 99,
+    "UNKNOWN_DEPTH": 38,
+    "VIOLATED_X": 22
+   },
+   "leaf_checks": 38137,
+   "ambiguous": 0,
+   "point_consistent": 44,
+   "counterexamples": [],
+   "replay_rejected_certified": 0,
+   "witnesses_confirmed": 99,
+   "x_witnesses_confirmed": 22,
+   "affine_status": {
+    "UNKNOWN_PREPARED_ENCLOSURE": 75,
+    "CERTIFIED": 23
+   },
+   "affine_leaf_checks": 5822,
+   "affine_replay_rejected": 0,
+   "cases_q2_nonzero_gravity_nonzero": 112,
+   "cases_negative_xprime": 172,
+   "POINT_CONSISTENT": 0,
+   "EDGE_CONSISTENT": 0,
+   "EXACT_CONTAINED": 44
+  },
+  {
+   "seed": 303,
+   "cases": 250,
+   "status": {
+    "VIOLATED_X": 24,
+    "VIOLATED_TORQUE": 92,
+    "UNKNOWN_DEPTH": 33,
+    "CERTIFIED": 101
+   },
+   "leaf_checks": 38112,
+   "ambiguous": 0,
+   "point_consistent": 41,
+   "counterexamples": [],
+   "replay_rejected_certified": 0,
+   "witnesses_confirmed": 92,
+   "x_witnesses_confirmed": 24,
+   "affine_status": {
+    "UNKNOWN_PREPARED_ENCLOSURE": 69,
+    "CERTIFIED": 25
+   },
+   "affine_leaf_checks": 5116,
+   "affine_replay_rejected": 0,
+   "cases_q2_nonzero_gravity_nonzero": 107,
+   "cases_negative_xprime": 178,
+   "POINT_CONSISTENT": 0,
+   "EDGE_CONSISTENT": 0,
+   "EXACT_CONTAINED": 41
+  },
+  {
+   "seed": 404,
+   "cases": 250,
+   "status": {
+    "VIOLATED_TORQUE": 99,
+    "UNKNOWN_DEPTH": 48,
+    "CERTIFIED": 82,
+    "VIOLATED_X": 21
+   },
+   "leaf_checks": 35193,
+   "ambiguous": 0,
+   "point_consistent": 69,
+   "counterexamples": [],
+   "replay_rejected_certified": 0,
+   "witnesses_confirmed": 99,
+   "x_witnesses_confirmed": 21,
+   "affine_status": {
+    "CERTIFIED": 24,
+    "UNKNOWN_PREPARED_ENCLOSURE": 74
+   },
+   "affine_leaf_checks": 6020,
+   "affine_replay_rejected": 0,
+   "cases_q2_nonzero_gravity_nonzero": 118,
+   "cases_negative_xprime": 181,
+   "POINT_CONSISTENT": 0,
+   "EDGE_CONSISTENT": 0,
+   "EXACT_CONTAINED": 69
+  },
+  {
+   "seed": 505,
+   "cases": 250,
+   "status": {
+    "VIOLATED_X": 29,
+    "VIOLATED_TORQUE": 100,
+    "CERTIFIED": 79,
+    "UNKNOWN_DEPTH": 42
+   },
+   "leaf_checks": 29451,
+   "ambiguous": 0,
+   "point_consistent": 34,
+   "counterexamples": [],
+   "replay_rejected_certified": 0,
+   "witnesses_confirmed": 100,
+   "x_witnesses_confirmed": 29,
+   "affine_status": {
+    "UNKNOWN_PREPARED_ENCLOSURE": 59,
+    "CERTIFIED": 30
+   },
+   "affine_leaf_checks": 8762,
+   "affine_replay_rejected": 0,
+   "cases_q2_nonzero_gravity_nonzero": 112,
+   "cases_negative_xprime": 182,
+   "POINT_CONSISTENT": 0,
+   "EDGE_CONSISTENT": 0,
+   "EXACT_CONTAINED": 34
+  },
+  {
+   "seed": 606,
+   "cases": 250,
+   "status": {
+    "CERTIFIED": 93,
+    "VIOLATED_X": 23,
+    "VIOLATED_TORQUE": 97,
+    "UNKNOWN_DEPTH": 37
+   },
+   "leaf_checks": 35193,
+   "ambiguous": 0,
+   "point_consistent": 25,
+   "counterexamples": [],
+   "replay_rejected_certified": 0,
+   "witnesses_confirmed": 97,
+   "x_witnesses_confirmed": 23,
+   "affine_status": {
+    "UNKNOWN_PREPARED_ENCLOSURE": 70,
+    "CERTIFIED": 25
+   },
+   "affine_leaf_checks": 7532,
+   "affine_replay_rejected": 0,
+   "cases_q2_nonzero_gravity_nonzero": 124,
+   "cases_negative_xprime": 182,
+   "POINT_CONSISTENT": 0,
+   "EDGE_CONSISTENT": 0,
+   "EXACT_CONTAINED": 25
+  }
+ ]
+}

@@ -132,3 +132,40 @@ class K4ReferenceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WitnessReplayAndProvenance(unittest.TestCase):
+    """Regression for independent P1 review findings G1 (no witness replay) and G3 (no input digest)."""
+
+    def _violating(self):
+        import importlib
+        R = importlib.import_module("curobo_certify.k4_reference")
+        model = R.Pendulum(1, 1, 1, 10)
+        spans = (R.PathSpan.from_values(0, 1, ((0, 1),), (4,)),)  # q = s, x = 4, q'' = 0
+        return R, model, spans, ((-3, 3),)
+
+    def test_true_witness_replays(self):
+        R, model, spans, lim = self._violating()
+        res = R.certify_torque(spans, model, lim, max_depth=4)
+        self.assertEqual(res.status, "VIOLATED_TORQUE")
+        self.assertTrue(R.replay_witness(spans, model, lim, res))
+
+    def test_forged_witness_rejected(self):
+        R, model, spans, lim = self._violating()
+        res = R.certify_torque(spans, model, lim, max_depth=4)
+        from dataclasses import replace
+        w = dict(res.witness)
+        w["u"] = R.Q(0)  # torque 0 at s = 0: inside limits
+        self.assertFalse(R.replay_witness(spans, model, lim, replace(res, witness=w)))
+        self.assertFalse(R.replay_witness(spans, model, ((-30, 30),), res))  # different limits
+        w2 = dict(res.witness); w2["joint"] = 5
+        self.assertFalse(R.replay_witness(spans, model, lim, replace(res, witness=w2)))
+
+    def test_input_digest_binds_spans_model_limits(self):
+        R, model, spans, lim = self._violating()
+        res = R.certify_torque(spans, model, ((-30, 30),), max_depth=4)
+        self.assertEqual(res.status, "CERTIFIED")
+        self.assertTrue(R.replay_torque_leaves(spans, model, ((-30, 30),), res))
+        self.assertEqual(res.input_digest, R.input_digest(spans, model, ((-30, 30),)))
+        other = R.Pendulum(1, 1, 1, 9)
+        self.assertNotEqual(res.input_digest, R.input_digest(spans, other, ((-30, 30),)))

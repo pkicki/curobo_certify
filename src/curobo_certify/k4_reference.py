@@ -317,10 +317,11 @@ class K4Result:
     leaves: tuple[Leaf, ...]
     witness: dict | None = None
     reason: str = ""
+    input_digest: str = ""
 
     def to_json(self):
         return {"status":self.status,"scope":self.scope,"nodes":self.nodes,
-                "reason":self.reason,
+                "reason":self.reason,"input_digest":self.input_digest,
                 "leaves":[{"span":v.span,"path":v.path,"torque":[z.as_json() for z in v.torque]}
                           for v in self.leaves],
                 "witness":None if self.witness is None else {k:(str(v) if isinstance(v,Q) else
@@ -330,7 +331,27 @@ class K4Result:
 SCOPE="ANALYTIC_PLANAR_MODEL_TORQUE_ONLY_REQUIRES_SEPARATE_K3_AND_DYNAMICS_VALIDATION"
 
 
+def input_digest(spans, model, limits) -> str:
+    """SHA-256 binding a result to the exact spans, model class/parameters and limits (review G3)."""
+    import dataclasses, hashlib, json
+    payload = {"spans": [[str(sp.left), str(sp.right), [[str(c) for c in p] for p in sp.q], [str(c) for c in sp.x]]
+                         for sp in spans],
+               "model": [type(model).__name__, {f.name: str(getattr(model, f.name)) for f in dataclasses.fields(model)}],
+               "limits": [[str(rat(lo)), str(rat(hi))] for lo, hi in limits]}
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
 def certify_torque(spans: Sequence[PathSpan], model, limits, *, max_depth=12, max_nodes=8192):
+    """Certify continuous-path torque (see _certify_torque); result carries the input digest."""
+    import dataclasses
+    res = _certify_torque(spans, model, limits, max_depth=max_depth, max_nodes=max_nodes)
+    try:
+        return dataclasses.replace(res, input_digest=input_digest(spans, model, limits))
+    except (ValueError, TypeError, AttributeError):
+        return res
+
+
+def _certify_torque(spans: Sequence[PathSpan], model, limits, *, max_depth=12, max_nodes=8192):
     """Certify continuous-path inverse-dynamics torque; fail closed on budget.
 
     Proof is for exact rational serialized analytic 1/2-link dynamics only.
@@ -385,6 +406,8 @@ def replay_torque_leaves(spans, model, limits, result):
     if result.status!="CERTIFIED" or not _regularity(spans,model.dof):
         return False
     try:
+        if result.input_digest and result.input_digest!=input_digest(spans,model,limits):
+            return False
         lim=_limits(limits,model.dof)
         by_span={i:[] for i in range(len(spans))}
         for leaf in result.leaves:
@@ -417,4 +440,26 @@ def replay_torque_leaves(spans, model, limits, result):
                     return False
         return True
     except (ValueError,TypeError,ZeroDivisionError,OverflowError,AttributeError):
+        return False
+
+
+def replay_witness(spans, model, limits, result) -> bool:
+    """Independent replay of a VIOLATED_TORQUE claim (review G1): recompute the exact-rational point
+    torque enclosure at the claimed (span, u) and require strict disjointness from the claimed joint's
+    limit interval. Any malformed / mismatched claim returns False."""
+    if getattr(result, "status", None) != "VIOLATED_TORQUE" or not isinstance(result.witness, dict):
+        return False
+    try:
+        if result.input_digest and result.input_digest != input_digest(spans, model, limits):
+            return False
+        lim = _limits(limits, model.dof)
+        si, j, u = result.witness["span"], result.witness["joint"], rat(result.witness["u"])
+        if not (isinstance(si, int) and 0 <= si < len(spans) and isinstance(j, int) and 0 <= j < model.dof
+                and 0 <= u <= 1):
+            return False
+        if eval_poly(spans[si].x, u) < 0:
+            return False
+        t = _point_torque(spans[si], model, u)[j]
+        return t.lo > lim[j].hi or t.hi < lim[j].lo
+    except (ValueError, TypeError, KeyError, ZeroDivisionError, OverflowError, AttributeError):
         return False
