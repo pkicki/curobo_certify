@@ -84,7 +84,7 @@ def main():
                             "nvrtc_version": ba["nvrtc_version"], "driver_version": ba["driver_version"],
                             "sass_sha256": {k: v["sass_sha256"] for k, v in ba["builds"].items()},
                             "nvrtc_options": ba["builds"]["t1_v2_audit"]["nvrtc_options"], "checks": ba["checks"]},
-        "r0_review_memo_sha256": sha(a.r0_memo), "r0_review_memo": str(a.r0_memo.relative_to(ROOT)),
+        "r0_review_memo_sha256": sha(a.r0_memo), "r0_review_memo": str(a.r0_memo),
         "hardware": {"primary_gpu": "NVIDIA GeForce RTX 3090 (CUDA_VISIBLE_DEVICES=1)",
                      "replication_gpu": "NVIDIA A100-PCIE-40GB (Confirm subset only, fresh binary audit)",
                      "cpu": platform.processor() or platform.machine(), "platform": platform.platform(),
