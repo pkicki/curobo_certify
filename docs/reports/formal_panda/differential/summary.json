@@ -1,0 +1,71 @@
+{
+ "diff_10k_O0_mt4.json": {
+  "scope": "SEEDED_DIFFERENTIAL_FINITE_TESTS_NOT_UNIVERSAL_PROOF",
+  "cases": 10000,
+  "seed0": 20261118,
+  "extra_flags": "-O0",
+  "threads": 4,
+  "breaches": 0,
+  "reference_certified": 1368,
+  "compiled_also_certified": 1229,
+  "elapsed_s": 503.0233676433563,
+  "kinds": {
+   "random": 2334,
+   "tiny_budget": 667,
+   "near_active": 2333,
+   "broken_rest": 667,
+   "zero_start_speed": 667,
+   "interior_zero_speed": 667,
+   "negative_dip": 667,
+   "nonfinite": 666,
+   "zero_speed_double_root": 666,
+   "huge": 666
+  }
+ },
+ "diff_10k_O3_mt4.json": {
+  "scope": "SEEDED_DIFFERENTIAL_FINITE_TESTS_NOT_UNIVERSAL_PROOF",
+  "cases": 10000,
+  "seed0": 20261118,
+  "extra_flags": "",
+  "threads": 4,
+  "breaches": 0,
+  "reference_certified": 1368,
+  "compiled_also_certified": 1229,
+  "elapsed_s": 546.5423555374146,
+  "kinds": {
+   "random": 2334,
+   "tiny_budget": 667,
+   "near_active": 2333,
+   "broken_rest": 667,
+   "zero_start_speed": 667,
+   "interior_zero_speed": 667,
+   "negative_dip": 667,
+   "nonfinite": 666,
+   "zero_speed_double_root": 666,
+   "huge": 666
+  }
+ },
+ "diff_10k_native_mt4.json": {
+  "scope": "SEEDED_DIFFERENTIAL_FINITE_TESTS_NOT_UNIVERSAL_PROOF",
+  "cases": 10000,
+  "seed0": 20261118,
+  "extra_flags": "-march=native",
+  "threads": 4,
+  "breaches": 0,
+  "reference_certified": 1368,
+  "compiled_also_certified": 1229,
+  "elapsed_s": 528.5750386714935,
+  "kinds": {
+   "random": 2334,
+   "tiny_budget": 667,
+   "near_active": 2333,
+   "broken_rest": 667,
+   "zero_start_speed": 667,
+   "interior_zero_speed": 667,
+   "negative_dip": 667,
+   "nonfinite": 666,
+   "zero_speed_double_root": 666,
+   "huge": 666
+  }
+ }
+}

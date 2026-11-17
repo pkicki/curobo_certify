@@ -290,6 +290,7 @@ Evidence:
 - `python -m unittest discover -s tests -p 'test_*.py'`: 237 OK (6 GPU-only skips).
 - GPU suite `tests.test_t1_audit_v2_gpu`: 6 OK.
 - `node --test tests/*.test.cjs`: 36 pass.
+- Compiled K3 differential soundness at the frozen sources (`k3_differential_campaign.py --cases 10000 --seed0 20261118 --workers 5 --threads 4`, builds -O3 / -O0 / -march=native): 0 breaches in each of 3×10,000 cases (1,368 reference-certified, 1,229 compiled-certified). Summary: `docs/reports/formal_panda/differential/summary.json`.
 - Playwright `tests/browser/formal_report_browser.py`: 104/104 (Chromium + Firefox, desktop + mobile, no errors, no external requests, no overflow).
 
 **Verdicts.**

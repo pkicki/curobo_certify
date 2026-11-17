@@ -150,6 +150,8 @@ Exact tightness: 272 of 600 Confirm outputs needed adaptive subdivision for at l
 - Fresh requests on the A100: 40/40 certified.
 - These are A100 measurements; nothing was transferred from the RTX 3090.
 
+**Compiled K3 differential soundness.** At the frozen sources, the producer and verifier were tested against the exact reference on 3 × 10,000 seeded adversarial cases with builds -O3, -O0 and -march=native. Each build had 0 breaches, with 1,368 reference-certified and 1,229 compiled-certified cases. These are finite tests, not a universal proof.
+
 ## 4. Verdicts
 
 1. **PAPER: GO.** The paper rests on:
