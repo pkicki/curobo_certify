@@ -207,3 +207,96 @@ Base: handoff branch at `24f6ed6` (descends from `5c7c0fc`). Environment unchang
 Soundness of the frozen parallel build: `k3_differential_campaign.py --cases 10000 --workers 5 --threads 4` under -O3, -O0, -march=native: 0 breaches each (1,368 reference-certified; 1,229 compiled-certified), files `runs/compiled_k3/differential_10k_*_mt4.json`.
 
 Formal Dev40/Holdout100/Confirm300: **NOT RUN** — the T1 contract is a per-output audited, exploratory contract that has not been independently reviewed and frozen; qualification remains closed.
+
+## 2026-11-17 — Independent T1 review, frozen Panda-only formal qualification (branch `exp/native-t1-formal-qualification-plan-20261117`)
+
+Protocol: `docs/INDEPENDENT_T1_FORMAL_QUALIFICATION_PLAN_20261117.md`. Results memo: `docs/FORMAL_QUALIFICATION_RESULTS_20261117.md`. Report: `reports/formal_qualification_report.html`.
+
+**Environment.**
+- Hardware and OS: AMD Ryzen 9 5900X, Linux 5.15, GCC 9.4.0.
+- CPython 3.12.4 (NumPy 1.26.4) and pinned env `curobo-timeopt-c301cb` (Python 3.11.17, PyTorch 2.5.1/CUDA 12.4, NumPy 2.1.3, NVRTC 12.9, cuRobo `c301cb00…`).
+- Node 22.23.4 and Playwright 1.47.0 (Chromium 129, Firefox 130).
+- Driver 535.146.02; RTX 3090 (sm_86, primary) and A100-PCIE-40GB (sm_80, replication).
+
+**R0 (independent review).**
+- An isolated reviewer agent wrote a separate exact-rational / Taylor-model checker (`independent_checks/t1`, 25 tests).
+- **Round 1: FAIL.** Finding U1: the v1 ε was the near-end distance to the bracket, a lower bound, so the published 2.44e-7 was not a bound. Fail-open gaps were also found. Commit `a769113`.
+- **T1 v2** (`time_inverse_audit_v2.cuh`, `native_time_audit_v2.py`, `t1_binary_audit.py`, grid hardening):
+  - far-end bound;
+  - fail-closed counters;
+  - exact bit-pattern conversion;
+  - production-kernel reported audit with full-domain bitwise identity;
+  - inversion audited on the T_native..T_exact window;
+  - deterministic SASS identity;
+  - GPU fault-injection tests including the U1 regression (`tests/test_t1_audit_v2_gpu.py`, 6 tests).
+- **Round 2: PASS**, with D1–D3 wording fixes confirmed (`3c8a70a`).
+- **v2 re-issue of the 224 historical outputs:**
+  - all `AUDITED_CONSISTENT`;
+  - ε max 2.448771e-7;
+  - 200/224 reported within limits;
+  - 0 mismatching production/harness words over 2.364e11 times.
+  - Summary: `docs/reports/t1_v2_reissue_224paths_summary.json`.
+
+**R1 (freeze).**
+- UR5e remains BLOCKED_UR5E_MODEL_LIMITS, so the separately named AMENDED_POPULATION_PANDA_ONLY protocol was frozen: `python scripts/freeze_formal_cohorts.py` (manifests in `docs/reports/formal_panda/queries/`).
+  - Dev `2df71f84…` (K=40 of 70), Holdout `8d5a409d…` (100 of 175), Confirm `2e0edfcb…` (300 of 525).
+  - Leakage audit PASS.
+- `python scripts/write_formal_freeze.py …` produced `FREEZE.json` (30 files, builds, SASS, policies, thresholds), commit `a3104cf`.
+- Each cohort was opened by a recorded amendment.
+- v1.1 is a tooling-only fix to `merge_cert_bench.py`.
+- The pinned planner is not bit-reproducible across processes; this is declared in the freeze.
+
+**Cohorts.** Each was run with `scripts/run_formal_stage.sh <cohort> <sha> [--sweeps on Dev]`. The stages are:
+1. first-K generation on the RTX 3090;
+2. T1 v2;
+3. exact tightness;
+4. a 3-process frozen-output certification benchmark (50 warmups, 10 repeats);
+5. fresh paired latency (50 warmups, 10 randomized AB/BA repeats, arms native / +cert 1 thread / +cert 8 threads);
+6. `analyze_formal_cohort.py`.
+
+Primary 0.95 results:
+
+| Cohort | Attempted / failures / eligible | MODEL_K3 | NATIVE_REPORTED | T1 | Exact violations | One-sided 95% CP |
+|---|---|---|---|---|---|---|
+| Dev40 | 43 / 3 / 40 | 40 | 40 | 40 | 0 | 0.928 |
+| Holdout100 | 122 / 22 / 100 | 100 | 100 | 100 | 0 | 0.9705 |
+| Confirm300 | 357 / 57 / 300 | 300 | 300 | 300 | 0 | 0.99006 |
+
+Secondary 0.99:
+- MODEL_K3: 40/40, 99/99 and 300/300.
+- NATIVE_REPORTED: 40/40, 96/99 and 295/300; the rest are UNKNOWN_TIGHTENED_WITNESS and are within limits under T1.
+- T1: all audited.
+- Paired duration gain: 2.40% [1.83, 2.75], 2.32% [1.87, 2.61] and 2.18% [2.06, 2.44].
+
+Soundness hard stops: none. Max ε 2.81e-7. Offline T1 cost p50 9.2–10.4 s per output.
+
+Fresh added latency (8 threads, all attempted):
+- Dev 2.03 / 2.17 ms.
+- Holdout 2.03 / 2.06 ms.
+- Confirm 2.38 / 3.71 ms as measured. This is flagged LATENCY_MEASURED_UNDER_UNCONTROLLED_EXTERNAL_LOAD because a concurrent session ran CPU jobs; the last third of the run measured 2.07 / 2.5 ms. The registered result is kept.
+- p50 ≤ 1 ms is never met; overall FAILED_PARTIAL_TARGET.
+
+Evidence:
+- per-cohort `analysis.json`, `generation_summary.json` and `raw_evidence_sha256.json` in `docs/reports/formal_panda/<cohort>/`;
+- raw data in ignored `runs/formal_panda/`.
+
+**A100 replication** (`scripts/run_a100_replication.sh`; preregistered first 40 primary + 40 secondary Confirm outputs):
+- sm_80 SASS audited; exhaustive FP32 unit audit identical to the RTX 3090.
+- T1 80/80 consistent, with ε and reported maxima bit-identical to the RTX 3090.
+- Fresh requests 40/40 certified, added p50 2.06 ms and p95 2.15 ms.
+- Files in `docs/reports/formal_panda/a100/`.
+
+**Validation.**
+- `python -m unittest discover -s tests -p 'test_*.py'`: 237 OK (6 GPU-only skips).
+- GPU suite `tests.test_t1_audit_v2_gpu`: 6 OK.
+- `node --test tests/*.test.cjs`: 36 pass.
+- Playwright `tests/browser/formal_report_browser.py`: 104/104 (Chromium + Firefox, desktop + mobile, no errors, no external requests, no overflow).
+
+**Verdicts.**
+- PAPER: GO.
+- MODEL_K3: QUALIFIED (scoped to the amended Panda population).
+- NATIVE_REPORTED: QUALIFIED for the primary arm (A1–A5, audited binary and GPU) and PARTIAL for 0.99.
+- T1: AUDITED_CONDITIONAL (879/879, offline).
+- Latency: FAILED_PARTIAL_TARGET.
+- Deployment: NO-GO.
+- Physical-time execution, interpolation, dynamics, other GPUs and dual-robot: NOT_CLAIMED.

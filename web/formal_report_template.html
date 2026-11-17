@@ -52,7 +52,7 @@ section[hidden] { display: none; }
 .tile .v { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .tile .n { color: var(--text-muted); font-size: 12px; }
 .badge { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 10px; font-size: 12px;
-  border: 1px solid var(--border); white-space: nowrap; }
+  border: 1px solid var(--border); max-width: 100%; overflow-wrap: anywhere; }
 .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--ref)); }
 .b-good { --c: var(--good); } .b-warn { --c: var(--warning); } .b-bad { --c: var(--critical); } .b-ser { --c: var(--serious); }
 .scope { font-size: 11px; letter-spacing: .02em; text-transform: uppercase; color: var(--text-muted); overflow-wrap: anywhere; }
@@ -317,13 +317,17 @@ R.latency = s => {
   for (const c of ran) { const d = DATA.cohorts[c]; const L = d.fresh_latency_primary; if (!L) continue;
     s.append(el("h3", {}, `${c} — ${L.queries} queries · label `, badge(L.label)));
     const med = a => { const z = [...a].sort((x, y) => x - y); return z[Math.floor(z.length / 2)]; };
-    const B8 = d.fresh_per_query.map(r => med(r.B8)), B1 = d.fresh_per_query.map(r => med(r.B1));
+    const cq = d.fresh_per_query.filter(r => r.status === "CERTIFIED");
+    const B8 = cq.map(r => med(r.B8)), B1 = cq.map(r => med(r.B1));
+    if (d.latency_note) s.append(el("div", { class: "card" }, badge(d.latency_note.flag), el("p", { class: "note" }, d.latency_note.registered_result_kept), el("ul", { class: "note" }, ...d.latency_note.evidence.map(x => el("li", {}, x)))));
+    s.append(el("p", { class: "note" }, `ECDF over the ${cq.length} queries whose first registered request certified; ${d.fresh_per_query.length - cq.length} native-failure queries (added ≈ 0 ms) are excluded from the curve but included in the registered all-attempted statistic in the table.`));
     const box = el("div", { class: "card" }, el("div", { class: "legend" }, el("span", {}, el("i", { style: "background:var(--series-1)" }), "+cert, 8 threads (registered)"), el("span", {}, el("i", { style: "background:var(--series-2)" }), "+cert, 1 thread")),
       ecdf([{ label: "8 threads", v: B8, color: "var(--series-1)" }, { label: "1 thread", v: B1, color: "var(--series-2)" }], 720, 300, "added latency per query (ms, median of 10 paired repeats)", [{ x: 1, label: "p50 target 1 ms" }, { x: 3, label: "p95 target 3 ms" }]));
     s.append(box);
     const t = el("table"); t.append(el("tr", {}, ...["Quantity", "p50", "p95", "p99", "max", "n"].map(x => el("th", {}, x))));
     const row = (k, v) => t.append(el("tr", {}, el("td", {}, k), ...["p50", "p95", "p99", "max", "n"].map(q => el("td", {}, q === "n" ? v[q] : fmt(v[q], 3)))));
-    row("added, per-query medians (8 thr)", L.per_query_median_added_ms); row("added, all pooled requests (8 thr)", L.pooled_requests_added_ms);
+    row("added, per-query medians, all attempted (registered; 8 thr)", L.per_query_median_added_ms);
+    if (L.by_status.CERTIFIED) row("added, per-query medians, CERTIFIED queries only (8 thr)", L.by_status.CERTIFIED); row("added, all pooled requests (8 thr)", L.pooled_requests_added_ms);
     row("native request alone, per-query medians", L.native_ms_per_query_median);
     for (const [k, v] of Object.entries(L.stage_ms_pooled)) row("stage " + k + " (pooled)", v);
     s.append(el("div", { class: "card tw" }, t, el("p", { class: "note" }, `95% bootstrap CI of the median added latency: [${fmt(L.ci95_median_added_ms[0], 3)}, ${fmt(L.ci95_median_added_ms[1], 3)}] ms. Queries with >1 distinct native output digest across repeats (planner nondeterminism, reported not averaged away): ${L.distinct_output_digest_queries}.`)));

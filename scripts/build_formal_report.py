@@ -101,6 +101,9 @@ def main():
                                           "B1": [round(x, 3) for x in r["added_ms_by_arm"]["B1"]],
                                           "status": r["repeats"][0]["B8"]["status"], "digests": r["distinct_output_digests"]}
                                          for r in fresh["rows"]]
+            note = ROOT / "docs/reports/formal_panda" / c / "latency_contamination_note.json"
+            if note.exists():
+                cs["latency_note"] = json.loads(note.read_text())
             data["cohorts"][c] = cs
             for arm, rows in an["rows"].items():
                 for r in rows:
