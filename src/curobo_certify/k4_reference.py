@@ -30,6 +30,9 @@ class I:
     hi: Q
 
     def __post_init__(self):
+        # Direct I(1, 2) construction must remain EXACT, not Python int/float division.
+        object.__setattr__(self, "lo", rat(self.lo))
+        object.__setattr__(self, "hi", rat(self.hi))
         if self.lo > self.hi:
             raise ValueError("empty interval")
 
@@ -160,6 +163,16 @@ class PathSpan:
     right: Q
     q: tuple[tuple[Q, ...], ...]
     x: tuple[Q, ...]
+
+    def __post_init__(self):
+        # Direct construction is public too; normalize before any interval algebra.
+        object.__setattr__(self, "left", rat(self.left))
+        object.__setattr__(self, "right", rat(self.right))
+        object.__setattr__(self, "q", tuple(tuple(map(rat,p)) for p in self.q))
+        object.__setattr__(self, "x", tuple(map(rat,self.x)))
+        if self.right <= self.left or not self.q or not self.x or len(self.x)>4 or any(
+                not p or len(p)>4 for p in self.q):
+            raise ValueError("invalid cubic spline span")
 
     @classmethod
     def from_values(cls, left, right, q, x):
