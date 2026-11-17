@@ -58,17 +58,18 @@ class IA:
     @staticmethod
     def const(x, shape=()):
         """Enclosure of a real constant given as float (exact) or Fraction (outward)."""
-        if isinstance(x, Fraction):
+        if isinstance(x, (Fraction, int)) and not isinstance(x, bool):
+            x = Fraction(x)
             f = float(x)
             lo, hi = (f, f) if Fraction(f) == x else (float(_dn(f)), float(_up(f)))
             return IA(np.full(shape, lo), np.full(shape, hi))
-        return IA(np.full(shape, float(x)))
+        return IA(np.full(shape, float(x)))  # floats are exact by definition
 
     @staticmethod
     def of(x, like=None):
         if isinstance(x, IA):
             return x
-        if isinstance(x, Fraction):
+        if isinstance(x, (Fraction, int)) and not isinstance(x, bool):
             return IA.const(x, () if like is None else like.lo.shape)
         return IA(np.asarray(x, dtype=np.float64))
 
@@ -108,7 +109,10 @@ class IA:
     __rmul__ = __mul__
 
     def scale(self, c: float):
-        """Multiply by an exactly representable float constant."""
+        """Multiply by an exactly representable float constant (anything else is rejected)."""
+        if isinstance(c, Fraction) or (isinstance(c, int) and Fraction(float(c)) != c):
+            if Fraction(float(c)) != Fraction(c):
+                raise ValueError("scale() requires an exactly representable constant; use interval multiply")
         c = float(c)
         a, b = self.lo * c, self.hi * c
         return IA(_dn(np.minimum(a, b)), _up(np.maximum(a, b)))

@@ -69,7 +69,9 @@ def main():
             o = j.find("origin")
             xyz = o.get("xyz").split()
             rpy = o.get("rpy").split()
-            if j.get("type") == "prismatic":  # locked finger: origin + lock * axis (exact)
+            if j.get("type") == "prismatic":  # locked finger: origin + R_origin (lock * axis); R_origin = I here
+                if any(Fraction(v) != 0 for v in rpy):
+                    raise SystemExit("prismatic lock offset with rotated origin not supported")
                 axis = [Fraction(v) for v in j.find("axis").get("xyz").split()]
                 xyz = [str(Fraction(x) + Fraction(FINGER_LOCK) * ax) for x, ax in zip(xyz, axis)]
             if j.get("type") == "revolute" and j.find("axis").get("xyz").split() != ["0", "0", "1"]:

@@ -406,7 +406,7 @@ def replay_torque_leaves(spans, model, limits, result):
     if result.status!="CERTIFIED" or not _regularity(spans,model.dof):
         return False
     try:
-        if result.input_digest and result.input_digest!=input_digest(spans,model,limits):
+        if result.input_digest!=input_digest(spans,model,limits):  # empty digest is NOT a bypass
             return False
         lim=_limits(limits,model.dof)
         by_span={i:[] for i in range(len(spans))}
@@ -450,7 +450,7 @@ def replay_witness(spans, model, limits, result) -> bool:
     if getattr(result, "status", None) != "VIOLATED_TORQUE" or not isinstance(result.witness, dict):
         return False
     try:
-        if result.input_digest and result.input_digest != input_digest(spans, model, limits):
+        if result.input_digest != input_digest(spans, model, limits):  # empty digest is NOT a bypass
             return False
         lim = _limits(limits, model.dof)
         si, j, u = result.witness["span"], result.witness["joint"], rat(result.witness["u"])

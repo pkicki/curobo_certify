@@ -50,6 +50,7 @@ class K4PathResult:
     worst_utilization: list | None = None                # per joint max over leaves of |bound| / limit side
     seconds: float = 0.0
     reason: str = ""
+    input_digest: str = ""
 
 
 def _raw_polys(sp, dof):
@@ -87,6 +88,26 @@ def _point_boxes(raw_list, us, dof):
     return ia[:dof], ia[dof:2 * dof], ia[2 * dof:3 * dof], ia[3 * dof], ia[3 * dof + 1], exact
 
 
+def spans_tile_unit_interval(spans) -> bool:
+    """Spans must be contiguous and cover exactly [0, 1] (review F-P2-2)."""
+    return bool(spans) and spans[0].left == 0 and spans[-1].right == 1 and all(
+        a.right == b.left and a.left < a.right for a, b in zip(spans, spans[1:])) and spans[-1].left < spans[-1].right
+
+
+def k4_input_digest(spans, contract_sha256: str, lower, upper) -> str:
+    """SHA-256 binding a K4 result to exact spans (q and x), model contract and limits (review F-P2-3)."""
+    import hashlib
+    h = hashlib.sha256()
+    h.update(contract_sha256.encode())
+    for v in list(np.asarray(lower, float)) + list(np.asarray(upper, float)):
+        h.update(float(v).hex().encode())
+    for sp in spans:
+        h.update(f"|{sp.left}|{sp.right}|".encode())
+        for p in list(sp.q) + [sp.x]:
+            h.update((",".join(str(c) for c in p) + ";").encode())
+    return h.hexdigest()
+
+
 def torque_enclosure(model: PandaModel, q, qp, qpp, x, xp):
     A, B, G = model.coefficients(q, qp, qpp)
     return [G[j] + A[j] * x + B[j] * xp for j in range(model.dof)]
@@ -98,10 +119,19 @@ def certify_path(spans, model: PandaModel, lower, upper, *, max_depth=12, max_no
     dof = model.dof
     lower = np.asarray(lower, dtype=np.float64)
     upper = np.asarray(upper, dtype=np.float64)
-    if lower.shape != (dof,) or upper.shape != (dof,) or not (lower < upper).all():
-        return K4PathResult("INVALID_INPUT", SCOPE, 0, 0, reason="torque limits")
-    if not spans or any(len(sp.q) != dof for sp in spans):
-        return K4PathResult("INVALID_INPUT", SCOPE, 0, 0, reason="span dimension")
+    if (lower.shape != (dof,) or upper.shape != (dof,) or not np.isfinite(lower).all()
+            or not np.isfinite(upper).all() or not (lower < upper).all()):
+        return K4PathResult("INVALID_INPUT", SCOPE, 0, 0, reason="torque limits must be finite and ordered")
+    if not spans or any(len(sp.q) != dof for sp in spans) or not spans_tile_unit_interval(spans):
+        return K4PathResult("INVALID_INPUT", SCOPE, 0, 0, reason="spans must have model dimension and tile [0, 1]")
+    res = _certify_path(spans, model, lower, upper, max_depth=max_depth, max_nodes=max_nodes, batch=batch,
+                        keep_leaves=keep_leaves, t0=t0)
+    res.input_digest = k4_input_digest(spans, model.contract_sha256, lower, upper)
+    return res
+
+
+def _certify_path(spans, model, lower, upper, *, max_depth, max_nodes, batch, keep_leaves, t0):
+    dof = model.dof
     raws = [_raw_polys(sp, dof) for sp in spans]
     active = [(si, "", Q(0), Q(1), tuple(bernstein(p) for p in raws[si])) for si in range(len(spans))]
     leaves, nodes, maxd = [], 0, 0

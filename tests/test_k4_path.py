@@ -99,3 +99,41 @@ class K4PathTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class P2ReviewRegressions(unittest.TestCase):
+    """F-P2-1 contract hash, F-P2-2 span tiling, F-P2-3 input digest, F-P2-5 non-finite limits."""
+
+    @classmethod
+    def setUpClass(cls):
+        K4PathTests.setUpClass.__func__(cls)
+
+    def test_tampered_contract_rejected(self):
+        bad = json.loads(json.dumps(self.c))
+        bad["model"]["links"][7]["mass"] = "0.0001"
+        self.assertFalse(verify_k4(self.spans, bad, self.res, self.lo, self.hi)["pass"])
+        bad["contract_sha256"] = "0" * 64
+        self.assertFalse(verify_k4(self.spans, bad, self.res, self.lo, self.hi)["pass"])
+
+    def test_partial_spans_rejected(self):
+        part = self.spans[:20]
+        self.assertEqual(certify_path(part, self.M, self.lo, self.hi).status, "INVALID_INPUT")
+        r = replace(self.res, leaves=[l for l in self.res.leaves if l[0] < 20])
+        self.assertFalse(verify_k4(part, self.c, r, self.lo, self.hi)["pass"])
+
+    def test_digest_binds_inputs(self):
+        self.assertTrue(self.res.input_digest)
+        self.assertFalse(verify_k4(self.spans, self.c, replace(self.res, input_digest=""), self.lo, self.hi)["pass"])
+        fx = json.loads(FX.read_text())
+        geo = np.array([[float.fromhex(h) for h in r] for r in fx["effective_geometry_hex"]], dtype=np.float32)
+        tc = np.array([float.fromhex(h) for h in fx["timing_controls_hex"]], dtype=np.float32) * np.float32(0.9)
+        self.assertFalse(verify_k4(extract_timeopt_spans(geo, tc), self.c, self.res, self.lo, self.hi)["pass"])
+
+    def test_nonfinite_limits_rejected(self):
+        inf = np.full(7, np.inf)
+        self.assertEqual(certify_path(self.spans, self.M, -inf, inf).status, "INVALID_INPUT")
+        self.assertFalse(verify_k4(self.spans, self.c, self.res, -inf, inf, expect_physical=False)["pass"])
+
+    def test_malformed_leaf_path_returns_fail(self):
+        r = replace(self.res, leaves=[(0, "LX", [0] * 7, [0] * 7)] + self.res.leaves[1:])
+        self.assertFalse(verify_k4(self.spans, self.c, r, self.lo, self.hi)["pass"])

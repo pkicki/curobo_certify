@@ -1,0 +1,437 @@
+{
+ "scope": "SAMPLED FALSIFICATION against a rigorous (iv) / 160-bit (mp) Lagrangian oracle; not a proof",
+ "src_dir": "/tmp/k4p2_snap/src/curobo_certify",
+ "reviewed_sha256": {
+  "k4_interval.py": "24e1d75fb3c9b55631585e1a6935f1128f5a33c103e372cb59f92623c7d58738",
+  "k4_panda_model.py": "29c274114f795eec6b5bc7bb957d8e92fcb424225fec89807af40b091473c46f",
+  "k4_path.py": "5670197f048e61e3e7cd8a3c6ea09150e1750b2210aa79131da6902efb6da5d8",
+  "k4_verify.py": "7b799a2dfef734bc8eb008cf8b17db88291fa2e460c768ea9a8102cf46ddca64",
+  "k4_reference.py": "a74a02bde75ecb30ba068eedb00d36673924fc311d64734a4d20c9d1b3232471",
+  "spline_polynomials.py": "9af0b96b6008dbb8ce58f7129b7ac5e1eed7c900649a7a5db728293f10aa95da",
+  "boundary_reference.py": "5ba5ec3e24b41c48b5ba0db8387187f84fbbf7bf6456480778fa251d2a274152"
+ },
+ "contract_sha256": "9caa38bff95b56df89ea6dc71a08a5558474e764a613ecc480c4c38364f663e7",
+ "exact_states": {
+  "n": 60,
+  "oracle": "iv",
+  "verdicts": {
+   "CONTAINED": 1988,
+   "EXACT_ZERO_CONTAINED": 112
+  },
+  "bad": []
+ },
+ "sub_boxes": {
+  "n_boxes": 40,
+  "samples_per_box": 12,
+  "oracle": "mp160",
+  "verdicts": {
+   "CONTAINED": 16800
+  },
+  "bad": []
+ },
+ "paths": [
+  {
+   "case": "fixture_physical",
+   "status": "CERTIFIED",
+   "nodes": 47,
+   "worst": [
+    0.2828052557418829,
+    0.6293600417288817,
+    0.25980558860327496,
+    0.3929606177446174,
+    0.23344697910533882,
+    0.46464437596944214,
+    0.002191483548495391
+   ],
+   "verify": true,
+   "verdicts": {
+    "CONTAINED": 560
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.300000",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 47,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.500000",
+   "status": "CERTIFIED",
+   "nodes": 49,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.600000",
+   "status": "CERTIFIED",
+   "nodes": 49,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.628731",
+   "status": "CERTIFIED",
+   "nodes": 49,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.623066",
+   "status": "CERTIFIED",
+   "nodes": 49,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.629989",
+   "status": "CERTIFIED",
+   "nodes": 47,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.635654",
+   "status": "CERTIFIED",
+   "nodes": 47,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.700000",
+   "status": "CERTIFIED",
+   "nodes": 47,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "fixture_scaled_0.950000",
+   "status": "CERTIFIED",
+   "nodes": 47,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 84
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_0_pos_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 71,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_1_pos_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 46,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_2_zero_start_f0.5",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 3,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_3_neg_pocket_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 1,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_4_zero_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 6,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_5_pos_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 2,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_6_pos_f0.5",
+   "status": "CERTIFIED",
+   "nodes": 57,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_7_zero_start_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 1,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_8_neg_pocket_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 2,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_9_zero_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 1,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_10_pos_f0.5",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 3,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_11_pos_f0.5",
+   "status": "CERTIFIED",
+   "nodes": 293,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_12_zero_start_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 8,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_13_neg_pocket_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 3,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_14_zero_f0.5",
+   "status": "CERTIFIED",
+   "nodes": 55,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_15_pos_f1.0",
+   "status": "UNKNOWN_DEPTH",
+   "nodes": 263,
+   "independent_verifier": null,
+   "verdicts": {},
+   "bad": []
+  },
+  {
+   "case": "synthetic_16_pos_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 37,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_17_zero_start_f0.5",
+   "status": "CERTIFIED",
+   "nodes": 25,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_18_neg_pocket_f0.5",
+   "status": "UNKNOWN_DEPTH",
+   "nodes": 94,
+   "independent_verifier": null,
+   "verdicts": {},
+   "bad": []
+  },
+  {
+   "case": "synthetic_19_zero_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 2,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_20_pos_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 68,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_21_pos_f0.5",
+   "status": "UNKNOWN_DEPTH",
+   "nodes": 114,
+   "independent_verifier": null,
+   "verdicts": {},
+   "bad": []
+  },
+  {
+   "case": "synthetic_22_zero_start_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 24,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_23_neg_pocket_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 1,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_24_zero_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 1,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_25_pos_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 2,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_26_pos_f0.5",
+   "status": "CERTIFIED",
+   "nodes": 40,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_27_zero_start_f0.2",
+   "status": "VIOLATED_TORQUE",
+   "nodes": 3,
+   "independent_verifier": true,
+   "verdicts": {
+    "WITNESS_CONFIRMED": 1
+   },
+   "bad": []
+  },
+  {
+   "case": "synthetic_28_neg_pocket_f1.0",
+   "status": "UNKNOWN_DEPTH",
+   "nodes": 30,
+   "independent_verifier": null,
+   "verdicts": {},
+   "bad": []
+  },
+  {
+   "case": "synthetic_29_zero_f1.0",
+   "status": "CERTIFIED",
+   "nodes": 3,
+   "independent_verifier": true,
+   "verdicts": {
+    "CONTAINED": 42
+   },
+   "bad": []
+  }
+ ],
+ "wall_s": 888.5,
+ "total_counterexamples_or_ambiguous": 0
+}

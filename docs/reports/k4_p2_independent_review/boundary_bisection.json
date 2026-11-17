@@ -1,0 +1,90 @@
+[
+ {
+  "f": 0.33507656921997064,
+  "status": "VIOLATED_TORQUE",
+  "nodes": 877,
+  "depth": 5,
+  "verifier": true,
+  "verdicts": {
+   "WITNESS_CONFIRMED": 1
+  },
+  "bad": [],
+  "witness": {
+   "span": 7,
+   "u": "59/64",
+   "s": "755/4408",
+   "s_float": 0.17127949183303084,
+   "joint": 3,
+   "torque_enclosure": [
+    29.151746819003836,
+    29.15174681900598
+   ],
+   "limit": [
+    -29.151661522137445,
+    29.151661522137445
+   ],
+   "excess": 8.529686639136003e-05
+  }
+ },
+ {
+  "f": 0.335076904296875,
+  "status": "VIOLATED_TORQUE",
+  "nodes": 877,
+  "depth": 5,
+  "verifier": true,
+  "verdicts": {
+   "WITNESS_CONFIRMED": 1
+  },
+  "bad": [],
+  "witness": {
+   "span": 7,
+   "u": "59/64",
+   "s": "755/4408",
+   "s_float": 0.17127949183303084,
+   "joint": 3,
+   "torque_enclosure": [
+    29.151746819003836,
+    29.15174681900598
+   ],
+   "limit": [
+    -29.151690673828124,
+    29.151690673828124
+   ],
+   "excess": 5.614517571217448e-05
+  }
+ },
+ {
+  "f": 0.3350799560546875,
+  "status": "CERTIFIED",
+  "nodes": 3145,
+  "depth": 14,
+  "verifier": true,
+  "verdicts": {
+   "CONTAINED": 70
+  },
+  "bad": [],
+  "witness": null
+ },
+ {
+  "f": 0.3350802911346435,
+  "status": "CERTIFIED",
+  "nodes": 3077,
+  "depth": 14,
+  "verifier": true,
+  "verdicts": {
+   "CONTAINED": 70
+  },
+  "bad": [],
+  "witness": null
+ },
+ {
+  "f": 0.3350784301757812,
+  "status": "UNKNOWN_DEPTH",
+  "nodes": 3395,
+  "depth": 14,
+  "verifier": null,
+  "verdicts": {},
+  "bad": [],
+  "witness": null
+ }
+]

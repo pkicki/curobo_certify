@@ -182,8 +182,36 @@ def _leaf_interval(path: str):
     return a, b
 
 
-def verify_k4(spans, contract, result, lower, upper, *, expect_physical=True, refine=6, batch=4096):
-    """Return dict(pass, reason, leaves_checked, refined_leaves)."""
+FROZEN_CONTRACT_V2_SHA256 = "9caa38bff95b56df89ea6dc71a08a5558474e764a613ecc480c4c38364f663e7"
+
+
+def _contract_ok(contract, expected):
+    import hashlib
+    import json
+    body = json.dumps(contract["model"], sort_keys=True, separators=(",", ":")).encode()
+    h = hashlib.sha256(body).hexdigest()
+    return h == contract.get("contract_sha256") and h == expected
+
+
+def verify_k4(spans, contract, result, lower, upper, *, expect_physical=True, refine=6, batch=4096,
+              expected_contract_sha256=FROZEN_CONTRACT_V2_SHA256):
+    """Return dict(pass, reason, leaves_checked, refined_leaves). Never raises on malformed input."""
+    try:
+        return _verify_k4(spans, contract, result, lower, upper, expect_physical=expect_physical, refine=refine,
+                          batch=batch, expected=expected_contract_sha256)
+    except (ValueError, KeyError, TypeError, ZeroDivisionError, AttributeError) as ex:
+        return {"pass": False, "reason": f"malformed certificate: {type(ex).__name__}: {ex}"}
+
+
+def _verify_k4(spans, contract, result, lower, upper, *, expect_physical, refine, batch, expected):
+    from .k4_path import k4_input_digest, spans_tile_unit_interval
+    if not _contract_ok(contract, expected):
+        return {"pass": False, "reason": "model contract hash mismatch (recomputed != recorded/frozen)"}
+    if not spans_tile_unit_interval(spans):
+        return {"pass": False, "reason": "spans do not tile [0, 1]"}
+    lo_, hi_ = np.asarray(lower, float), np.asarray(upper, float)
+    if not (np.isfinite(lo_).all() and np.isfinite(hi_).all()):
+        return {"pass": False, "reason": "non-finite limits"}
     m = contract["model"]
     phys_lo = np.array([float(Q(v)) for v in m["effort_lower"]])   # exact integers (87 / 12)
     phys_hi = np.array([float(Q(v)) for v in m["effort_upper"]])
@@ -192,6 +220,12 @@ def verify_k4(spans, contract, result, lower, upper, *, expect_physical=True, re
         return {"pass": False, "reason": "limits are not the contract's physical effort limits"}
     if result.status != "CERTIFIED":
         return {"pass": False, "reason": "not a certificate"}
+    if not result.input_digest or result.input_digest != k4_input_digest(spans, contract["contract_sha256"], lower, upper):
+        return {"pass": False, "reason": "result input digest missing or does not bind these spans/contract/limits"}
+    for (_si, _p, blo, bhi) in result.leaves:  # recorded producer boxes must themselves be inside the limits
+        if not (np.isfinite(blo).all() and np.isfinite(bhi).all() and (np.asarray(blo) >= lower).all()
+                and (np.asarray(bhi) <= upper).all()):
+            return {"pass": False, "reason": "recorded leaf box outside limits"}
     W = WorldFrameDynamics(contract)
     dof = W.dof
     by_span = {}
@@ -240,7 +274,7 @@ def verify_k4(spans, contract, result, lower, upper, *, expect_physical=True, re
             "leaves_checked": checked, "refined_leaves": refined}
 
 
-def verify_k4_witness(spans, contract, result, lower, upper) -> dict:
+def verify_k4_witness(spans, contract, result, lower, upper, *, expected_contract_sha256=FROZEN_CONTRACT_V2_SHA256) -> dict:
     """Independent replay of a VIOLATED_TORQUE claim: exact rational point s on the claimed span,
     world-frame point torque enclosure, strict disjointness from the claimed joint's limit."""
     from .k4_reference import eval_poly
@@ -248,6 +282,11 @@ def verify_k4_witness(spans, contract, result, lower, upper) -> dict:
     if getattr(result, "status", None) != "VIOLATED_TORQUE" or not isinstance(w, dict):
         return {"pass": False, "reason": "not a torque violation claim"}
     try:
+        from .k4_path import k4_input_digest
+        if not _contract_ok(contract, expected_contract_sha256):
+            return {"pass": False, "reason": "model contract hash mismatch"}
+        if not result.input_digest or result.input_digest != k4_input_digest(spans, contract["contract_sha256"], lower, upper):
+            return {"pass": False, "reason": "result input digest missing or mismatched"}
         W = WorldFrameDynamics(contract)
         si, j, u = int(w["span"]), int(w["joint"]), Q(w["u"])
         if not (0 <= si < len(spans) and 0 <= j < W.dof and 0 <= u <= 1):

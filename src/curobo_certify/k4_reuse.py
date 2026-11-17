@@ -23,7 +23,8 @@ from fractions import Fraction as Q
 import numpy as np
 
 from .k4_interval import DIA, IA
-from .k4_path import K4PathResult, SCOPE, _f_hi, _f_lo, _point_boxes, torque_enclosure
+from .k4_path import (K4PathResult, SCOPE, _f_hi, _f_lo, _point_boxes, k4_input_digest, spans_tile_unit_interval,
+                      torque_enclosure)
 from .k4_reference import bernstein, dpoly, eval_poly, split
 
 
@@ -121,6 +122,16 @@ class GeometryCache:
 
     def certify(self, spans, lower, upper, *, max_depth=12, max_nodes=65536) -> K4PathResult:
         """Certify a timing profile (spans with the SAME geometry, new x) using cached coefficients."""
+        lower = np.asarray(lower, float)
+        upper = np.asarray(upper, float)
+        if (lower.shape != (self.dof,) or upper.shape != (self.dof,) or not np.isfinite(lower).all()
+                or not np.isfinite(upper).all() or not (lower < upper).all() or not spans_tile_unit_interval(spans)):
+            return K4PathResult("INVALID_INPUT", SCOPE, 0, 0, reason="limits finite/ordered; spans tile [0, 1]")
+        res = self._certify(spans, lower, upper, max_depth=max_depth, max_nodes=max_nodes)
+        res.input_digest = k4_input_digest(spans, self.model.contract_sha256, lower, upper)
+        return res
+
+    def _certify(self, spans, lower, upper, *, max_depth, max_nodes):
         t0 = time.perf_counter()
         prep0 = self.prep_seconds
         self.check(spans)
