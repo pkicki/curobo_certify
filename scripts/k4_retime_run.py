@@ -7,7 +7,9 @@ accept ONLY a candidate that passes the full MODEL_K3 (frozen compiled producer 
 limits, incl. jerk/positivity/boundary) and MODEL_K4 (tm1 + independent world-frame verifier) proofs;
 otherwise bisect towards the native controls (lam in [0, 1], 10 steps). Durations: rigorous time-law
 bracket (time_law_grid, 2^16 cells) for native and accepted controls. Reports the gain vs native 0.95
-and vs the paired native 0.99 output when available. Exploratory; Python CPU.
+(the paired native 0.99 comparison is computed in k4_analyze_population.py). With --limit-scale 0.95
+the retimed timing obeys the same 0.95 planning margin as native TimeOpt (fair comparison; review N-P6-1).
+Exploratory; Python CPU.
 """
 from __future__ import annotations
 
@@ -35,8 +37,8 @@ from curobo_certify.spline_polynomials import extract_timeopt_spans  # noqa: E40
 from bench_certification_methods import limits_of  # noqa: E402
 
 
-def full_certify(P, V, M, c, arr, geo, tc, lo, hi, cache):
-    args = (geo, tc, arr["requested_start"][0], arr["requested_goal"][0], limits_of(arr, "physical"))
+def full_certify(P, V, M, c, arr, geo, tc, lo, hi, cache, klim, physical=True):
+    args = (geo, tc, arr["requested_start"][0], arr["requested_goal"][0], klim)
     r3 = P.certify(*args, max_depth=12, max_nodes=8192)
     k3 = r3["status"]
     if k3 == "CERTIFIED":
@@ -44,7 +46,7 @@ def full_certify(P, V, M, c, arr, geo, tc, lo, hi, cache):
     spans = extract_timeopt_spans(geo, tc)
     r4 = cache.certify(spans, lo, hi)
     k4 = r4.status
-    if k4 == "CERTIFIED" and not verify_k4(spans, c, r4, lo, hi, refine=8)["pass"]:
+    if k4 == "CERTIFIED" and not verify_k4(spans, c, r4, lo, hi, refine=8, expect_physical=physical)["pass"]:
         k4 = "REJECTED_BY_VERIFIER"
     return k3, k4
 
@@ -58,12 +60,20 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--npz", nargs="+", type=Path, required=True)
     ap.add_argument("--contract", type=Path, default=ROOT / "docs/reports/k4/p0/panda_model_contract_v2.json")
+    ap.add_argument("--limit-scale", choices=("1.00", "0.95"), default="1.00",
+                    help="1.00: physical limits; 0.95: the SAME planning margin native TimeOpt uses (K3 v/a/j and torque "
+                         "scaled like cuRobo, float32) - gains then measure timing quality, not consumed margin")
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     c = load_contract(a.contract)
     M = PandaModel(c)
-    lo = np.array([float(Q(v)) for v in c["model"]["effort_lower"]])
-    hi = np.array([float(Q(v)) for v in c["model"]["effort_upper"]])
+    physical = a.limit_scale == "1.00"
+    if physical:
+        lo = np.array([float(Q(v)) for v in c["model"]["effort_lower"]])
+        hi = np.array([float(Q(v)) for v in c["model"]["effort_upper"]])
+    else:
+        lo = np.array([float.fromhex(h) for h in c["model"]["timeopt_torque_lower_scaled_float32_hex"]])
+        hi = np.array([float.fromhex(h) for h in c["model"]["timeopt_torque_upper_scaled_float32_hex"]])
     rows = []
     with tempfile.TemporaryDirectory() as d:
         K.build("k3_certifier.cpp", Path(d) / "c.so"); K.build("k3_verifier.cpp", Path(d) / "v.so")
@@ -73,9 +83,9 @@ def main():
             with np.load(f) as z:
                 arr = {k: z[k].copy() for k in z.files}
             geo, tc0 = arr["effective_geometry"], arr["timing_controls"].astype(np.float32)
-            lim = limits_of(arr, "physical")
+            lim = limits_of(arr, "physical") if physical else limits_of(arr, "planning", 0.95)
             cache = GeometryCache(M, extract_timeopt_spans(geo, tc0), "tm1")
-            base = full_certify(P, V, M, c, arr, geo, tc0, lo, hi, cache)
+            base = full_certify(P, V, M, c, arr, geo, tc0, lo, hi, cache, lim, physical)
             Gm, h, jerk = sampled_constraints(geo, M, lim["velocity"], lim["acceleration"], lo, hi, jlim=lim["jerk"])
             r_opt, info = slp_optimize(geo, tc0.astype(np.float64), Gm, h, jerk=jerk)
             accepted, lam_acc, tries = None, 0.0, []
@@ -86,7 +96,7 @@ def main():
                 if (cand <= 0).any():
                     st = ("INVALID", "INVALID")
                 else:
-                    st = full_certify(P, V, M, c, arr, geo, cand, lo, hi, cache)
+                    st = full_certify(P, V, M, c, arr, geo, cand, lo, hi, cache, lim, physical)
                 tries.append({"lam": lam, "K3": st[0], "K4": st[1]})
                 if st == ("CERTIFIED", "CERTIFIED"):
                     accepted, lam_acc = cand, lam
@@ -109,7 +119,8 @@ def main():
             print(json.dumps({k: row[k] for k in ("path", "native", "accepted_lambda", "gain_vs_native_pct", "seconds")}
                              | {"native_feasible_in_program": info["native_feasible_in_sampled_program"]}), flush=True)
     a.out.parent.mkdir(parents=True, exist_ok=True)
-    a.out.write_text(json.dumps({"scope": "K4_P6_CERTIFIED_RETIMING_EXPLORATORY", "contract_sha256": c["contract_sha256"],
+    a.out.write_text(json.dumps({"scope": "K4_P6_CERTIFIED_RETIMING_EXPLORATORY", "limit_scale": a.limit_scale,
+                                 "contract_sha256": c["contract_sha256"],
                                  "rows": rows}, indent=1) + "\n")
 
 

@@ -22,7 +22,15 @@ SRC = Path(__file__).resolve().parent / "native" / "k4_rnea.cpp"
 FLAGS = ["-O3", "-std=c++17", "-fno-fast-math", "-ffp-contract=off", "-fPIC", "-shared", "-Wall", "-Wextra"]
 
 
+ALLOWED_EXTRA = {"-O0", "-O1", "-O2", "-O3", "-march=native", "-g"}
+
+
 def build(out: Path, extra=()) -> dict:
+    """Only allowlisted extra flags (review F-P5-1: -ffinite-math-only, -fassociative-math,
+    -ffp-contract=fast etc. would invalidate the outward-rounding argument)."""
+    bad = [f for f in extra if f not in ALLOWED_EXTRA]
+    if bad:
+        raise ValueError(f"refusing compiler flags {bad}: not in the K4 allowlist")
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     cmd = ["g++", *FLAGS, *extra, str(SRC), "-o", str(out)]

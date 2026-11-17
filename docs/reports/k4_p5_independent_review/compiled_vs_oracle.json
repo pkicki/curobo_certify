@@ -1,0 +1,44 @@
+{
+ "scope": "compiled backend vs independent Lagrangian oracle (sampled falsification)",
+ "build": {
+  "source_sha256": "99c0e9a1a1dfc64f9b90e830ab8e8cf6e62eff1d980b845d631298d5d4fcb6cd",
+  "binary_sha256": "cdbafc2c99d2129b1f60663f85cc1c87b9430cad160debd9bb8cedaea49ddde0",
+  "flags": [
+   "-O3",
+   "-std=c++17",
+   "-fno-fast-math",
+   "-ffp-contract=off",
+   "-fPIC",
+   "-shared",
+   "-Wall",
+   "-Wextra"
+  ],
+  "compiler": "g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
+ },
+ "exact_states_iv": {
+  "n": 25,
+  "verdicts": {
+   "CONTAINED": 840,
+   "EXACT_ZERO_CONTAINED": 35
+  },
+  "bad": []
+ },
+ "sub_boxes_mp": {
+  "n_boxes": 25,
+  "samples": 8,
+  "verdicts": {
+   "CONTAINED": 7000
+  },
+  "bad": []
+ },
+ "tm1_slopes_fd": {
+  "leaves": 12,
+  "points_per_leaf": 4,
+  "verdicts": {
+   "CONTAINED": 1008
+  },
+  "bad": []
+ },
+ "wall_s": 225.5,
+ "source_sha256": "99c0e9a1a1dfc64f9b90e830ab8e8cf6e62eff1d980b845d631298d5d4fcb6cd"
+}
