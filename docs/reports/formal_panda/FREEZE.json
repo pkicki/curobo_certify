@@ -68,7 +68,7 @@
   "scripts/generate_formal_cohort.py": "d11db64f02c62c33634189ce5220f5befafa92ed28fc27da404f6d2f8f4d80f1",
   "scripts/generate_hardcase_population.py": "fd148b8954388f6795e2ce4b0851d4129c6003580bfb36060c4509874fe825e7",
   "scripts/generate_native_pilot.py": "1703712fc0790647a9f54de2cfdc29e75ee83709f476d278700d06fbf3e4508a",
-  "scripts/merge_cert_bench.py": "18265adf38a711d93de86a10f0cf4943dde0332778765f7d7bc7de7e039ff358",
+  "scripts/merge_cert_bench.py": "c14e652c28bcce808bdc5e2f7666806b539ee864aac471373311bde922505e0c",
   "scripts/native_same_s_falsify.py": "bbbaef43e10db923ed221d8586d2c881bcb2ad91d36eda775bee58e1c75500da",
   "scripts/native_time_audit_v2.py": "ce380518921e0df7ed9689ced36ca71be886a6fd133069c912ade5b3f332c705",
   "scripts/native_time_inversion_audit.py": "6bb9b146925d5e84c15f9a2e00e8edaac1ffe054675f45573f9884a2301e8307",
@@ -90,8 +90,8 @@
   "src/curobo_certify/spline_polynomials.py": "9af0b96b6008dbb8ce58f7129b7ac5e1eed7c900649a7a5db728293f10aa95da",
   "src/curobo_certify/time_law_grid.py": "f2c410b76644d51b11dafd458c3eb3f5b9b1551ead2afeff5e0e1f7c12c655d3"
  },
- "gate_reason": "R0 round 2 PASS (independent review, memo + D1-D3 addendum); R1 population/implementation freeze; opens Panda-Dev40 only",
- "git_head_at_freeze": "69fc90cbc622b65a4a3da0f02044f5e951a353d5",
+ "gate_reason": "Dev-only versioned candidate v1.1: merge_cert_bench.py build-identity comparison (tooling, not soundness; no R0 re-review required). All other frozen files, binaries, policies and thresholds unchanged.",
+ "git_head_at_freeze": "59ad0428e9ae77202e2c8851cd97fd36bb33dee4",
  "hardware": {
   "cpu": "x86_64",
   "cpu_count": 24,
@@ -100,7 +100,178 @@
   "python": "3.12.4",
   "replication_gpu": "NVIDIA A100-PCIE-40GB (Confirm subset only, fresh binary audit)"
  },
- "history": [],
+ "history": [
+  {
+   "acceptance": {
+    "coverage_target": ">= 99% of eligible, reported both descriptively and as one-sided 95% exact Clopper-Pearson lower bound; inferential claim only if lower bound >= 0.99",
+    "latency": "added fresh p50 <= 1 ms (aspiration) and p95 <= 3 ms (per-query medians, arm B8); label FAILED_PARTIAL_TARGET if either misses; thresholds immutable",
+    "physical_time_execution": "NOT_ESTABLISHED (no interpolation contract)",
+    "soundness": "zero false CERTIFIED (MODEL vs exact witness; NATIVE_REPORTED vs exhaustive production and sampled exceedance), zero verifier disagreement, zero T1 integrity failures, zero source/NPZ hash mismatches -> otherwise HARD_STOP",
+    "t1_audit": "100% of enumerated domain for each output claimed audited"
+   },
+   "arms": {
+    "primary": "0.95 (unpatched TimeOpt constructor)",
+    "secondary": "0.99 (separate, never pooled)"
+   },
+   "cohorts": {
+    "Panda-Confirm300": {
+     "file": "Panda-Confirm300.json",
+     "k_eligible": 300,
+     "pool": 525,
+     "seed": 304294456,
+     "sha256": "2e0edfcbb64a2f0651af339b170d81f7569698f4ae24e4ed6ee3215dc03b06fd"
+    },
+    "Panda-Dev40": {
+     "file": "Panda-Dev40.json",
+     "k_eligible": 40,
+     "pool": 70,
+     "seed": 559656179,
+     "sha256": "2df71f84f9fe5c3bfe2acee5910bdf605c7fe3b80ca66de7241dfc493a9be86e"
+    },
+    "Panda-Holdout100": {
+     "file": "Panda-Holdout100.json",
+     "k_eligible": 100,
+     "pool": 175,
+     "seed": 213817639,
+     "sha256": "8d5a409dd4a49ef1a2750129c45d0b028a46c937eae6c1a35af354d24d83f4ec"
+    }
+   },
+   "compiled_k3_builds": [
+    {
+     "binary_sha256": "87b5def0289a302b9ca7ff1eec4b4d6190779d356454c3932b2fdf2b44cd2586",
+     "command": "g++ -std=c++17 -O3 -shared -fPIC -fopenmp -fvisibility=hidden -fvisibility-inlines-hidden -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror /home/pkicki/curobo_certify/src/curobo_certify/native/k3_certifier.cpp",
+     "compiler": "g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0",
+     "exports_map_sha256": "b82625cc4e7b00a3dab18c1fb4c213f5dd1e24fff6db79485948e0af53006de5",
+     "source": "src/curobo_certify/native/k3_certifier.cpp",
+     "source_sha256": "9ed562936c70dc04b37f5983ef12da2a4ac8d16300834c0e9a67c349cd31a793"
+    },
+    {
+     "binary_sha256": "75a62afa503d3b7cac324a41b3d49feeb81295854c30e3ab3ae6556d327e3f47",
+     "command": "g++ -std=c++17 -O3 -shared -fPIC -fopenmp -fvisibility=hidden -fvisibility-inlines-hidden -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror /home/pkicki/curobo_certify/src/curobo_certify/native/k3_verifier.cpp",
+     "compiler": "g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0",
+     "exports_map_sha256": "b82625cc4e7b00a3dab18c1fb4c213f5dd1e24fff6db79485948e0af53006de5",
+     "source": "src/curobo_certify/native/k3_verifier.cpp",
+     "source_sha256": "b8a6b913b24be2c75a16f8b63016472947a8ca85f17cc9eddf668dd0dbf25393"
+    }
+   ],
+   "compiled_k3_deterministic_rebuild": true,
+   "contracts": [
+    "MODEL_K3",
+    "NATIVE_REPORTED_K3",
+    "T1_AUDITED_FLOAT32_TIMES (v2)"
+   ],
+   "denominators": "attempted source queries (all retained); eligible = first-K primary native successes; secondary eligible = 0.99 native successes on the attempted source queries",
+   "frozen_files": {
+    "fixtures/timeopt_timing_polynomial_c301cb.npy": "fd99551a46947c0bbfd00fe2699fec3d4534d74333909e17335ff6ac3940d5af",
+    "scripts/analyze_formal_cohort.py": "9484730f18824157c1e3e48bcf53df5471c39a1ec2050dc847a06e11dfc758eb",
+    "scripts/analyze_hardcases.py": "9490a46baa76978e8ed2516084b29d905e22851f9f5327be0ae6bcfa1260fd30",
+    "scripts/bench_certification_methods.py": "8265b8b9fe6e25c0eda9bb722351f65c90efa9c9229842432025e30e232eb07b",
+    "scripts/bench_fresh_requests.py": "68b06c23f5f17e7038f9b9608bdb4343884f9dd6ab8040a7767b173102779e96",
+    "scripts/check_formal_freeze.py": "dff86d0e9be9e1d88aeb5b407abb3aa82829db9d835a1d516c6bfb2befd17858",
+    "scripts/generate_formal_cohort.py": "d11db64f02c62c33634189ce5220f5befafa92ed28fc27da404f6d2f8f4d80f1",
+    "scripts/generate_hardcase_population.py": "fd148b8954388f6795e2ce4b0851d4129c6003580bfb36060c4509874fe825e7",
+    "scripts/generate_native_pilot.py": "1703712fc0790647a9f54de2cfdc29e75ee83709f476d278700d06fbf3e4508a",
+    "scripts/merge_cert_bench.py": "18265adf38a711d93de86a10f0cf4943dde0332778765f7d7bc7de7e039ff358",
+    "scripts/native_same_s_falsify.py": "bbbaef43e10db923ed221d8586d2c881bcb2ad91d36eda775bee58e1c75500da",
+    "scripts/native_time_audit_v2.py": "ce380518921e0df7ed9689ced36ca71be886a6fd133069c912ade5b3f332c705",
+    "scripts/native_time_inversion_audit.py": "6bb9b146925d5e84c15f9a2e00e8edaac1ffe054675f45573f9884a2301e8307",
+    "scripts/run_formal_stage.sh": "0f60a8f84197be369cf7d047f9d448e57226a0f3b4575fdb0ca768e9c50676d9",
+    "scripts/t1_binary_audit.py": "19702692727358e98fd8cfa23c5be69809a8fa0986fa165791ef133e59950f27",
+    "src/curobo_certify/boundary_reference.py": "5ba5ec3e24b41c48b5ba0db8387187f84fbbf7bf6456480778fa251d2a274152",
+    "src/curobo_certify/compiled_k3.py": "3701684abb24c298b92ae3570d4a4f401bb211b4c9382b98c49e354632392663",
+    "src/curobo_certify/exact_k3_reference.py": "1046efcf8b5219d47b9ba8cacff4b22e11aff8298b47349992c8f1207710a313",
+    "src/curobo_certify/formal_cohorts.py": "c10a654c1412ac0283fd3bb405fdab4017616c10a2e02fbca190b0fc88eae878",
+    "src/curobo_certify/margin_analysis.py": "16391aa2ba515eaa718b27485c9e7d54291a12b0cf8206ef2bb868addb100eb8",
+    "src/curobo_certify/margin_campaign.py": "49cb859a33c95f6cf7afadca9e6d9c4dff48188453b1f30be6ecfe8dced128b7",
+    "src/curobo_certify/native/exports.map": "b82625cc4e7b00a3dab18c1fb4c213f5dd1e24fff6db79485948e0af53006de5",
+    "src/curobo_certify/native/k3_certifier.cpp": "9ed562936c70dc04b37f5983ef12da2a4ac8d16300834c0e9a67c349cd31a793",
+    "src/curobo_certify/native/k3_verifier.cpp": "b8a6b913b24be2c75a16f8b63016472947a8ca85f17cc9eddf668dd0dbf25393",
+    "src/curobo_certify/native/same_s_harness.cuh": "206cd38634b54d6044dbe700fb102b2e999dcd520ea97b2bb9209d973b4ad958",
+    "src/curobo_certify/native/time_inverse_audit_v2.cuh": "fab9450549764262087be1cc41c4eff600921f9f80f950df1bd1a22ef6603d38",
+    "src/curobo_certify/native_error_bound.py": "22eb144138fbd8d52a75fb29e6d1d2c7e577b73f5e8011726574e344147090b6",
+    "src/curobo_certify/query_pipeline.py": "e16472ef698832a5fe3148e86c2840156cc08ef6a18d1328ef7dbd30786b2317",
+    "src/curobo_certify/spline_polynomials.py": "9af0b96b6008dbb8ce58f7129b7ac5e1eed7c900649a7a5db728293f10aa95da",
+    "src/curobo_certify/time_law_grid.py": "f2c410b76644d51b11dafd458c3eb3f5b9b1551ead2afeff5e0e1f7c12c655d3"
+   },
+   "gate_reason": "R0 round 2 PASS (independent review, memo + D1-D3 addendum); R1 population/implementation freeze; opens Panda-Dev40 only",
+   "git_head_at_freeze": "69fc90cbc622b65a4a3da0f02044f5e951a353d5",
+   "hardware": {
+    "cpu": "x86_64",
+    "cpu_count": 24,
+    "platform": "Linux-5.15.0-91-generic-x86_64-with-glibc2.31",
+    "primary_gpu": "NVIDIA GeForce RTX 3090 (CUDA_VISIBLE_DEVICES=1)",
+    "python": "3.12.4",
+    "replication_gpu": "NVIDIA A100-PCIE-40GB (Confirm subset only, fresh binary audit)"
+   },
+   "leakage_audit_pass": true,
+   "opened_cohorts": [
+    "Panda-Dev40"
+   ],
+   "original_dual_robot_protocol": "BLOCKED_UR5E_MODEL_LIMITS",
+   "policy": {
+    "MODEL_K3_and_NATIVE_REPORTED": "compiled producer adaptive A: max_depth 12, max_nodes 8192, exact witnesses on; independent verifier replay required for CERTIFIED",
+    "T1": "native_time_audit_v2.py, log2_cells 22, chunk 2^24, offline",
+    "comparison_methods": "H0, U1, U2, U4, U6, A, A-nw (+ depth/node sweeps on Dev only)",
+    "fresh_latency": "bench_fresh_requests.py: 50 warmups, 10 randomized repeats over arms {native, +cert 1 thread, +cert 8 threads}, contract native, seed 20261118, OMP_NUM_THREADS=8; registered primary arm B8",
+    "frozen_bench_cores": [
+     6,
+     8,
+     10
+    ],
+    "native_bound": "compiled FP32 bound, pieces 16, A1-A5 (docs/NATIVE_LINKAGE_20261116.md)"
+   },
+   "population_flag": "AMENDED_POPULATION_PANDA_ONLY",
+   "population_manifest_sha256": "bc31b0bdc3f77d97a621254a5ae950e05a94a6ed15946ac57315b0e80796e20e",
+   "protocol": "panda_only_formal_qualification_v1",
+   "r0_review_memo": "docs/reports/r0_independent_t1_review/round2/REVIEW_MEMO_ROUND2.md",
+   "r0_review_memo_sha256": "c44a7c0938fcc3cceb1b28ae108047cc81711847e62d138bcadb15874fc51aca",
+   "reproducibility": "pinned planner outputs are NOT bit-reproducible across processes for the same seeded query (smoke test 2026-11-17: margin-20261117-0000 0.95 re-solved T=0.289314 s vs frozen 0.289613 s). The unit of certification is the single registered solve's frozen NPZ (SHA-256 in the ledger); fresh-latency requests certify their own fresh outputs and record output digests.",
+   "schema": "formal_panda_freeze_v1",
+   "t1_binary_audit": {
+    "arch": "sm_86",
+    "checks": {
+     "deterministic": true,
+     "directed_rounding_ops_present": true,
+     "f2f_ops": {
+      "F2F.F32.F64.RP": 3
+     },
+     "inverse_kernel_found": true,
+     "no_ftz_f32_to_f64_conversion": true,
+     "rounding_moded_ops": {
+      "DADD.RM": 2,
+      "DADD.RP": 4,
+      "DFMA.RM": 2,
+      "DFMA.RP": 2,
+      "DMUL.RM": 1,
+      "DMUL.RP": 1,
+      "F2F.F32.F64.RP": 3
+     }
+    },
+    "driver_version": 12020,
+    "file_sha256": "c8741151c3c41431b81b62cd6ec92eb7acf77a3ff253f683f1f91a4faa509344",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "nvrtc_options": {
+     "arch": "sm_86",
+     "device_code_optimize": true,
+     "fma": true,
+     "ftz": true,
+     "lineinfo": true,
+     "prec_div": false,
+     "prec_sqrt": false,
+     "std": "c++17"
+    },
+    "nvrtc_version": [
+     12,
+     9
+    ],
+    "sass_sha256": {
+     "production_sampler": "b78b0b0cc171a4a1288595774e25c80dbc218eb3cafe56e2615029212760a4ed",
+     "t1_v2_audit": "3f95a85b0095172b42edef11cd7f7af1481e7889a8ec0a52fb7028387acc4622"
+    }
+   },
+   "upstream_curobo_sha": "c301cb00a87012c2808b1a60649c4065c9b3c95a"
+  }
+ ],
  "leakage_audit_pass": true,
  "opened_cohorts": [
   "Panda-Dev40"
