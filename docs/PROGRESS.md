@@ -207,3 +207,17 @@ Base: handoff branch at `24f6ed6` (descends from `5c7c0fc`). Environment unchang
 Soundness of the frozen parallel build: `k3_differential_campaign.py --cases 10000 --workers 5 --threads 4` under -O3, -O0, -march=native: 0 breaches each (1,368 reference-certified; 1,229 compiled-certified), files `runs/compiled_k3/differential_10k_*_mt4.json`.
 
 Formal Dev40/Holdout100/Confirm300: **NOT RUN** — the T1 contract is a per-output audited, exploratory contract that has not been independently reviewed and frozen; qualification remains closed.
+
+
+## 2026-11-17 — K4 continuous-time torque research scaffold (separate experimental branch)
+
+Branch: exp/k4-certified-torque-reference-20261117, based on the K3 qualification branch at 2c9b9b72158c2be62aba1890a168b79d4f96a64b. Frozen K3 qualification code, cohort artifacts, and main were not modified; no PR/merge/force push.
+
+**Implemented (P1 analytical reference, P2 reuse sketch):**
+- src/curobo_certify/k4_reference.py: exact-rational interval arithmetic, rigorous trigonometric range enclosures, analytic pendulum and planar two-link torque, Bernstein path boxes and dyadic subdivision, strict C2(q)/C1(x) knot checks, asymmetric torque limits, certified/true-witness/unknown statuses, and structure/leaf replay. Arithmetic direct constructors normalized to exact Fraction after finding a possible Python int/float division hazard. Replay is NOT independently derived rigid-body dynamics.
+- src/curobo_certify/k4_affine.py: keyed and recomputed frozen-geometry boxes A(s), B(s), G(s), safely reusing them for multiple timing profiles x(s), x'(s). Current recomputation intentionally prevents calling it low latency.
+- 18 focused unittest cases passed in an isolated local Python workspace using the same committed source content; Python compileall passed. Tests cover rigorous point torque violation, adaptive UNKNOWN->CERTIFIED, exact inertial torque 2.5/0.75 on a two-link fixture, zero/negative squared speed, tampered replay and geometry mismatch, signed interval arithmetic and direct rational constructors.
+- A synthetic pilot (scripts/run_k4_reference_pilot.py) executed locally with depths 0,4,8, one repetition, zero warmups: 15 cases = 8 CERTIFIED, 6 VIOLATED_TORQUE, 1 UNKNOWN_DEPTH. The data are analytic demonstrations only, not the Panda population; no native CUDA torques or full fresh-path latency were measured.
+- .github/workflows/proof-lab-checks.yml extends Python 3.11/3.12 CI to this K4 branch, includes synthetic K4 pilot, and installs mpmath required by inherited independent T1 reviewer tests. The initial CI attempt failed because mpmath was missing; its error logs showed 3 ModuleNotFoundError from pre-existing T1 tests, not failures of the K4 tests. A corrective workflow commit was pushed; CI completion must be checked by the coding agent.
+
+**Planned and not run:** Panda dynamics provenance and independent inverse-dynamics parity; rigorous spatial interval RNEA; certified polynomial dynamics approximation with independent error proof; compiled real K4 producer/verifier; native FP32 torque linkage; 0/3/5kg payload studies; K4 formal cohorts; torque-aware retiming. See docs/K4_CERTIFIED_TORQUE_RESEARCH_PLAN_20261117.md and docs/AGENT_K4_CERTIFIED_TORQUE_20261117.md. Claim remains strictly ANALYTIC_PLANAR_MODEL_TORQUE_ONLY; no actual Panda or motor torque certificate is asserted.
