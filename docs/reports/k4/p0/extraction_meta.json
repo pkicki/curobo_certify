@@ -1,0 +1,150 @@
+{
+ "joint_names": [
+  "panda_joint1",
+  "panda_joint2",
+  "panda_joint3",
+  "panda_joint4",
+  "panda_joint5",
+  "panda_joint6",
+  "panda_joint7"
+ ],
+ "tool_frames": [
+  "panda_hand"
+ ],
+ "base_link": "panda_link0",
+ "timeopt_limits_order": [
+  "velocity",
+  "acceleration",
+  "jerk",
+  "torque_lower",
+  "torque_upper"
+ ],
+ "gravity": [
+  0.0,
+  0.0,
+  -9.81
+ ],
+ "limit_scale": 0.95,
+ "num_dof": 7,
+ "dynamics_backend_joint_names": [],
+ "robot_config_sha256": "91d48371b9cd2358b0b5594bb5e93d7abbd05af436b2c28d05c41b5667e65e55",
+ "gpu": "NVIDIA GeForce RTX 3090",
+ "seed": 20261117,
+ "states": 128,
+ "arrays_sha256": "0b154addfdff006c64d0cfd54c79177e6867bf31767099241bbc23026fec6a0b",
+ "array_shapes": {
+  "kin_fixed_transforms": [
+   13,
+   3,
+   4
+  ],
+  "kin_link_map": [
+   13
+  ],
+  "kin_joint_map": [
+   13
+  ],
+  "kin_joint_map_type": [
+   13
+  ],
+  "kin_joint_offset_map": [
+   26
+  ],
+  "kin_link_masses_com": [
+   13,
+   4
+  ],
+  "kin_link_inertias": [
+   13,
+   8
+  ],
+  "limit_position": [
+   2,
+   7
+  ],
+  "limit_velocity": [
+   2,
+   7
+  ],
+  "limit_acceleration": [
+   2,
+   7
+  ],
+  "limit_jerk": [
+   2,
+   7
+  ],
+  "limit_effort": [
+   2,
+   7
+  ],
+  "timeopt_limits_scaled": [
+   5,
+   7
+  ],
+  "ids_gravity_only_q": [
+   128,
+   7
+  ],
+  "ids_gravity_only_qd": [
+   128,
+   7
+  ],
+  "ids_gravity_only_qdd": [
+   128,
+   7
+  ],
+  "ids_gravity_only_tau": [
+   128,
+   7
+  ],
+  "ids_full_q": [
+   128,
+   7
+  ],
+  "ids_full_qd": [
+   128,
+   7
+  ],
+  "ids_full_qdd": [
+   128,
+   7
+  ],
+  "ids_full_tau": [
+   128,
+   7
+  ],
+  "ids_B_probe_q": [
+   128,
+   7
+  ],
+  "ids_B_probe_qd": [
+   128,
+   7
+  ],
+  "ids_B_probe_qdd": [
+   128,
+   7
+  ],
+  "ids_B_probe_tau": [
+   128,
+   7
+  ],
+  "ids_A_probe_q": [
+   128,
+   7
+  ],
+  "ids_A_probe_qd": [
+   128,
+   7
+  ],
+  "ids_A_probe_qdd": [
+   128,
+   7
+  ],
+  "ids_A_probe_tau": [
+   128,
+   7
+  ]
+ }
+}

@@ -1,0 +1,115 @@
+{
+ "contract_sha256": "670b1e7ed80489dc06c21245f613fcb16148475b6390e8a9e3462279ee0c179f",
+ "pinocchio_version": "4.1.0",
+ "pinocchio_configuration_deltas": [
+  "removed right_gripper dummy inertial (0.01 kg) - not part of cuRobo's model",
+  "added cuRobo default inertial to panda_link8",
+  "added cuRobo default inertial to panda_leftfinger",
+  "added cuRobo default inertial to panda_rightfinger",
+  "added attached_object (0.01 kg default) fixed at panda_hand, identity transform (franka.yml extra_links)",
+  "finger joints locked at 0.04 m (franka.yml lock_joints)"
+ ],
+ "pinocchio_urdf_config_sha256": "d58b5c8689acea64bad428c51a6ae89e773d44c9240b074514947d46c25cbfa0",
+ "pinocchio_gravity": [
+  0.0,
+  0.0,
+  -9.81
+ ],
+ "sets": {
+  "gravity_only": {
+   "states": 128,
+   "interval_width_max": 5.4285465012071654e-12,
+   "algorithm_check_pinocchio_inside_interval_rnea_on_pinocchio_params": 128,
+   "algorithm_check_max_abs_diff": 4.973799150320701e-14,
+   "pinocchio_urdf_max_rel_diff": 4.903035816239409e-07,
+   "pinocchio_f32params_inside_interval_pm1e-10rel": 0,
+   "max_abs_pinocchio_f32params_minus_interval_mid": 4.1564138086869207e-07,
+   "max_abs_pinocchio_minus_interval_mid": 5.042733086213502e-06,
+   "max_abs_native_minus_interval_mid": 1.1272016863017598e-05,
+   "max_rel_native_minus_interval_mid": 3.4935219594798647e-06,
+   "per_joint_max_abs_native_err": [
+    3.4935219594798647e-06,
+    1.1272016863017598e-05,
+    3.48804659111579e-06,
+    3.745467843430106e-06,
+    3.8953199466007504e-07,
+    4.400211444099966e-07,
+    1.9566123235503774e-09
+   ],
+   "max_abs_tau": 52.441727706175875
+  },
+  "full": {
+   "states": 128,
+   "interval_width_max": 1.0203393685515039e-11,
+   "algorithm_check_pinocchio_inside_interval_rnea_on_pinocchio_params": 128,
+   "algorithm_check_max_abs_diff": 8.526512829121202e-14,
+   "pinocchio_urdf_max_rel_diff": 5.666565674466995e-07,
+   "pinocchio_f32params_inside_interval_pm1e-10rel": 0,
+   "max_abs_pinocchio_f32params_minus_interval_mid": 6.792510163222687e-07,
+   "max_abs_pinocchio_minus_interval_mid": 6.923519777046749e-06,
+   "max_abs_native_minus_interval_mid": 1.896027677616985e-05,
+   "max_rel_native_minus_interval_mid": 3.7055595172585942e-06,
+   "per_joint_max_abs_native_err": [
+    1.0352466006224859e-05,
+    1.896027677616985e-05,
+    7.859646544261523e-06,
+    7.346951328202067e-06,
+    1.0021240139934662e-06,
+    1.024558807571907e-06,
+    3.835609826557951e-07
+   ],
+   "max_abs_tau": 78.3586315119899
+  },
+  "B_probe": {
+   "states": 128,
+   "interval_width_max": 6.302514066192089e-12,
+   "algorithm_check_pinocchio_inside_interval_rnea_on_pinocchio_params": 128,
+   "algorithm_check_max_abs_diff": 4.973799150320701e-14,
+   "pinocchio_urdf_max_rel_diff": 5.776970075643817e-07,
+   "pinocchio_f32params_inside_interval_pm1e-10rel": 0,
+   "max_abs_pinocchio_f32params_minus_interval_mid": 5.099564788224598e-07,
+   "max_abs_pinocchio_minus_interval_mid": 5.447992215579234e-06,
+   "max_abs_native_minus_interval_mid": 1.2504730705131806e-05,
+   "max_rel_native_minus_interval_mid": 3.2972824784149868e-06,
+   "per_joint_max_abs_native_err": [
+    4.389176833541342e-06,
+    1.2504730705131806e-05,
+    6.258418448368275e-06,
+    5.881476063507307e-06,
+    5.757428724884051e-07,
+    6.74037887282708e-07,
+    2.430402004649501e-09
+   ],
+   "max_abs_tau": 57.50718790977248
+  },
+  "A_probe": {
+   "states": 128,
+   "interval_width_max": 1.0203393685515039e-11,
+   "algorithm_check_pinocchio_inside_interval_rnea_on_pinocchio_params": 128,
+   "algorithm_check_max_abs_diff": 8.526512829121202e-14,
+   "pinocchio_urdf_max_rel_diff": 5.666565674466995e-07,
+   "pinocchio_f32params_inside_interval_pm1e-10rel": 0,
+   "max_abs_pinocchio_f32params_minus_interval_mid": 6.792510163222687e-07,
+   "max_abs_pinocchio_minus_interval_mid": 6.923519777046749e-06,
+   "max_abs_native_minus_interval_mid": 1.896027677616985e-05,
+   "max_rel_native_minus_interval_mid": 3.7055595172585942e-06,
+   "per_joint_max_abs_native_err": [
+    1.0352466006224859e-05,
+    1.896027677616985e-05,
+    7.859646544261523e-06,
+    7.346951328202067e-06,
+    1.0021240139934662e-06,
+    1.024558807571907e-06,
+    3.835609826557951e-07
+   ],
+   "max_abs_tau": 78.3586315119899
+  }
+ },
+ "coefficient_identity": {
+  "A": 1.420923145190045e-05,
+  "B": 5.866788348019014e-06,
+  "G": 1.127201685591217e-05
+ },
+ "interval_identity_tau_eq_A_plus_G_overlap": true,
+ "verdict": "PARITY_PASS"
+}
