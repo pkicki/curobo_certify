@@ -98,6 +98,11 @@ def main():
                                     "{native, +cert 1 thread, +cert 8 threads}, contract native, seed 20261118, "
                                     "OMP_NUM_THREADS=8; registered primary arm B8",
                    "frozen_bench_cores": [6, 8, 10]},
+        "reproducibility": ("pinned planner outputs are NOT bit-reproducible across processes for the same seeded "
+                            "query (smoke test 2026-11-17: margin-20261117-0000 0.95 re-solved T=0.289314 s vs "
+                            "frozen 0.289613 s). The unit of certification is the single registered solve's frozen "
+                            "NPZ (SHA-256 in the ledger); fresh-latency requests certify their own fresh outputs "
+                            "and record output digests."),
         "contracts": ["MODEL_K3", "NATIVE_REPORTED_K3", "T1_AUDITED_FLOAT32_TIMES (v2)"],
         "arms": {"primary": "0.95 (unpatched TimeOpt constructor)", "secondary": "0.99 (separate, never pooled)"},
         "denominators": "attempted source queries (all retained); eligible = first-K primary native successes; "
