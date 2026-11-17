@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path as _P
+sys.path.insert(0, str(_P(__file__).resolve().parents[1] / "src"))
 """Sound rational integral/inverse enclosures: mathematical model ONLY."""
 from fractions import Fraction as F
 from math import sqrt
@@ -100,3 +103,76 @@ class ExactTimeLawTests(unittest.TestCase):
 
 if __name__=="__main__":
     unittest.main()
+
+
+class StrictRestRootSubstitution(unittest.TestCase):
+    """x(0) = 0 endpoints: simple roots integrable, higher-order roots rejected."""
+
+    def test_simple_root_matches_closed_form(self):
+        import math
+        from fractions import Fraction as Fr
+        from curobo_certify.time_law_enclosures import endpoint_root_integral
+        # x(s) = s on [0,1]: T(phi) = 2 sqrt(phi)
+        for phi in (Fr(1), Fr(1, 4), Fr(1, 3)):
+            lo, hi, st = endpoint_root_integral((Fr(0), Fr(1)), Fr(1), phi)
+            self.assertEqual(st, "BOUNDED_EXACT_MODEL")
+            exact = 2 * math.sqrt(float(phi))
+            self.assertLessEqual(float(lo), exact + 1e-15)
+            self.assertGreaterEqual(float(hi), exact - 1e-15)
+            self.assertLess(float(hi - lo), 1e-6)
+        # x(s) = s (1 + s): T(1) = 2 asinh(1)
+        lo, hi, st = endpoint_root_integral((Fr(0), Fr(1), Fr(1)), Fr(1), Fr(1), depth=10)
+        self.assertEqual(st, "BOUNDED_EXACT_MODEL")
+        self.assertTrue(float(lo) <= 2 * math.asinh(1) <= float(hi))
+
+    def test_higher_order_and_negative_roots(self):
+        from fractions import Fraction as Fr
+        from curobo_certify.time_law_enclosures import endpoint_root_integral
+        self.assertEqual(endpoint_root_integral((Fr(0), Fr(0), Fr(1)), Fr(1), Fr(1))[2], "NONINTEGRABLE_ENDPOINT")
+        self.assertEqual(endpoint_root_integral((Fr(0), Fr(-1), Fr(3)), Fr(1), Fr(1))[2], "NEGATIVE_X_AT_ENDPOINT")
+        self.assertEqual(endpoint_root_integral((Fr(0), Fr(0)), Fr(1), Fr(1))[2], "IDENTICALLY_ZERO_SPEED")
+        with self.assertRaises(ValueError):
+            endpoint_root_integral((Fr(1), Fr(1)), Fr(1), Fr(1))
+
+
+class TimeLawGridTests(unittest.TestCase):
+    def test_grid_brackets_contain_high_precision_reference(self):
+        import numpy as np
+        from fractions import Fraction as Fr
+        from curobo_certify import time_law_grid as TG
+        from curobo_certify.native_error_bound import exact_timing_table
+        rng = np.random.default_rng(5)
+        tc = (2 + 30 * rng.random(32)).astype(np.float32)
+        g = TG.build_grid(tc, 14)
+        self.assertEqual(g.status, "BOUNDED_EXACT_MODEL")
+        # Reference: composite 16-point Gauss-Legendre on 512 cells per timing span (binary64)
+        tab = exact_timing_table()
+        coeffs = [[float(sum(tab[m][3 - p][k] * Fr(float(tc[m + k])) for k in range(4))) for p in range(4)] for m in range(29)]
+        gl, gw = np.polynomial.legendre.leggauss(16)
+        def T(s):
+            total = 0.0
+            for m in range(29):
+                a, b = m / 29, min((m + 1) / 29, s)
+                if b <= a:
+                    break
+                e = np.linspace(a, b, 513); hh = np.diff(e)
+                pts = (e[:-1, None] + hh[:, None] * 0.5 * (gl + 1)) - m / 29
+                c = coeffs[m]
+                x = ((c[3] * pts + c[2]) * pts + c[1]) * pts + c[0]
+                total += float(np.sum(hh[:, None] * 0.5 * gw / np.sqrt(x)))
+            return total
+        for k in (0, 1, 777, 2**13, 12345, 2**14):
+            ref = T(k / 2**14)
+            self.assertLessEqual(g.T_lo[k], ref + 1e-12)
+            self.assertGreaterEqual(g.T_hi[k], ref - 1e-12)
+        for t in (0.0, g.T_lo[-1] * 0.3, g.T_lo[-1] * 0.999):
+            lo, hi = TG.inverse_bracket(g, float(t))
+            self.assertLessEqual(lo, hi)
+            if t > 0:
+                self.assertLessEqual(g.T_lo[int(np.floor(lo * 2**14))], t + 1e-12)
+
+    def test_nonpositive_x_fails_closed(self):
+        import numpy as np
+        from curobo_certify import time_law_grid as TG
+        tc = np.full(32, 5.0, dtype=np.float32); tc[10:14] = 0
+        self.assertEqual(TG.build_grid(tc, 10).status, "UNKNOWN_POSITIVITY")

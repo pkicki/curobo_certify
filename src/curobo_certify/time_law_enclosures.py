@@ -197,3 +197,71 @@ def inverse_time_bracket(pieces: tuple[Piece,...], target_t:F, *,
         if not decisive:
             return InverseBracket(low,high,"UNKNOWN_TIME_BRACKET_OVERLAP",step+1,max_depth)
     return InverseBracket(low,high,"BRACKETED_EXACT_MODEL",max_steps,used_depth)
+
+
+# ---------------------------------------------------------------------------
+# Strict-rest endpoints with x = 0: certified root substitution (2026-11-17).
+# ---------------------------------------------------------------------------
+
+def _poly_div_u(power: tuple[F, ...]) -> tuple[F, ...]:
+    """x(u)/u for x(0) = 0 (exact division)."""
+    if power[0] != 0:
+        raise ValueError("x(0) must be exactly zero")
+    return tuple(power[1:]) or (F(0),)
+
+
+def _compose_u_squared(g: tuple[F, ...]) -> tuple[F, ...]:
+    """G(w) = g(w^2) in ascending powers of w."""
+    out = [F(0)] * (2 * len(g) - 1)
+    for k, c in enumerate(g):
+        out[2 * k] = c
+    return tuple(out)
+
+
+def _bern_any(power: tuple[F, ...]) -> tuple[F, ...]:
+    return tuple(bernstein_coeffs(tuple(F(c) for c in power)))
+
+
+def endpoint_root_integral(power_local: tuple[F, ...], h: F, fraction: F, *, depth: int = 8,
+                           digits: int = 24) -> tuple[F, F, str]:
+    """Bracket ∫_0^{fraction} h du / sqrt(x(u)) for a local polynomial with x(0) = 0.
+
+    Classification by the exact local expansion x(u) = c1 u + c2 u^2 + c3 u^3:
+      c1 > 0  : simple root -> substitution u = w^2 gives the regular integrand
+                2h / sqrt(G(w)), G(w) = g(w^2), g = x/u, which must be certified > 0;
+      c1 = 0, x not identically 0 : root of order >= 2 -> NONINTEGRABLE_ENDPOINT
+                (infinite traversal time); c1 < 0 : NEGATIVE_X_AT_ENDPOINT.
+    The upper limit sqrt(fraction) is bracketed by rationals (integrand > 0)."""
+    p = tuple(F(c) for c in power_local)
+    if p[0] != 0:
+        raise ValueError("not a zero-speed endpoint")
+    c1 = p[1] if len(p) > 1 else F(0)
+    if c1 < 0:
+        return F(0), F(0), "NEGATIVE_X_AT_ENDPOINT"
+    if c1 == 0:
+        return F(0), F(0), ("NONINTEGRABLE_ENDPOINT" if any(p) else "IDENTICALLY_ZERO_SPEED")
+    G = _compose_u_squared(_poly_div_u(p))
+    fraction = F(fraction)
+    if not 0 <= fraction <= 1:
+        raise ValueError("fraction outside [0,1]")
+    if fraction == 0:
+        return F(0), F(0), "BOUNDED_EXACT_MODEL"
+    q = 10 ** digits
+    w_lo = F(isqrt(int(fraction * q * q)), q)                # <= sqrt(fraction)
+    w_hi = w_lo if w_lo * w_lo == fraction else w_lo + F(1, q)  # >= sqrt(fraction)
+    w_hi = min(w_hi, F(1))
+    totals = []
+    for w_end in (w_lo, w_hi):
+        if w_end == 0:
+            totals.append((F(0), F(0)))
+            continue
+        b = _bern_any(G)
+        part, _ = subdivide_at(b, w_end) if w_end < 1 else (b, None)
+        try:
+            lo, hi = _local_integral(part, w_end * 2 * h, depth=depth, digits=digits)
+        except ValueError as exc:
+            if "UNKNOWN_POSITIVITY" in str(exc):
+                return F(0), F(0), "UNKNOWN_POSITIVITY"
+            raise
+        totals.append((lo, hi))
+    return totals[0][0], totals[1][1], "BOUNDED_EXACT_MODEL"
