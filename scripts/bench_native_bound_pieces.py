@@ -34,19 +34,19 @@ def physical_limits(a):
                              ("jerk","jerk_limits"))}
 
 
-def one(producer,verifier,arrays,pieces,div_ulps,sqrt_ulps):
+def one(producer,verifier,arrays,pieces,div_ulps,sqrt_ulps,threads=1):
     geometry=arrays["effective_geometry"]
     timing=arrays["timing_controls"]
     inputs=(geometry,timing,arrays["requested_start"][0],
             arrays["requested_goal"][0],physical_limits(arrays))
     t0=time.perf_counter_ns()
     tightening=K.native_bounds(producer,geometry,timing,pieces=pieces,
-                               div_ulps=div_ulps,sqrt_ulps=sqrt_ulps)
+                               div_ulps=div_ulps,sqrt_ulps=sqrt_ulps,threads=threads)
     t1=time.perf_counter_ns()
     if not np.isfinite(tightening).all() or (tightening<0).any():
         raise RuntimeError("invalid native error enclosure")
     result=K.certify_and_verify(producer,verifier,*inputs,tighten=tightening,
-                               max_depth=12,max_nodes=8192)
+                               max_depth=12,max_nodes=8192,threads=threads)
     t2=time.perf_counter_ns()
     return {"native_bounds_ms":(t1-t0)/1e6,
             "producer_and_verifier_ms":(t2-t1)/1e6,
@@ -67,13 +67,15 @@ def main():
     p.add_argument("--warmups",type=int,default=30)
     p.add_argument("--repeats",type=int,default=15)
     p.add_argument("--seed",type=int,default=20261117)
+    p.add_argument("--threads",nargs="+",type=int,default=[1],
+                   help="OpenMP threads for native bound, producer and verifier (identical results)")
     p.add_argument("--out",type=Path,required=True)
     a=p.parse_args()
     if not a.npz or not a.pieces or any(x<1 or x>128 for x in a.pieces):
         p.error("pieces must be in [1,128]")
     if a.repeats<3 or a.warmups<0 or any(x<1 or x>8 for x in a.div_ulps):
         p.error("invalid repeat or FP32 division-ULP bound")
-    configs=sorted(set((pieces,float(d)) for pieces in a.pieces for d in a.div_ulps))
+    configs=sorted(set((pieces,float(d),int(th)) for pieces in a.pieces for d in a.div_ulps for th in a.threads))
     rng=random.Random(a.seed)
     all_rows=[]
     with tempfile.TemporaryDirectory() as tmp:
@@ -89,20 +91,20 @@ def main():
             results={key:[] for key in configs}
             # Balanced randomized configuration ordering per repeat.
             for _ in range(a.warmups):
-                for pieces,d in configs:
-                    one(P,V,arrays,pieces,d,a.sqrt_ulps)
+                for pieces,d,th in configs:
+                    one(P,V,arrays,pieces,d,a.sqrt_ulps,th)
             for repeat in range(a.repeats):
                 order=configs[:]
                 rng.shuffle(order)
-                for pieces,d in order:
-                    r=one(P,V,arrays,pieces,d,a.sqrt_ulps)
-                    r.pop("bounds")  # proof input can be regenerated from hashed original NPZ
-                    results[(pieces,d)].append(r)
+                for pieces,d,th in order:
+                    r=one(P,V,arrays,pieces,d,a.sqrt_ulps,th)
+                    r["bounds_sha256"]=hashlib.sha256(r.pop("bounds").tobytes()).hexdigest()
+                    results[(pieces,d,th)].append(r)
             after=hashlib.sha256(arrays["effective_geometry"].tobytes()+
                                  arrays["timing_controls"].tobytes()).hexdigest()
             if before!=after:
                 raise RuntimeError("original frozen output mutated")
-            for (pieces,d),reps in results.items():
+            for (pieces,d,th),reps in results.items():
                 final={x["final"] for x in reps}
                 if len(final)!=1:
                     raise RuntimeError("nondeterministic certificate for identical frozen inputs")
@@ -110,7 +112,8 @@ def main():
                     "path_id":file.stem,
                     "source_npz_sha256":hashlib.sha256(blob).hexdigest(),
                     "source_output_sha256":before,
-                    "pieces":pieces,"div_ulps":d,"sqrt_ulps":a.sqrt_ulps,
+                    "pieces":pieces,"div_ulps":d,"sqrt_ulps":a.sqrt_ulps,"threads":th,
+                    "bounds_sha256":reps[0]["bounds_sha256"],
                     "status":reps[0]["final"],"nodes":reps[0]["nodes"],
                     "leaves":reps[0]["leaves"],
                     "max_bound":reps[0]["bound_max"],
@@ -124,7 +127,7 @@ def main():
         "upstream_sha":"c301cb00a87012c2808b1a60649c4065c9b3c95a",
         "cpu":platform.platform(),"affinity":sorted(os.sched_getaffinity(0)) if hasattr(os,"sched_getaffinity") else None,
         "warmups":a.warmups,"repeats":a.repeats,"builds":builds,
-        "configs":[{"pieces":pieces,"div_ulps":d} for pieces,d in configs],
+        "configs":[{"pieces":pieces,"div_ulps":d,"threads":th} for pieces,d,th in configs],
         "rows":all_rows}
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(output,indent=2,allow_nan=False)+"\n")

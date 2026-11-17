@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 NATIVE = Path(__file__).resolve().parent / "native"
 # -fvisibility=hidden: only the k3c_*/k3v_* C API is exported. Exported internal
 # helpers were found to be interposable by libc symbols (div) inside Python.
-FLAGS = ("-std=c++17", "-O3", "-shared", "-fPIC", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-fno-fast-math", "-ffp-contract=off",
+FLAGS = ("-std=c++17", "-O3", "-shared", "-fPIC", "-fopenmp", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-fno-fast-math", "-ffp-contract=off",
          "-Wall", "-Wextra", "-Werror")
 STATUS = {0: "CERTIFIED", 1: "VIOLATED", 2: "UNKNOWN_DEPTH", 3: "UNKNOWN_NODES", 4: "INVALID_INPUT",
           5: "UNKNOWN_BOUNDARY", 6: "VIOLATED_BOUNDARY", 7: "NUMERICAL_ERROR", 8: "UNKNOWN_UNIFORM"}
@@ -76,6 +76,8 @@ class Producer:
                                   C.c_int, C.c_int, C.c_int, C.c_int, C.c_int, ip, C.POINTER(C.c_longlong), ip,
                                   C.POINTER(Leaf), C.c_int, ip, C.POINTER(Witness)]
         L.k3c_certify.restype = C.c_int
+        L.k3c_certify_mt.argtypes = list(L.k3c_certify.argtypes) + [C.c_int]
+        L.k3c_certify_mt.restype = C.c_int
         L.k3c_common_spans.argtypes = [C.c_int, C.POINTER(C.c_longlong), C.POINTER(C.c_longlong), C.c_int]
         self.tlo, self.thi = timing_intervals()
         self.cap = 1 << 16
@@ -87,7 +89,7 @@ class Producer:
         return [(Fraction(num[i], den[i]), Fraction(num[i + 1], den[i + 1])) for i in range(ns)]
 
     def certify(self, geometry, timing, q_start, q_goal, limits, *, tighten=None, max_depth=12,
-                max_nodes=65536, mode="adaptive", witnesses=True, strict_rest=True) -> dict:
+                max_nodes=65536, mode="adaptive", witnesses=True, strict_rest=True, threads: int = 1) -> dict:
         g = np.ascontiguousarray(geometry, dtype=np.float32)
         tc = np.ascontiguousarray(np.asarray(timing).reshape(-1), dtype=np.float32)
         qs = np.ascontiguousarray(q_start, dtype=np.float32).reshape(-1)
@@ -96,13 +98,13 @@ class Producer:
         tig = None if tighten is None else np.ascontiguousarray(tighten, dtype=np.float64)
         fam = (C.c_int * 5)(); nodes = C.c_longlong(); bstat = C.c_int(); count = C.c_int(); wit = Witness()
         while True:
-            st = self.lib.k3c_certify(_ptr(g, C.c_float), g.shape[0], g.shape[1], _ptr(tc, C.c_float),
+            st = self.lib.k3c_certify_mt(_ptr(g, C.c_float), g.shape[0], g.shape[1], _ptr(tc, C.c_float),
                                       _ptr(qs, C.c_float), _ptr(qg, C.c_float), _ptr(v, C.c_double), _ptr(a, C.c_double),
                                       _ptr(j, C.c_double), _ptr(self.tlo, C.c_double), _ptr(self.thi, C.c_double),
                                       None if tig is None else _ptr(tig, C.c_double),
                                       max_depth, max_nodes, 0 if mode == "adaptive" else 1, int(witnesses),
                                       int(strict_rest), fam, C.byref(nodes), C.byref(bstat), self.buf, self.cap,
-                                      C.byref(count), C.byref(wit))
+                                      C.byref(count), C.byref(wit), int(threads))
             if count.value <= self.cap:
                 break
             self.cap = 1 << int(np.ceil(np.log2(count.value)))
@@ -146,9 +148,11 @@ class Verifier:
         self.lib.k3v_verify.argtypes = [fp, C.c_int, C.c_int, fp, fp, fp, dp, dp, dp, dp, C.c_int, C.c_char_p,
                                         C.POINTER(Leaf), C.c_int, C.POINTER(C.c_int)]
         self.lib.k3v_verify.restype = C.c_int
+        self.lib.k3v_verify_mt.argtypes = list(self.lib.k3v_verify.argtypes) + [C.c_int]
+        self.lib.k3v_verify_mt.restype = C.c_int
 
     def verify(self, geometry, timing, q_start, q_goal, limits, leaves: np.ndarray, digest: str, *,
-               tighten=None, strict_rest=True) -> dict:
+               tighten=None, strict_rest=True, threads: int = 1) -> dict:
         g = np.ascontiguousarray(geometry, dtype=np.float32)
         tc = np.ascontiguousarray(np.asarray(timing).reshape(-1), dtype=np.float32)
         qs = np.ascontiguousarray(q_start, dtype=np.float32).reshape(-1)
@@ -159,21 +163,23 @@ class Verifier:
         if lv.dtype != np.dtype(Leaf):
             lv = lv.astype(np.dtype(Leaf))
         detail = C.c_int()
-        code = self.lib.k3v_verify(_ptr(g, C.c_float), g.shape[0], g.shape[1], _ptr(tc, C.c_float), _ptr(qs, C.c_float),
+        code = self.lib.k3v_verify_mt(_ptr(g, C.c_float), g.shape[0], g.shape[1], _ptr(tc, C.c_float), _ptr(qs, C.c_float),
                                    _ptr(qg, C.c_float), _ptr(v, C.c_double), _ptr(a, C.c_double), _ptr(j, C.c_double),
                                    None if tig is None else _ptr(tig, C.c_double), int(strict_rest),
-                                   digest.encode(), lv.ctypes.data_as(C.POINTER(Leaf)), len(lv), C.byref(detail))
+                                   digest.encode(), lv.ctypes.data_as(C.POINTER(Leaf)), len(lv), C.byref(detail),
+                                   int(threads))
         return {"pass": code == 0, "code": code, "reason": VERIFY_REASONS.get(code, "unknown"), "residual": detail.value}
 
 
 def certify_and_verify(producer: Producer, verifier: Verifier, geometry, timing, q_start, q_goal, limits, *,
                        tighten=None, **opts) -> dict:
     """Producer + independent verifier. CERTIFIED only if both agree."""
-    r = producer.certify(geometry, timing, q_start, q_goal, limits, tighten=tighten, **opts)
+    threads = opts.pop("threads", 1)
+    r = producer.certify(geometry, timing, q_start, q_goal, limits, tighten=tighten, threads=threads, **opts)
     r["digest"] = input_digest(geometry, timing, q_start, q_goal, limits, tighten)
     if r["status"] == "CERTIFIED":
         r["verification"] = verifier.verify(geometry, timing, q_start, q_goal, limits, r["leaves"], r["digest"],
-                                            tighten=tighten, strict_rest=opts.get("strict_rest", True))
+                                            tighten=tighten, strict_rest=opts.get("strict_rest", True), threads=threads)
         r["final"] = "CERTIFIED" if r["verification"]["pass"] else "REJECTED_BY_VERIFIER"
     else:
         r["verification"] = None
@@ -201,22 +207,24 @@ def _immutable_native_table() -> np.ndarray:
 
 
 def native_bounds(producer: Producer, geometry, timing, *, pieces=16, delta=1e-6, div_ulps=2.0, sqrt_ulps=3.0,
-                  native_table=None) -> np.ndarray:
+                  native_table=None, threads: int = 1) -> np.ndarray:
     """Compiled rigorous native FP32 error bounds [ns, D, 3] (velocity, acceleration, jerk)."""
     L = producer.lib
     L.k3c_native_bounds.argtypes = [C.POINTER(C.c_float), C.c_int, C.c_int, C.POINTER(C.c_float), C.POINTER(C.c_float),
                                     C.POINTER(C.c_double), C.POINTER(C.c_double), C.c_int, C.c_double, C.c_double,
                                     C.c_double, C.POINTER(C.c_double)]
     L.k3c_native_bounds.restype = C.c_int
+    L.k3c_native_bounds_mt.argtypes = list(L.k3c_native_bounds.argtypes) + [C.c_int]
+    L.k3c_native_bounds_mt.restype = C.c_int
     g = np.ascontiguousarray(geometry, dtype=np.float32)
     tc = np.ascontiguousarray(np.asarray(timing).reshape(-1), dtype=np.float32)
     table = (_immutable_native_table() if native_table is None
              else np.ascontiguousarray(native_table, dtype=np.float32))
     ns = len(producer.common_spans(g.shape[0]))
     out = np.zeros((ns, g.shape[1], 3))
-    got = L.k3c_native_bounds(_ptr(g, C.c_float), g.shape[0], g.shape[1], _ptr(tc, C.c_float), _ptr(table, C.c_float),
-                              _ptr(producer.tlo, C.c_double), _ptr(producer.thi, C.c_double), pieces, delta,
-                              div_ulps, sqrt_ulps, _ptr(out, C.c_double))
+    got = L.k3c_native_bounds_mt(_ptr(g, C.c_float), g.shape[0], g.shape[1], _ptr(tc, C.c_float), _ptr(table, C.c_float),
+                                 _ptr(producer.tlo, C.c_double), _ptr(producer.thi, C.c_double), pieces, delta,
+                                 div_ulps, sqrt_ulps, _ptr(out, C.c_double), int(threads))
     if got != ns:
         raise RuntimeError(f"native bound computation failed: code {got}")
     return out

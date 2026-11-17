@@ -204,6 +204,23 @@ class CompiledK3Tests(unittest.TestCase):
         self.assertTrue(np.all(cc[mask] <= ref[mask] * 2.0))
         self.assertTrue(np.all(cc > 0))
 
+    def test_parallel_results_identical_to_single_thread(self):
+        # v2 per-span merge semantics: every thread count gives identical outputs,
+        # including witnesses, budget exhaustion and native bounds.
+        for seed in range(12):
+            geo, timing, qs, qg, lim = smooth_case(seed, D=3, inner=5)
+            for scale, nodes in ((1.0, 65536), (1e-3, 65536), (1.0, 50), (0.02, 4096)):
+                L = {k: v * scale for k, v in lim.items()}
+                outs = [K.certify_and_verify(self.P, self.V, geo, timing, qs, qg, L, max_nodes=nodes, threads=th)
+                        for th in (1, 3, 8)]
+                for o in outs[1:]:
+                    self.assertEqual(o["final"], outs[0]["final"])
+                    self.assertEqual(o["nodes"], outs[0]["nodes"])
+                    self.assertEqual(o["witness"], outs[0]["witness"])
+                    self.assertTrue(np.array_equal(o["leaves"], outs[0]["leaves"]))
+            E = [K.native_bounds(self.P, geo, timing, threads=th) for th in (1, 4)]
+            self.assertTrue(np.array_equal(E[0], E[1]))
+
     def test_seeded_differential_against_exact_reference(self):
         rows = [campaign.run_case(seed) for seed in range(7000, 7150)]
         breaches = [r for r in rows if r["breaches"]]

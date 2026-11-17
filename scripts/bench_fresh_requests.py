@@ -41,6 +41,8 @@ def main():
     ap.add_argument("--repeats", type=int, default=10)
     ap.add_argument("--contract", choices=("physical", "native"), default="native")
     ap.add_argument("--seed", type=int, default=20261110)
+    ap.add_argument("--threads", nargs="+", type=int, default=[1],
+                    help="certification arms: one arm per OpenMP thread count (paired with native-only arm A)")
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     import torch
@@ -75,7 +77,7 @@ def main():
             limits = {f: np.minimum(np.abs(getattr(lim_t, f)[0].cpu().numpy()), np.abs(getattr(lim_t, f)[1].cpu().numpy())).astype(np.float64)
                       for f in ("velocity", "acceleration", "jerk")}
 
-            def request(certify: bool):
+            def request(certify: bool, threads: int = 1):
                 t0 = time.perf_counter_ns()
                 res = planner.plan_cspace(tgt, cur, max_attempts=2, enable_graph_attempt=0, finetune_attempts=0)
                 torch.cuda.synchronize(dev)
@@ -90,13 +92,13 @@ def main():
                     digest = hashlib.sha256(g.tobytes() + tc.tobytes()).hexdigest()
                     status = "NATIVE_SUCCESS"
                     if certify:
-                        tighten = K.native_bounds(P, g, tc) if a.contract == "native" else None
+                        tighten = K.native_bounds(P, g, tc, threads=threads) if a.contract == "native" else None
                         t3 = time.perf_counter_ns()
                         args = (g, tc, start[0].cpu().numpy(), goal[0].cpu().numpy(), limits)
-                        r = P.certify(*args, tighten=tighten, max_depth=12, max_nodes=8192)
+                        r = P.certify(*args, tighten=tighten, max_depth=12, max_nodes=8192, threads=threads)
                         t4 = time.perf_counter_ns()
                         if r["status"] == "CERTIFIED":
-                            v = V.verify(*args, r["leaves"], K.input_digest(*args, tighten), tighten=tighten)
+                            v = V.verify(*args, r["leaves"], K.input_digest(*args, tighten), tighten=tighten, threads=threads)
                             status = "CERTIFIED" if v["pass"] else "REJECTED_BY_VERIFIER"
                         else:
                             status = r["status"]
@@ -105,27 +107,36 @@ def main():
                                   "producer_ms": (t4 - t3) / 1e6, "verifier_ms": (t5 - t4) / 1e6}
                 return (time.perf_counter_ns() - t0) / 1e6, status, digest, stages
 
+            arms = ["A"] + [f"B{th}" for th in a.threads]
             for _ in range(a.warmups):
-                request(False)
-                request(True)
+                for arm in arms:
+                    request(arm != "A", int(arm[1:]) if arm != "A" else 1)
             reps = []
             for r in range(a.repeats):
-                order = ("A", "B") if rng.random() < 0.5 else ("B", "A")
+                order = list(arms)
+                rng.shuffle(order)
                 pair = {}
                 for arm in order:
-                    ms, st, dg, stg = request(arm == "B")
+                    ms, st, dg, stg = request(arm != "A", int(arm[1:]) if arm != "A" else 1)
                     pair[arm] = {"ms": ms, "status": st, "digest": dg, "stages": stg}
-                pair["order"] = "".join(order)
+                pair["order"] = ",".join(order)
+                cert = {pair[x]["status"] for x in arms if x != "A"}
+                if len(cert) > 1 and not any(pair[x]["status"] == "NATIVE_FAILURE" for x in arms):
+                    raise SystemExit(f"certificate status differs across thread arms: {pair}")
+                pair["B"] = pair[arms[1]]  # first certification arm keeps the legacy key
                 reps.append(pair)
-        digests = {p[arm]["digest"] for p in reps for arm in ("A", "B")}
+        digests = {p[arm]["digest"] for p in reps for arm in arms}
         record.update({"repeats": reps, "distinct_output_digests": len(digests),
                        "added_ms": [p["B"]["ms"] - p["A"]["ms"] for p in reps],
+                       "added_ms_by_arm": {arm: [p[arm]["ms"] - p["A"]["ms"] for p in reps] for arm in arms[1:]},
+                       "stage_by_arm": {arm: [p[arm]["stages"] for p in reps] for arm in arms[1:]},
                        "native_ms": [p["A"]["ms"] for p in reps], "total_ms": [p["B"]["ms"] for p in reps]})
         print(json.dumps({"id": row["source_id"], "native_p50": float(np.median(record["native_ms"])),
                           "added_p50": float(np.median(record["added_ms"])), "status": reps[0]["B"]["status"],
                           "digests": len(digests)}), flush=True)
         results.append(record)
     out = {"scope": "FRESH_REQUEST_PAIRED_LATENCY_EXPLORATORY", "gpu": gpu, "contract": a.contract,
+           "threads_arms": a.threads,
            "warmups": a.warmups, "repeats": a.repeats, "builds": builds, "cuda_compatibility": compat,
            "query_manifest_sha256": hashlib.sha256(a.queries.read_bytes()).hexdigest(), "rows": results}
     a.out.parent.mkdir(parents=True, exist_ok=True)

@@ -223,10 +223,21 @@ struct VLeaf { int32_t span, family, joint, depth; uint32_t bits; double upper; 
 
 // Return 0 if the certificate verifies; otherwise a positive reason code.
 // reason_detail receives the failing residual index (or -1).
+__attribute__((visibility("default"))) int k3v_verify_mt(const float *geometry, int Cc, int D, const float *timing, const float *q_start,
+               const float *q_goal, const double *vlim, const double *alim, const double *jlim,
+               const double *tighten, int strict_rest, const char *claimed_sha256,
+               const VLeaf *leaves, int nleaves, int *reason_detail, int threads);
 __attribute__((visibility("default"))) int k3v_verify(const float *geometry, int Cc, int D, const float *timing, const float *q_start,
                const float *q_goal, const double *vlim, const double *alim, const double *jlim,
                const double *tighten, int strict_rest, const char *claimed_sha256,
                const VLeaf *leaves, int nleaves, int *reason_detail) {
+  return k3v_verify_mt(geometry, Cc, D, timing, q_start, q_goal, vlim, alim, jlim, tighten, strict_rest,
+                       claimed_sha256, leaves, nleaves, reason_detail, 1);
+}
+__attribute__((visibility("default"))) int k3v_verify_mt(const float *geometry, int Cc, int D, const float *timing, const float *q_start,
+               const float *q_goal, const double *vlim, const double *alim, const double *jlim,
+               const double *tighten, int strict_rest, const char *claimed_sha256,
+               const VLeaf *leaves, int nleaves, int *reason_detail, int threads) {
   using namespace vfy;
   *reason_detail = -1;
   if (std::fegetround() != FE_TONEAREST) return 90;
@@ -322,8 +333,9 @@ __attribute__((visibility("default"))) int k3v_verify(const float *geometry, int
     }
     if (measure != (uint64_t(1) << 24)) { *reason_detail = id; return 24; }
   }
-  // 6. rebuild residuals and replay leaves
-  for (int sp = 0; sp < ns; ++sp) {
+  // 6. rebuild residuals and replay leaves; spans are independent and verified in parallel,
+  //    the failure with the smallest span index is reported (thread-count independent).
+  auto verify_span = [&](int sp, int *detail) -> int {
     const Iv L = q(cuts[sp].first, cuts[sp].second), R = q(cuts[sp + 1].first, cuts[sp + 1].second);
     const Iv invh = over(C(1), minus(R, L));
     const long long mn = cuts[sp].first * cuts[sp + 1].second + cuts[sp + 1].first * cuts[sp].second;
@@ -363,15 +375,30 @@ __attribute__((visibility("default"))) int k3v_verify(const float *geometry, int
         }
         const int n = int(b.size()) - 1;
         bool neg = false;
-        for (auto &v : b) { if (!good(v) || v.b > 0) { *reason_detail = id; return 40; } if (v.b < 0) neg = true; }
+        for (auto &v : b) { if (!good(v) || v.b > 0) { { *detail = id; return 40; } } if (v.b < 0) neg = true; }
         if (strict) {
           const bool gl = sp == 0 && leaf.second == 0;
           const bool gr = sp == ns - 1 && uint64_t(leaf.second) == (uint64_t(1) << leaf.first) - 1;
-          if (!neg || (!gl && !(b[0].b < 0)) || (!gr && !(b[n].b < 0))) { *reason_detail = id; return 41; }
+          if (!neg || (!gl && !(b[0].b < 0)) || (!gr && !(b[n].b < 0))) { { *detail = id; return 41; } }
         }
       }
     }
+      return 0;
+  };
+  std::vector<int> codes(static_cast<size_t>(ns), 0), details(static_cast<size_t>(ns), -1);
+  if (threads < 1) threads = 1;
+#pragma omp parallel for schedule(dynamic, 1) num_threads(threads)
+  for (int sp = 0; sp < ns; ++sp) {
+    if (std::fegetround() != FE_TONEAREST) { codes[size_t(sp)] = 90; continue; }
+#if defined(__SSE__)
+    if (_mm_getcsr() & (0x8000u | 0x0040u)) { codes[size_t(sp)] = 91; continue; }
+#endif
+    int d = -1;
+    codes[size_t(sp)] = verify_span(sp, &d);
+    details[size_t(sp)] = d;
   }
+  for (int sp = 0; sp < ns; ++sp)
+    if (codes[size_t(sp)]) { *reason_detail = details[size_t(sp)]; return codes[size_t(sp)]; }
   return 0;
 }
 }

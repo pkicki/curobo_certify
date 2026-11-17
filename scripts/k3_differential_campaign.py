@@ -131,10 +131,12 @@ def witness_ok(case, w) -> bool:
 
 
 _P = _V = None
+_THREADS = 1
 
 
-def _init(libdir):
-    global _P, _V
+def _init(libdir, threads=1):
+    global _P, _V, _THREADS
+    _THREADS = threads
     _P = K.Producer(Path(libdir) / "libk3c.so")
     _V = K.Verifier(Path(libdir) / "libk3v.so")
 
@@ -142,7 +144,7 @@ def _init(libdir):
 def run_case(seed: int) -> dict:
     case = make_case(seed)
     args = (case["geometry"], case["timing"], case["q_start"], case["q_goal"], case["limits"])
-    r = K.certify_and_verify(_P, _V, *args, max_depth=case["depth"], max_nodes=case["nodes"])
+    r = K.certify_and_verify(_P, _V, *args, max_depth=case["depth"], max_nodes=case["nodes"], threads=_THREADS)
     out = {"seed": seed, "kind": case["kind"], "producer": r["status"], "final": r["final"],
            "verifier": None if r["verification"] is None else r["verification"]["reason"]}
     if case["kind"] in ("nonfinite", "huge"):
@@ -172,13 +174,14 @@ def main():
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 2))
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--extra-flags", default="")
+    ap.add_argument("--threads", type=int, default=1, help="OpenMP threads per producer/verifier call")
     args = ap.parse_args()
     with tempfile.TemporaryDirectory() as d:
         extra = tuple(args.extra_flags.split()) if args.extra_flags else ()
         builds = [K.build("k3_certifier.cpp", Path(d) / "libk3c.so", extra),
                   K.build("k3_verifier.cpp", Path(d) / "libk3v.so", extra)]
         t0 = time.time()
-        with mp.Pool(args.workers, initializer=_init, initargs=(d,)) as pool:
+        with mp.Pool(args.workers, initializer=_init, initargs=(d, args.threads)) as pool:
             rows = pool.map(run_case, range(args.seed0, args.seed0 + args.cases), chunksize=8)
     confusion = Counter((r["producer"], r["final"], r["reference"]) for r in rows)
     breaches = [r for r in rows if r["breaches"]]
@@ -186,7 +189,7 @@ def main():
     certified_both = sum(r["reference"] == "CERTIFIED_K3_REFERENCE" and r["final"] == "CERTIFIED" for r in rows)
     summary = {"scope": "SEEDED_DIFFERENTIAL_FINITE_TESTS_NOT_UNIVERSAL_PROOF", "cases": len(rows),
                "seed0": args.seed0, "builds": builds, "extra_flags": args.extra_flags,
-               "elapsed_s": time.time() - t0, "kinds": Counter(r["kind"] for r in rows),
+               "elapsed_s": time.time() - t0, "threads": args.threads, "kinds": Counter(r["kind"] for r in rows),
                "breaches": len(breaches), "breach_rows": breaches[:50],
                "reference_certified": certified_ref, "compiled_also_certified": certified_both,
                "confusion": [{"producer": k[0], "final": k[1], "reference": k[2], "count": v}

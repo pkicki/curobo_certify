@@ -274,6 +274,13 @@ K3_API int k3c_common_spans(int C, long long *num, long long *den, int cap) {
 // (ascending p) multiplying control m+k.
 // tighten: nullptr or [ns][D][3] nonnegative error bounds subtracted from limits.
 // leaf_out: capacity leaf_cap records of 6 int64-sized fields (see Leaf).
+K3_API int k3c_certify_mt(const float *geometry, int C, int D, const float *timing,
+                const float *q_start, const float *q_goal,
+                const double *vlim, const double *alim, const double *jlim,
+                const double *timing_lo, const double *timing_hi, const double *tighten,
+                int max_depth, int max_nodes, int mode, int witnesses, int strict_rest,
+                int *family_status, long long *nodes_out, int *boundary_status,
+                Leaf *leaf_out, int leaf_cap, int *leaf_count, Witness *witness_out, int threads) ;
 K3_API int k3c_certify(const float *geometry, int C, int D, const float *timing,
                 const float *q_start, const float *q_goal,
                 const double *vlim, const double *alim, const double *jlim,
@@ -281,6 +288,17 @@ K3_API int k3c_certify(const float *geometry, int C, int D, const float *timing,
                 int max_depth, int max_nodes, int mode, int witnesses, int strict_rest,
                 int *family_status, long long *nodes_out, int *boundary_status,
                 Leaf *leaf_out, int leaf_cap, int *leaf_count, Witness *witness_out) {
+  return k3c_certify_mt(geometry, C, D, timing, q_start, q_goal, vlim, alim, jlim, timing_lo, timing_hi, tighten,
+                        max_depth, max_nodes, mode, witnesses, strict_rest, family_status, nodes_out,
+                        boundary_status, leaf_out, leaf_cap, leaf_count, witness_out, 1);
+}
+K3_API int k3c_certify_mt(const float *geometry, int C, int D, const float *timing,
+                const float *q_start, const float *q_goal,
+                const double *vlim, const double *alim, const double *jlim,
+                const double *timing_lo, const double *timing_hi, const double *tighten,
+                int max_depth, int max_nodes, int mode, int witnesses, int strict_rest,
+                int *family_status, long long *nodes_out, int *boundary_status,
+                Leaf *leaf_out, int leaf_cap, int *leaf_count, Witness *witness_out, int threads) {
   try {
     if (!k3c_environment_ok()) return NUMERICAL_ERROR;
     if (C < 4 || D < 1 || D > 64 || C > 4096 || max_depth < 0 || max_depth > 24 || max_nodes < 1) return INVALID_INPUT;
@@ -335,17 +353,22 @@ K3_API int k3c_certify(const float *geometry, int C, int D, const float *timing,
     // ---------- common spans ----------
     std::vector<long long> num(S + 40), den(S + 40);
     const int ns = k3c_common_spans(C, num.data(), den.data(), S + 40);
-    std::vector<Leaf> leaves; leaves.reserve(size_t(ns) * D * 5);
-    Ctx ctx;
-    ctx.max_depth = max_depth; ctx.max_nodes = max_nodes; ctx.mode = mode; ctx.witnesses = witnesses;
-    ctx.leaves = &leaves;
-    for (int f = 0; f < 5; ++f) family_status[f] = CERTIFIED;
-    int overall = CERTIFIED;
+    // Per-span independent proof search (v2 budget semantics, identical for every thread
+    // count): each span runs with a local node cap; spans are merged in order and the
+    // first VIOLATED (span, family, joint order) wins; a cumulative node count above the
+    // budget fails closed as UNKNOWN_NODES at that span.
+    struct SpanResult { int overall = CERTIFIED; int fam[5] = {0, 0, 0, 0, 0}; long long nodes = 0;
+                        std::vector<Leaf> leaves; Witness w; bool error = false; };
+    std::vector<SpanResult> res(static_cast<size_t>(ns));
     auto worse = [](int a, int b) {  // VIOLATED > NODES > DEPTH/UNIFORM > CERTIFIED
       auto rank = [](int s) { return s == VIOLATED ? 4 : s == UNKNOWN_NODES ? 3 : s == CERTIFIED ? 0 : 2; };
       return rank(b) > rank(a) ? b : a;
     };
-    for (int sp = 0; sp < ns && overall != VIOLATED && overall != UNKNOWN_NODES; ++sp) {
+    auto run_span = [&](int sp, SpanResult &SR) {
+      Ctx lc;
+      lc.max_depth = max_depth; lc.max_nodes = max_nodes; lc.mode = mode; lc.witnesses = witnesses;
+      lc.leaves = &SR.leaves;
+      struct Fin { Ctx &c; SpanResult &r; ~Fin() { r.nodes = c.nodes; r.w = c.w; } } fin{lc, SR};
       const Cut L{num[sp], den[sp]}, R{num[sp + 1], den[sp + 1]};
       // h = R-L exactly as rational with denominator den_L*den_R
       const I h = rat(R.num * L.den - L.num * R.den, L.den * R.den);
@@ -366,9 +389,9 @@ K3_API int k3c_certify(const float *geometry, int C, int D, const float *timing,
       const P x = compose(xt, tau0, h);
       const P xp = pdiff(x, invh), xpp = pdiff(xp, invh);
       const bool lg = sp == 0, rg = sp == ns - 1;
-      int st = run_residual(ctx, to_bernstein(pscale(x, pt(-1))), sp, 0, -1, true, lg, rg);
-      family_status[0] = worse(family_status[0], st); overall = worse(overall, st);
-      if (st == VIOLATED || st == UNKNOWN_NODES) break;
+      int st = run_residual(lc, to_bernstein(pscale(x, pt(-1))), sp, 0, -1, true, lg, rg);
+      SR.fam[0] = worse(SR.fam[0], st); SR.overall = worse(SR.overall, st);
+      if (st == VIOLATED || st == UNKNOWN_NODES) return;
       for (int j = 0; j < D; ++j) {
         const double c0 = g(k, j), c1 = g(k + 1, j), c2 = g(k + 2, j), c3 = g(k + 3, j);
         const I six = pt(6);
@@ -383,7 +406,7 @@ K3_API int k3c_certify(const float *geometry, int C, int D, const float *timing,
         const double ta = tighten ? tighten[(size_t(sp) * D + j) * 3 + 1] : 0.0;
         const double tj = tighten ? tighten[(size_t(sp) * D + j) * 3 + 2] : 0.0;
         const I vl = sub(pt(vlim[j]), pt(tv)), al = sub(pt(alim[j]), pt(ta)), jl = sub(pt(jlim[j]), pt(tj));
-        if (!(vl.lo > 0 && al.lo > 0 && jl.lo > 0)) { overall = worse(overall, UNKNOWN_DEPTH); continue; }
+        if (!(vl.lo > 0 && al.lo > 0 && jl.lo > 0)) { SR.overall = worse(SR.overall, UNKNOWN_DEPTH); continue; }
         // conservative: divide by the SMALLEST limit value (lo) => residual upper bound
         const I vinv = divpos(pt(1), mul(pt(vl.lo), pt(vl.lo))), ainv = divpos(pt(1), pt(al.lo)),
                 jinv = divpos(pt(1), mul(pt(jl.lo), pt(jl.lo)));
@@ -394,13 +417,38 @@ K3_API int k3c_certify(const float *geometry, int C, int D, const float *timing,
         const P jres = padd(pscale(pmul(x, pmul(ell, ell)), jinv), P{pt(-1)});
         const P *fams[4] = {&vres, &ap, &am, &jres};
         for (int f = 0; f < 4; ++f) {
-          st = run_residual(ctx, to_bernstein(*fams[f]), sp, f + 1, j, false, lg, rg);
-          family_status[f + 1] = worse(family_status[f + 1], st); overall = worse(overall, st);
+          st = run_residual(lc, to_bernstein(*fams[f]), sp, f + 1, j, false, lg, rg);
+          SR.fam[f + 1] = worse(SR.fam[f + 1], st); SR.overall = worse(SR.overall, st);
           if (st == VIOLATED || st == UNKNOWN_NODES) break;
         }
-        if (overall == VIOLATED || overall == UNKNOWN_NODES) break;
+        if (SR.overall == VIOLATED || SR.overall == UNKNOWN_NODES) return;
       }
+    };
+    if (threads < 1) threads = 1;
+#pragma omp parallel for schedule(dynamic, 1) num_threads(threads)
+    for (int sp = 0; sp < ns; ++sp) {
+      try {
+        if (!k3c_environment_ok()) { res[size_t(sp)].error = true; continue; }
+        run_span(sp, res[size_t(sp)]);
+      } catch (const std::exception &) { res[size_t(sp)].error = true; }
     }
+    std::vector<Leaf> leaves; leaves.reserve(size_t(ns) * D * 5);
+    for (int f = 0; f < 5; ++f) family_status[f] = CERTIFIED;
+    int overall = CERTIFIED;
+    long long nodes_total = 0;
+    Witness witness;
+    for (int sp = 0; sp < ns; ++sp) {
+      const SpanResult &R = res[size_t(sp)];
+      if (R.error) return NUMERICAL_ERROR;
+      nodes_total += R.nodes;
+      if (nodes_total > max_nodes) { overall = worse(overall, UNKNOWN_NODES); break; }
+      for (int f = 0; f < 5; ++f) family_status[f] = worse(family_status[f], R.fam[f]);
+      overall = worse(overall, R.overall);
+      leaves.insert(leaves.end(), R.leaves.begin(), R.leaves.end());
+      if (R.overall == VIOLATED) { witness = R.w; break; }
+      if (R.overall == UNKNOWN_NODES) break;
+    }
+    struct { long long nodes; Witness w; } ctx{nodes_total, witness};
     *nodes_out = ctx.nodes;
     *witness_out = ctx.w;
     *leaf_count = int(leaves.size());
@@ -478,9 +526,20 @@ void native_geom(const M &m, const double c[4], int S, double tlo, double thi, E
 }
 }  // namespace nb
 
+extern "C" K3_API int k3c_native_bounds_mt(const float *geometry, int C, int D, const float *timing, const float *native_table,
+                                 const double *timing_lo, const double *timing_hi, int pieces, double delta,
+                                 double div_ulps, double sqrt_ulps, double *out, int threads);
 extern "C" K3_API int k3c_native_bounds(const float *geometry, int C, int D, const float *timing, const float *native_table,
                                  const double *timing_lo, const double *timing_hi, int pieces, double delta,
                                  double div_ulps, double sqrt_ulps, double *out) {
+  return k3c_native_bounds_mt(geometry, C, D, timing, native_table, timing_lo, timing_hi, pieces, delta, div_ulps,
+                              sqrt_ulps, out, 1);
+}
+// Same bounds; common spans are independent and are processed in parallel (OpenMP).
+// Results are identical to the single-thread computation (no shared accumulation).
+extern "C" K3_API int k3c_native_bounds_mt(const float *geometry, int C, int D, const float *timing, const float *native_table,
+                                 const double *timing_lo, const double *timing_hi, int pieces, double delta,
+                                 double div_ulps, double sqrt_ulps, double *out, int threads) {
   using namespace nb;
   try {
     if (!k3c_environment_ok()) return NUMERICAL_ERROR;
@@ -509,18 +568,32 @@ extern "C" K3_API int k3c_native_bounds(const float *geometry, int C, int D, con
       }
       return sum;
     };
+    int failed = 0;
+    if (threads < 1) threads = 1;
+#pragma omp parallel for schedule(dynamic, 1) num_threads(threads) reduction(| : failed)
     for (int sp = 0; sp < ns; ++sp) {
+     try {
+      if (!k3c_environment_ok()) { failed |= 1; continue; }  // each worker's own FP environment
       const long long Ln = num[sp], Ld = den[sp], Rn = num[sp + 1], Rd = den[sp + 1];
       const long long Mn = Ln * Rd + Rn * Ld, Md = 2 * Ld * Rd;
       const int k = std::min(int((__int128)Mn * S / Md), S - 1);
       const int mid_t = std::min(int((__int128)Mn * 29 / Md), 28);
       std::vector<double> worst(size_t(D) * 3, 0.0);
+      std::vector<std::array<ET, 3>> qs(static_cast<size_t>(D));
       for (int pc = 0; pc < pieces; ++pc) {
         // piece [a,b] = L + (R-L)*[pc,pc+1]/pieces, as outward doubles
         const I L = rat(Ln, Ld), R = rat(Rn, Rd);
         const I w = ::sub(R, L);
         const I a = ::add(L, ::mul(w, rat(pc, pieces))), b = ::add(L, ::mul(w, rat(pc + 1, pieces)));
         const double tlo = dn(dn(a.lo * S) - k), thi = up(up(b.hi * S) - k);
+        // Geometry error analysis depends only on (piece, joint): computed once, reused per timing span.
+        for (int j = 0; j < D; ++j) {
+          double c[4]; for (int r = 0; r < 4; ++r) c[r] = geometry[(k + r) * D + j];
+          ET q[3]; native_geom(m, c, S, dn(tlo - delta * S), up(thi + delta * S), q);
+          q[0] = widen(q[0], up(mag(q[1]) * delta));
+          q[1] = widen(q[1], up(mag(q[2]) * delta));
+          qs[size_t(j)] = {q[0], q[1], q[2]};
+        }
         for (int ms = mid_t - 1; ms <= mid_t + 1; ++ms) {
           if (ms < 0 || ms > 28) continue;
           const I left = rat(ms, 29), right = rat(ms + 1, 29);
@@ -559,12 +632,9 @@ extern "C" K3_API int k3c_native_bounds(const float *geometry, int C, int D, con
             }
             xs[i] = widen(xs[i], shift);
           }
+          const ET speed = sqrtn(m, xs[0]);
           for (int j = 0; j < D; ++j) {
-            double c[4]; for (int r = 0; r < 4; ++r) c[r] = geometry[(k + r) * D + j];
-            ET q[3]; native_geom(m, c, S, dn(tlo - delta * S), up(thi + delta * S), q);
-            q[0] = widen(q[0], up(mag(q[1]) * delta));
-            q[1] = widen(q[1], up(mag(q[2]) * delta));
-            const ET speed = sqrtn(m, xs[0]);
+            const ET *q = qs[size_t(j)].data();
             const ET vel = mul(m, q[0], speed);
             const ET acc = add(m, mul(m, q[1], xs[0]), mul(m, mul(m, cst(0.5), q[0]), xs[1]));
             const ET inner = add(m, add(m, mul(m, q[2], xs[0]), mul(m, mul(m, cst(1.5), q[1]), xs[1])),
@@ -576,7 +646,11 @@ extern "C" K3_API int k3c_native_bounds(const float *geometry, int C, int D, con
         }
       }
       for (int j = 0; j < D; ++j) for (int f = 0; f < 3; ++f) out[(size_t(sp) * D + j) * 3 + f] = worst[size_t(j) * 3 + f];
+     } catch (const std::exception &) {
+      failed |= 2;
+     }
     }
+    if (failed) return -NUMERICAL_ERROR;
     return ns;
   } catch (const std::exception &) {
     return -NUMERICAL_ERROR;
