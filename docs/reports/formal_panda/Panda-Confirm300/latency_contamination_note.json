@@ -1,0 +1,12 @@
+{
+ "flag": "LATENCY_MEASURED_UNDER_UNCONTROLLED_EXTERNAL_LOAD",
+ "registered_result_kept": "per-query median added p50 2.378 ms, p95 3.705 ms (both targets FAIL as measured); not replaced",
+ "evidence": [
+  "another Claude session (cwd /home/pkicki/curobo_analysis, started 12:55) wrote result files continuously 16:00-20:45 and ran CPU-bound multiprocessing jobs (casadi reference, 2 cores at 100% at 20:51)",
+  "load average at 20:51: 3.07 / 4.97 / 6.76 (1/5/15 min)",
+  "execution-order sixths of the fresh benchmark (certified queries): 0: added p50 2.601 p95 3.601 native p50 9.07 bound p50 1.707; 1: added p50 2.988 p95 3.954 native p50 9.88 bound p50 1.984; 2: added p50 2.912 p95 3.551 native p50 9.89 bound p50 1.913; 3: added p50 2.762 p95 3.918 native p50 9.38 bound p50 1.829; 4: added p50 2.087 p95 2.504 native p50 7.76 bound p50 1.279; 5: added p50 2.066 p95 2.526 native p50 7.78 bound p50 1.277",
+  "last third returns to Dev40/Holdout100 levels (added p50 ~2.07 ms; bound stage 1.28 ms) with the same frozen binaries"
+ ],
+ "also_affected_possibly": "frozen-output CPU benchmark 16:24-19:45 (physical/A per-path median 3.445 ms vs 3.316 Dev40); certification STATUSES are deterministic and unaffected",
+ "protocol_note": "FREEZE acceptance required no untracked external workloads during timing; this condition was violated by a concurrent session outside this campaign's control"
+}
