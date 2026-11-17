@@ -21,6 +21,14 @@ class K4ReferenceTests(unittest.TestCase):
         self.assertEqual(isin(I.point(0)), I.point(0))
         self.assertEqual(icos(I.point(0)), I.point(1))
 
+    def test_direct_interval_integer_input_is_exact(self):
+        self.assertEqual(I(1, 2).lo, F(1))
+        self.assertEqual(I(1, 2) / I(2, 4), I(F(1,4), 1))
+        self.assertEqual(isin(I(0, 1)).lo.denominator > 0, True)
+        sp = PathSpan(0, 1, ((0, 1),), (1,))
+        self.assertEqual(type(sp.left), F)
+        self.assertEqual(type(sp.q[0][1]), F)
+
     def test_rational_interval_arithmetic(self):
         a = I(F(-2), F(3)); b = I(F(-5), F(7))
         self.assertEqual(a * b, I(F(-15), F(21)))
