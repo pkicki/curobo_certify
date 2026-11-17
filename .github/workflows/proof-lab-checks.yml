@@ -4,6 +4,7 @@ on:
     branches:
       - 'exp/interactive-bernstein-proof-lab-*'
       - 'exp/margin-duration-native-time-*'
+      - 'exp/k4-certified-torque-*'
   workflow_dispatch:
 
 jobs:
@@ -27,6 +28,10 @@ jobs:
         run: python -m pip install 'numpy==1.26.4' 'scipy==1.13.1'
       - name: Python tests
         run: python -m unittest discover -s tests -p 'test_*.py' -q
+      - name: K4 analytical torque reference smoke (synthetic, not Panda)
+        run: |
+          PYTHONPATH=src python scripts/run_k4_reference_pilot.py --out /tmp/k4_synthetic.json --depths 0 4 --warmups 0 --repeats 1
+          python -c "import json; z=json.load(open('/tmp/k4_synthetic.json')); assert z['scope']=='EXPLORATORY_SYNTHETIC_MODEL_TORQUE_REFERENCE_ONLY'; assert any(r['status']=='CERTIFIED' for r in z['rows']); assert any(r['status']=='VIOLATED_TORQUE' for r in z['rows']); assert any(r['status']=='UNKNOWN_DEPTH' for r in z['rows'])"
       - name: Python compile check
         run: python -m compileall -q src scripts tests
       - name: Node tests
