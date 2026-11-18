@@ -4,11 +4,11 @@
 Per frozen primary source query (one warm MotionPlanner per query, generator settings): W warmups, then
 R repeats, each a seeded random permutation of arms
   A  native plan_cspace -> sync -> CPU-visible success
-  B  A + device->host copy + exact span extraction + MODEL_K4 (tm1 cache, compiled RNEA backend)
-       + independent world-frame verifier (Python)                     [K4 only]
-  C  B + MODEL_K3 compiled producer + verifier (frozen K3 code)        [K3 + K4]
-Stage times are recorded. Native outputs differ run to run (planner nondeterminism): every request's own
-output is certified and its digest recorded. Python/C++ hybrid; NOT a low-latency claim.
+  B  A + device->host copy + compiled MODEL_K4 producer (k4_rnea.cpp: spans, Bernstein, tm1, witnesses)
+       + independent compiled world-frame verifier (k4_verify.cpp)       [K4 only]
+  C  B + MODEL_K3 compiled producer + verifier (frozen K3 code)           [K3 + K4]
+All compiled stages use --threads OpenMP threads. Stage times are recorded. Native outputs differ run to run
+(planner nondeterminism): every request's own output is certified and its digest recorded.
 """
 from __future__ import annotations
 
@@ -35,6 +35,7 @@ def main():
     ap.add_argument("--warmups", type=int, default=50)
     ap.add_argument("--repeats", type=int, default=10)
     ap.add_argument("--seed", type=int, default=20261119)
+    ap.add_argument("--threads", type=int, default=8)
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     import torch
@@ -55,8 +56,9 @@ def main():
     lo = np.array([float(Q(v)) for v in c["model"]["effort_lower"]])
     hi = np.array([float(Q(v)) for v in c["model"]["effort_upper"]])
     tmp = tempfile.TemporaryDirectory()
-    kb = KC.build(Path(tmp.name) / "k4.so")
-    KB = KC.CompiledCoefficients(M, Path(tmp.name) / "k4.so")
+    kb = {"producer": KC.build(Path(tmp.name) / "k4.so"), "verifier": KC.build_verifier(Path(tmp.name) / "k4v.so")}
+    KP = KC.CompiledPath(M, Path(tmp.name) / "k4.so")
+    KVf = KC.CompiledVerifier(c, Path(tmp.name) / "k4v.so")
     builds = [K.build("k3_certifier.cpp", Path(tmp.name) / "c.so"), K.build("k3_verifier.cpp", Path(tmp.name) / "v.so")]
     P3, V3 = K.Producer(Path(tmp.name) / "c.so"), K.Verifier(Path(tmp.name) / "v.so")
     rows = [r for r in json.loads(a.queries.read_text()) if r["source_id"] in set(a.ids)]
@@ -92,23 +94,21 @@ def main():
                     tc = sp_.timing.controls[0].detach().cpu().numpy().copy()
                     digest = hashlib.sha256(g.tobytes() + tc.tobytes()).hexdigest()
                     t2 = time.perf_counter_ns()
-                    spans = extract_timeopt_spans(g, tc)
-                    t3 = time.perf_counter_ns()
-                    r4 = GeometryCache(M, spans, "tm1", backend=KB).certify(spans, lo, hi)
+                    r4 = KP.certify(g, tc, lo, hi, threads=a.threads)
                     t4 = time.perf_counter_ns()
-                    k4 = r4.status
+                    k4 = r4["status"]
                     if k4 == "CERTIFIED":
-                        k4 = "CERTIFIED" if verify_k4(spans, c, r4, lo, hi, refine=8)["pass"] else "REJECTED_BY_VERIFIER"
+                        k4 = "CERTIFIED" if KVf.verify(g, tc, r4, lo, hi, threads=a.threads)["pass"] else "REJECTED_BY_VERIFIER"
                     t5 = time.perf_counter_ns()
-                    stages = {"plan_ms": (t1 - t0) / 1e6, "d2h_ms": (t2 - t1) / 1e6, "extract_ms": (t3 - t2) / 1e6,
-                              "k4_producer_ms": (t4 - t3) / 1e6, "k4_verifier_ms": (t5 - t4) / 1e6}
+                    stages = {"plan_ms": (t1 - t0) / 1e6, "d2h_ms": (t2 - t1) / 1e6,
+                              "k4_producer_ms": (t4 - t2) / 1e6, "k4_verifier_ms": (t5 - t4) / 1e6}
                     st = "K4_" + k4
                     if arm == "C":
                         args = (g, tc, start[0].cpu().numpy(), goal[0].cpu().numpy(), klim)
-                        r3 = P3.certify(*args, max_depth=12, max_nodes=8192)
+                        r3 = P3.certify(*args, max_depth=12, max_nodes=8192, threads=a.threads)
                         k3 = r3["status"]
                         if k3 == "CERTIFIED":
-                            k3 = "CERTIFIED" if V3.verify(*args, r3["leaves"], K.input_digest(*args, None))["pass"] else "REJECTED_BY_VERIFIER"
+                            k3 = "CERTIFIED" if V3.verify(*args, r3["leaves"], K.input_digest(*args, None), threads=a.threads)["pass"] else "REJECTED_BY_VERIFIER"
                         stages["k3_ms"] = (time.perf_counter_ns() - t5) / 1e6
                         st = f"K3_{k3}+K4_{k4}"
                 return (time.perf_counter_ns() - t0) / 1e6, st, digest, stages
@@ -134,8 +134,8 @@ def main():
                           "added_B_p50": float(np.median(rec["added_ms_B"])), "added_C_p50": float(np.median(rec["added_ms_C"])),
                           "status": reps[0]["C"]["status"]}), flush=True)
     a.out.parent.mkdir(parents=True, exist_ok=True)
-    a.out.write_text(json.dumps({"scope": "K4_FRESH_REQUEST_PAIRED_LATENCY_HYBRID_PYTHON_CPP", "gpu": gpu,
-                                 "warmups": a.warmups, "repeats": a.repeats, "k4_build": kb, "k3_builds": builds,
+    a.out.write_text(json.dumps({"scope": "K4_FRESH_REQUEST_PAIRED_LATENCY_COMPILED", "gpu": gpu,
+                                 "warmups": a.warmups, "repeats": a.repeats, "threads": a.threads, "k4_build": kb, "k3_builds": builds,
                                  "cuda_compatibility": compat, "rows": results}) + "\n")
 
 

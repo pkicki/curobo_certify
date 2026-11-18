@@ -1,0 +1,52 @@
+{
+ "PAYLOAD_SYNTH_3KG_CYL": {
+  "hook_audit": [
+   {
+    "link_index": 12,
+    "masses_com": [
+     0.0,
+     0.0,
+     0.10339999943971634,
+     3.0
+    ],
+    "inertias": [
+     0.003700000001117587,
+     0.003700000001117587,
+     0.002400000113993883,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "payload": "PAYLOAD_SYNTH_3KG_CYL"
+   }
+  ],
+  "max_rel_native_vs_payload_contract": 3.2318995730401413e-06,
+  "max_abs_native_vs_no_payload_contract": 28.129901886012178,
+  "pass": true
+ },
+ "PAYLOAD_SYNTH_5KG_CYL": {
+  "hook_audit": [
+   {
+    "link_index": 12,
+    "masses_com": [
+     0.0,
+     0.0,
+     0.10339999943971634,
+     5.0
+    ],
+    "inertias": [
+     0.006166666746139526,
+     0.006166666746139526,
+     0.004000000189989805,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "payload": "PAYLOAD_SYNTH_5KG_CYL"
+   }
+  ],
+  "max_rel_native_vs_payload_contract": 3.4776074323158775e-06,
+  "max_abs_native_vs_no_payload_contract": 46.94070816042624,
+  "pass": true
+ }
+}

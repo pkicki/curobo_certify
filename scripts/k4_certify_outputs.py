@@ -37,14 +37,18 @@ from k4_p3_compare import dense_max_util  # noqa: E402
 
 
 def k4(M, c, spans, lo, hi, physical):
+    return _k4(M, c, spans, lo, hi, physical)
+
+
+def _k4(M, c, spans, lo, hi, physical):
     t0 = time.perf_counter()
     C = GeometryCache(M, spans, "tm1")
     r = C.certify(spans, lo, hi)
     t1 = time.perf_counter()
     if r.status == "CERTIFIED":
-        v = verify_k4(spans, c, r, lo, hi, expect_physical=physical, refine=8)
+        v = verify_k4(spans, c, r, lo, hi, expect_physical=physical, refine=8, expected_contract_sha256=c["contract_sha256"])
     elif r.status == "VIOLATED_TORQUE":
-        v = verify_k4_witness(spans, c, r, lo, hi)
+        v = verify_k4_witness(spans, c, r, lo, hi, expected_contract_sha256=c["contract_sha256"])
     else:
         v = {"pass": None, "reason": "nothing to verify"}
     t2 = time.perf_counter()
@@ -60,14 +64,31 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--npz", nargs="+", type=Path, required=True)
     ap.add_argument("--contract", type=Path, default=ROOT / "docs/reports/k4/p0/panda_model_contract_v2.json")
+    ap.add_argument("--payload", default=None, help="hypothetical payload name (k4_payload.PAYLOADS)")
+    ap.add_argument("--friction-bound", action="store_true",
+                    help="tighten limits by the identified friction amplitude A_i (|tau_F| <= A_i, Gaz et al.)")
+    ap.add_argument("--skip-k3", action="store_true", help="MODEL_K3 is dynamics-independent; reuse it from another run")
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
-    c = load_contract(a.contract)
+    import json as _j
+    c = _j.loads(a.contract.read_text())
+    if a.payload:
+        from curobo_certify.k4_payload import with_payload
+        c = with_payload(c, a.payload)
+    from curobo_certify.k4_verify import _contract_ok
+    if not _contract_ok(c, c["contract_sha256"]):
+        raise SystemExit("contract hash mismatch")
     M = PandaModel(c)
     lo = np.array([float(Q(v)) for v in c["model"]["effort_lower"]])
     hi = np.array([float(Q(v)) for v in c["model"]["effort_upper"]])
     plo = np.array([float.fromhex(h) for h in c["model"]["timeopt_torque_lower_scaled_float32_hex"]])
     phi = np.array([float.fromhex(h) for h in c["model"]["timeopt_torque_upper_scaled_float32_hex"]])
+    phys_flag = True
+    if a.friction_bound:
+        A = np.array(c.get("provenance", {}).get("friction_A_Nm") or [0.54615, 0.87224, 0.64068, 1.2794, 0.83904, 0.30301, 0.56489])
+        lo, hi = lo + A, hi - A          # sufficient: |tau_rigid| within limits minus max friction magnitude
+        plo, phi = plo + A, phi - A
+        phys_flag = False
     rows = []
     with tempfile.TemporaryDirectory() as d:
         builds = [K.build("k3_certifier.cpp", Path(d) / "c.so"), K.build("k3_verifier.cpp", Path(d) / "v.so")]
@@ -80,14 +101,17 @@ def main():
             t0 = time.perf_counter()
             args = (arr["effective_geometry"], arr["timing_controls"], arr["requested_start"][0], arr["requested_goal"][0],
                     limits_of(arr, "physical"))
-            r3 = P.certify(*args, max_depth=12, max_nodes=8192)
+            if a.skip_k3:
+                r3 = {"status": "NOT_RECOMPUTED"}
+            else:
+                r3 = P.certify(*args, max_depth=12, max_nodes=8192)
             k3 = r3["status"]
             if k3 == "CERTIFIED":
                 vv = V.verify(*args, r3["leaves"], K.input_digest(*args, None))
                 k3 = "CERTIFIED" if vv["pass"] else "REJECTED_BY_VERIFIER"
             t3 = time.perf_counter() - t0
             spans = extract_timeopt_spans(arr["effective_geometry"], arr["timing_controls"])
-            phys = k4(M, c, spans, lo, hi, True)
+            phys = k4(M, c, spans, lo, hi, phys_flag)
             plan = k4(M, c, spans, plo, phi, False)
             pm = dense_max_util(M, spans, lo, hi)
             row = {"path": f.stem, "npz_sha256": hashlib.sha256(raw).hexdigest(),
@@ -101,7 +125,9 @@ def main():
             rows.append(row)
             print(json.dumps({k: row[k] for k in ("path", "MODEL_K3", "MODEL_K4", "PLANNING_K4", "K3_PLUS_K4",
                                                    "dense_point_max_util_physical")}), flush=True)
-    out = {"scope": "K4_P4_PER_OUTPUT_CERTIFICATION", "contract_sha256": c["contract_sha256"], "k3_builds": builds,
+    out = {"scope": "K4_P4_PER_OUTPUT_CERTIFICATION", "contract_sha256": c["contract_sha256"],
+           "model_scope": c["model"].get("scope"), "payload": a.payload, "friction_bound": a.friction_bound,
+           "k3_builds": builds,
            "rows": rows}
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(out) + "\n")

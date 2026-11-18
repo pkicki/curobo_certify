@@ -1,0 +1,79 @@
+/home/pkicki/anaconda3/envs/curobo-timeopt-c301cb/lib/python3.11/site-packages/numpy/ctypeslib.py:540: RuntimeWarning: A builtin ctypes object gave a PEP3118 format string that does not match its itemsize, so a best-guess will be made of the data type. Newer versions of python may behave correctly.
+  return asarray(obj)
+Warp 1.18.0 initialized:
+   CUDA Toolkit 12.9, Driver 12.2
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 3090" (24 GiB, sm_86, mempool enabled)
+   Kernel cache:
+     /home/pkicki/.cache/warp/1.18.0
+Module curobo._src.geom.transform e63256c load on device 'cuda:0' took 0.71 ms  (cached)
+Module setup_kernel_449ffcf9 ac132e0 load on device 'cuda:0' took 0.31 ms  (cached)
+Module fill_edges_kernel_e0c8d455 8d89ffe load on device 'cuda:0' took 0.25 ms  (cached)
+Module reduce_edges_kernel_3464b843 b20e927 load on device 'cuda:0' took 0.25 ms  (cached)
+Module select_path_kernel_f8e54c69 fcead14 load on device 'cuda:0' took 0.42 ms  (cached)
+Module batched_packed_nearest_kernel_16ac5fad cd00470 load on device 'cuda:0' took 0.50 ms  (cached)
+Module batched_packed_append_kernel_579f42b5 97d465e load on device 'cuda:0' took 0.28 ms  (cached)
+Module batched_reconstruct_path_kernel_e0210be2 db67008 load on device 'cuda:0' took 0.27 ms  (cached)
+Module _reset_workspace_template_906dfb0a 7e9ca79 load on device 'cuda:0' took 0.36 ms  (cached)
+Module _pack_direct_pairs_template_b72429d0 6a5ea41 load on device 'cuda:0' took 0.29 ms  (cached)
+Module _prepare_direct_edges_template_f8567687 24e1323 load on device 'cuda:0' took 0.26 ms  (cached)
+Module _interpolate_direct_edges_template_e4fba34d bea4c1b load on device 'cuda:0' took 0.26 ms  (cached)
+Module forward_cspace_position_warp_c5c0efbf c5c0efb load on device 'cuda:0' took 0.28 ms  (cached)
+Module _reduce_direct_edges_template_ea0a1bd4 fd72d76 load on device 'cuda:0' took 0.29 ms  (cached)
+Module _seed_direct_template_a3672ba0 f49106f load on device 'cuda:0' took 0.23 ms  (cached)
+Module _goalset_pose_distance_template_4cdb01bb 4cdb01b load on device 'cuda:0' took 0.36 ms  (cached)
+Module curobo._src.cost.wp_cspace_state cd449ad load on device 'cuda:0' took 0.26 ms  (cached)
+Module curobo._src.cost.wp_torch_cspace_dist 131408b load on device 'cuda:0' took 0.36 ms  (cached)
+Module _sample_pose_reference_3b93c2ab b979629 load on device 'cuda:0' took 0.37 ms  (cached)
+{"id": "k4-panda-dev40-0000-margin_0p950-r0", "native_p50": 7.7229285, "added_B_p50": 834.788569, "added_C_p50": 835.862329, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+W1118 09:21:33.013000 2825610 site-packages/torch/_dynamo/convert_frame.py:844] [1/8] torch._dynamo hit config.cache_size_limit (8)
+W1118 09:21:33.013000 2825610 site-packages/torch/_dynamo/convert_frame.py:844] [1/8]    function: 'cat_sum' (/home/pkicki/curobo-pinned-c301cb00a87012c2808b1a60649c4065c9b3c95a/curobo/_src/util/tensor_util.py:103)
+W1118 09:21:33.013000 2825610 site-packages/torch/_dynamo/convert_frame.py:844] [1/8]    last reason: 1/0: ___check_type_id(L['sum_dim'], 94699361544000)              
+W1118 09:21:33.013000 2825610 site-packages/torch/_dynamo/convert_frame.py:844] [1/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+W1118 09:21:33.013000 2825610 site-packages/torch/_dynamo/convert_frame.py:844] [1/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/torch.compiler_troubleshooting.html.
+/home/pkicki/anaconda3/envs/curobo-timeopt-c301cb/lib/python3.11/site-packages/numpy/ctypeslib.py:540: RuntimeWarning: A builtin ctypes object gave a PEP3118 format string that does not match its itemsize, so a best-guess will be made of the data type. Newer versions of python may behave correctly.
+  return asarray(obj)
+Module tiled_collision_kernel_4c943499 455139e load on device 'cuda:0' took 0.99 ms  (cached)
+Module tiled_swept_collision_kernel_9e1b8cda c13e496 load on device 'cuda:0' took 5.85 ms  (cached)
+Module tiled_collision_kernel_e0ba5609 62f247c load on device 'cuda:0' took 5.72 ms  (cached)
+Module tiled_collision_kernel_2946ec08 011c6bc load on device 'cuda:0' took 5.75 ms  (cached)
+{"id": "k4-panda-dev40-0001-margin_0p950-r0", "native_p50": 7.696784, "added_B_p50": 786.9168850000001, "added_C_p50": 792.98544, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+Module tiled_collision_kernel_d3bdf0d0 f3ed23d load on device 'cuda:0' took 5.84 ms  (cached)
+Module tiled_swept_collision_kernel_4534d8aa 45e06b6 load on device 'cuda:0' took 6.91 ms  (cached)
+Module tiled_collision_kernel_5728a0ee 570c772 load on device 'cuda:0' took 6.75 ms  (cached)
+Module tiled_collision_kernel_3eaf6bee b8d24d7 load on device 'cuda:0' took 6.25 ms  (cached)
+{"id": "k4-panda-dev40-0002-margin_0p950-r0", "native_p50": 8.337336, "added_B_p50": 838.204933, "added_C_p50": 839.1302885, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+Sphere.position is deprecated, use Sphere.pose instead
+Sphere.position is deprecated, use Sphere.pose instead
+Module tiled_collision_kernel_d3bdf0d0 772f222 load on device 'cuda:0' took 6.12 ms  (cached)
+Module tiled_swept_collision_kernel_4534d8aa e3106d8 load on device 'cuda:0' took 5.95 ms  (cached)
+Module tiled_collision_kernel_5728a0ee db7909d load on device 'cuda:0' took 5.87 ms  (cached)
+Module tiled_collision_kernel_3eaf6bee a29fec8 load on device 'cuda:0' took 5.81 ms  (cached)
+{"id": "k4-panda-dev40-0003-margin_0p950-r0", "native_p50": 8.0993845, "added_B_p50": 788.405455, "added_C_p50": 791.3333029999999, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+Sphere.position is deprecated, use Sphere.pose instead
+Sphere.position is deprecated, use Sphere.pose instead
+Module _steer_edges_template_e9aedddc d959c29 load on device 'cuda:0' took 0.42 ms  (cached)
+Module tiled_collision_kernel_68982644 1a17bb2 load on device 'cuda:0' took 3.34 ms  (cached)
+Module tiled_collision_kernel_68982644 a84d238 load on device 'cuda:0' took 1.46 ms  (cached)
+Module _evaluate_edges_template_f0e2ca38 101a943 load on device 'cuda:0' took 0.43 ms  (cached)
+Module _select_connection_template_e9492032 d1f3b4e load on device 'cuda:0' took 0.37 ms  (cached)
+Module sample_uniform_rrt_23839050 6c81a6e load on device 'cuda:0' took 0.67 ms  (cached)
+{"id": "k4-panda-dev40-0004-margin_0p950-r0", "native_p50": 16.3890445, "added_B_p50": 1350.238349, "added_C_p50": 1298.9583065, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+Sphere.position is deprecated, use Sphere.pose instead
+Sphere.position is deprecated, use Sphere.pose instead
+{"id": "k4-panda-dev40-0005-margin_0p950-r0", "native_p50": 10.6525665, "added_B_p50": 933.218807, "added_C_p50": 1105.063115, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0006-margin_0p950-r0", "native_p50": 8.3266115, "added_B_p50": 840.5234955000001, "added_C_p50": 837.7970165, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0009-margin_0p950-r0", "native_p50": 8.409844, "added_B_p50": 1068.44474, "added_C_p50": 1069.3979319999999, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0010-margin_0p950-r0", "native_p50": 7.7152519999999996, "added_B_p50": 1033.0549110000002, "added_C_p50": 1033.025185, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0011-margin_0p950-r0", "native_p50": 7.7689775, "added_B_p50": 1021.365744, "added_C_p50": 1022.7962009999999, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0012-margin_0p950-r0", "native_p50": 7.6801765, "added_B_p50": 837.367596, "added_C_p50": 840.271274, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0013-margin_0p950-r0", "native_p50": 7.666377499999999, "added_B_p50": 995.7668799999999, "added_C_p50": 987.915299, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+Sphere.position is deprecated, use Sphere.pose instead
+Sphere.position is deprecated, use Sphere.pose instead
+{"id": "k4-panda-dev40-0015-margin_0p950-r0", "native_p50": 10.469296499999999, "added_B_p50": 915.246641, "added_C_p50": 1273.806339, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+Module _sample_frontier_template_c9ca1d65 c9ca1d6 load on device 'cuda:0' took 0.42 ms  (cached)
+{"id": "k4-panda-dev40-0016-margin_0p950-r0", "native_p50": 9.024678000000002, "added_B_p50": 1072.1655665, "added_C_p50": 1072.7007355, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0017-margin_0p950-r0", "native_p50": 8.377594, "added_B_p50": 1024.723908, "added_C_p50": 1030.8113125, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+{"id": "k4-panda-dev40-0018-margin_0p950-r0", "native_p50": 8.480915, "added_B_p50": 1259.6180905, "added_C_p50": 1267.8509755, "status": "K3_CERTIFIED+K4_CERTIFIED"}
+Terminated
