@@ -151,7 +151,7 @@ def main():
         name, spec = s.split("=", 1)
         path, _, pay = spec.partition(":")
         g = json.loads(Path(path).read_text())
-        ledgers[name] = g["payloads"][pay]["ledger"] if pay else g["ledger"]
+        ledgers[name] = (g.get("payloads") or g.get("conditions"))[pay]["ledger"] if pay else g["ledger"]
     natives = {}
     for s in a.variant_native:
         name, path = s.split("=", 1)

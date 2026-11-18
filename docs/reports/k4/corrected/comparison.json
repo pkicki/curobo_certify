@@ -1,0 +1,646 @@
+{
+ "scope": "K4_CORRECTED_MODEL_PLANNING_COMPARISON",
+ "judged_under": "identified+URDF hand (+ hypothetical payload)",
+ "conditions": {
+  "IDENT_HAND": {
+   "planned_with_curobo_model": {
+    "attempted": 49,
+    "native_success": 40,
+    "eligible": 40,
+    "MODEL_K3": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "MODEL_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "K3_PLUS_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "PLANNING_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "rigorous_point_max_util": {
+     "p50": 0.39323040734868797,
+     "p95": 0.7043049851591802,
+     "p99": 0.7394388227205997,
+     "max": 0.7429644246092196,
+     "n": 40
+    },
+    "between_grid512_violation_physical": 0,
+    "between_grid512_violation_planning": 0,
+    "between_all_samples_violation_planning": 0
+   },
+   "planned_with_corrected_model": {
+    "attempted": 49,
+    "native_success": 40,
+    "eligible": 40,
+    "MODEL_K3": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "MODEL_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "K3_PLUS_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "PLANNING_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "rigorous_point_max_util": {
+     "p50": 0.393310730301355,
+     "p95": 0.7025608849651767,
+     "p99": 0.7279666498309416,
+     "max": 0.7304303881094382,
+     "n": 40
+    },
+    "between_grid512_violation_physical": 0,
+    "between_grid512_violation_planning": 0,
+    "between_all_samples_violation_planning": 0,
+    "MODEL_K4_friction_bound": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    }
+   },
+   "paired_on_both_successful": 40,
+   "MODEL_K4_transitions_old_to_new": {
+    "CERTIFIED->CERTIFIED": 40
+   },
+   "duration_pct_slower_corrected_vs_curobo_model": {
+    "n": 40,
+    "median": 0.0002031950408799427,
+    "ci95": [
+     -0.0012848265254208017,
+     0.0033668261718381417
+    ]
+   },
+   "duration_pct_distribution": {
+    "p50": 0.0002031950408799427,
+    "p95": 0.11010077910701463,
+    "p99": 0.2907690363170237,
+    "max": 0.34835021961512647,
+    "n": 40
+   }
+  },
+  "IDENT_HAND_3KG": {
+   "planned_with_curobo_model": {
+    "attempted": 49,
+    "native_success": 40,
+    "eligible": 40,
+    "MODEL_K3": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "MODEL_K4": {
+     "CERTIFIED": 30,
+     "VIOLATED": 10,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 30,
+      "n": 40,
+      "fraction": 0.75,
+      "one_sided_95_lower_exact": 0.6129397599079816,
+      "two_sided_95_exact": [
+       0.5880380198485701,
+       0.873085201067155
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "K3_PLUS_K4": {
+     "CERTIFIED": 30,
+     "VIOLATED": 10,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 30,
+      "n": 40,
+      "fraction": 0.75,
+      "one_sided_95_lower_exact": 0.6129397599079816,
+      "two_sided_95_exact": [
+       0.5880380198485701,
+       0.873085201067155
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "PLANNING_K4": {
+     "CERTIFIED": 27,
+     "VIOLATED": 13,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 27,
+      "n": 40,
+      "fraction": 0.675,
+      "one_sided_95_lower_exact": 0.5337049012945967,
+      "two_sided_95_exact": [
+       0.5087051245215516,
+       0.8142710332366503
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "rigorous_point_max_util": {
+     "p50": 0.8224865186696235,
+     "p95": 1.0407441004403257,
+     "p99": 1.0459445683849833,
+     "max": 1.0460588639226946,
+     "n": 40
+    },
+    "between_grid512_violation_physical": 0,
+    "between_grid512_violation_planning": 0,
+    "between_all_samples_violation_planning": 0
+   },
+   "planned_with_corrected_model": {
+    "attempted": 49,
+    "native_success": 40,
+    "eligible": 40,
+    "MODEL_K3": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "MODEL_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "K3_PLUS_K4": {
+     "CERTIFIED": 40,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 40,
+      "n": 40,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9278424754944854,
+      "two_sided_95_exact": [
+       0.9119026971211975,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "PLANNING_K4": {
+     "CERTIFIED": 39,
+     "VIOLATED": 0,
+     "UNKNOWN": 1,
+     "coverage": {
+      "k": 39,
+      "n": 40,
+      "fraction": 0.975,
+      "one_sided_95_lower_exact": 0.8868116390552624,
+      "two_sided_95_exact": [
+       0.8684141415172342,
+       0.9993672550679507
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "rigorous_point_max_util": {
+     "p50": 0.8217652602687413,
+     "p95": 0.9499350125650152,
+     "p99": 0.9499699568185458,
+     "max": 0.9499709375749518,
+     "n": 40
+    },
+    "between_grid512_violation_physical": 0,
+    "between_grid512_violation_planning": 0,
+    "between_all_samples_violation_planning": 0,
+    "MODEL_K4_friction_bound": {
+     "CERTIFIED": 38,
+     "VIOLATED": 2,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 38,
+      "n": 40,
+      "fraction": 0.95,
+      "one_sided_95_lower_exact": 0.8508480387267869,
+      "two_sided_95_exact": [
+       0.8308031360405823,
+       0.9938863534006492
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    }
+   },
+   "paired_on_both_successful": 40,
+   "MODEL_K4_transitions_old_to_new": {
+    "CERTIFIED->CERTIFIED": 30,
+    "VIOLATED_TORQUE->CERTIFIED": 10
+   },
+   "duration_pct_slower_corrected_vs_curobo_model": {
+    "n": 40,
+    "median": 0.0015489687955623237,
+    "ci95": [
+     -0.0024705317407576277,
+     0.3914210005127944
+    ]
+   },
+   "duration_pct_distribution": {
+    "p50": 0.0015489687955623237,
+    "p95": 4.707291955337048,
+    "p99": 6.187781952294562,
+    "max": 7.027406596980233,
+    "n": 40
+   }
+  },
+  "IDENT_HAND_5KG": {
+   "planned_with_curobo_model": {
+    "attempted": 70,
+    "native_success": 29,
+    "eligible": 29,
+    "MODEL_K3": {
+     "CERTIFIED": 29,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 29,
+      "n": 29,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.9018553723227042,
+      "two_sided_95_exact": [
+       0.8805551309304972,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "MODEL_K4": {
+     "CERTIFIED": 13,
+     "VIOLATED": 16,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 13,
+      "n": 29,
+      "fraction": 0.4482758620689655,
+      "one_sided_95_lower_exact": 0.2892714845570572,
+      "two_sided_95_exact": [
+       0.26445530370670484,
+       0.6430612891960864
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "K3_PLUS_K4": {
+     "CERTIFIED": 13,
+     "VIOLATED": 16,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 13,
+      "n": 29,
+      "fraction": 0.4482758620689655,
+      "one_sided_95_lower_exact": 0.2892714845570572,
+      "two_sided_95_exact": [
+       0.26445530370670484,
+       0.6430612891960864
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "PLANNING_K4": {
+     "CERTIFIED": 6,
+     "VIOLATED": 23,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 6,
+      "n": 29,
+      "fraction": 0.20689655172413793,
+      "one_sided_95_lower_exact": 0.09415502607649032,
+      "two_sided_95_exact": [
+       0.07994184887608008,
+       0.3972469492272396
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "rigorous_point_max_util": {
+     "p50": 1.0008920712113654,
+     "p95": 1.0274320452160088,
+     "p99": 1.0367271642950442,
+     "max": 1.0381673664826838,
+     "n": 29
+    },
+    "between_grid512_violation_physical": 0,
+    "between_grid512_violation_planning": 0,
+    "between_all_samples_violation_planning": 0
+   },
+   "planned_with_corrected_model": {
+    "attempted": 70,
+    "native_success": 24,
+    "eligible": 24,
+    "MODEL_K3": {
+     "CERTIFIED": 24,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 24,
+      "n": 24,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.8826538438450512,
+      "two_sided_95_exact": [
+       0.8575264022774742,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "MODEL_K4": {
+     "CERTIFIED": 24,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 24,
+      "n": 24,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.8826538438450512,
+      "two_sided_95_exact": [
+       0.8575264022774742,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "K3_PLUS_K4": {
+     "CERTIFIED": 24,
+     "VIOLATED": 0,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 24,
+      "n": 24,
+      "fraction": 1.0,
+      "one_sided_95_lower_exact": 0.8826538438450512,
+      "two_sided_95_exact": [
+       0.8575264022774742,
+       1.0
+      ],
+      "meets_99_descriptive": true,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "PLANNING_K4": {
+     "CERTIFIED": 21,
+     "VIOLATED": 0,
+     "UNKNOWN": 3,
+     "coverage": {
+      "k": 21,
+      "n": 24,
+      "fraction": 0.875,
+      "one_sided_95_lower_exact": 0.7077268034920106,
+      "two_sided_95_exact": [
+       0.676388641811167,
+       0.9734406850137511
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    },
+    "rigorous_point_max_util": {
+     "p50": 0.9498557396689307,
+     "p95": 0.9499853010034691,
+     "p99": 0.949986916509078,
+     "max": 0.9499869854129052,
+     "n": 24
+    },
+    "between_grid512_violation_physical": 0,
+    "between_grid512_violation_planning": 0,
+    "between_all_samples_violation_planning": 0,
+    "MODEL_K4_friction_bound": {
+     "CERTIFIED": 22,
+     "VIOLATED": 2,
+     "UNKNOWN": 0,
+     "coverage": {
+      "k": 22,
+      "n": 24,
+      "fraction": 0.9166666666666666,
+      "one_sided_95_lower_exact": 0.7601989838711981,
+      "two_sided_95_exact": [
+       0.7300271984423963,
+       0.9897436587187499
+      ],
+      "meets_99_descriptive": false,
+      "meets_99_inferential_one_sided": false
+     }
+    }
+   },
+   "paired_on_both_successful": 24,
+   "MODEL_K4_transitions_old_to_new": {
+    "VIOLATED_TORQUE->CERTIFIED": 15,
+    "CERTIFIED->CERTIFIED": 9
+   },
+   "duration_pct_slower_corrected_vs_curobo_model": {
+    "n": 24,
+    "median": 2.7892341630957933,
+    "ci95": [
+     0.18904978789765062,
+     8.369612394059365
+    ]
+   },
+   "duration_pct_distribution": {
+    "p50": 2.7892341630957933,
+    "p95": 62.775717603076025,
+    "p99": 70.02451499596046,
+    "max": 71.87149388057223,
+    "n": 24
+   }
+  }
+ },
+ "hard_stops": [
+  "corr_5kg: verifier disagreement k4-corr-c5-0045-margin_0p950",
+  "corr_5kg: verifier disagreement k4-corr-c5-0048-margin_0p950",
+  "corr_5kg: verifier disagreement k4-corr-c5-0065-margin_0p950"
+ ],
+ "gate": "PASS_SOUNDNESS_AFTER_RECHECK",
+ "verifier_incomplete_rejections": {
+  "policy": "protocol verifier refinement = 8; a producer CERTIFIED not confirmed at 8 is REJECTED_BY_VERIFIER (inconclusive, never certified). Post-hoc recheck with both independent verifiers at refinement 12 (Python world-frame, compiled C++) on the same bytes and contract.",
+  "resolved": {
+   "k4-corr-c5-0045-margin_0p950": {
+    "py_verifier_refine12": true,
+    "compiled_verifier_refine12": true,
+    "dense_point_max_util_planning": 0.9999860185471023
+   },
+   "k4-corr-c5-0048-margin_0p950": {
+    "py_verifier_refine12": true,
+    "compiled_verifier_refine12": true,
+    "dense_point_max_util_planning": 0.9999863338964364
+   },
+   "k4-corr-c5-0065-margin_0p950": {
+    "py_verifier_refine12": true,
+    "compiled_verifier_refine12": true,
+    "dense_point_max_util_planning": 0.9999763004585057
+   }
+  }
+ }
+}

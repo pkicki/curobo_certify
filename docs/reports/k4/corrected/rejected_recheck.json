@@ -1,0 +1,56 @@
+{
+ "k4-corr-c5-0045-margin_0p950": {
+  "py_producer": "CERTIFIED",
+  "dense_point_max_util_planning": 0.9999860185471023,
+  "py_verifier_refine12": [
+   true,
+   "partition complete; world-frame enclosures inside physical limits",
+   32.4
+  ],
+  "compiled_producer": "CERTIFIED",
+  "compiled_verifier_refine8": [
+   false,
+   "LEAF_NOT_VERIFIED"
+  ],
+  "compiled_verifier_refine12": [
+   true,
+   "PASS"
+  ]
+ },
+ "k4-corr-c5-0048-margin_0p950": {
+  "py_producer": "CERTIFIED",
+  "dense_point_max_util_planning": 0.9999863338964364,
+  "py_verifier_refine12": [
+   true,
+   "partition complete; world-frame enclosures inside physical limits",
+   81.6
+  ],
+  "compiled_producer": "CERTIFIED",
+  "compiled_verifier_refine8": [
+   false,
+   "LEAF_NOT_VERIFIED"
+  ],
+  "compiled_verifier_refine12": [
+   true,
+   "PASS"
+  ]
+ },
+ "k4-corr-c5-0065-margin_0p950": {
+  "py_producer": "CERTIFIED",
+  "dense_point_max_util_planning": 0.9999763004585057,
+  "py_verifier_refine12": [
+   true,
+   "partition complete; world-frame enclosures inside physical limits",
+   223.8
+  ],
+  "compiled_producer": "CERTIFIED",
+  "compiled_verifier_refine8": [
+   false,
+   "LEAF_NOT_VERIFIED"
+  ],
+  "compiled_verifier_refine12": [
+   true,
+   "PASS"
+  ]
+ }
+}

@@ -268,3 +268,14 @@ Full report: `docs/K4_RESULTS_20261118.md`. Offline HTML: `reports/k4_torque_cer
 - At the same 0.95 margin: 33/40 certified, gain ≈ 0. The other 7: the native output violates K3 at 0.95-scaled kinematic limits.
 
 **Tests:** 390 passed, 6 skipped (full suite after the P5b fixes).
+
+**2026-11-18 (later) — cuRobo planning with the corrected model** (user request: "Make curobo use the corrected model").
+- **Hook.** `k4_model_hook` injects the identified + hand inertials and gravity 9.80665 into TimeOpt. GPU check: native vs contract ≤ 7.2e-6 relative.
+- **Population.** K4-Panda-CorrectedDev40 (`03ac4ae6…`), preregistered before solving.
+- **Under the identified + hand model:**
+  - MODEL_K4: 40/40 (no payload), 40/40 (3 kg; was 30/40), 24/24 (5 kg; was 13/29).
+  - 25/25 previously violating paired outputs are now certified.
+  - Median duration cost: +0.0002% / +0.002% / +2.8%.
+  - 5 kg native success: 24/70, down from 29/70.
+- **Hard stop.** Three PLANNING_K4 producer certificates at 0.9999985–0.99999999 of the limit were not confirmed by the verifier at refinement 8. Both independent verifiers pass at refinement 12, so these were verifier incompleteness, not unsoundness. Recorded with evidence.
+- **Friction bound.** MODEL_K4 is 38/40 (3 kg) and 22/24 (5 kg) once friction is budgeted. Details are in `docs/K4_RESULTS_20261118.md` §7b.
