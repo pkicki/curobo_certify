@@ -25,16 +25,25 @@ def contract_inertials(contract: dict) -> dict:
     return {"links": links, "gravity": [float(Q(v)) for v in m["gravity"]]}
 
 
-def install_timeopt_model_hook(contract: dict):
+ALLOWED_CFG_OVERRIDES = ("num_intervals",)
+
+
+def install_timeopt_model_hook(contract: dict | None, cfg_overrides: dict | None = None):
     """Patch TrajectoryTimeOpt.__init__ (idempotent w.r.t. earlier hooks: always wraps the ORIGINAL init).
-    Returns the audit list, appended to on every TimeOpt construction."""
+    contract=None keeps cuRobo's own inertials/gravity. cfg_overrides may set TimeOpt's enforcement grid
+    (num_intervals: uniform constraint intervals in the path parameter; default 511 = 512 nodes; path knots and
+    timing breaks are always added by cuRobo). Returns the audit list, appended to on every construction."""
     import torch
     import curobo._src.motion.motion_trajectory_timeopt as mt
-    P = contract_inertials(contract)
+    over = dict(cfg_overrides or {})
+    bad = [k for k in over if k not in ALLOWED_CFG_OVERRIDES]
+    if bad:
+        raise ValueError(f"unsupported TimeOpt overrides {bad}")
+    P = contract_inertials(contract) if contract is not None else {"links": {}, "gravity": None}
     audit = []
     orig = getattr(mt.TrajectoryTimeOpt, "_k4_original_init", mt.TrajectoryTimeOpt.__init__)
     mt.TrajectoryTimeOpt._k4_original_init = orig
-    sha = contract["contract_sha256"]
+    sha = contract["contract_sha256"] if contract is not None else None
 
     def init(self, config, *a, **kw):
         kin = config.robot.kinematics_config
@@ -48,12 +57,16 @@ def install_timeopt_model_hook(contract: dict):
                 kin.link_masses_com[i, :3] = torch.tensor(v["com"], dtype=kin.link_masses_com.dtype)
                 kin.link_masses_com[i, 3] = v["mass"]
                 kin.link_inertias[i, :6] = torch.tensor(v["inertia"], dtype=kin.link_inertias.dtype)
-        config = dataclasses.replace(config, gravity=tuple(P["gravity"]))
+        if P["gravity"] is not None:
+            config = dataclasses.replace(config, gravity=tuple(P["gravity"]))
+        if over:
+            config = dataclasses.replace(config, **over)
         orig(self, config, *a, **kw)
         rb = {n: {"masses_com": kin.link_masses_com[idx[n]].tolist(), "inertia": kin.link_inertias[idx[n], :6].tolist()}
               for n in P["links"]}
         ok = all(abs(rb[n]["masses_com"][3] - v["mass"]) <= 1e-6 * max(1, v["mass"]) for n, v in P["links"].items())
-        audit.append({"contract_sha256": sha, "gravity": list(self._dynamics.config.gravity) if self._dynamics is not None
+        audit.append({"contract_sha256": sha, "cfg": {k: getattr(self.config, k) for k in ("num_intervals", "limit_scale", "n_knots")},
+                      "constraint_grid_nodes": int(self.constraint_grid.numel()), "gravity": list(self._dynamics.config.gravity) if self._dynamics is not None
                       else list(config.gravity), "links": rb, "masses_match": ok})
     mt.TrajectoryTimeOpt.__init__ = init
     return audit

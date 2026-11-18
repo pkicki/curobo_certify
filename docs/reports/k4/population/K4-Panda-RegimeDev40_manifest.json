@@ -1,0 +1,18 @@
+{
+ "cohort": "K4-Panda-RegimeDev40",
+ "sha256": "fe3ec38f399799e49eda6fa1feb302e2ea3af5604708468a6358b22b746391ca",
+ "rows": 350,
+ "exploratory": true,
+ "base_manifest_sha256": "153256565cda06c3aba3b0c57753f9c1020adb7dab2dc9bc5d202be208ed9072",
+ "planning_model_contract_sha256": "5a8c9bf73f3719c9c4acf88baa4cdc154af640ae6d301b277b8fa97f04aafe35",
+ "conditions": {
+  "NI255": 255,
+  "NI127": 127,
+  "NI063": 63,
+  "NI031": 31,
+  "NI015": 15
+ },
+ "reference_condition": "num_intervals=511: K4-Panda-CorrectedDev40/IDENT_HAND_3KG",
+ "rule": "first-K=40 per condition on the 0.95 arm over the frozen pool order; failures retained",
+ "frozen_before_any_solve": true
+}
