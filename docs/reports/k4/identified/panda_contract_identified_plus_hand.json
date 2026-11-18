@@ -1,0 +1,573 @@
+{
+ "schema": "k4_panda_model_contract_v2",
+ "contract_sha256": "9fe7f2dcb9ebe5d45a458c5cedea67edf2a79ea08b3f7d31308c1e2819b95133",
+ "model": {
+  "scope": "IDENTIFIED_PANDA_GAZ2019_PLUS_URDF_HAND",
+  "num_dof": 7,
+  "links": [
+   {
+    "name": "panda_link0",
+    "joint_index": -1,
+    "joint_type": "FIXED",
+    "parent": -1,
+    "origin_xyz": [
+     "0",
+     "0",
+     "0"
+    ],
+    "origin_rpy": [
+     "0",
+     "0",
+     "0"
+    ],
+    "mass": "2.3966",
+    "com": [
+     "-0.0172",
+     "0.0004",
+     "0.0745"
+    ],
+    "inertia": [
+     "0.0",
+     "0.0115",
+     "0.0085",
+     "0.0",
+     "0.002",
+     "0.0"
+    ],
+    "inertial_source": "pinned URDF <inertial>"
+   },
+   {
+    "name": "panda_link1",
+    "joint_index": 0,
+    "joint_type": "Z_ROT",
+    "parent": 0,
+    "origin_xyz": [
+     "0",
+     "0",
+     "0.333"
+    ],
+    "origin_rpy": [
+     "0",
+     "0",
+     "0"
+    ],
+    "mass": "4.970684",
+    "com": [
+     "3.875e-03",
+     "2.081e-03",
+     "0"
+    ],
+    "inertia": [
+     "7.0337e-01",
+     "7.0661e-01",
+     "9.1170e-03",
+     "-1.3900e-04",
+     "6.7720e-03",
+     "1.9169e-02"
+    ],
+    "inertial_source": "Gaz et al. RA-L 2019 suppl. Tables VIII/IX p_hat (inertia convention: com)"
+   },
+   {
+    "name": "panda_link2",
+    "joint_index": 1,
+    "joint_type": "Z_ROT",
+    "parent": 1,
+    "origin_xyz": [
+     "0",
+     "0",
+     "0"
+    ],
+    "origin_rpy": [
+     "-1.57079632679",
+     "0",
+     "0"
+    ],
+    "mass": "0.646926",
+    "com": [
+     "-3.141e-03",
+     "-2.872e-02",
+     "3.495e-03"
+    ],
+    "inertia": [
+     "7.9620e-03",
+     "2.8110e-02",
+     "2.5995e-02",
+     "-3.9250e-03",
+     "1.0254e-02",
+     "7.0400e-04"
+    ],
+    "inertial_source": "Gaz et al. RA-L 2019 suppl. Tables VIII/IX p_hat (inertia convention: com)"
+   },
+   {
+    "name": "panda_link3",
+    "joint_index": 2,
+    "joint_type": "Z_ROT",
+    "parent": 2,
+    "origin_xyz": [
+     "0",
+     "-0.316",
+     "0"
+    ],
+    "origin_rpy": [
+     "1.57079632679",
+     "0",
+     "0"
+    ],
+    "mass": "3.228604",
+    "com": [
+     "2.7518e-02",
+     "3.9252e-02",
+     "-6.6502e-02"
+    ],
+    "inertia": [
+     "3.7242e-02",
+     "3.6155e-02",
+     "1.0830e-02",
+     "-4.7610e-03",
+     "-1.1396e-02",
+     "-1.2805e-02"
+    ],
+    "inertial_source": "Gaz et al. RA-L 2019 suppl. Tables VIII/IX p_hat (inertia convention: com)"
+   },
+   {
+    "name": "panda_link4",
+    "joint_index": 3,
+    "joint_type": "Z_ROT",
+    "parent": 3,
+    "origin_xyz": [
+     "0.0825",
+     "0",
+     "0"
+    ],
+    "origin_rpy": [
+     "1.57079632679",
+     "0",
+     "0"
+    ],
+    "mass": "3.587895",
+    "com": [
+     "-5.317e-02",
+     "1.04419e-01",
+     "2.7454e-02"
+    ],
+    "inertia": [
+     "2.5853e-02",
+     "1.9552e-02",
+     "2.8323e-02",
+     "7.7960e-03",
+     "-1.3320e-03",
+     "8.6410e-03"
+    ],
+    "inertial_source": "Gaz et al. RA-L 2019 suppl. Tables VIII/IX p_hat (inertia convention: com)"
+   },
+   {
+    "name": "panda_link5",
+    "joint_index": 4,
+    "joint_type": "Z_ROT",
+    "parent": 4,
+    "origin_xyz": [
+     "-0.0825",
+     "0.384",
+     "0"
+    ],
+    "origin_rpy": [
+     "-1.57079632679",
+     "0",
+     "0"
+    ],
+    "mass": "1.225946",
+    "com": [
+     "-1.1953e-02",
+     "4.1065e-02",
+     "-3.8437e-02"
+    ],
+    "inertia": [
+     "3.5549e-02",
+     "2.9474e-02",
+     "8.6270e-03",
+     "-2.1170e-03",
+     "-4.0370e-03",
+     "2.2900e-04"
+    ],
+    "inertial_source": "Gaz et al. RA-L 2019 suppl. Tables VIII/IX p_hat (inertia convention: com)"
+   },
+   {
+    "name": "panda_link6",
+    "joint_index": 5,
+    "joint_type": "Z_ROT",
+    "parent": 5,
+    "origin_xyz": [
+     "0",
+     "0",
+     "0"
+    ],
+    "origin_rpy": [
+     "1.57079632679",
+     "0",
+     "0"
+    ],
+    "mass": "1.666555",
+    "com": [
+     "6.0149e-02",
+     "-1.4117e-02",
+     "-1.0517e-02"
+    ],
+    "inertia": [
+     "1.9640e-03",
+     "4.3540e-03",
+     "5.4330e-03",
+     "1.0900e-04",
+     "-1.1580e-03",
+     "3.4100e-04"
+    ],
+    "inertial_source": "Gaz et al. RA-L 2019 suppl. Tables VIII/IX p_hat (inertia convention: com)"
+   },
+   {
+    "name": "panda_link7",
+    "joint_index": 6,
+    "joint_type": "Z_ROT",
+    "parent": 6,
+    "origin_xyz": [
+     "0.088",
+     "0",
+     "0"
+    ],
+    "origin_rpy": [
+     "1.57079632679",
+     "0",
+     "0"
+    ],
+    "mass": "7.35522e-01",
+    "com": [
+     "1.0517e-02",
+     "-4.252e-03",
+     "6.1597e-02"
+    ],
+    "inertia": [
+     "1.2516e-02",
+     "1.0027e-02",
+     "4.8150e-03",
+     "-4.2800e-04",
+     "-1.1960e-03",
+     "-7.4100e-04"
+    ],
+    "inertial_source": "Gaz et al. RA-L 2019 suppl. Tables VIII/IX p_hat (inertia convention: com)"
+   },
+   {
+    "name": "panda_link8",
+    "joint_index": -1,
+    "joint_type": "FIXED",
+    "parent": 7,
+    "origin_xyz": [
+     "0",
+     "0",
+     "0.107"
+    ],
+    "origin_rpy": [
+     "0",
+     "0",
+     "0"
+    ],
+    "mass": "0",
+    "com": [
+     "0",
+     "0",
+     "0"
+    ],
+    "inertia": [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    "inertial_source": "not part of the identified model (massless)"
+   },
+   {
+    "name": "panda_hand",
+    "joint_index": -1,
+    "joint_type": "FIXED",
+    "parent": 8,
+    "origin_xyz": [
+     "0",
+     "0",
+     "0"
+    ],
+    "origin_rpy": [
+     "0",
+     "0",
+     "-0.785398163397"
+    ],
+    "mass": "1.0",
+    "com": [
+     "0.00089",
+     "0.0",
+     "0.05"
+    ],
+    "inertia": [
+     "0.00019541063",
+     "0.00019210361",
+     "0.00017936256",
+     "0.00000165231",
+     "0.00000148826",
+     "-0.00000131132"
+    ],
+    "inertial_source": "pinned URDF <inertial>"
+   },
+   {
+    "name": "panda_leftfinger",
+    "joint_index": -1,
+    "joint_type": "FIXED",
+    "parent": 9,
+    "origin_xyz": [
+     "0",
+     "1/25",
+     "73/1250"
+    ],
+    "origin_rpy": [
+     "0",
+     "0",
+     "0"
+    ],
+    "mass": "0",
+    "com": [
+     "0",
+     "0",
+     "0"
+    ],
+    "inertia": [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    "inertial_source": "not part of the identified model (massless)"
+   },
+   {
+    "name": "panda_rightfinger",
+    "joint_index": -1,
+    "joint_type": "FIXED",
+    "parent": 9,
+    "origin_xyz": [
+     "0",
+     "-1/25",
+     "73/1250"
+    ],
+    "origin_rpy": [
+     "0",
+     "0",
+     "0"
+    ],
+    "mass": "0",
+    "com": [
+     "0",
+     "0",
+     "0"
+    ],
+    "inertia": [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    "inertial_source": "not part of the identified model (massless)"
+   },
+   {
+    "name": "attached_object",
+    "joint_index": -1,
+    "joint_type": "FIXED",
+    "parent": 9,
+    "origin_xyz": [
+     "0",
+     "0",
+     "0"
+    ],
+    "origin_rpy": [
+     "0",
+     "0",
+     "0"
+    ],
+    "mass": "0",
+    "com": [
+     "0",
+     "0",
+     "0"
+    ],
+    "inertia": [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    "inertial_source": "not part of the identified model (massless)"
+   }
+  ],
+  "gravity": [
+   "0",
+   "0",
+   "-9.80665"
+  ],
+  "rotation_convention": "R = Rz(yaw) Ry(pitch) Rx(roll), child joint frame in parent",
+  "effort_lower": [
+   "-87",
+   "-87",
+   "-87",
+   "-87",
+   "-12",
+   "-12",
+   "-12"
+  ],
+  "effort_upper": [
+   "87",
+   "87",
+   "87",
+   "87",
+   "12",
+   "12",
+   "12"
+  ],
+  "timeopt_torque_lower_scaled_float32_hex": [
+   "-0x1.4a999a0000000p+6",
+   "-0x1.4a999a0000000p+6",
+   "-0x1.4a999a0000000p+6",
+   "-0x1.4a999a0000000p+6",
+   "-0x1.6ccccc0000000p+3",
+   "-0x1.6ccccc0000000p+3",
+   "-0x1.6ccccc0000000p+3"
+  ],
+  "timeopt_torque_upper_scaled_float32_hex": [
+   "0x1.4a999a0000000p+6",
+   "0x1.4a999a0000000p+6",
+   "0x1.4a999a0000000p+6",
+   "0x1.4a999a0000000p+6",
+   "0x1.6ccccc0000000p+3",
+   "0x1.6ccccc0000000p+3",
+   "0x1.6ccccc0000000p+3"
+  ],
+  "timeopt_limit_scale": "0.95",
+  "joint_names": [
+   "panda_joint1",
+   "panda_joint2",
+   "panda_joint3",
+   "panda_joint4",
+   "panda_joint5",
+   "panda_joint6",
+   "panda_joint7"
+  ]
+ },
+ "oracle_parity": {
+  "convention_selected": "com",
+  "by_convention": {
+   "com": {
+    "gravity_max_abs_diff": 0.1590522189724357,
+    "mass_matrix_max_abs_diff": 0.03919672186763662,
+    "states": 60
+   },
+   "origin": {
+    "gravity_max_abs_diff": 0.1590522189724357,
+    "mass_matrix_max_abs_diff": 0.10188977967306068,
+    "states": 60
+   }
+  },
+  "oracle": "authors' published get_GravityVector.m / get_MassMatrix.m (diagnostic)"
+ },
+ "physical_consistency_links_1_7": [
+  {
+   "link": 1,
+   "eigenvalues": [
+    0.008524556277543015,
+    0.7034354292338563,
+    0.7071370144886007
+   ],
+   "positive_definite": true,
+   "triangle": true
+  },
+  {
+   "link": 2,
+   "eigenvalues": [
+    0.002734250497989517,
+    0.02830010693683385,
+    0.031032642565176637
+   ],
+   "positive_definite": true,
+   "triangle": true
+  },
+  {
+   "link": 3,
+   "eigenvalues": [
+    0.001246354440723819,
+    0.04147925727066559,
+    0.041501388288610566
+   ],
+   "positive_definite": true,
+   "triangle": true
+  },
+  {
+   "link": 4,
+   "eigenvalues": [
+    0.010620083333833179,
+    0.028148276242039763,
+    0.034959640424127046
+   ],
+   "positive_definite": true,
+   "triangle": true
+  },
+  {
+   "link": 5,
+   "eigenvalues": [
+    0.008034370472607985,
+    0.028853091260661556,
+    0.036762538266730434
+   ],
+   "positive_definite": true,
+   "triangle": true
+  },
+  {
+   "link": 6,
+   "eigenvalues": [
+    0.0015978650692349981,
+    0.004310373704197245,
+    0.005842761226567755
+   ],
+   "positive_definite": true,
+   "triangle": true
+  },
+  {
+   "link": 7,
+   "eigenvalues": [
+    0.004518029980919308,
+    0.010105477144356218,
+    0.012734492874724472
+   ],
+   "positive_definite": true,
+   "triangle": true
+  }
+ ],
+ "provenance": {
+  "citation": "Gaz, Cognetti, Oliva, Robuffo Giordano, De Luca, IEEE RA-L 4(4):4147-4154, 2019",
+  "values": "supplementary material Tables VIII and IX, column p_hat",
+  "supplement_sha256": "c42b37a03d7ce748723504215977b8a0e239cdb46b2900c29db3bd7723d90964",
+  "repository": "github.com/marcocognetti/FrankaEmikaPandaDynModel (GPL-3.0); numeric values cited, no code copied",
+  "kinematics": "contract v2 link frames (pinned URDF == Franka modified DH)",
+  "gravity": "9.80665 (authors' model)",
+  "friction": "Gaz sigmoid model is NOT part of the rigid contract; a conservative |tau_F| <= A_i bound is applied separately as a limit tightening",
+  "friction_A_Nm": [
+   0.54615,
+   0.87224,
+   0.64068,
+   1.2794,
+   0.83904,
+   0.30301,
+   0.56489
+  ],
+  "hand": "identified_plus_hand variant adds the pinned URDF panda_hand inertial (sensitivity)",
+  "effort_limits": "unchanged: FER tau_max 87/12 N m"
+ }
+}

@@ -1,0 +1,45 @@
+{
+ "cohort": "K4-Panda-PayloadDev40",
+ "sha256": "d9cdb0b1c64a5f253c337ae8372bb163b8d72c6c6393d972d16a07194de51877",
+ "rows": 280,
+ "base_manifest_sha256": "153256565cda06c3aba3b0c57753f9c1020adb7dab2dc9bc5d202be208ed9072",
+ "payloads": {
+  "PAYLOAD_SYNTH_3KG_CYL": {
+   "label": "SYNTHETIC_PAYLOAD_RATED",
+   "mass": "3",
+   "com": [
+    "0",
+    "0",
+    "517/5000"
+   ],
+   "inertia": [
+    "37/10000",
+    "37/10000",
+    "3/1250",
+    "0",
+    "0",
+    "0"
+   ]
+  },
+  "PAYLOAD_SYNTH_5KG_CYL": {
+   "label": "SYNTHETIC_PAYLOAD_ABOVE_RATED",
+   "mass": "5",
+   "com": [
+    "0",
+    "0",
+    "517/5000"
+   ],
+   "inertia": [
+    "37/6000",
+    "37/6000",
+    "1/250",
+    "0",
+    "0",
+    "0"
+   ]
+  }
+ },
+ "geometry": "uniform solid cylinder r=0.04 m, h=0.10 m, CoM at panda_hand (0,0,0.1034) m; collision NOT modelled",
+ "rule": "first-K=40 per payload on the 0.95 arm over the frozen pool order; 0.99 for attempted queries; failures retained; native TimeOpt plans WITH the payload (runtime hook, audited read-back)",
+ "frozen_before_any_payload_solve": true
+}
