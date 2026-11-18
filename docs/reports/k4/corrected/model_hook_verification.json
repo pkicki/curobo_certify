@@ -1,0 +1,44 @@
+{
+ "base_contract_sha256": "9fe7f2dcb9ebe5d45a458c5cedea67edf2a79ea08b3f7d31308c1e2819b95133",
+ "conditions": {
+  "none": {
+   "target_contract_sha256": "9fe7f2dcb9ebe5d45a458c5cedea67edf2a79ea08b3f7d31308c1e2819b95133",
+   "hook_constructions": 1,
+   "audit_gravity": [
+    0.0,
+    0.0,
+    -9.80665
+   ],
+   "audit_masses_match": true,
+   "max_rel_native_vs_target_contract": 3.6385288817442074e-06,
+   "max_abs_native_vs_curobo_model": 6.553806766281667,
+   "pass": true
+  },
+  "PAYLOAD_SYNTH_3KG_CYL": {
+   "target_contract_sha256": "5a8c9bf73f3719c9c4acf88baa4cdc154af640ae6d301b277b8fa97f04aafe35",
+   "hook_constructions": 1,
+   "audit_gravity": [
+    0.0,
+    0.0,
+    -9.80665
+   ],
+   "audit_masses_match": true,
+   "max_rel_native_vs_target_contract": 7.188755374309963e-06,
+   "max_abs_native_vs_curobo_model": 6.637015694275931,
+   "pass": true
+  },
+  "PAYLOAD_SYNTH_5KG_CYL": {
+   "target_contract_sha256": "a42ada1402461f571d37bdab529b99955240ebfde5b14c8198c675b278f259d0",
+   "hook_constructions": 1,
+   "audit_gravity": [
+    0.0,
+    0.0,
+    -9.80665
+   ],
+   "audit_masses_match": true,
+   "max_rel_native_vs_target_contract": 6.89989386193357e-06,
+   "max_abs_native_vs_curobo_model": 6.6319422257690235,
+   "pass": true
+  }
+ }
+}

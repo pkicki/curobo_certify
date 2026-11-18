@@ -1,0 +1,23 @@
+{
+ "cohort": "K4-Panda-CorrectedDev40",
+ "sha256": "03ac4ae6f14c2a0f210b062d406b85c3c899fa656d31a3e38fd76d081c82b6bd",
+ "rows": 210,
+ "base_manifest_sha256": "153256565cda06c3aba3b0c57753f9c1020adb7dab2dc9bc5d202be208ed9072",
+ "base_planning_contract_sha256": "9fe7f2dcb9ebe5d45a458c5cedea67edf2a79ea08b3f7d31308c1e2819b95133",
+ "conditions": {
+  "IDENT_HAND": {
+   "payload": null,
+   "planning_model_contract_sha256": "9fe7f2dcb9ebe5d45a458c5cedea67edf2a79ea08b3f7d31308c1e2819b95133"
+  },
+  "IDENT_HAND_3KG": {
+   "payload": "PAYLOAD_SYNTH_3KG_CYL",
+   "planning_model_contract_sha256": "5a8c9bf73f3719c9c4acf88baa4cdc154af640ae6d301b277b8fa97f04aafe35"
+  },
+  "IDENT_HAND_5KG": {
+   "payload": "PAYLOAD_SYNTH_5KG_CYL",
+   "planning_model_contract_sha256": "a42ada1402461f571d37bdab529b99955240ebfde5b14c8198c675b278f259d0"
+  }
+ },
+ "rule": "first-K=40 per condition on the 0.95 arm over the frozen pool order; failures retained; native TimeOpt plans WITH the identified+hand model (k4_model_hook, audited); 0.99 arm not registered",
+ "frozen_before_any_solve": true
+}
