@@ -224,7 +224,7 @@ Branch: exp/k4-certified-torque-reference-20261117, based on the K3 qualificatio
 
 ## 2026-11-18 — K4 continuous-time torque certification: Panda, identified model, payloads, compiled pipeline (branch `exp/k4-certified-torque-reference-20261117`)
 
-Full report: `docs/K4_RESULTS_20261118.md`. Offline HTML: `reports/k4_torque_certification_report.html`. Frozen K3 code, cohorts and `main` are untouched; no PR or merge.
+Full report: `docs/K4_RESULTS_20261118.md`. Offline HTML: `reports/k4_torque_certification_report.html` (Playwright 110/110 in Chromium and Firefox, desktop and mobile). Frozen K3 code, cohorts and `main` are untouched; no PR or merge.
 
 **Phases and decisions:**
 - **P0 model freeze — GO.** Contract v2 is `9caa38bf…`. The cuRobo model's physical fidelity is NO-GO (BLOCKED_MODEL_PHYSICAL_VALIDITY: link3 inertia not positive definite, duplicated tensors, defaults).

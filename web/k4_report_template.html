@@ -87,8 +87,9 @@ svg text { fill: var(--text-secondary); font-size: 11px; }
   <b>frozen cuRobo Panda rigid-body model</b> (contract v2). Contracts are kept separate:
   <b>MODEL_K3</b> (kinematics), <b>MODEL_K4</b> (model torque vs physical effort limits 87/12 N·m),
   <b>K3_PLUS_K4</b>, and <b>PLANNING_K4</b> (cuRobo's own 0.95-scaled torque limits).
-  Physical fidelity of the cuRobo model is <b>NOT established</b> (inconsistent inertia data); payloads 3/5 kg are
-  BLOCKED_PAYLOAD; native FP32 torque is BLOCKED_NATIVE_TORQUE. Sampled values are diagnostics; bands are rigorous.</p>
+  Physical fidelity of the cuRobo model is <b>NOT established</b> (inconsistent inertia data); the <b>identified Panda
+  model</b> (Gaz et al. 2019) is certified as a separate contract; 3/5 kg payloads are <b>preregistered hypothetical</b>
+  cylinders (not measured); native FP32 torque is BLOCKED_NATIVE_TORQUE. Sampled values are diagnostics; bands are rigorous.</p>
 </header>
 <nav><div class="in" role="tablist" id="tabs"></div></nav>
 <main id="main"></main>

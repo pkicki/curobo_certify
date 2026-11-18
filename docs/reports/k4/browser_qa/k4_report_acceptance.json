@@ -1,0 +1,552 @@
+[
+ {
+  "check": "chromium/desktop tab overview renders",
+  "pass": true,
+  "detail": "2238"
+ },
+ {
+  "check": "chromium/desktop tab model renders",
+  "pass": true,
+  "detail": "3013"
+ },
+ {
+  "check": "chromium/desktop tab population renders",
+  "pass": true,
+  "detail": "1704"
+ },
+ {
+  "check": "chromium/desktop tab explorer renders",
+  "pass": true,
+  "detail": "10943"
+ },
+ {
+  "check": "chromium/desktop tab methods renders",
+  "pass": true,
+  "detail": "1900"
+ },
+ {
+  "check": "chromium/desktop tab ext renders",
+  "pass": true,
+  "detail": "8067"
+ },
+ {
+  "check": "chromium/desktop tab retime renders",
+  "pass": true,
+  "detail": "690"
+ },
+ {
+  "check": "chromium/desktop tab latency renders",
+  "pass": true,
+  "detail": "824"
+ },
+ {
+  "check": "chromium/desktop tab ledger renders",
+  "pass": true,
+  "detail": "24706"
+ },
+ {
+  "check": "chromium/desktop overview shows primary K3+K4 coverage",
+  "pass": true,
+  "detail": "Stage gates\nStage\tDecision\tEvidence\nP0 model freeze\tPASS\tcuRobo TimeOpt model frozen (contract v2 9caa38bff95b\u2026); torque limits sourced (FER \u03c4max 87/12 N\u00b7m)\nP0 physical fidelity (cuRobo model)\tBLOCKED"
+ },
+ {
+  "check": "chromium/desktop overview shows BLOCKED_NATIVE_TORQUE",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/desktop overview shows BLOCKED_MODEL_PHYSICAL_VALIDITY",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/desktop explorer lists every output",
+  "pass": true,
+  "detail": "189 vs 189"
+ },
+ {
+  "check": "chromium/desktop explorer option 0 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "chromium/desktop explorer option 94 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "chromium/desktop explorer option 188 draws certified bands",
+  "pass": true,
+  "detail": "49"
+ },
+ {
+  "check": "chromium/desktop payload planning violation is selectable",
+  "pass": true,
+  "detail": "130"
+ },
+ {
+  "check": "chromium/desktop planning witness shown",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/desktop ext tab lists all variants",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "chromium/desktop latency shows compiled added p50",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/desktop theme toggle changes background",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/desktop no console errors",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "chromium/desktop no external requests",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "chromium/mobile tab overview renders",
+  "pass": true,
+  "detail": "2238"
+ },
+ {
+  "check": "chromium/mobile tab overview no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab model renders",
+  "pass": true,
+  "detail": "3013"
+ },
+ {
+  "check": "chromium/mobile tab model no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab population renders",
+  "pass": true,
+  "detail": "1704"
+ },
+ {
+  "check": "chromium/mobile tab population no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab explorer renders",
+  "pass": true,
+  "detail": "10943"
+ },
+ {
+  "check": "chromium/mobile tab explorer no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab methods renders",
+  "pass": true,
+  "detail": "1900"
+ },
+ {
+  "check": "chromium/mobile tab methods no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab ext renders",
+  "pass": true,
+  "detail": "8067"
+ },
+ {
+  "check": "chromium/mobile tab ext no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab retime renders",
+  "pass": true,
+  "detail": "690"
+ },
+ {
+  "check": "chromium/mobile tab retime no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab latency renders",
+  "pass": true,
+  "detail": "824"
+ },
+ {
+  "check": "chromium/mobile tab latency no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile tab ledger renders",
+  "pass": true,
+  "detail": "24706"
+ },
+ {
+  "check": "chromium/mobile tab ledger no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "chromium/mobile overview shows primary K3+K4 coverage",
+  "pass": true,
+  "detail": "Stage gates\nStage\tDecision\tEvidence\nP0 model freeze\tPASS\tcuRobo TimeOpt model frozen (contract v2 9caa38bff95b\u2026); torque limits sourced (FER \u03c4max 87/12 N\u00b7m)\nP0 physical fidelity (cuRobo model)\tBLOCKED"
+ },
+ {
+  "check": "chromium/mobile overview shows BLOCKED_NATIVE_TORQUE",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/mobile overview shows BLOCKED_MODEL_PHYSICAL_VALIDITY",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/mobile explorer lists every output",
+  "pass": true,
+  "detail": "189 vs 189"
+ },
+ {
+  "check": "chromium/mobile explorer option 0 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "chromium/mobile explorer option 94 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "chromium/mobile explorer option 188 draws certified bands",
+  "pass": true,
+  "detail": "49"
+ },
+ {
+  "check": "chromium/mobile payload planning violation is selectable",
+  "pass": true,
+  "detail": "130"
+ },
+ {
+  "check": "chromium/mobile planning witness shown",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/mobile ext tab lists all variants",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "chromium/mobile latency shows compiled added p50",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/mobile theme toggle changes background",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "chromium/mobile no console errors",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "chromium/mobile no external requests",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "firefox/desktop tab overview renders",
+  "pass": true,
+  "detail": "2238"
+ },
+ {
+  "check": "firefox/desktop tab model renders",
+  "pass": true,
+  "detail": "3013"
+ },
+ {
+  "check": "firefox/desktop tab population renders",
+  "pass": true,
+  "detail": "1704"
+ },
+ {
+  "check": "firefox/desktop tab explorer renders",
+  "pass": true,
+  "detail": "790"
+ },
+ {
+  "check": "firefox/desktop tab methods renders",
+  "pass": true,
+  "detail": "1900"
+ },
+ {
+  "check": "firefox/desktop tab ext renders",
+  "pass": true,
+  "detail": "8067"
+ },
+ {
+  "check": "firefox/desktop tab retime renders",
+  "pass": true,
+  "detail": "690"
+ },
+ {
+  "check": "firefox/desktop tab latency renders",
+  "pass": true,
+  "detail": "824"
+ },
+ {
+  "check": "firefox/desktop tab ledger renders",
+  "pass": true,
+  "detail": "24706"
+ },
+ {
+  "check": "firefox/desktop overview shows primary K3+K4 coverage",
+  "pass": true,
+  "detail": "Stage gates\nStage\tDecision\tEvidence\nP0 model freeze\tPASS\tcuRobo TimeOpt model frozen (contract v2 9caa38bff95b\u2026); torque limits sourced (FER \u03c4max 87/12 N\u00b7m)\nP0 physical fidelity (cuRobo model)\tBLOCKED"
+ },
+ {
+  "check": "firefox/desktop overview shows BLOCKED_NATIVE_TORQUE",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/desktop overview shows BLOCKED_MODEL_PHYSICAL_VALIDITY",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/desktop explorer lists every output",
+  "pass": true,
+  "detail": "189 vs 189"
+ },
+ {
+  "check": "firefox/desktop explorer option 0 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "firefox/desktop explorer option 94 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "firefox/desktop explorer option 188 draws certified bands",
+  "pass": true,
+  "detail": "49"
+ },
+ {
+  "check": "firefox/desktop payload planning violation is selectable",
+  "pass": true,
+  "detail": "130"
+ },
+ {
+  "check": "firefox/desktop planning witness shown",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/desktop ext tab lists all variants",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "firefox/desktop latency shows compiled added p50",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/desktop theme toggle changes background",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/desktop no console errors",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "firefox/desktop no external requests",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "firefox/mobile tab overview renders",
+  "pass": true,
+  "detail": "2238"
+ },
+ {
+  "check": "firefox/mobile tab overview no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab model renders",
+  "pass": true,
+  "detail": "3013"
+ },
+ {
+  "check": "firefox/mobile tab model no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab population renders",
+  "pass": true,
+  "detail": "1704"
+ },
+ {
+  "check": "firefox/mobile tab population no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab explorer renders",
+  "pass": true,
+  "detail": "790"
+ },
+ {
+  "check": "firefox/mobile tab explorer no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab methods renders",
+  "pass": true,
+  "detail": "1900"
+ },
+ {
+  "check": "firefox/mobile tab methods no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab ext renders",
+  "pass": true,
+  "detail": "8067"
+ },
+ {
+  "check": "firefox/mobile tab ext no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab retime renders",
+  "pass": true,
+  "detail": "690"
+ },
+ {
+  "check": "firefox/mobile tab retime no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab latency renders",
+  "pass": true,
+  "detail": "824"
+ },
+ {
+  "check": "firefox/mobile tab latency no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile tab ledger renders",
+  "pass": true,
+  "detail": "24706"
+ },
+ {
+  "check": "firefox/mobile tab ledger no horizontal page overflow",
+  "pass": true,
+  "detail": "390"
+ },
+ {
+  "check": "firefox/mobile overview shows primary K3+K4 coverage",
+  "pass": true,
+  "detail": "Stage gates\nStage\tDecision\tEvidence\nP0 model freeze\tPASS\tcuRobo TimeOpt model frozen (contract v2 9caa38bff95b\u2026); torque limits sourced (FER \u03c4max 87/12 N\u00b7m)\nP0 physical fidelity (cuRobo model)\tBLOCKED"
+ },
+ {
+  "check": "firefox/mobile overview shows BLOCKED_NATIVE_TORQUE",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/mobile overview shows BLOCKED_MODEL_PHYSICAL_VALIDITY",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/mobile explorer lists every output",
+  "pass": true,
+  "detail": "189 vs 189"
+ },
+ {
+  "check": "firefox/mobile explorer option 0 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "firefox/mobile explorer option 94 draws certified bands",
+  "pass": true,
+  "detail": "47"
+ },
+ {
+  "check": "firefox/mobile explorer option 188 draws certified bands",
+  "pass": true,
+  "detail": "49"
+ },
+ {
+  "check": "firefox/mobile payload planning violation is selectable",
+  "pass": true,
+  "detail": "130"
+ },
+ {
+  "check": "firefox/mobile planning witness shown",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/mobile ext tab lists all variants",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "firefox/mobile latency shows compiled added p50",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/mobile theme toggle changes background",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "check": "firefox/mobile no console errors",
+  "pass": true,
+  "detail": "[]"
+ },
+ {
+  "check": "firefox/mobile no external requests",
+  "pass": true,
+  "detail": "[]"
+ }
+]
