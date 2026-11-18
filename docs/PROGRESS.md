@@ -221,3 +221,50 @@ Branch: exp/k4-certified-torque-reference-20261117, based on the K3 qualificatio
 - .github/workflows/proof-lab-checks.yml extends Python 3.11/3.12 CI to this K4 branch, includes synthetic K4 pilot, and installs mpmath required by inherited independent T1 reviewer tests. The initial CI attempt failed because mpmath was missing; its error logs showed 3 ModuleNotFoundError from pre-existing T1 tests, not failures of the K4 tests. A corrective workflow commit was pushed; CI completion must be checked by the coding agent.
 
 **Planned and not run:** Panda dynamics provenance and independent inverse-dynamics parity; rigorous spatial interval RNEA; certified polynomial dynamics approximation with independent error proof; compiled real K4 producer/verifier; native FP32 torque linkage; 0/3/5kg payload studies; K4 formal cohorts; torque-aware retiming. See docs/K4_CERTIFIED_TORQUE_RESEARCH_PLAN_20261117.md and docs/AGENT_K4_CERTIFIED_TORQUE_20261117.md. Claim remains strictly ANALYTIC_PLANAR_MODEL_TORQUE_ONLY; no actual Panda or motor torque certificate is asserted.
+
+## 2026-11-18 — K4 continuous-time torque certification: Panda, identified model, payloads, compiled pipeline (branch `exp/k4-certified-torque-reference-20261117`)
+
+Full report: `docs/K4_RESULTS_20261118.md`. Offline HTML: `reports/k4_torque_certification_report.html`. Frozen K3 code, cohorts and `main` are untouched; no PR or merge.
+
+**Phases and decisions:**
+- **P0 model freeze — GO.** Contract v2 is `9caa38bf…`. The cuRobo model's physical fidelity is NO-GO (BLOCKED_MODEL_PHYSICAL_VALIDITY: link3 inertia not positive definite, duplicated tensors, defaults).
+- **Identified model — GO (separate contract).** Gaz et al. 2019 (`4a750169…`, plus a hand variant `9fe7f2dc…`). Diagnostic parity vs the authors' functions: gravity ≤ 0.159 N·m, M ≤ 0.039.
+- **P1 and P2 — GO** (independent reviews, all findings fixed).
+- **P3 — GO.** tm1 conservatism p50 0.066 vs box 0.45.
+
+**P4 Dev40** (49 attempted / 40 eligible per arm, 9 native failures each). Gate: PASS_SOUNDNESS.
+
+| arm | MODEL_K4 | MODEL_K3 | K3+K4 |
+|---|---|---|---|
+| 0.95 | 40/40 | 40/40 | 40/40 |
+| 0.99 | 40/40 | 40/40 | 40/40 |
+| 1.00 | 40/40 | 20/40 (VIOLATED, kinematic) | 20/40 |
+
+- 0 between-sample violations.
+- Without a payload, no output is torque-limited: point max utilisation is at most 0.672.
+- Identified variants: MODEL_K4 is 40/40 for every arm and variant, including the friction bound.
+
+**Payloads** (hypothetical, preregistered, `d9cdb0b1…`):
+- **3 kg:** 40/40 per arm.
+- **5 kg:** 41/70 native failures; K = 40 NOT reached (29 eligible).
+- **MODEL_K4 under the planning model:** 146/146 CERTIFIED.
+- **Rigorous between-sample violation of TimeOpt's own 0.95 planning torque limit** (`k4-payload-p3-0012-margin_0p950`, joint 6): +5.7e-4 N·m. TimeOpt's 512-point grid misses it; the Python verifier confirms it and the compiled producer reproduces it.
+- **5 kg PLANNING_K4:** one UNKNOWN_DEPTH (bound 0.99999999).
+- **Identified + hand + payload:** physical joint-6 limit VIOLATED in 10/40 (3 kg) and 16/29 (5 kg) primary outputs, from model mismatch.
+
+**P5 compiled pipeline — GO.**
+- Components: C++ producer and an independent C++ verifier.
+- Independent review P5b: PASS, 0 false certificates, 0/75 forgeries accepted. Findings N-P5b-1..4 fixed with regressions.
+- Re-run after the fixes: 200/200 P4 outputs CERTIFIED, 0 verifier rejections.
+- **Latency** (RTX 3090, 40 queries × 10 repeats, 8 threads):
+  - native p50 7.38 ms;
+  - added K4 p50 4.08 ms [4.00, 4.18];
+  - added K3+K4 p50 4.95 ms [4.83, 5.03] (p95 5.43);
+  - 800/800 certified.
+- **Native FP32 torque: NO-GO (BLOCKED_NATIVE_TORQUE).** Agreement is measured only (≤ 3.7e-6 relative).
+
+**P6 retiming:**
+- At physical limits: 40/40 certified, gain 3.37% [3.24, 3.62]. This is consumed margin.
+- At the same 0.95 margin: 33/40 certified, gain ≈ 0. The other 7: the native output violates K3 at 0.95-scaled kinematic limits.
+
+**Tests:** 390 passed, 6 skipped (full suite after the P5b fixes).

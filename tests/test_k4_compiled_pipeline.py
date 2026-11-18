@@ -99,6 +99,21 @@ class CompiledPipeline(unittest.TestCase):
         g2 = self.g.copy(); g2[3, 2] = np.nan
         self.assertEqual(self.P.certify(g2, self.tc, self.lo, self.hi)["status"], "INVALID_INPUT")
 
+    def test_p5b_hardening_shapes_physical_gate_digest(self):
+        r = self.P.certify(self.g, self.tc, self.lo, self.hi)
+        # N-P5b-4: wrong timing length / geometry width fail closed in producer and verifier
+        self.assertEqual(self.P.certify(self.g, self.tc[:31], self.lo, self.hi)["status"], "INVALID_INPUT")
+        self.assertEqual(self.P.certify(self.g[:, :6], self.tc, self.lo, self.hi)["status"], "INVALID_INPUT")
+        self.assertFalse(self.V.verify(self.g, self.tc[:31], r, self.lo, self.hi)["pass"])
+        # the digest binds shapes: same bytes reshaped give a different digest
+        self.assertNotEqual(KC.bytes_digest(self.g, self.tc, "x", self.lo, self.hi),
+                            KC.bytes_digest(self.g.reshape(7, -1), self.tc, "x", self.lo, self.hi))
+        # N-P5b-2: expect_physical accepts exactly the contract limits, rejects anything else
+        self.assertTrue(self.V.verify(self.g, self.tc, r, self.lo, self.hi, expect_physical=True)["pass"])
+        r2 = self.P.certify(self.g, self.tc, self.lo * 2, self.hi * 2)
+        self.assertTrue(self.V.verify(self.g, self.tc, r2, self.lo * 2, self.hi * 2)["pass"])
+        self.assertFalse(self.V.verify(self.g, self.tc, r2, self.lo * 2, self.hi * 2, expect_physical=True)["pass"])
+
 
 if __name__ == "__main__":
     unittest.main()

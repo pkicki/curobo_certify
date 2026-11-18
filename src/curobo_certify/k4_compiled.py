@@ -117,12 +117,19 @@ def bits_to_path(depth: int, bits: int) -> str:
 def bytes_digest(geometry, timing, contract_sha256: str, lower, upper) -> str:
     """Input binding for the compiled pipeline: raw float32 bytes + contract SHA + limits (hex)."""
     h = hashlib.sha256()
-    h.update(np.ascontiguousarray(geometry, dtype=np.float32).tobytes())
+    g = np.ascontiguousarray(geometry, dtype=np.float32)
+    h.update(("shape:%s;timing:%d;" % ("x".join(map(str, g.shape)), np.asarray(timing).size)).encode())  # N-P5b-4
+    h.update(g.tobytes())
     h.update(np.ascontiguousarray(np.asarray(timing).reshape(-1), dtype=np.float32).tobytes())
     h.update(contract_sha256.encode())
     for v in list(np.asarray(lower, float)) + list(np.asarray(upper, float)):
         h.update(float(v).hex().encode())
     return h.hexdigest()
+
+
+def _shapes_ok(g, tc, lo, hi, dof) -> bool:
+    """N-P5b-4: the C code reads timing[0..31] and geometry rows of length dof; reject anything else."""
+    return g.ndim == 2 and g.shape[1] == dof and g.shape[0] >= 4 and tc.size == 32 and lo.shape == (dof,) and hi.shape == (dof,)
 
 
 class CompiledPath(CompiledCoefficients):
@@ -145,6 +152,9 @@ class CompiledPath(CompiledCoefficients):
         tc = np.ascontiguousarray(np.asarray(timing).reshape(-1), dtype=np.float32)
         lo = np.ascontiguousarray(lower, dtype=np.float64)
         hi = np.ascontiguousarray(upper, dtype=np.float64)
+        if not _shapes_ok(g, tc, lo, hi, self.dof):
+            return {"status": "INVALID_INPUT", "nodes": 0, "leaves": [], "witness": None, "worst_utilization": None,
+                    "max_depth": 0, "input_digest": None}
         cnt, nodes, wit = C.c_int(), C.c_longlong(), _Wit()
         dp, ip, fp = C.POINTER(C.c_double), C.POINTER(C.c_int), C.POINTER(C.c_float)
         while True:
@@ -228,11 +238,19 @@ class CompiledVerifier:
         from .compiled_k3 import timing_intervals
         self.tlo_tab, self.thi_tab = timing_intervals()
 
-    def verify(self, geometry, timing, result: dict, lower, upper, *, refine=8, threads=1):
+    def verify(self, geometry, timing, result: dict, lower, upper, *, refine=8, threads=1, expect_physical=False):
         g = np.ascontiguousarray(geometry, dtype=np.float32)
         tc = np.ascontiguousarray(np.asarray(timing).reshape(-1), dtype=np.float32)
         lo = np.ascontiguousarray(lower, dtype=np.float64)
         hi = np.ascontiguousarray(upper, dtype=np.float64)
+        if not _shapes_ok(g, tc, lo, hi, self.dof):
+            return {"pass": False, "reason": "invalid input shapes"}
+        if expect_physical:  # N-P5b-2: a physical certificate must use exactly the contract effort limits
+            from fractions import Fraction
+            m = self.contract["model"]
+            if (lo.tolist() != [float(Fraction(v)) for v in m["effort_lower"]]
+                    or hi.tolist() != [float(Fraction(v)) for v in m["effort_upper"]]):
+                return {"pass": False, "reason": "limits are not the contract's physical effort limits"}
         if result.get("status") != "CERTIFIED":
             return {"pass": False, "reason": "not a certificate"}
         if result.get("input_digest") != bytes_digest(g, tc, self.contract["contract_sha256"], lo, hi):

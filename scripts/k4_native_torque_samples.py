@@ -28,6 +28,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--npz", nargs="+", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--payload", default=None, help="install the hypothetical-payload TimeOpt hook (k4_payload)")
     a = ap.parse_args()
     import torch
     import generate_native_pilot as G
@@ -36,6 +37,10 @@ def main():
     from native_same_s_falsify import native_inputs
     from native_time_audit_v2 import AuditV2
     G._install_cuda_property_compatibility()
+    audit = None
+    if a.payload:
+        from curobo_certify import k4_payload as KP
+        audit = KP.install_timeopt_payload_hook(a.payload)
     dev = torch.device("cuda:0")
     cfg = MotionPlannerCfg.create(robot="franka.yml", scene_model=None, graph_planner_algorithm="rrt",
                                   enable_trajopt=True, enable_timeopt=True, enable_inverse_dynamics=True,
@@ -49,6 +54,8 @@ def main():
                             max_attempts=2, enable_graph_attempt=0, finetune_attempts=0)
         opt = planner.trajopt_solver._timeopt.optimizer
         dyn = opt._dynamics
+        if a.payload and not audit:
+            raise SystemExit("PAYLOAD_HOOK_NOT_APPLIED")
         plim = [t.detach().cpu().numpy().astype(np.float64) for t in opt._limits[3:5]]
         eff = opt.config.robot.kinematics_config.joint_limits.effort.detach().cpu().numpy().astype(np.float64)
         A = AuditV2(torch, dev)
@@ -78,7 +85,8 @@ def main():
             rows.append(row)
             print(json.dumps({"path": path.stem, **{k: round(v["max_util_physical"], 4) for k, v in row["grids"].items()}}), flush=True)
     a.out.parent.mkdir(parents=True, exist_ok=True)
-    a.out.write_text(json.dumps({"scope": "NATIVE_SAMPLED_TORQUE_DIAGNOSTIC_NOT_PROOF", "gpu": torch.cuda.get_device_name(0),
+    a.out.write_text(json.dumps({"scope": "NATIVE_SAMPLED_TORQUE_DIAGNOSTIC_NOT_PROOF", "gpu": torch.cuda.get_device_name(0), "payload": a.payload,
+                                 "hook_audit": (audit or [None])[-1],
                                  "rows": rows}, indent=1) + "\n")
 
 

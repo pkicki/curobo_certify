@@ -98,7 +98,7 @@ def main():
                     t4 = time.perf_counter_ns()
                     k4 = r4["status"]
                     if k4 == "CERTIFIED":
-                        k4 = "CERTIFIED" if KVf.verify(g, tc, r4, lo, hi, threads=a.threads)["pass"] else "REJECTED_BY_VERIFIER"
+                        k4 = "CERTIFIED" if KVf.verify(g, tc, r4, lo, hi, threads=a.threads, expect_physical=True)["pass"] else "REJECTED_BY_VERIFIER"
                     t5 = time.perf_counter_ns()
                     stages = {"plan_ms": (t1 - t0) / 1e6, "d2h_ms": (t2 - t1) / 1e6,
                               "k4_producer_ms": (t4 - t2) / 1e6, "k4_verifier_ms": (t5 - t4) / 1e6}

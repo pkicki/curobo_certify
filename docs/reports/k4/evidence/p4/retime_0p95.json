@@ -1,0 +1,2750 @@
+{
+ "scope": "K4_P6_CERTIFIED_RETIMING_EXPLORATORY",
+ "limit_scale": "0.95",
+ "contract_sha256": "9caa38bff95b56df89ea6dc71a08a5558474e764a613ecc480c4c38364f663e7",
+ "rows": [
+  {
+   "path": "k4-panda-dev40-0000-margin_0p950-r0",
+   "npz_sha256": "023840d450db56a8fd29b6412d95c22a8eef1b6cc51fc7b267ae0a3a148cd339",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2907680979103283,
+     0.2907681520933694
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2907681299704046,
+    "T_obj_opt": 0.2907681299704046,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.eb52be0000000p+7",
+    "0x1.a199440000000p+6",
+    "0x1.eaa0de0000000p-4",
+    "0x1.68649c0000000p+2",
+    "0x1.504e1e0000000p+2",
+    "0x1.66e3040000000p+2",
+    "0x1.1b23300000000p+3",
+    "0x1.49ae960000000p+3",
+    "0x1.70f0ac0000000p+3",
+    "0x1.986f2e0000000p+3",
+    "0x1.c193060000000p+3",
+    "0x1.eb9d540000000p+3",
+    "0x1.0e40060000000p+4",
+    "0x1.264c020000000p+4",
+    "0x1.35e3040000000p+4",
+    "0x1.3f100a0000000p+4",
+    "0x1.42e5160000000p+4",
+    "0x1.41c6ce0000000p+4",
+    "0x1.3b8bf60000000p+4",
+    "0x1.2fb0220000000p+4",
+    "0x1.1cc19e0000000p+4",
+    "0x1.0498f20000000p+4",
+    "0x1.df04500000000p+3",
+    "0x1.b783560000000p+3",
+    "0x1.913e240000000p+3",
+    "0x1.6c239e0000000p+3",
+    "0x1.497b120000000p+3",
+    "0x1.0d22ec0000000p+3",
+    "0x1.3877aa0000000p+2",
+    "0x1.7b72740000000p+2",
+    "0x1.685cae0000000p+2",
+    "0x1.6f146a0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2907680979103283,
+    0.2907681520933694
+   ],
+   "gain_vs_native_pct": -1.8634448346316905e-05,
+   "seconds": 5.636140338145196
+  },
+  {
+   "path": "k4-panda-dev40-0001-margin_0p950-r0",
+   "npz_sha256": "22287a027589851bb48e699f7bfe307eef9c25574f809e47ae16794a36b9163b",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.28819482356338655,
+     0.288194876207584
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2881948527432452,
+    "T_obj_opt": 0.2881948527432452,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.d9a58e0000000p+7",
+    "0x1.ac8e6a0000000p+6",
+    "0x1.aaa95e0000000p-2",
+    "0x1.6543c80000000p+2",
+    "0x1.5c82cc0000000p+2",
+    "0x1.717c140000000p+2",
+    "0x1.2ceb800000000p+3",
+    "0x1.59baa80000000p+3",
+    "0x1.82b43a0000000p+3",
+    "0x1.ab75f80000000p+3",
+    "0x1.d74f180000000p+3",
+    "0x1.f495420000000p+3",
+    "0x1.fe98320000000p+3",
+    "0x1.1715720000000p+4",
+    "0x1.297c180000000p+4",
+    "0x1.3645780000000p+4",
+    "0x1.3d60520000000p+4",
+    "0x1.3f3e660000000p+4",
+    "0x1.3bbbc00000000p+4",
+    "0x1.3255660000000p+4",
+    "0x1.21ece60000000p+4",
+    "0x1.0a3adc0000000p+4",
+    "0x1.e8e2240000000p+3",
+    "0x1.c25eba0000000p+3",
+    "0x1.9bdcd60000000p+3",
+    "0x1.758b840000000p+3",
+    "0x1.50bc3a0000000p+3",
+    "0x1.14dc000000000p+3",
+    "0x1.41d4c60000000p+2",
+    "0x1.8647400000000p+2",
+    "0x1.6f18220000000p+2",
+    "0x1.761f0a0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.28819482356338655,
+    0.288194876207584
+   ],
+   "gain_vs_native_pct": -1.826687487943173e-05,
+   "seconds": 4.785335368942469
+  },
+  {
+   "path": "k4-panda-dev40-0002-margin_0p950-r0",
+   "npz_sha256": "7b52b1c3c40b3c6f9b7cb4aaa044599bafa599279be62225889530cf787ac312",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.26138127361235614,
+     0.26138131723504876
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.26138130019648825,
+    "T_obj_opt": 0.26138130019648825,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.084a4c0000000p+7",
+    "0x1.eefd4e0000000p+6",
+    "0x1.3d3af40000000p-3",
+    "0x1.ae595a0000000p+2",
+    "0x1.8e20580000000p+2",
+    "0x1.aa7eda0000000p+2",
+    "0x1.671e880000000p+3",
+    "0x1.a66e120000000p+3",
+    "0x1.dca47e0000000p+3",
+    "0x1.0855740000000p+4",
+    "0x1.22d6ec0000000p+4",
+    "0x1.3b4aa00000000p+4",
+    "0x1.5850c80000000p+4",
+    "0x1.71306e0000000p+4",
+    "0x1.8132da0000000p+4",
+    "0x1.8ac1a60000000p+4",
+    "0x1.8edbc80000000p+4",
+    "0x1.8df6080000000p+4",
+    "0x1.87ef680000000p+4",
+    "0x1.7c35b80000000p+4",
+    "0x1.69788e0000000p+4",
+    "0x1.4df1ae0000000p+4",
+    "0x1.33eb6e0000000p+4",
+    "0x1.19b9a80000000p+4",
+    "0x1.0030560000000p+4",
+    "0x1.ce8b6c0000000p+3",
+    "0x1.9d50c20000000p+3",
+    "0x1.4524be0000000p+3",
+    "0x1.71a8fa0000000p+2",
+    "0x1.c53f880000000p+2",
+    "0x1.a8ccf00000000p+2",
+    "0x1.b54a0a0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.26138127361235614,
+    0.26138131723504876
+   ],
+   "gain_vs_native_pct": -1.6689292519550583e-05,
+   "seconds": 4.570425315061584
+  },
+  {
+   "path": "k4-panda-dev40-0003-margin_0p950-r0",
+   "npz_sha256": "0c4d15449a717ebfcb6188f3e60b407418227a441e78ea5ee16d82f4832c5831",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2880938871686578,
+     0.28809393196594735
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.28809391491225167,
+    "T_obj_opt": 0.28809391491225167,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.1a71040000000p+7",
+    "0x1.9fff640000000p+6",
+    "0x1.f9edba0000000p-3",
+    "0x1.6e655e0000000p+2",
+    "0x1.577c1e0000000p+2",
+    "0x1.6cf4040000000p+2",
+    "0x1.22cc380000000p+3",
+    "0x1.52d6c60000000p+3",
+    "0x1.7c53b60000000p+3",
+    "0x1.a505cc0000000p+3",
+    "0x1.ced3c40000000p+3",
+    "0x1.f9a7c20000000p+3",
+    "0x1.13b1040000000p+4",
+    "0x1.2af3ca0000000p+4",
+    "0x1.3a36240000000p+4",
+    "0x1.4344d60000000p+4",
+    "0x1.4707ca0000000p+4",
+    "0x1.45e3840000000p+4",
+    "0x1.3faf900000000p+4",
+    "0x1.3400a20000000p+4",
+    "0x1.2160d00000000p+4",
+    "0x1.0ab2720000000p+4",
+    "0x1.ec31ce0000000p+3",
+    "0x1.c2b5a00000000p+3",
+    "0x1.9ba3000000000p+3",
+    "0x1.7554680000000p+3",
+    "0x1.51c1b40000000p+3",
+    "0x1.138cc40000000p+3",
+    "0x1.3d091c0000000p+2",
+    "0x1.82eebc0000000p+2",
+    "0x1.6b7d240000000p+2",
+    "0x1.7579fc0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2880938871686578,
+    0.28809393196594735
+   ],
+   "gain_vs_native_pct": -1.554954290041602e-05,
+   "seconds": 3.7961017079651356
+  },
+  {
+   "path": "k4-panda-dev40-0004-margin_0p950-r0",
+   "npz_sha256": "e4a405ec3b120ef1e9eed4edda6d6c3aff625af99c8d0438bca389dead3ed0d8",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.7113325407377252,
+     0.7113326097215206
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.7113325694347582,
+    "T_obj_opt": 0.7113325694347582,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.f290be0000000p+2",
+    "0x1.6a6c980000000p+4",
+    "0x1.8ac3e40000000p-2",
+    "0x1.01d0220000000p+1",
+    "0x1.4da5bc0000000p+0",
+    "0x1.883f4a0000000p+0",
+    "0x1.f5330a0000000p+0",
+    "0x1.1a18340000000p+1",
+    "0x1.35bac80000000p+1",
+    "0x1.50a5ae0000000p+1",
+    "0x1.325a5a0000000p+1",
+    "0x1.06802c0000000p+1",
+    "0x1.ea354a0000000p+0",
+    "0x1.c459100000000p+0",
+    "0x1.b1d8420000000p+0",
+    "0x1.a3999a0000000p+0",
+    "0x1.9ef3a20000000p+0",
+    "0x1.a017660000000p+0",
+    "0x1.a9cf1c0000000p+0",
+    "0x1.b903880000000p+0",
+    "0x1.d541ea0000000p+0",
+    "0x1.f93b340000000p+0",
+    "0x1.1736c80000000p+1",
+    "0x1.4621680000000p+1",
+    "0x1.4476800000000p+1",
+    "0x1.1fcad20000000p+1",
+    "0x1.0156220000000p+1",
+    "0x1.a176180000000p+0",
+    "0x1.35de260000000p+0",
+    "0x1.ecc33c0000000p+0",
+    "0x1.baf64e0000000p+0",
+    "0x1.cd7d5c0000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.7113325407377252,
+    0.7113326097215206
+   ],
+   "gain_vs_native_pct": -9.697825517897949e-06,
+   "seconds": 5.40355343488045
+  },
+  {
+   "path": "k4-panda-dev40-0005-margin_0p950-r0",
+   "npz_sha256": "918447c0e5f3a432260cbe7490ce71dc075fd59f77b59c8062fbda3951456400",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.511821906520809,
+     0.5118219833800239
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.5118219509132964,
+    "T_obj_opt": 0.5118219509132964,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.7cb4e20000000p+4",
+    "0x1.713bb80000000p+5",
+    "0x1.9343460000000p-5",
+    "0x1.3e0be20000000p+1",
+    "0x1.01d1660000000p+1",
+    "0x1.3a0ff40000000p+1",
+    "0x1.8ca33a0000000p+1",
+    "0x1.b778be0000000p+1",
+    "0x1.dd9d4e0000000p+1",
+    "0x1.067a220000000p+2",
+    "0x1.1ce61c0000000p+2",
+    "0x1.3716c00000000p+2",
+    "0x1.445ef40000000p+2",
+    "0x1.3b40a40000000p+2",
+    "0x1.26dcba0000000p+2",
+    "0x1.1c4c1e0000000p+2",
+    "0x1.1940bc0000000p+2",
+    "0x1.1a257e0000000p+2",
+    "0x1.1fd92e0000000p+2",
+    "0x1.3093d20000000p+2",
+    "0x1.42d4120000000p+2",
+    "0x1.41e3e80000000p+2",
+    "0x1.29ab340000000p+2",
+    "0x1.1132300000000p+2",
+    "0x1.f3de820000000p+1",
+    "0x1.c7d9c80000000p+1",
+    "0x1.a117aa0000000p+1",
+    "0x1.6155e60000000p+1",
+    "0x1.14f53e0000000p+1",
+    "0x1.3b68f00000000p+1",
+    "0x1.4715fa0000000p+1",
+    "0x1.4283060000000p+1"
+   ],
+   "retimed_duration_bracket_s": [
+    0.511821906520809,
+    0.5118219833800239
+   ],
+   "gain_vs_native_pct": -1.501678659538654e-05,
+   "seconds": 3.969579721800983
+  },
+  {
+   "path": "k4-panda-dev40-0006-margin_0p950-r0",
+   "npz_sha256": "903356bb9db651b007af848f7ff6471708a6bbfa24a0b33737faafb7d2c07a4c",
+   "native": {
+    "K3": "VIOLATED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.5323740071901529,
+     0.5323740757726133
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.5323740501054381,
+    "T_obj_opt": 0.5323740501054381,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.5,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.25,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.03125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.015625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0078125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.00390625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.001953125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": null,
+   "accepted_timing_float32_hex": null,
+   "retimed_duration_bracket_s": null,
+   "gain_vs_native_pct": null,
+   "seconds": 16.73792713903822
+  },
+  {
+   "path": "k4-panda-dev40-0009-margin_0p950-r0",
+   "npz_sha256": "544c16c10f8c20d8e52aa763b82a627b6e952f297a981f0738cbd5b7886aa7dd",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.7885633355017598,
+     0.7885634223161396
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.7885633915143848,
+    "T_obj_opt": 0.7885633915143848,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.7744ac0000000p+3",
+    "0x1.b9f1c40000000p+4",
+    "0x1.a3369c0000000p-11",
+    "0x1.e268b40000000p+0",
+    "0x1.34df120000000p+0",
+    "0x1.64264e0000000p+0",
+    "0x1.bd511a0000000p+0",
+    "0x1.edc4ac0000000p+0",
+    "0x1.0cb8aa0000000p+1",
+    "0x1.1138380000000p+1",
+    "0x1.bda9080000000p+0",
+    "0x1.89a1ec0000000p+0",
+    "0x1.64e6ba0000000p+0",
+    "0x1.4ab3ba0000000p+0",
+    "0x1.398b300000000p+0",
+    "0x1.2f5ada0000000p+0",
+    "0x1.2aa1fc0000000p+0",
+    "0x1.2c29e60000000p+0",
+    "0x1.3351780000000p+0",
+    "0x1.40ee640000000p+0",
+    "0x1.555c1e0000000p+0",
+    "0x1.760c600000000p+0",
+    "0x1.993a600000000p+0",
+    "0x1.ef1eec0000000p+0",
+    "0x1.194a0a0000000p+1",
+    "0x1.fe27fc0000000p+0",
+    "0x1.d39db00000000p+0",
+    "0x1.8a91e80000000p+0",
+    "0x1.1c84200000000p+0",
+    "0x1.bbc50e0000000p+0",
+    "0x1.b35f9a0000000p+0",
+    "0x1.b223ec0000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.7885633355017598,
+    0.7885634223161396
+   ],
+   "gain_vs_native_pct": -1.1009181676355984e-05,
+   "seconds": 4.509142382070422
+  },
+  {
+   "path": "k4-panda-dev40-0010-margin_0p950-r0",
+   "npz_sha256": "badc64d0f810a242d184bfcbceb6db71336b5f50b2945463c6d13ada814710a3",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8817823630012583,
+     0.8817824544461188
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.8817824202653166,
+    "T_obj_opt": 0.8817824202653166,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.3dfe720000000p+3",
+    "0x1.87f29c0000000p+4",
+    "0x1.acd76c0000000p-12",
+    "0x1.bdee1c0000000p+0",
+    "0x1.0ab4b40000000p+0",
+    "0x1.341d780000000p+0",
+    "0x1.81bc120000000p+0",
+    "0x1.aceab60000000p+0",
+    "0x1.d3315a0000000p+0",
+    "0x1.975a4e0000000p+0",
+    "0x1.4e57f80000000p+0",
+    "0x1.2862620000000p+0",
+    "0x1.0a78a20000000p+0",
+    "0x1.ef79e60000000p-1",
+    "0x1.d5593a0000000p-1",
+    "0x1.c67f280000000p-1",
+    "0x1.c03c820000000p-1",
+    "0x1.c2187a0000000p-1",
+    "0x1.cc75380000000p-1",
+    "0x1.dffe640000000p-1",
+    "0x1.00166e0000000p+0",
+    "0x1.168f620000000p+0",
+    "0x1.3abd680000000p+0",
+    "0x1.6815a80000000p+0",
+    "0x1.c60efe0000000p+0",
+    "0x1.bab2360000000p+0",
+    "0x1.8f906e0000000p+0",
+    "0x1.51e3ee0000000p+0",
+    "0x1.d65ef20000000p-1",
+    "0x1.9a1ad20000000p+0",
+    "0x1.8773c80000000p+0",
+    "0x1.89eda40000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8817823630012583,
+    0.8817824544461188
+   ],
+   "gain_vs_native_pct": -1.0370455887453836e-05,
+   "seconds": 4.260644703172147
+  },
+  {
+   "path": "k4-panda-dev40-0011-margin_0p950-r0",
+   "npz_sha256": "13417728d5f03f004dd804acf8e7a7a477a4cfdb11881cf1d704d65fc2899ae3",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.47504210469639474,
+     0.4750421590478664
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.4750421340982679,
+    "T_obj_opt": 0.4750421340982679,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.e6f53a0000000p+3",
+    "0x1.1fded00000000p+5",
+    "0x1.9d64b40000000p-1",
+    "0x1.6084fc0000000p+1",
+    "0x1.27f62e0000000p+1",
+    "0x1.4ef2320000000p+1",
+    "0x1.b5d8040000000p+1",
+    "0x1.e3edb00000000p+1",
+    "0x1.099ef60000000p+2",
+    "0x1.22ea180000000p+2",
+    "0x1.3e05e80000000p+2",
+    "0x1.5aadfe0000000p+2",
+    "0x1.76dbbc0000000p+2",
+    "0x1.9a47b40000000p+2",
+    "0x1.a7c0160000000p+2",
+    "0x1.a2064e0000000p+2",
+    "0x1.904ee60000000p+2",
+    "0x1.9772640000000p+2",
+    "0x1.a619260000000p+2",
+    "0x1.a315120000000p+2",
+    "0x1.8b02140000000p+2",
+    "0x1.69b24a0000000p+2",
+    "0x1.4e633e0000000p+2",
+    "0x1.320cea0000000p+2",
+    "0x1.1847260000000p+2",
+    "0x1.ffdcc60000000p+1",
+    "0x1.d5803c0000000p+1",
+    "0x1.8f5b420000000p+1",
+    "0x1.2a5fb20000000p+1",
+    "0x1.346e9e0000000p+1",
+    "0x1.649f080000000p+1",
+    "0x1.472f680000000p+1"
+   ],
+   "retimed_duration_bracket_s": [
+    0.47504210469639474,
+    0.4750421590478664
+   ],
+   "gain_vs_native_pct": -1.1441399594007322e-05,
+   "seconds": 3.9575664778240025
+  },
+  {
+   "path": "k4-panda-dev40-0012-margin_0p950-r0",
+   "npz_sha256": "46ad79efef89a72ff916315c4e3b9855755fa754334f9faa1b1c0186f98b75a3",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.28239050993887155,
+     0.2823905547764746
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2823905379128275,
+    "T_obj_opt": 0.2823905379128275,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.4a95da0000000p+6",
+    "0x1.993a980000000p+6",
+    "0x1.1515260000000p-1",
+    "0x1.78978a0000000p+2",
+    "0x1.64a8220000000p+2",
+    "0x1.77f7660000000p+2",
+    "0x1.2dd73a0000000p+3",
+    "0x1.6285600000000p+3",
+    "0x1.8d0db60000000p+3",
+    "0x1.b85f5e0000000p+3",
+    "0x1.e366360000000p+3",
+    "0x1.08855a0000000p+4",
+    "0x1.221fd80000000p+4",
+    "0x1.3b8e480000000p+4",
+    "0x1.4c31080000000p+4",
+    "0x1.561dae0000000p+4",
+    "0x1.5a65bc0000000p+4",
+    "0x1.5975f00000000p+4",
+    "0x1.532cba0000000p+4",
+    "0x1.46f0140000000p+4",
+    "0x1.33328a0000000p+4",
+    "0x1.184ee40000000p+4",
+    "0x1.00c9e60000000p+4",
+    "0x1.d680760000000p+3",
+    "0x1.ad71fe0000000p+3",
+    "0x1.858bc60000000p+3",
+    "0x1.5fd25a0000000p+3",
+    "0x1.1eca620000000p+3",
+    "0x1.448b700000000p+2",
+    "0x1.8f19ca0000000p+2",
+    "0x1.75948a0000000p+2",
+    "0x1.8074900000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.28239050993887155,
+    0.2823905547764746
+   ],
+   "gain_vs_native_pct": -1.5877869254629692e-05,
+   "seconds": 4.687659760937095
+  },
+  {
+   "path": "k4-panda-dev40-0013-margin_0p950-r0",
+   "npz_sha256": "423e058be47f8641b17a3adb449073fcc4d1fde1454a675379e9af3e2367e1a6",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.4924879498397852,
+     0.4924879865094928
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.49248796524919825,
+    "T_obj_opt": 0.49248796524919825,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.0f9aaa0000000p+3",
+    "0x1.543d2a0000000p+4",
+    "0x1.c7514a0000000p+0",
+    "0x1.5af72c0000000p+1",
+    "0x1.35e1200000000p+1",
+    "0x1.57f4800000000p+1",
+    "0x1.c0f7a20000000p+1",
+    "0x1.ef5dda0000000p+1",
+    "0x1.0d62b20000000p+2",
+    "0x1.225e600000000p+2",
+    "0x1.3834fe0000000p+2",
+    "0x1.53e2ca0000000p+2",
+    "0x1.56ffba0000000p+2",
+    "0x1.447f660000000p+2",
+    "0x1.2b74ae0000000p+2",
+    "0x1.242a540000000p+2",
+    "0x1.236d160000000p+2",
+    "0x1.23a0ba0000000p+2",
+    "0x1.2615740000000p+2",
+    "0x1.3689640000000p+2",
+    "0x1.506e4a0000000p+2",
+    "0x1.590ff60000000p+2",
+    "0x1.48df520000000p+2",
+    "0x1.2fbef40000000p+2",
+    "0x1.1bfe1c0000000p+2",
+    "0x1.05220a0000000p+2",
+    "0x1.e466040000000p+1",
+    "0x1.9d46d00000000p+1",
+    "0x1.46e5fc0000000p+1",
+    "0x1.5f381a0000000p+1",
+    "0x1.63450e0000000p+1",
+    "0x1.62b9060000000p+1"
+   ],
+   "retimed_duration_bracket_s": [
+    0.4924879498397852,
+    0.4924879865094928
+   ],
+   "gain_vs_native_pct": -7.445807534035296e-06,
+   "seconds": 6.206415235996246
+  },
+  {
+   "path": "k4-panda-dev40-0015-margin_0p950-r0",
+   "npz_sha256": "fb3f24d12a8d354edb5f277a4ea7c0f402d6e02fa995b2066fd157c2d6ba03c9",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.30192497772125887,
+     0.3019250102467656
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.30192499398079375,
+    "T_obj_opt": 0.30192499398079375,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.a1b0d80000000p+4",
+    "0x1.c7cf320000000p+5",
+    "0x1.5dd6c80000000p+1",
+    "0x1.540b300000000p+2",
+    "0x1.4e8baa0000000p+2",
+    "0x1.5826400000000p+2",
+    "0x1.109d9e0000000p+3",
+    "0x1.3a00580000000p+3",
+    "0x1.5ea5400000000p+3",
+    "0x1.81e9060000000p+3",
+    "0x1.a599060000000p+3",
+    "0x1.caa35c0000000p+3",
+    "0x1.f37bc00000000p+3",
+    "0x1.0fd5c60000000p+4",
+    "0x1.1e64740000000p+4",
+    "0x1.27166e0000000p+4",
+    "0x1.2acb400000000p+4",
+    "0x1.29e4900000000p+4",
+    "0x1.243be60000000p+4",
+    "0x1.1960b00000000p+4",
+    "0x1.07ed960000000p+4",
+    "0x1.e365760000000p+3",
+    "0x1.bdc8600000000p+3",
+    "0x1.9a42ee0000000p+3",
+    "0x1.781c9c0000000p+3",
+    "0x1.568de80000000p+3",
+    "0x1.36743a0000000p+3",
+    "0x1.fe99260000000p+2",
+    "0x1.2c31380000000p+2",
+    "0x1.6666c40000000p+2",
+    "0x1.4b3bf40000000p+2",
+    "0x1.4889280000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.30192497772125887,
+    0.3019250102467656
+   ],
+   "gain_vs_native_pct": -1.0772710318300694e-05,
+   "seconds": 3.6445983541198075
+  },
+  {
+   "path": "k4-panda-dev40-0016-margin_0p950-r0",
+   "npz_sha256": "c468f10b5563979aa55f4c675cedd97eef9bcd675ed235cd0f602de2018d289e",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8826005793094821,
+     0.8826006801191514
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.88260064378041,
+    "T_obj_opt": 0.88260064378041,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.8e20900000000p+3",
+    "0x1.957e340000000p+4",
+    "0x1.950ebc0000000p-10",
+    "0x1.940c9c0000000p+0",
+    "0x1.faae080000000p-1",
+    "0x1.24440e0000000p+0",
+    "0x1.79a6720000000p+0",
+    "0x1.a7487c0000000p+0",
+    "0x1.d5044c0000000p+0",
+    "0x1.93eaf60000000p+0",
+    "0x1.57856e0000000p+0",
+    "0x1.3443c60000000p+0",
+    "0x1.1880a40000000p+0",
+    "0x1.06e6040000000p+0",
+    "0x1.f545540000000p-1",
+    "0x1.e6c1a80000000p-1",
+    "0x1.e011f20000000p-1",
+    "0x1.e08d7c0000000p-1",
+    "0x1.e8cb7a0000000p-1",
+    "0x1.f82d800000000p-1",
+    "0x1.09e49a0000000p+0",
+    "0x1.1b67940000000p+0",
+    "0x1.3b64360000000p+0",
+    "0x1.572c480000000p+0",
+    "0x1.a88b0a0000000p+0",
+    "0x1.a94b8c0000000p+0",
+    "0x1.7884620000000p+0",
+    "0x1.3847520000000p+0",
+    "0x1.97352c0000000p-1",
+    "0x1.7257e00000000p+0",
+    "0x1.75a1260000000p+0",
+    "0x1.702b7e0000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8826005793094821,
+    0.8826006801191514
+   ],
+   "gain_vs_native_pct": -1.1421888918705086e-05,
+   "seconds": 4.173054706072435
+  },
+  {
+   "path": "k4-panda-dev40-0017-margin_0p950-r0",
+   "npz_sha256": "d10792a930f9a8f5c47fcdebe2760043b50649e1fef4eb9dc493742ebe6eda42",
+   "native": {
+    "K3": "VIOLATED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.5053240537735547,
+     0.5053240909198853
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.5053240700566951,
+    "T_obj_opt": 0.5053240700566951,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.5,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.25,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.03125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.015625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0078125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.00390625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.001953125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": null,
+   "accepted_timing_float32_hex": null,
+   "retimed_duration_bracket_s": null,
+   "gain_vs_native_pct": null,
+   "seconds": 17.315460812998936
+  },
+  {
+   "path": "k4-panda-dev40-0018-margin_0p950-r0",
+   "npz_sha256": "df698d3e5e0adf92a490ad6a005f309c85c47ea7ecdbb988d034404e13583452",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.7875980189265269,
+     0.7875981073114084
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.7875980729494328,
+    "T_obj_opt": 0.7875980729494328,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.35d7e20000000p+3",
+    "0x1.8847a20000000p+4",
+    "0x1.6488980000000p-5",
+    "0x1.bcdf9a0000000p+0",
+    "0x1.0ff0aa0000000p+0",
+    "0x1.3aae720000000p+0",
+    "0x1.89b2cc0000000p+0",
+    "0x1.b5e3e60000000p+0",
+    "0x1.d985ac0000000p+0",
+    "0x1.05fa9c0000000p+1",
+    "0x1.00d8680000000p+1",
+    "0x1.b57c120000000p+0",
+    "0x1.92596a0000000p+0",
+    "0x1.7353560000000p+0",
+    "0x1.61162a0000000p+0",
+    "0x1.55548c0000000p+0",
+    "0x1.50e2220000000p+0",
+    "0x1.521fdc0000000p+0",
+    "0x1.5a21c20000000p+0",
+    "0x1.6877620000000p+0",
+    "0x1.81024a0000000p+0",
+    "0x1.a14d6e0000000p+0",
+    "0x1.d797380000000p+0",
+    "0x1.0a4d500000000p+1",
+    "0x1.ef0efe0000000p+0",
+    "0x1.c0fa8e0000000p+0",
+    "0x1.9a4d180000000p+0",
+    "0x1.58e0ba0000000p+0",
+    "0x1.e6b5440000000p-1",
+    "0x1.8bfc0c0000000p+0",
+    "0x1.92cc960000000p+0",
+    "0x1.8c380c0000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.7875980189265269,
+    0.7875981073114084
+   ],
+   "gain_vs_native_pct": -1.1222078964416874e-05,
+   "seconds": 6.364780703093857
+  },
+  {
+   "path": "k4-panda-dev40-0019-margin_0p950-r0",
+   "npz_sha256": "4274b81d2605797aeff38595d39ba8e1087bcb865fa3b1be55f088cc9fda464e",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2992036634937111,
+     0.2992037118786977
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2992036922581083,
+    "T_obj_opt": 0.2992036922581083,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.25ed520000000p+7",
+    "0x1.95f0660000000p+6",
+    "0x1.31c6880000000p-5",
+    "0x1.58fe120000000p+2",
+    "0x1.3f30be0000000p+2",
+    "0x1.57b74c0000000p+2",
+    "0x1.0c979e0000000p+3",
+    "0x1.395edc0000000p+3",
+    "0x1.5df6480000000p+3",
+    "0x1.83d90e0000000p+3",
+    "0x1.a6ed520000000p+3",
+    "0x1.d268e60000000p+3",
+    "0x1.eb308e0000000p+3",
+    "0x1.0f0fb40000000p+4",
+    "0x1.2040ba0000000p+4",
+    "0x1.2ae4060000000p+4",
+    "0x1.2fd8480000000p+4",
+    "0x1.2fb0760000000p+4",
+    "0x1.2a5c7e0000000p+4",
+    "0x1.1f652c0000000p+4",
+    "0x1.0d5d2c0000000p+4",
+    "0x1.e9da3e0000000p+3",
+    "0x1.c146060000000p+3",
+    "0x1.9d9b040000000p+3",
+    "0x1.79c0140000000p+3",
+    "0x1.5703140000000p+3",
+    "0x1.369bc20000000p+3",
+    "0x1.fbe9dc0000000p+2",
+    "0x1.2e9a4a0000000p+2",
+    "0x1.6bad920000000p+2",
+    "0x1.5803300000000p+2",
+    "0x1.5f96c00000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2992036634937111,
+    0.2992037118786977
+   ],
+   "gain_vs_native_pct": -1.6171252129391568e-05,
+   "seconds": 4.006565982941538
+  },
+  {
+   "path": "k4-panda-dev40-0020-margin_0p950-r0",
+   "npz_sha256": "e243c8e7bc4610966f37b8a02383c7ae5d2bb997ef548c9fcfa13330e129714f",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2850798615884647,
+     0.2850799061189671
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2850798882316868,
+    "T_obj_opt": 0.2850798882316868,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.15f5960000000p+7",
+    "0x1.a43c900000000p+6",
+    "0x1.e73f460000000p-2",
+    "0x1.6f402a0000000p+2",
+    "0x1.5b9b280000000p+2",
+    "0x1.744d880000000p+2",
+    "0x1.2afed60000000p+3",
+    "0x1.5e94820000000p+3",
+    "0x1.87beec0000000p+3",
+    "0x1.afc7b40000000p+3",
+    "0x1.d69ffa0000000p+3",
+    "0x1.ff35700000000p+3",
+    "0x1.1920b40000000p+4",
+    "0x1.3207e60000000p+4",
+    "0x1.42533e0000000p+4",
+    "0x1.4c21460000000p+4",
+    "0x1.5087b60000000p+4",
+    "0x1.50018e0000000p+4",
+    "0x1.4a74560000000p+4",
+    "0x1.3f25800000000p+4",
+    "0x1.2c9faa0000000p+4",
+    "0x1.1212b80000000p+4",
+    "0x1.f34d3a0000000p+3",
+    "0x1.ca4af20000000p+3",
+    "0x1.a7245c0000000p+3",
+    "0x1.8018a20000000p+3",
+    "0x1.5a2d420000000p+3",
+    "0x1.19ab460000000p+3",
+    "0x1.4338280000000p+2",
+    "0x1.87d39e0000000p+2",
+    "0x1.6469e40000000p+2",
+    "0x1.6a3ef20000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2850798615884647,
+    0.2850799061189671
+   ],
+   "gain_vs_native_pct": -1.5620358166537454e-05,
+   "seconds": 4.456172743812203
+  },
+  {
+   "path": "k4-panda-dev40-0022-margin_0p950-r0",
+   "npz_sha256": "faf80c1fe38b7f7394d73f5c334ad9bc836b9f72f2f591c8ff9ae46f16cddcbb",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.7805831724377997,
+     0.7805832583003868
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.7805832234417027,
+    "T_obj_opt": 0.7805832234417027,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.3fb1300000000p+3",
+    "0x1.b8f11c0000000p+4",
+    "0x1.6e05e40000000p-7",
+    "0x1.ea284c0000000p+0",
+    "0x1.393a1a0000000p+0",
+    "0x1.6ac83a0000000p+0",
+    "0x1.c4b5d60000000p+0",
+    "0x1.f7b10c0000000p+0",
+    "0x1.119a720000000p+1",
+    "0x1.17c1240000000p+1",
+    "0x1.ccfe300000000p+0",
+    "0x1.9537060000000p+0",
+    "0x1.6d62800000000p+0",
+    "0x1.52dc940000000p+0",
+    "0x1.40fdc20000000p+0",
+    "0x1.36b9bc0000000p+0",
+    "0x1.3234b20000000p+0",
+    "0x1.33b2560000000p+0",
+    "0x1.3ab16c0000000p+0",
+    "0x1.489f360000000p+0",
+    "0x1.5dc9a80000000p+0",
+    "0x1.7f38b80000000p+0",
+    "0x1.a900f00000000p+0",
+    "0x1.fb97820000000p+0",
+    "0x1.1ea4d80000000p+1",
+    "0x1.030d080000000p+1",
+    "0x1.d8e1160000000p+0",
+    "0x1.8ee0960000000p+0",
+    "0x1.1de8340000000p+0",
+    "0x1.c5b3880000000p+0",
+    "0x1.b5a0360000000p+0",
+    "0x1.b77c160000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.7805831724377997,
+    0.7805832583003868
+   ],
+   "gain_vs_native_pct": -1.0999798692493984e-05,
+   "seconds": 4.953322899993509
+  },
+  {
+   "path": "k4-panda-dev40-0023-margin_0p950-r0",
+   "npz_sha256": "9bafd17f74bccee304650bc5cab1c579180f4feacfe0eb7696190869801652b1",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8450578903338319,
+     0.8450579782506309
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.8450579482579486,
+    "T_obj_opt": 0.8450579482579486,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.d5a3540000000p+3",
+    "0x1.94fa920000000p+4",
+    "0x1.4731720000000p-8",
+    "0x1.c819ba0000000p+0",
+    "0x1.19ced60000000p+0",
+    "0x1.4099380000000p+0",
+    "0x1.92d0c80000000p+0",
+    "0x1.bd22de0000000p+0",
+    "0x1.e59b620000000p+0",
+    "0x1.d2d8aa0000000p+0",
+    "0x1.7205f80000000p+0",
+    "0x1.5044a00000000p+0",
+    "0x1.2dbe840000000p+0",
+    "0x1.18b0340000000p+0",
+    "0x1.09ca360000000p+0",
+    "0x1.0162300000000p+0",
+    "0x1.fab96a0000000p-1",
+    "0x1.fd53140000000p-1",
+    "0x1.0493ba0000000p+0",
+    "0x1.1031fa0000000p+0",
+    "0x1.21399c0000000p+0",
+    "0x1.3d48e60000000p+0",
+    "0x1.5dcc1e0000000p+0",
+    "0x1.9a3d480000000p+0",
+    "0x1.ea63380000000p+0",
+    "0x1.c9741e0000000p+0",
+    "0x1.9e40b00000000p+0",
+    "0x1.5c3ac40000000p+0",
+    "0x1.dd72aa0000000p-1",
+    "0x1.9295140000000p+0",
+    "0x1.9adb580000000p+0",
+    "0x1.92851a0000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8450578903338319,
+    0.8450579782506309
+   ],
+   "gain_vs_native_pct": -1.040364107727081e-05,
+   "seconds": 4.782879570033401
+  },
+  {
+   "path": "k4-panda-dev40-0024-margin_0p950-r0",
+   "npz_sha256": "3d680cbc8b6bda89768dd6218d4f491ab3627a909e0b6f2f82e039b28b92889c",
+   "native": {
+    "K3": "VIOLATED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.529274506804833,
+     0.529274578172327
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.5292745530941403,
+    "T_obj_opt": 0.5292745530941403,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.5,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.25,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.03125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.015625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0078125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.00390625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.001953125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": null,
+   "accepted_timing_float32_hex": null,
+   "retimed_duration_bracket_s": null,
+   "gain_vs_native_pct": null,
+   "seconds": 16.72027655201964
+  },
+  {
+   "path": "k4-panda-dev40-0025-margin_0p950-r0",
+   "npz_sha256": "d6b3808153b3543ecdfa70346eabcc5bee9a5f94cbec5d0b096a32fdfbc3c61e",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2888239206322648,
+     0.28882394215657653
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2888239313531598,
+    "T_obj_opt": 0.2888239313531598,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.0bc0320000000p+5",
+    "0x1.45aca20000000p+5",
+    "0x1.03f6080000000p+2",
+    "0x1.7b8cb20000000p+2",
+    "0x1.76fdf40000000p+2",
+    "0x1.7a689a0000000p+2",
+    "0x1.2af96e0000000p+3",
+    "0x1.5bae5e0000000p+3",
+    "0x1.8090820000000p+3",
+    "0x1.a997fe0000000p+3",
+    "0x1.d58cc40000000p+3",
+    "0x1.fb03580000000p+3",
+    "0x1.11ffd80000000p+4",
+    "0x1.2571180000000p+4",
+    "0x1.326cca0000000p+4",
+    "0x1.3a3f1c0000000p+4",
+    "0x1.3de37a0000000p+4",
+    "0x1.3dcac60000000p+4",
+    "0x1.39db860000000p+4",
+    "0x1.31bb2e0000000p+4",
+    "0x1.23ceb80000000p+4",
+    "0x1.11bad40000000p+4",
+    "0x1.eb87420000000p+3",
+    "0x1.cdc4660000000p+3",
+    "0x1.a1b73e0000000p+3",
+    "0x1.7c61f60000000p+3",
+    "0x1.58623e0000000p+3",
+    "0x1.1b3cdc0000000p+3",
+    "0x1.4361840000000p+2",
+    "0x1.8f29380000000p+2",
+    "0x1.7679dc0000000p+2",
+    "0x1.80c6ac0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2888239206322648,
+    0.28882394215657653
+   ],
+   "gain_vs_native_pct": -7.452398703912442e-06,
+   "seconds": 4.8122207638807595
+  },
+  {
+   "path": "k4-panda-dev40-0028-margin_0p950-r0",
+   "npz_sha256": "8c935f7fd98e49b7d90a22f09ae6c7c366dd54325904d7553d87d8f90bdca7b4",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2698573015425053,
+     0.2698573331328518
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2698573185854485,
+    "T_obj_opt": 0.2698573185854485,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.81d4800000000p+5",
+    "0x1.38f9220000000p+6",
+    "0x1.4b4a0e0000000p+1",
+    "0x1.a346de0000000p+2",
+    "0x1.93e27a0000000p+2",
+    "0x1.a179480000000p+2",
+    "0x1.5b4f860000000p+3",
+    "0x1.940cd40000000p+3",
+    "0x1.c524060000000p+3",
+    "0x1.f30bb40000000p+3",
+    "0x1.0c53940000000p+4",
+    "0x1.1f3eb40000000p+4",
+    "0x1.3b75420000000p+4",
+    "0x1.5275060000000p+4",
+    "0x1.60de060000000p+4",
+    "0x1.6996b60000000p+4",
+    "0x1.6d73ce0000000p+4",
+    "0x1.6cf3780000000p+4",
+    "0x1.67fdde0000000p+4",
+    "0x1.5d89a00000000p+4",
+    "0x1.4bf5340000000p+4",
+    "0x1.30e1960000000p+4",
+    "0x1.1888a00000000p+4",
+    "0x1.03abd80000000p+4",
+    "0x1.e030fe0000000p+3",
+    "0x1.b583200000000p+3",
+    "0x1.8815f20000000p+3",
+    "0x1.3bb12a0000000p+3",
+    "0x1.68c3e40000000p+2",
+    "0x1.ba15aa0000000p+2",
+    "0x1.9d28240000000p+2",
+    "0x1.aa1f560000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2698573015425053,
+    0.2698573331328518
+   ],
+   "gain_vs_native_pct": -1.1706313902464214e-05,
+   "seconds": 3.66634240699932
+  },
+  {
+   "path": "k4-panda-dev40-0029-margin_0p950-r0",
+   "npz_sha256": "766712a4c26b6431340921bcd35a8facca7ee1505d90ba4087f471495955f780",
+   "native": {
+    "K3": "VIOLATED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.4906124219663523,
+     0.490612484228004
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.4906124581291691,
+    "T_obj_opt": 0.4906124581291691,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.5,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.25,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.03125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.015625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0078125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.00390625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.001953125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": null,
+   "accepted_timing_float32_hex": null,
+   "retimed_duration_bracket_s": null,
+   "gain_vs_native_pct": null,
+   "seconds": 18.22553866310045
+  },
+  {
+   "path": "k4-panda-dev40-0030-margin_0p950-r0",
+   "npz_sha256": "d2d4fbc5dc4e5ccb74c4617a8ef4e1ee70d74458f9caf7a1b474fa9352a372dc",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8815349594926092,
+     0.8815350514890306
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.8815350112479038,
+    "T_obj_opt": 0.8815350112479038,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.0f10400000000p+3",
+    "0x1.8709780000000p+4",
+    "0x1.d094b80000000p-11",
+    "0x1.bea5820000000p+0",
+    "0x1.0ace7e0000000p+0",
+    "0x1.3421fe0000000p+0",
+    "0x1.8205e80000000p+0",
+    "0x1.acd8200000000p+0",
+    "0x1.d38ba00000000p+0",
+    "0x1.9846720000000p+0",
+    "0x1.4e3d740000000p+0",
+    "0x1.28f1b80000000p+0",
+    "0x1.0aa3aa0000000p+0",
+    "0x1.f03a560000000p-1",
+    "0x1.d5db140000000p-1",
+    "0x1.c71a9c0000000p-1",
+    "0x1.c0c3160000000p-1",
+    "0x1.c2aabe0000000p-1",
+    "0x1.cd02260000000p-1",
+    "0x1.e08cb00000000p-1",
+    "0x1.006a720000000p+0",
+    "0x1.16c6820000000p+0",
+    "0x1.3b3e860000000p+0",
+    "0x1.687d800000000p+0",
+    "0x1.c695720000000p+0",
+    "0x1.bae2ce0000000p+0",
+    "0x1.8f95bc0000000p+0",
+    "0x1.51ff9c0000000p+0",
+    "0x1.d603ce0000000p-1",
+    "0x1.9afd860000000p+0",
+    "0x1.8744ec0000000p+0",
+    "0x1.8a01240000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8815349594926092,
+    0.8815350514890306
+   ],
+   "gain_vs_native_pct": -1.0435934590950834e-05,
+   "seconds": 5.178480516886339
+  },
+  {
+   "path": "k4-panda-dev40-0031-margin_0p950-r0",
+   "npz_sha256": "dfcb28f1117548b79cc256102549e335396e27a58926854e9e959e3fcba32143",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.29768212699324337,
+     0.2976821679371483
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2976821520162253,
+    "T_obj_opt": 0.2976821520162253,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.1c3f860000000p+6",
+    "0x1.57ebec0000000p+6",
+    "0x1.2c2de80000000p+0",
+    "0x1.625a2c0000000p+2",
+    "0x1.51cfd40000000p+2",
+    "0x1.638c960000000p+2",
+    "0x1.1584300000000p+3",
+    "0x1.3ca6640000000p+3",
+    "0x1.60aa520000000p+3",
+    "0x1.810b6e0000000p+3",
+    "0x1.a3e6ce0000000p+3",
+    "0x1.c8d2700000000p+3",
+    "0x1.f6c41c0000000p+3",
+    "0x1.12de280000000p+4",
+    "0x1.2231060000000p+4",
+    "0x1.2b48580000000p+4",
+    "0x1.2f235c0000000p+4",
+    "0x1.2e2f3e0000000p+4",
+    "0x1.284bb80000000p+4",
+    "0x1.1ce79c0000000p+4",
+    "0x1.0a352a0000000p+4",
+    "0x1.ed49ce0000000p+3",
+    "0x1.c86c960000000p+3",
+    "0x1.a648f00000000p+3",
+    "0x1.82f8040000000p+3",
+    "0x1.5a42c80000000p+3",
+    "0x1.377b280000000p+3",
+    "0x1.0228aa0000000p+3",
+    "0x1.37250e0000000p+2",
+    "0x1.75e0c60000000p+2",
+    "0x1.6458dc0000000p+2",
+    "0x1.69dc320000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.29768212699324337,
+    0.2976821679371483
+   ],
+   "gain_vs_native_pct": -1.3754235000663088e-05,
+   "seconds": 4.210083578014746
+  },
+  {
+   "path": "k4-panda-dev40-0032-margin_0p950-r0",
+   "npz_sha256": "ec97e4ab7ffad5a222e2c6c7b5af949221af139733e147057ae1e9d205e9fcb8",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.7929284048041018,
+     0.7929284938879179
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.7929284603368933,
+    "T_obj_opt": 0.7929284603368933,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.3847f60000000p+3",
+    "0x1.89c6f00000000p+4",
+    "0x1.36b2880000000p-10",
+    "0x1.c07e420000000p+0",
+    "0x1.0d8e5e0000000p+0",
+    "0x1.37c4100000000p+0",
+    "0x1.85ab1c0000000p+0",
+    "0x1.b1fa520000000p+0",
+    "0x1.d5d0480000000p+0",
+    "0x1.0425cc0000000p+1",
+    "0x1.f9b8bc0000000p+0",
+    "0x1.aa27ce0000000p+0",
+    "0x1.8a2d980000000p+0",
+    "0x1.6b70220000000p+0",
+    "0x1.59b7da0000000p+0",
+    "0x1.4e2a0a0000000p+0",
+    "0x1.49d51c0000000p+0",
+    "0x1.4b0cb60000000p+0",
+    "0x1.52dce60000000p+0",
+    "0x1.60eb8c0000000p+0",
+    "0x1.78ec620000000p+0",
+    "0x1.982cfc0000000p+0",
+    "0x1.cd230c0000000p+0",
+    "0x1.06c7ce0000000p+1",
+    "0x1.ebb7860000000p+0",
+    "0x1.bceb860000000p+0",
+    "0x1.9665720000000p+0",
+    "0x1.5553740000000p+0",
+    "0x1.e1b6320000000p-1",
+    "0x1.9026260000000p+0",
+    "0x1.8dedb60000000p+0",
+    "0x1.8ae8840000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.7929284048041018,
+    0.7929284938879179
+   ],
+   "gain_vs_native_pct": -1.1234785581335498e-05,
+   "seconds": 4.853083338122815
+  },
+  {
+   "path": "k4-panda-dev40-0033-margin_0p950-r0",
+   "npz_sha256": "75fdf4248e4d20f56c59ca52bf9be4bb79b2ded95e37409e9144de493fc7ce4b",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8542461136097131,
+     0.8542462042184578
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.8542461677497666,
+    "T_obj_opt": 0.8542461677497666,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.2607100000000p+3",
+    "0x1.8e70220000000p+4",
+    "0x1.0ae8e40000000p-9",
+    "0x1.c3e0dc0000000p+0",
+    "0x1.11cac80000000p+0",
+    "0x1.3c31300000000p+0",
+    "0x1.8bb2f40000000p+0",
+    "0x1.b890e20000000p+0",
+    "0x1.de93ee0000000p+0",
+    "0x1.cb9d860000000p+0",
+    "0x1.74101c0000000p+0",
+    "0x1.4bfddc0000000p+0",
+    "0x1.29fdd00000000p+0",
+    "0x1.14dd560000000p+0",
+    "0x1.05f76a0000000p+0",
+    "0x1.faa2660000000p-1",
+    "0x1.f279b20000000p-1",
+    "0x1.f3837c0000000p-1",
+    "0x1.fd51d20000000p-1",
+    "0x1.08a6940000000p+0",
+    "0x1.186d940000000p+0",
+    "0x1.30a36e0000000p+0",
+    "0x1.534f440000000p+0",
+    "0x1.8a2b840000000p+0",
+    "0x1.d9ea060000000p+0",
+    "0x1.bc87ea0000000p+0",
+    "0x1.90ac660000000p+0",
+    "0x1.51ac100000000p+0",
+    "0x1.d603040000000p-1",
+    "0x1.917fc80000000p+0",
+    "0x1.8933820000000p+0",
+    "0x1.8890d60000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8542461136097131,
+    0.8542462042184578
+   ],
+   "gain_vs_native_pct": -1.0606865347597493e-05,
+   "seconds": 6.1933530799578875
+  },
+  {
+   "path": "k4-panda-dev40-0034-margin_0p950-r0",
+   "npz_sha256": "8218e05c64aa19e361a1dd8b8c29cf4de4d4425117dd688559a95a28e4612db3",
+   "native": {
+    "K3": "VIOLATED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2681974571960702,
+     0.26819750182815316
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.26819748435144386,
+    "T_obj_opt": 0.26819748435144386,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.5,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.25,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.03125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.015625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0078125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.00390625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.001953125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": null,
+   "accepted_timing_float32_hex": null,
+   "retimed_duration_bracket_s": null,
+   "gain_vs_native_pct": null,
+   "seconds": 15.449388653971255
+  },
+  {
+   "path": "k4-panda-dev40-0035-margin_0p950-r0",
+   "npz_sha256": "bcad1f28b1827efc4db2d2d8a41af12a88fe03d46ae0596a3f917d57727488c7",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.5058126738102184,
+     0.5058127154900292
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.5058126882530591,
+    "T_obj_opt": 0.5058126882530591,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.0942280000000p+3",
+    "0x1.722b760000000p+4",
+    "0x1.6768260000000p+0",
+    "0x1.517bc00000000p+1",
+    "0x1.2d60e20000000p+1",
+    "0x1.4482360000000p+1",
+    "0x1.9f19560000000p+1",
+    "0x1.c94b9e0000000p+1",
+    "0x1.f054c40000000p+1",
+    "0x1.0ee09a0000000p+2",
+    "0x1.2546e20000000p+2",
+    "0x1.3ff6820000000p+2",
+    "0x1.4a88440000000p+2",
+    "0x1.4092ce0000000p+2",
+    "0x1.2a9c0a0000000p+2",
+    "0x1.1f58d80000000p+2",
+    "0x1.1ca5400000000p+2",
+    "0x1.1d8b1e0000000p+2",
+    "0x1.2312bc0000000p+2",
+    "0x1.34f1be0000000p+2",
+    "0x1.47c4b40000000p+2",
+    "0x1.4850920000000p+2",
+    "0x1.33784e0000000p+2",
+    "0x1.1ab1520000000p+2",
+    "0x1.0451040000000p+2",
+    "0x1.dc95c60000000p+1",
+    "0x1.b91fe00000000p+1",
+    "0x1.76e4f80000000p+1",
+    "0x1.25f1800000000p+1",
+    "0x1.3ecb120000000p+1",
+    "0x1.544f360000000p+1",
+    "0x1.4c32740000000p+1"
+   ],
+   "retimed_duration_bracket_s": [
+    0.5058126738102184,
+    0.5058127154900292
+   ],
+   "gain_vs_native_pct": -8.240166654079143e-06,
+   "seconds": 5.051793904043734
+  },
+  {
+   "path": "k4-panda-dev40-0036-margin_0p950-r0",
+   "npz_sha256": "fa42bdf730c76b1fe4185a2446839003eafdb73df2c1f44eac1f1cf544bcf99f",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8503545459432857,
+     0.8503546371707796
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.8503546053159239,
+    "T_obj_opt": 0.8503546053159239,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.7975400000000p+3",
+    "0x1.9dad220000000p+4",
+    "0x1.2672340000000p-10",
+    "0x1.c18a500000000p+0",
+    "0x1.19dc8c0000000p+0",
+    "0x1.4272dc0000000p+0",
+    "0x1.943c8e0000000p+0",
+    "0x1.bef6820000000p+0",
+    "0x1.e7ac780000000p+0",
+    "0x1.c411fa0000000p+0",
+    "0x1.6b623e0000000p+0",
+    "0x1.483dc00000000p+0",
+    "0x1.2659660000000p+0",
+    "0x1.11c5620000000p+0",
+    "0x1.033e4c0000000p+0",
+    "0x1.f6031c0000000p-1",
+    "0x1.ee84e20000000p-1",
+    "0x1.f0da360000000p-1",
+    "0x1.fc5a560000000p-1",
+    "0x1.09709e0000000p+0",
+    "0x1.1a4be40000000p+0",
+    "0x1.355a3a0000000p+0",
+    "0x1.5760720000000p+0",
+    "0x1.9022200000000p+0",
+    "0x1.e627780000000p+0",
+    "0x1.cbb03c0000000p+0",
+    "0x1.a0b9cc0000000p+0",
+    "0x1.5f6cd00000000p+0",
+    "0x1.e541b60000000p-1",
+    "0x1.96b6d00000000p+0",
+    "0x1.9afa2e0000000p+0",
+    "0x1.93eabc0000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8503545459432857,
+    0.8503546371707796
+   ],
+   "gain_vs_native_pct": -1.072817033090777e-05,
+   "seconds": 5.821000994183123
+  },
+  {
+   "path": "k4-panda-dev40-0038-margin_0p950-r0",
+   "npz_sha256": "b43e0f352aa4b89fb9a5177d7a1968c822309aab8d418028bdd7b96ac23355b6",
+   "native": {
+    "K3": "VIOLATED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.5073765743440815,
+     0.507376645987462
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.50737662058347,
+    "T_obj_opt": 0.50737662058347,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.5,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.25,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.03125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.015625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0078125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.00390625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.001953125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": null,
+   "accepted_timing_float32_hex": null,
+   "retimed_duration_bracket_s": null,
+   "gain_vs_native_pct": null,
+   "seconds": 9.93761541787535
+  },
+  {
+   "path": "k4-panda-dev40-0040-margin_0p950-r0",
+   "npz_sha256": "5741f4c2a3269bf6a20bcedd7651828a0d6693cf4a3f2bb9123fba03ddc817b1",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.3145363992191595,
+     0.3145364096476044
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.31453640438454306,
+    "T_obj_opt": 0.31453640438454306,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.d6b2380000000p+3",
+    "0x1.25f6140000000p+3",
+    "0x1.381bfc0000000p+2",
+    "0x1.6210e20000000p+2",
+    "0x1.5d52860000000p+2",
+    "0x1.5c32700000000p+2",
+    "0x1.0b2aa20000000p+3",
+    "0x1.31ceee0000000p+3",
+    "0x1.4f07520000000p+3",
+    "0x1.6bd2200000000p+3",
+    "0x1.8995200000000p+3",
+    "0x1.a726480000000p+3",
+    "0x1.cb823c0000000p+3",
+    "0x1.f5fa8c0000000p+3",
+    "0x1.0a04d20000000p+4",
+    "0x1.1387940000000p+4",
+    "0x1.1862060000000p+4",
+    "0x1.191e000000000p+4",
+    "0x1.15960e0000000p+4",
+    "0x1.0d00300000000p+4",
+    "0x1.fbfd3a0000000p+3",
+    "0x1.ce8c6e0000000p+3",
+    "0x1.9c5a9a0000000p+3",
+    "0x1.869e060000000p+3",
+    "0x1.5d68360000000p+3",
+    "0x1.3dc6720000000p+3",
+    "0x1.13ac1a0000000p+3",
+    "0x1.d456880000000p+2",
+    "0x1.27c1160000000p+2",
+    "0x1.6dd5ca0000000p+2",
+    "0x1.53ed9e0000000p+2",
+    "0x1.5fdf920000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.3145363992191595,
+    0.3145364096476044
+   ],
+   "gain_vs_native_pct": -3.3154968917896415e-06,
+   "seconds": 2.9337362530641258
+  },
+  {
+   "path": "k4-panda-dev40-0041-margin_0p950-r0",
+   "npz_sha256": "e2edc23ee842dd37cbf1eb89e5025a06dc248e91f1b90c740d5c28051a0aec27",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2939453438435907,
+     0.2939453946465676
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2939453747368106,
+    "T_obj_opt": 0.2939453747368106,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.a92dc20000000p+7",
+    "0x1.8feb9e0000000p+6",
+    "0x1.2cdd1c0000000p-2",
+    "0x1.6333dc0000000p+2",
+    "0x1.4c5bfe0000000p+2",
+    "0x1.61fa820000000p+2",
+    "0x1.1554800000000p+3",
+    "0x1.4153e80000000p+3",
+    "0x1.67aa0e0000000p+3",
+    "0x1.8e16680000000p+3",
+    "0x1.b572ca0000000p+3",
+    "0x1.de79ec0000000p+3",
+    "0x1.0781100000000p+4",
+    "0x1.1f0aa20000000p+4",
+    "0x1.2e506a0000000p+4",
+    "0x1.3746fe0000000p+4",
+    "0x1.3b01540000000p+4",
+    "0x1.39e7340000000p+4",
+    "0x1.33d7b40000000p+4",
+    "0x1.2868700000000p+4",
+    "0x1.16525e0000000p+4",
+    "0x1.fc5ef00000000p+3",
+    "0x1.d359740000000p+3",
+    "0x1.ad10880000000p+3",
+    "0x1.88417a0000000p+3",
+    "0x1.6404ca0000000p+3",
+    "0x1.424ab60000000p+3",
+    "0x1.07f5a40000000p+3",
+    "0x1.351c940000000p+2",
+    "0x1.7618740000000p+2",
+    "0x1.6189260000000p+2",
+    "0x1.69e88c0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2939453438435907,
+    0.2939453946465676
+   ],
+   "gain_vs_native_pct": -1.7283134148760734e-05,
+   "seconds": 2.93085993709974
+  },
+  {
+   "path": "k4-panda-dev40-0042-margin_0p950-r0",
+   "npz_sha256": "11b6bccf4da5a0312583722d47b44698087800f3b777e50ce5ba12a947600a18",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.5175434149788998,
+     0.5175434875117407
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.5175434603368829,
+    "T_obj_opt": 0.5175434603368829,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.23413e0000000p+4",
+    "0x1.5a81940000000p+5",
+    "0x1.e0494e0000000p-5",
+    "0x1.4470700000000p+1",
+    "0x1.0c082a0000000p+1",
+    "0x1.37bd940000000p+1",
+    "0x1.861a6e0000000p+1",
+    "0x1.af2c240000000p+1",
+    "0x1.d3d02e0000000p+1",
+    "0x1.00bf480000000p+2",
+    "0x1.1731260000000p+2",
+    "0x1.31da680000000p+2",
+    "0x1.39df8a0000000p+2",
+    "0x1.2d904c0000000p+2",
+    "0x1.18c7960000000p+2",
+    "0x1.0ff5940000000p+2",
+    "0x1.0dc4d20000000p+2",
+    "0x1.0e51fa0000000p+2",
+    "0x1.129f400000000p+2",
+    "0x1.2204bc0000000p+2",
+    "0x1.35e1d00000000p+2",
+    "0x1.383a540000000p+2",
+    "0x1.246c940000000p+2",
+    "0x1.0bdfec0000000p+2",
+    "0x1.eaeb2a0000000p+1",
+    "0x1.bfe00e0000000p+1",
+    "0x1.9c87200000000p+1",
+    "0x1.6209cc0000000p+1",
+    "0x1.119ab40000000p+1",
+    "0x1.30309c0000000p+1",
+    "0x1.449e060000000p+1",
+    "0x1.39dbea0000000p+1"
+   ],
+   "retimed_duration_bracket_s": [
+    0.5175434149788998,
+    0.5175434875117407
+   ],
+   "gain_vs_native_pct": -1.4014830194150021e-05,
+   "seconds": 3.33562731789425
+  },
+  {
+   "path": "k4-panda-dev40-0044-margin_0p950-r0",
+   "npz_sha256": "5f6deb943811ae8fbfe7ec7874c2a277b2e60ddcd26e5ad399e836ba78d9b54e",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.2879592552074499,
+     0.2879592938296164
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2879592782489166,
+    "T_obj_opt": 0.2879592782489166,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.f20f920000000p+5",
+    "0x1.4efe4c0000000p+6",
+    "0x1.7792dc0000000p+0",
+    "0x1.706b6a0000000p+2",
+    "0x1.6155860000000p+2",
+    "0x1.7056480000000p+2",
+    "0x1.237bac0000000p+3",
+    "0x1.5498a80000000p+3",
+    "0x1.7bbacc0000000p+3",
+    "0x1.a463ee0000000p+3",
+    "0x1.ce9bac0000000p+3",
+    "0x1.f958cc0000000p+3",
+    "0x1.15fa660000000p+4",
+    "0x1.2d2e240000000p+4",
+    "0x1.3c75d80000000p+4",
+    "0x1.457e8e0000000p+4",
+    "0x1.495cfe0000000p+4",
+    "0x1.4879440000000p+4",
+    "0x1.42b2000000000p+4",
+    "0x1.37958c0000000p+4",
+    "0x1.257afc0000000p+4",
+    "0x1.0cb83c0000000p+4",
+    "0x1.ee4e320000000p+3",
+    "0x1.c3f97c0000000p+3",
+    "0x1.9be2460000000p+3",
+    "0x1.76812e0000000p+3",
+    "0x1.527ad80000000p+3",
+    "0x1.1576d40000000p+3",
+    "0x1.3e63a00000000p+2",
+    "0x1.85a8d60000000p+2",
+    "0x1.6f11100000000p+2",
+    "0x1.783fba0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.2879592552074499,
+    0.2879592938296164
+   ],
+   "gain_vs_native_pct": -1.3412370183074935e-05,
+   "seconds": 2.9138149640057236
+  },
+  {
+   "path": "k4-panda-dev40-0045-margin_0p950-r0",
+   "npz_sha256": "e2565675be6b5e86ded211de6b8440ed95a4efa72ab2ff2b603fab0e8e299ab3",
+   "native": {
+    "K3": "VIOLATED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.45856610855335017,
+     0.4585661625211013
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.45856614022747033,
+    "T_obj_opt": 0.45856614022747033,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.5,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.25,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.03125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.015625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.0078125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.00390625,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    },
+    {
+     "lam": 0.001953125,
+     "K3": "VIOLATED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": null,
+   "accepted_timing_float32_hex": null,
+   "retimed_duration_bracket_s": null,
+   "gain_vs_native_pct": null,
+   "seconds": 9.718733906047419
+  },
+  {
+   "path": "k4-panda-dev40-0046-margin_0p950-r0",
+   "npz_sha256": "ef76024f9ba061740e84e018df553dbace4c99062b5aa5e05c3771bcc5507825",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.29186264223906655,
+     0.29186268203650817
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.2918626662008723,
+    "T_obj_opt": 0.2918626662008723,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.d845c00000000p+5",
+    "0x1.502d060000000p+6",
+    "0x1.57dd840000000p+0",
+    "0x1.6b6b540000000p+2",
+    "0x1.5aa5b40000000p+2",
+    "0x1.6a91ee0000000p+2",
+    "0x1.1ee7460000000p+3",
+    "0x1.4a95d60000000p+3",
+    "0x1.72c1ea0000000p+3",
+    "0x1.99ad520000000p+3",
+    "0x1.c224100000000p+3",
+    "0x1.eaba540000000p+3",
+    "0x1.0cdbf60000000p+4",
+    "0x1.24181c0000000p+4",
+    "0x1.32f42c0000000p+4",
+    "0x1.3b74f20000000p+4",
+    "0x1.3e8f7c0000000p+4",
+    "0x1.3cb30c0000000p+4",
+    "0x1.35b8540000000p+4",
+    "0x1.292d4c0000000p+4",
+    "0x1.153dd40000000p+4",
+    "0x1.fc27e80000000p+3",
+    "0x1.e181220000000p+3",
+    "0x1.b3992c0000000p+3",
+    "0x1.90e6f60000000p+3",
+    "0x1.6b0bbe0000000p+3",
+    "0x1.4901f80000000p+3",
+    "0x1.104bb20000000p+3",
+    "0x1.39b3a80000000p+2",
+    "0x1.7f418a0000000p+2",
+    "0x1.68c2460000000p+2",
+    "0x1.71ba7c0000000p+2"
+   ],
+   "retimed_duration_bracket_s": [
+    0.29186264223906655,
+    0.29186268203650817
+   ],
+   "gain_vs_native_pct": -1.3635673235879043e-05,
+   "seconds": 3.0331888820510358
+  },
+  {
+   "path": "k4-panda-dev40-0047-margin_0p950-r0",
+   "npz_sha256": "5f036362c9987cffc958628d9254c6d17591c0ff8ada68af7e915633b18b2312",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8783385192364165,
+     0.8783386111007949
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.8783385707964103,
+    "T_obj_opt": 0.8783385707964103,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.0e98300000000p+3",
+    "0x1.870c580000000p+4",
+    "0x1.2dd1b40000000p-9",
+    "0x1.be764e0000000p+0",
+    "0x1.0ac4da0000000p+0",
+    "0x1.34af4a0000000p+0",
+    "0x1.821f100000000p+0",
+    "0x1.ab91d20000000p+0",
+    "0x1.d306b00000000p+0",
+    "0x1.9d1c760000000p+0",
+    "0x1.4fd0dc0000000p+0",
+    "0x1.2e09320000000p+0",
+    "0x1.0e88e80000000p+0",
+    "0x1.f7e9840000000p-1",
+    "0x1.dc8c460000000p-1",
+    "0x1.cdc7ea0000000p-1",
+    "0x1.c79e360000000p-1",
+    "0x1.c97a8e0000000p-1",
+    "0x1.d3729e0000000p-1",
+    "0x1.e7f2700000000p-1",
+    "0x1.0424a80000000p+0",
+    "0x1.1b95d40000000p+0",
+    "0x1.3ee2480000000p+0",
+    "0x1.6d19380000000p+0",
+    "0x1.c850a40000000p+0",
+    "0x1.b5ea080000000p+0",
+    "0x1.8ef6dc0000000p+0",
+    "0x1.5093aa0000000p+0",
+    "0x1.d65d160000000p-1",
+    "0x1.9754920000000p+0",
+    "0x1.8b01b20000000p+0",
+    "0x1.88d5a20000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8783385192364165,
+    0.8783386111007949
+   ],
+   "gain_vs_native_pct": -1.0458879670839621e-05,
+   "seconds": 3.4264106571208686
+  },
+  {
+   "path": "k4-panda-dev40-0048-margin_0p950-r0",
+   "npz_sha256": "7a44504018c341851c8437358ae0090f71e8e02a53990925c76a386d7cc6e246",
+   "native": {
+    "K3": "CERTIFIED",
+    "K4": "CERTIFIED",
+    "duration_bracket_s": [
+     0.8824635898687405,
+     0.8824636871212916
+    ]
+   },
+   "program": {
+    "native_feasible_in_sampled_program": false,
+    "T_obj_native": 0.8824636499063103,
+    "T_obj_opt": 0.8824636499063103,
+    "iterations": 0
+   },
+   "constraints": 26320,
+   "tries": [
+    {
+     "lam": 1.0,
+     "K3": "CERTIFIED",
+     "K4": "CERTIFIED"
+    }
+   ],
+   "accepted_lambda": 1.0,
+   "accepted_timing_float32_hex": [
+    "0x1.412f880000000p+3",
+    "0x1.9ccee80000000p+4",
+    "0x1.bd9f820000000p-10",
+    "0x1.aac11e0000000p+0",
+    "0x1.0b3e5a0000000p+0",
+    "0x1.3387040000000p+0",
+    "0x1.815dc60000000p+0",
+    "0x1.ab2d260000000p+0",
+    "0x1.d0de100000000p+0",
+    "0x1.9677440000000p+0",
+    "0x1.4eac220000000p+0",
+    "0x1.2920fa0000000p+0",
+    "0x1.0b379a0000000p+0",
+    "0x1.f0b58e0000000p-1",
+    "0x1.d6a5280000000p-1",
+    "0x1.c7a4ae0000000p-1",
+    "0x1.c1343e0000000p-1",
+    "0x1.c310540000000p-1",
+    "0x1.cda8620000000p-1",
+    "0x1.e146ca0000000p-1",
+    "0x1.00ae900000000p+0",
+    "0x1.17637e0000000p+0",
+    "0x1.3b83820000000p+0",
+    "0x1.67dd5e0000000p+0",
+    "0x1.c3aba00000000p+0",
+    "0x1.b608460000000p+0",
+    "0x1.8ce6480000000p+0",
+    "0x1.4fba4e0000000p+0",
+    "0x1.ce3f100000000p-1",
+    "0x1.9582e00000000p+0",
+    "0x1.894ae60000000p+0",
+    "0x1.89100e0000000p+0"
+   ],
+   "retimed_duration_bracket_s": [
+    0.8824635898687405,
+    0.8824636871212916
+   ],
+   "gain_vs_native_pct": -1.1020572579095173e-05,
+   "seconds": 3.869458224158734
+  }
+ ]
+}

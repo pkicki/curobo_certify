@@ -56,7 +56,9 @@ inline I sqr(I a) {
 }
 
 constexpr int ORDER = 30;
-constexpr int ORDER_SMALL = 14;   // |mid| <= 4: sine degree 29 -> 4^30/30! < 4.4e-15 ; cosine degree 28 -> 4^29/29! < 1.1e-14
+constexpr int ORDER_SMALL = 14;   // |mid| <= 4: the degree-29 sine polynomial is also the degree-30 Taylor polynomial and the
+                                  // degree-28 cosine polynomial the degree-29 one (odd/even series), so both Lagrange remainders
+                                  // are <= 4^30/30! < 4.4e-15 (< REM_SMALL). (Review N-P5b-1: 4^29/29! = 3.3e-14 is NOT the bound used.)
 constexpr double REM_SMALL = 2e-14;
 // Lagrange remainders for |m| <= 8: sine degree 61 -> 8^62/62! < 3.2e-30 ; cosine degree 60 -> 8^61/61! < 2.5e-29.
 constexpr double REM = 1e-27;
@@ -448,6 +450,8 @@ int k4_certify_path(const float* geometry, int C, int Dj, const float* timing,
           for (int j = 0; j < Dj; ++j) { pc[j] = tcos(pq[j]); ps[j] = tsin(pq[j]); }
           rnea<I>(M, pq, nullptr, nullptr, true, G, pc, ps); rnea<I>(M, pq, nullptr, pq1, false, Bv, pc, ps);
           rnea<I>(M, pq, pq1, pq2, false, A, pc, ps);
+          // N-P5b-3: a torque witness is only meaningful where x >= 0 is proven (x < 0 is VIOLATED_X above).
+          if (px.lo < 0) continue;
           for (int j = 0; j < Dj; ++j) {
             const I t = G[j] + A[j] * px + Bv[j] * I(0.5) * pxp;
             if (t.lo > thi[j] || t.hi < tlo[j]) {

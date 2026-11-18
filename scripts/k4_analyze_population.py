@@ -39,6 +39,7 @@ def main():
     ap.add_argument("--cert", type=Path, required=True)
     ap.add_argument("--native", type=Path, required=True)
     ap.add_argument("--retime", type=Path)
+    ap.add_argument("--retime95", type=Path, help="retiming at the 0.95 planning margin (k4_retime_run --limit-scale 0.95)")
     ap.add_argument("--fresh", type=Path)
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
@@ -114,6 +115,12 @@ def main():
         dur = [abs(r["duration"] - prim[r["pair_id"]]["duration"]) for r in arms[k]["rows"] if r["pair_id"] in prim]
         nd[k] = {"compared": len(same), "bit_identical_npz": sum(same), "max_abs_duration_diff_s": max(dur) if dur else None,
                  "statuses_equal_K3_PLUS_K4": sum(r["K3_PLUS_K4"] == prim[r["pair_id"]]["K3_PLUS_K4"] for r in arms[k]["rows"] if r["pair_id"] in prim)}
+    def retime_summary(ret):
+        acc = [r for r in ret.values() if r.get("accepted_lambda") is not None]
+        gains = [r["gain_vs_native_pct"] for r in acc]
+        return {"attempted": len(ret), "accepted_certified": len(acc), "gain_vs_native_0p95_pct": boot(gains),
+                "gain_distribution": pct(gains) if gains else None, "seconds": pct([r["seconds"] for r in ret.values()])}
+    retime95 = retime_summary({r["npz_sha256"]: r for r in json.loads(a.retime95.read_text())["rows"]}) if a.retime95 else None
     retime = None
     if ret:
         acc = [r for sha, r in ret.items() if r.get("accepted_lambda") is not None]
@@ -140,11 +147,20 @@ def main():
                  "ci95_median_added_K4": boot([med(r["added_ms_B"]) for r in fr["rows"]]),
                  "stages_ms_p50": {k: statistics.median([rep["B"]["stages"][k] for r in fr["rows"] for rep in r["repeats"]
                                                           if rep["B"]["stages"].get(k) is not None])
-                                   for k in ("plan_ms", "d2h_ms", "extract_ms", "k4_producer_ms", "k4_verifier_ms")},
+                                   for k in ("plan_ms", "d2h_ms", "k4_producer_ms", "k4_verifier_ms")},
+                 "stages_ms_p50_C": {k: statistics.median([rep["C"]["stages"][k] for r in fr["rows"] for rep in r["repeats"]
+                                                            if rep["C"]["stages"].get(k) is not None])
+                                     for k in ("plan_ms", "d2h_ms", "k4_producer_ms", "k4_verifier_ms", "k3_ms")},
+                 "ci95_median_added_K3_plus_K4": boot([med(r["added_ms_C"]) for r in fr["rows"]]),
+                 "ci95_median_native": boot([med(r["native_ms"]) for r in fr["rows"]]),
+                 "added_p95_K4": pct([float(np.percentile(r["added_ms_B"], 95)) for r in fr["rows"]]),
+                 "statuses": {s: sum(rep[x]["status"] == s for r in fr["rows"] for rep in r["repeats"] for x in ("B", "C"))
+                              for s in {rep[x]["status"] for r in fr["rows"] for rep in r["repeats"] for x in ("B", "C")}},
+                 "gpu": fr["gpu"], "threads": fr.get("threads"), "scope": fr["scope"],
                  "queries_multiple_digests": sum(r["distinct_digests"] > 1 for r in fr["rows"])}
     out = {"scope": "K4_EXPLORATORY_POPULATION_ANALYSIS", "cohort": gen["cohort"], "first_k": gen["first_k"],
-           "payload": "PAYLOAD_DEFAULT_0P01KG; 3 kg / 5 kg BLOCKED_PAYLOAD", "arms": arms, "paired_durations": paired,
-           "repeat_nondeterminism": nd, "retiming": retime, "fresh_latency": fresh, "hard_stops": stops,
+           "payload": "PAYLOAD_DEFAULT_0P01KG (cuRobo default); synthetic 3/5 kg payloads: see k4_analyze_extensions", "arms": arms, "paired_durations": paired,
+           "repeat_nondeterminism": nd, "retiming": retime, "retiming_same_0p95_margin": retime95, "fresh_latency": fresh, "hard_stops": stops,
            "gate": "PASS_SOUNDNESS" if not stops else "HARD_STOP"}
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(out, indent=1, default=float) + "\n")

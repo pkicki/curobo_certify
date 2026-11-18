@@ -1,0 +1,60 @@
+{
+ "scope": "compiled pipeline vs independent Lagrangian oracle (falsification)",
+ "build_producer": {
+  "source_sha256": "721dca3713bc2c1057770310a053f7b1129f27cf4c743fb402e0c47ad135e26a",
+  "binary_sha256": "d9f839fd122e01591bee413391f36320400419c499432f5a7b3e6f4e9a0f03a9",
+  "flags": [
+   "-O3",
+   "-std=c++17",
+   "-fno-fast-math",
+   "-ffp-contract=off",
+   "-fopenmp",
+   "-fPIC",
+   "-shared",
+   "-Wall",
+   "-Wextra"
+  ],
+  "compiler": "g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
+ },
+ "build_verifier": {
+  "source_sha256": "ab803d90e8a7dae2e38ceab6cb922411da32b3d0017a0d7c0882dc5f0bbe8943",
+  "binary_sha256": "4a6106e8db7fd24013dbb83c49b8e1cd2eda5c2eb82a1ece0c7ecb9b6a2469c5",
+  "flags": [
+   "-O3",
+   "-std=c++17",
+   "-fno-fast-math",
+   "-ffp-contract=off",
+   "-fopenmp",
+   "-fPIC",
+   "-shared",
+   "-Wall",
+   "-Wextra"
+  ]
+ },
+ "cases": 40,
+ "scales": [
+  1.0,
+  0.6,
+  0.4
+ ],
+ "status": {
+  "CERTIFIED": 40,
+  "VIOLATED_TORQUE": 75,
+  "VIOLATED_X": 5
+ },
+ "oracle_verdicts": {
+  "CONTAINED": 1120,
+  "WITNESS_CONFIRMED": 75,
+  "X_WITNESS_CONFIRMED": 5
+ },
+ "counterexamples": [],
+ "verifier_on_certified": {
+  "True": 40
+ },
+ "thread_1_vs_8_mismatches": 0,
+ "forged_certificates_for_violated_paths": {
+  "tried": 75,
+  "accepted": 0
+ },
+ "wall_s": 190.3
+}

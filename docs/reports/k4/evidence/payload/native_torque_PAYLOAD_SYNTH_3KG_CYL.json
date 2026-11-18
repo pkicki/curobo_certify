@@ -1,0 +1,4825 @@
+{
+ "scope": "NATIVE_SAMPLED_TORQUE_DIAGNOSTIC_NOT_PROOF",
+ "gpu": "NVIDIA GeForce RTX 3090",
+ "payload": "PAYLOAD_SYNTH_3KG_CYL",
+ "hook_audit": {
+  "link_index": 12,
+  "masses_com": [
+   0.0,
+   0.0,
+   0.10339999943971634,
+   3.0
+  ],
+  "inertias": [
+   0.003700000001117587,
+   0.003700000001117587,
+   0.002400000113993883,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "payload": "PAYLOAD_SYNTH_3KG_CYL"
+ },
+ "rows": [
+  {
+   "path": "k4-payload-p3-0000-margin_0p950",
+   "npz_sha256": "4c2881bade01b190aa1efb6566d911bb2550cfff779d2ee4c7a4453119171968",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8292826016743978,
+     "max_util_planning": 0.87292908360428,
+     "argmax_time": 0.1877882182598114,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.056159156492386744,
+      0.16263694324712644,
+      0.20558398893509788,
+      0.4164042856501437,
+      0.27036790053049725,
+      0.8292826016743978,
+      0.0017543374560773373
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8292845884958903,
+     "max_util_planning": 0.8729311749953947,
+     "argmax_time": 0.1878521740436554,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05617208042364011,
+      0.1626394315697681,
+      0.20564272211886,
+      0.4164159489774156,
+      0.27037978172302246,
+      0.8292845884958903,
+      0.0017543397843837738
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8292849858601888,
+     "max_util_planning": 0.8729315932736177,
+     "argmax_time": 0.1878490298986435,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05617209686630074,
+      0.16263953022573185,
+      0.2056427440424075,
+      0.4164160366716056,
+      0.27038000027338666,
+      0.8292849858601888,
+      0.001754340094824632
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0000-margin_0p990",
+   "npz_sha256": "3ce1c174a5fcf1e356b704f4349ff7e38e773a3b6109021264b21d943b792d93",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8421022891998291,
+     "max_util_planning": 0.88642349197734,
+     "argmax_time": 0.18508602678775787,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05846181409112338,
+      0.1660252165520328,
+      0.21095788889917835,
+      0.4194179841841774,
+      0.2801484266916911,
+      0.8421022891998291,
+      0.0018348426868518193
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8421076138814291,
+     "max_util_planning": 0.8864290969055275,
+     "argmax_time": 0.18477672338485718,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05848743723726821,
+      0.16602684985632185,
+      0.2109856221867704,
+      0.4194465286430271,
+      0.2801493803660075,
+      0.8421076138814291,
+      0.0018350818815330665
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8421076138814291,
+     "max_util_planning": 0.8864290969055275,
+     "argmax_time": 0.18475617468357086,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05848750848879759,
+      0.16602698139760685,
+      0.2109857756516029,
+      0.41944666018431215,
+      0.2801496982574463,
+      0.8421076138814291,
+      0.0018350823471943538
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0001-margin_0p950",
+   "npz_sha256": "9a597faa7eb26b19f3b5d48cbc58a0e389543d102d15bc066f68156499e6ae8e",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9429639180501302,
+     "max_util_planning": 0.9925936311619283,
+     "argmax_time": 0.07637534290552139,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09924319694782126,
+      0.06551479471140895,
+      0.1863518857407844,
+      0.5044686766876572,
+      0.4063897927602132,
+      0.9429639180501302,
+      0.00664827103416125
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9430398146311442,
+     "max_util_planning": 0.9926735223025112,
+     "argmax_time": 0.07609620690345764,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09926738958249147,
+      0.06553737048445077,
+      0.18636227750230108,
+      0.5044693782411772,
+      0.40639495849609375,
+      0.9430398146311442,
+      0.0066511376450459165
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9430416425069174,
+     "max_util_planning": 0.9926754463823367,
+     "argmax_time": 0.07608910650014877,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09926753208555024,
+      0.06553712384454136,
+      0.1863624090435861,
+      0.5044695097824623,
+      0.40639511744181317,
+      0.9430416425069174,
+      0.006651143232981364
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0001-margin_0p990",
+   "npz_sha256": "71cc7367f80a3a2a8d8d57a653191dcb44b004f196b4a7303e7381a5e9e4783f",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9899174372355143,
+     "max_util_planning": 1.0420183898530389,
+     "argmax_time": 0.05955652892589569,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.10459237811209142,
+      0.06557589015741458,
+      0.19365330400138064,
+      0.5233950560120331,
+      0.45508257548014325,
+      0.9899174372355143,
+      0.007032712300618489
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 171
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9899398485819498,
+     "max_util_planning": 1.042041980744813,
+     "argmax_time": 0.059708256274461746,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.10461706402658046,
+      0.06560071309407552,
+      0.19372052159802666,
+      0.5233964152719782,
+      0.45513057708740234,
+      0.9899398485819498,
+      0.007032704850037892
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 2838
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9899400870005289,
+     "max_util_planning": 1.0420422317117468,
+     "argmax_time": 0.05971914157271385,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1046170530648067,
+      0.06560069117052801,
+      0.19372049967447916,
+      0.5233964591190733,
+      0.4551305373509725,
+      0.9899400870005289,
+      0.007032707954446475
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 11350
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0002-margin_0p950",
+   "npz_sha256": "50fe01cd3d936411dba2848ddad206aafe6ff2539bbca6c96c6a03ce593d8796",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8846755822499593,
+     "max_util_planning": 0.931237486161265,
+     "argmax_time": 0.05437834933400154,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14347283593539534,
+      0.15446976409561333,
+      0.2931611072057965,
+      0.4190906656199488,
+      0.7162735462188721,
+      0.8846755822499593,
+      0.002920909163852533
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8846901257832845,
+     "max_util_planning": 0.9312527951442249,
+     "argmax_time": 0.054463598877191544,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14347353748891545,
+      0.15447563960634428,
+      0.2931638476492345,
+      0.4191131591796875,
+      0.7162995338439941,
+      0.8846901257832845,
+      0.0029209243754545846
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8846903642018636,
+     "max_util_planning": 0.9312530461111586,
+     "argmax_time": 0.05446526035666466,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14347361422133173,
+      0.15447573826230807,
+      0.2931638476492345,
+      0.4191132030267825,
+      0.7162995338439941,
+      0.8846903642018636,
+      0.0029209249963363013
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0002-margin_0p990",
+   "npz_sha256": "6ce058d769a317ea4e26207c6ceb71fb4d4bdfec21754c8a993afb3466b155f5",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8978646596272787,
+     "max_util_planning": 0.9451207259703762,
+     "argmax_time": 0.053190678358078,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1494338704251695,
+      0.15866594204957457,
+      0.30300149150278377,
+      0.4215267225243579,
+      0.7429707845052084,
+      0.8978646596272787,
+      0.0030428112174073854
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.89798903465271,
+     "max_util_planning": 0.9452516470541585,
+     "argmax_time": 0.053477395325899124,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14943445139917835,
+      0.1587073227454876,
+      0.303005985830022,
+      0.4215289148791083,
+      0.7429951032002767,
+      0.89798903465271,
+      0.0030428487807512283
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8979891141255697,
+     "max_util_planning": 0.9452517307098031,
+     "argmax_time": 0.0534711591899395,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14943451716982084,
+      0.15870744332499886,
+      0.303006029677117,
+      0.42152895872620333,
+      0.7429952621459961,
+      0.8979891141255697,
+      0.0030428466076652208
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0003-margin_0p950",
+   "npz_sha256": "6b6f88e4dbcb202328b248a291844136a3bc3c3e5fb02d40a5ad6e9d9c101161",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6694124539693197,
+     "max_util_planning": 0.7046447119677598,
+     "argmax_time": 0.0579322949051857,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14031124114990234,
+      0.39096420112697555,
+      0.28932575795842314,
+      0.5692106663495645,
+      0.6360933780670166,
+      0.6694124539693197,
+      0.0031207253535588584
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6694200038909912,
+     "max_util_planning": 0.7046526592539958,
+     "argmax_time": 0.05808142200112343,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14036450440856232,
+      0.39100673280913256,
+      0.2893938744205168,
+      0.5692624497687679,
+      0.6362737814585367,
+      0.6694200038909912,
+      0.0031215489531556764
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6694199244181315,
+     "max_util_planning": 0.7046525755983511,
+     "argmax_time": 0.058056775480508804,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14036461402629985,
+      0.39100690819751255,
+      0.28939378672632676,
+      0.5692624497687679,
+      0.6362740198771158,
+      0.6694199244181315,
+      0.0031215517471234002
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0003-margin_0p990",
+   "npz_sha256": "6bab87cf1691be5e271ea89ed7507e8eaa066ae8eafdd1db5da3f919b9a4298e",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6741441885630289,
+     "max_util_planning": 0.7096254853909638,
+     "argmax_time": 0.05627763271331787,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14628756731406026,
+      0.40213955407855156,
+      0.29789334878154183,
+      0.5788955250005613,
+      0.6626178026199341,
+      0.6741441885630289,
+      0.0032549789175391197
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6741491953531901,
+     "max_util_planning": 0.709630755696573,
+     "argmax_time": 0.056393180042505264,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14632381789985743,
+      0.40226105437881643,
+      0.29791479001100035,
+      0.5789642772455325,
+      0.6626679499944051,
+      0.6741491953531901,
+      0.0032551962261398635
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6741494337717692,
+     "max_util_planning": 0.7096310066635068,
+     "argmax_time": 0.056377675384283066,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14632383982340494,
+      0.40226118592010146,
+      0.2979148119345479,
+      0.5789644964810076,
+      0.6626686255137125,
+      0.6741494337717692,
+      0.0032551956052581468
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0004-margin_0p950",
+   "npz_sha256": "994e25b646c608993a33d04c8281e9bd5aa90264ecc8d9937caa77dea6992560",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6676983038584391,
+     "max_util_planning": 0.7028403433696125,
+     "argmax_time": 0.6711548566818237,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08755985895792644,
+      0.3300024887611126,
+      0.1103603648043227,
+      0.4019297895760372,
+      0.6203252871831259,
+      0.6676983038584391,
+      0.004667564916114013
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6678353150685629,
+     "max_util_planning": 0.7029845657008845,
+     "argmax_time": 0.6713602542877197,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08756056599233342,
+      0.3308393544164197,
+      0.11036844363157776,
+      0.40193149961274244,
+      0.6203256050745646,
+      0.6678353150685629,
+      0.004668255336582661
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6678376992543539,
+     "max_util_planning": 0.7029870753702222,
+     "argmax_time": 0.671337366104126,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0875605933967678,
+      0.33097006260663614,
+      0.11036842170803027,
+      0.40193163115402747,
+      0.6203258434931437,
+      0.6678376992543539,
+      0.004668256267905235
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0004-margin_0p990",
+   "npz_sha256": "f306226d4df7adbd730c66db085a7ccb8c1d6f63264db435d790ac93899bd5b7",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6687596638997396,
+     "max_util_planning": 0.703957564503103,
+     "argmax_time": 0.6478726267814636,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09288228791335533,
+      0.3443756980457525,
+      0.11542494543667497,
+      0.4035320939688847,
+      0.6289454301198324,
+      0.6687596638997396,
+      0.004862288013100624
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6688520113627116,
+     "max_util_planning": 0.7040547723621159,
+     "argmax_time": 0.6480848789215088,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09288256195769913,
+      0.3452947331571031,
+      0.11542899033118939,
+      0.40354051261112606,
+      0.6289481719334921,
+      0.6688520113627116,
+      0.004862543195486069
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6688652038574219,
+     "max_util_planning": 0.7040686591991177,
+     "argmax_time": 0.6480417251586914,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09288260580479414,
+      0.3453539925060053,
+      0.11542899033118939,
+      0.4035406441524111,
+      0.6289482514063517,
+      0.6688652038574219,
+      0.004862546610335509
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0005-margin_0p950",
+   "npz_sha256": "cf7135fc158f2b8e57817dc635dc66834b39ebf783d4ebf68210699b0c0709f4",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9495195547739664,
+     "max_util_planning": 0.9994943016284575,
+     "argmax_time": 0.0758219063282013,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.04001438206639783,
+      0.521093478148011,
+      0.6425349794585129,
+      0.5678369807100844,
+      0.49743489424387616,
+      0.9495195547739664,
+      0.006963835408290227
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9495290915171305,
+     "max_util_planning": 0.9995043403058083,
+     "argmax_time": 0.0761374980211258,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.04001436288329376,
+      0.5216019290617142,
+      0.6432674890277029,
+      0.5678448731871857,
+      0.497445543607076,
+      0.9495290915171305,
+      0.006976674621303876
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9495293299357096,
+     "max_util_planning": 0.999504591272742,
+     "argmax_time": 0.07615568488836288,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.04001440398994534,
+      0.5215978512818786,
+      0.643261657364067,
+      0.5678449608813757,
+      0.4974454641342163,
+      0.9495293299357096,
+      0.006976573417584102
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0005-margin_0p990",
+   "npz_sha256": "6fc60ca7abdbcf441165144be25adccf3afb660cd86e96b802f22b0a55359f1b",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9894068241119385,
+     "max_util_planning": 1.0414809023365523,
+     "argmax_time": 0.07484862208366394,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0419889455554129,
+      0.531659224937702,
+      0.6567662556966146,
+      0.5901525650901356,
+      0.530090848604838,
+      0.9894068241119385,
+      0.007230132818222046
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 123
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9894106388092041,
+     "max_util_planning": 1.0414849178074925,
+     "argmax_time": 0.07469482719898224,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.04198920041665263,
+      0.5321278188420439,
+      0.6574441756325207,
+      0.5901576513531565,
+      0.5301096439361572,
+      0.9894106388092041,
+      0.007241976136962573
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 2146
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9894105593363444,
+     "max_util_planning": 1.0414848341518481,
+     "argmax_time": 0.07466654479503632,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.04198926070640827,
+      0.5321857847016433,
+      0.6575278358897944,
+      0.5901577828944414,
+      0.5301098823547363,
+      0.9894105593363444,
+      0.007243439555168152
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 8584
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0006-margin_0p950",
+   "npz_sha256": "fe446778a78ebb8a8fac09adf01a1b0408ce42e5bf712d9341be344f4dba4918",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8224637508392334,
+     "max_util_planning": 0.865751345642871,
+     "argmax_time": 0.4708329141139984,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12897739191164917,
+      0.09981632232666016,
+      0.24549830644980244,
+      0.3723828545932112,
+      0.5455929438273112,
+      0.8224637508392334,
+      0.0036944644525647163
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8224645455678304,
+     "max_util_planning": 0.8657521821993169,
+     "argmax_time": 0.47091031074523926,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1289782907770968,
+      0.0998257275285392,
+      0.245504773896316,
+      0.37238438924153644,
+      0.5456342299779257,
+      0.8224645455678304,
+      0.003694515054424604
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.822464386622111,
+     "max_util_planning": 0.8657520148880278,
+     "argmax_time": 0.47090834379196167,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12897825789177556,
+      0.0998257494520867,
+      0.24550492736114854,
+      0.3723846084770115,
+      0.5456343094507853,
+      0.822464386622111,
+      0.0036945175379514694
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0006-margin_0p990",
+   "npz_sha256": "5769abc5c7e6c51a878d5841b942b6e7e3bfd90de0bb96e97a978ef702e325d2",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8236695925394694,
+     "max_util_planning": 0.8670206527382249,
+     "argmax_time": 0.4668216109275818,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13078031868770204,
+      0.1011035524565598,
+      0.24682779421751527,
+      0.3725421949364673,
+      0.5742665926615397,
+      0.8236695925394694,
+      0.003970806176463763
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8236695130666097,
+     "max_util_planning": 0.8670205690825803,
+     "argmax_time": 0.4667055606842041,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13078065850268836,
+      0.10117237047217358,
+      0.24682816691782283,
+      0.37254250186613236,
+      0.5754204988479614,
+      0.8236695130666097,
+      0.003980188009639581
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8236696720123291,
+     "max_util_planning": 0.8670207363938696,
+     "argmax_time": 0.4668000638484955,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1307806913880096,
+      0.10117185526880725,
+      0.24682810114718032,
+      0.3725425895603224,
+      0.5754894018173218,
+      0.8236696720123291,
+      0.003980747734506925
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0009-margin_0p950",
+   "npz_sha256": "a46154797541a2dcc1c32b4b162483e705ce6e54dd292e223ed2f6c3c38f9df8",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9493508338928223,
+     "max_util_planning": 0.9993167006949943,
+     "argmax_time": 0.10265913605690002,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.30711744023465565,
+      0.4994178421195896,
+      0.3794151393846534,
+      0.45128131734913796,
+      0.29518495003382367,
+      0.9493508338928223,
+      0.0031251472731431327
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9495392640431722,
+     "max_util_planning": 0.9995150482283157,
+     "argmax_time": 0.1667001098394394,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.3085104624430339,
+      0.5006510855137617,
+      0.37941737558649874,
+      0.45128745594243896,
+      0.2952568729718526,
+      0.9495392640431722,
+      0.0031252469246586165
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9495480060577393,
+     "max_util_planning": 0.9995242503492204,
+     "argmax_time": 0.16673019528388977,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.3085816701253255,
+      0.5007236963030935,
+      0.3794175509748788,
+      0.4512874997895339,
+      0.2952569325764974,
+      0.9495480060577393,
+      0.0031252531334757805
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0009-margin_0p990",
+   "npz_sha256": "659b9f1edc5be4ac9764ca9520e593ce94fd918dd438fd0eb8f70edbe88a20ba",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9888864358266195,
+     "max_util_planning": 1.0409331251757814,
+     "argmax_time": 0.10085397958755493,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.32013520427133846,
+      0.511572432243961,
+      0.40280361833243533,
+      0.4582007397180316,
+      0.31623733043670654,
+      0.9888864358266195,
+      0.0034082926188906035
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 116
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9889127413431803,
+     "max_util_planning": 1.0409608151941405,
+     "argmax_time": 0.10000526905059814,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.3214947930697737,
+      0.5127866021518049,
+      0.4028042321917654,
+      0.4588484490054777,
+      0.3162497083346049,
+      0.9889127413431803,
+      0.0034084183474381766
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 1960
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9889126618703207,
+     "max_util_planning": 1.0409607315384959,
+     "argmax_time": 0.09996001422405243,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.321612478672773,
+      0.5128891605070267,
+      0.4028046268156205,
+      0.45888751676712913,
+      0.31624982754389447,
+      0.9889126618703207,
+      0.0034084285919864974
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 7840
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0010-margin_0p950",
+   "npz_sha256": "4d91d0059a6007e42920046e122825561d70236e62046a075611cd94a404f756",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7852594057718912,
+     "max_util_planning": 0.8265888758404674,
+     "argmax_time": 0.5523588061332703,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09743691586900032,
+      0.2485517523754602,
+      0.20084924807493715,
+      0.379913330078125,
+      0.7852594057718912,
+      0.5695572296778361,
+      0.008418122927347818
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7852594057718912,
+     "max_util_planning": 0.8265888758404674,
+     "argmax_time": 0.5522894859313965,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09788337795213721,
+      0.24889301431590113,
+      0.20085001539909977,
+      0.3799204771546112,
+      0.7852594057718912,
+      0.5695573091506958,
+      0.008446969712773958
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.785259485244751,
+     "max_util_planning": 0.8265889594961119,
+     "argmax_time": 0.5522525310516357,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.0979391185716651,
+      0.24892991164634967,
+      0.20085001539909977,
+      0.3799204771546112,
+      0.785259485244751,
+      0.5695573886235555,
+      0.008451662336786589
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0010-margin_0p990",
+   "npz_sha256": "24f089bf62477929a2dd23139f3a5dd8908f92f15078c1b442baee5db944d976",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7893413702646891,
+     "max_util_planning": 0.830885680713509,
+     "argmax_time": 0.5276486277580261,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10066596941016186,
+      0.25082605734638785,
+      0.20269154954230648,
+      0.3825100427386404,
+      0.7893413702646891,
+      0.5695572296778361,
+      0.00875014066696167
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7893460591634115,
+     "max_util_planning": 0.8308906163965398,
+     "argmax_time": 0.5286121964454651,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10104131150519712,
+      0.2511982972594513,
+      0.20269192224261404,
+      0.38251385743590605,
+      0.7893460591634115,
+      0.5695572296778361,
+      0.008779982725779215
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7893460591634115,
+     "max_util_planning": 0.8308906163965398,
+     "argmax_time": 0.528523862361908,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10104235287370353,
+      0.25119904266006643,
+      0.20269196608970905,
+      0.38251385743590605,
+      0.7893460591634115,
+      0.5695573886235555,
+      0.008782140289743742
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0011-margin_0p950",
+   "npz_sha256": "991392afd090dcb5af128387b2f5040dcb1bcb88e56ff73358b0d1a500f073fb",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.699103037516276,
+     "max_util_planning": 0.7358979588524655,
+     "argmax_time": 0.05029168725013733,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11454410114507566,
+      0.6916109282394935,
+      0.24092551483505073,
+      0.5923368081279184,
+      0.47464533646901447,
+      0.699103037516276,
+      0.004784028356273969
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.699348529179891,
+     "max_util_planning": 0.7361563711386019,
+     "argmax_time": 0.05001538619399071,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11455267325214956,
+      0.6916129013587689,
+      0.2409257779176208,
+      0.5923438675102146,
+      0.47464577356974286,
+      0.699348529179891,
+      0.0047843024755517645
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6993962923685709,
+     "max_util_planning": 0.736206648181,
+     "argmax_time": 0.05003141611814499,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1145526622903758,
+      0.6916130767471489,
+      0.24092579984116827,
+      0.5923439552044046,
+      0.4746462106704712,
+      0.6993962923685709,
+      0.004784304338196914
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0011-margin_0p990",
+   "npz_sha256": "6917a6c6b678659715a07671bc3057584734a6b1cf7c12755b3bf8af52d8eaa7",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7221696787867052,
+     "max_util_planning": 0.7601785952147958,
+     "argmax_time": 0.4276314973831177,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.1256284056038692,
+      0.7221696787867052,
+      0.2556404245310816,
+      0.6030207666857489,
+      0.4775079091389974,
+      0.7120722929636637,
+      0.005260036637385686
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7225927594064296,
+     "max_util_planning": 0.7606239432273363,
+     "argmax_time": 0.42772147059440613,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.12576345465649133,
+      0.7225927594064296,
+      0.2556427265035695,
+      0.6030362447102865,
+      0.47750898202260333,
+      0.7124342918395996,
+      0.005265817046165466
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7227207052296606,
+     "max_util_planning": 0.7607586230387772,
+     "argmax_time": 0.42774853110313416,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.12580426534016928,
+      0.7227207052296606,
+      0.2556428141977595,
+      0.6030363762515715,
+      0.4775091012318929,
+      0.7124783198038737,
+      0.005267564828197162
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0012-margin_0p950",
+   "npz_sha256": "e83d5cc9a4af926a7d983f796dcf2d693bab95847d631a87cc3acaab12282d24",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9499518076578776,
+     "max_util_planning": 0.9999493046793788,
+     "argmax_time": 0.05866814777255058,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.024231710653195435,
+      0.15931282920398931,
+      0.21297413179244118,
+      0.4671211242675781,
+      0.3860960006713867,
+      0.9499518076578776,
+      0.0006373265447715918
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9500500361124674,
+     "max_util_planning": 1.0000527030560913,
+     "argmax_time": 0.058368902653455734,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.02423645162034309,
+      0.15931410076974453,
+      0.21302457787524695,
+      0.46712226429204834,
+      0.38610533873240155,
+      0.9500500361124674,
+      0.0006373397773131728
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 12
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9500500361124674,
+     "max_util_planning": 1.0000527030560913,
+     "argmax_time": 0.058361876755952835,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.02423644887989965,
+      0.15931416654038702,
+      0.21302462172234196,
+      0.46712222044495333,
+      0.38610541820526123,
+      0.9500500361124674,
+      0.0006373401653642455
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 48
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0012-margin_0p990",
+   "npz_sha256": "9565a95b5630871a7db031d73a8cc1fa828a804cd17713b35645c223012d5007",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9899932543436686,
+     "max_util_planning": 1.042098197337977,
+     "argmax_time": 0.05769968032836914,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.025209273415050287,
+      0.1710076606136629,
+      0.2188782308293485,
+      0.4782270672677577,
+      0.41655675570170086,
+      0.9899932543436686,
+      0.0006680180473874012
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 134
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9900491237640381,
+     "max_util_planning": 1.0421570072561233,
+     "argmax_time": 0.05751195549964905,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.02521687540514716,
+      0.17100844986137304,
+      0.21891365928211431,
+      0.47823807288860454,
+      0.4165612459182739,
+      0.9900491237640381,
+      0.000668019832422336
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 2134
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9900494416554769,
+     "max_util_planning": 1.0421573418787016,
+     "argmax_time": 0.057505130767822266,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.02521688636692091,
+      0.17100853755556303,
+      0.21891374697630434,
+      0.47823807288860454,
+      0.4165613253911336,
+      0.9900494416554769,
+      0.0006680189787099758
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 8536
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0013-margin_0p950",
+   "npz_sha256": "4faea252e40c49c92716d1a859d3d966aaea4e7578d34bc01ea1ba52affede78",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8286990461678341,
+     "max_util_planning": 0.872314769335207,
+     "argmax_time": 0.4524461627006531,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.1632044561978044,
+      0.8286990461678341,
+      0.24936116974929284,
+      0.6419596178778286,
+      0.5517715215682983,
+      0.7501715819040934,
+      0.0040913959965109825
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8293540340730514,
+     "max_util_planning": 0.8730042302753385,
+     "argmax_time": 0.4525572955608368,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.16344360921574735,
+      0.8293540340730514,
+      0.24936557638234105,
+      0.6419608017493939,
+      0.5518210728963217,
+      0.7506298224131266,
+      0.004097755687932174
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8294357650581448,
+     "max_util_planning": 0.873090262889638,
+     "argmax_time": 0.4525710940361023,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.16347338139325723,
+      0.8294357650581448,
+      0.24936559830588856,
+      0.6419609332906788,
+      0.5518212715784708,
+      0.7506451606750488,
+      0.004098547933002313
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0013-margin_0p990",
+   "npz_sha256": "c2553553e4b4039fc0de7ccc6993ef8aef2211fb40cd6c4ad46dfdeaf6b0bba8",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8525959760293194,
+     "max_util_planning": 0.897469431882893,
+     "argmax_time": 0.4395977854728699,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.17138806704817147,
+      0.8525959760293194,
+      0.2628992672624259,
+      0.6558438443589485,
+      0.5576874415079752,
+      0.7661135991414388,
+      0.00430623535066843
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8531459062948994,
+     "max_util_planning": 0.8980483058359744,
+     "argmax_time": 0.43968716263771057,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.17158936906134944,
+      0.8531459062948994,
+      0.2629045727609218,
+      0.6558442828298985,
+      0.5576889514923096,
+      0.7666577498118082,
+      0.004311590765913327
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8533179622957077,
+     "max_util_planning": 0.8982294174124288,
+     "argmax_time": 0.4397149384021759,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.17165231156623226,
+      0.8533179622957077,
+      0.2629046385315643,
+      0.6558441074415186,
+      0.5576889117558798,
+      0.7667246659596761,
+      0.004313262489934762
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0015-margin_0p950",
+   "npz_sha256": "f53e14ae3bf067843ae03a51c4cd891b945fb1b3c069770392f5402094387a84",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7019375329730154,
+     "max_util_planning": 0.7388816000146219,
+     "argmax_time": 0.1957094371318817,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.02757593132983679,
+      0.3919818045079023,
+      0.06625453905127514,
+      0.7019375329730154,
+      0.09706936279932658,
+      0.6039214531580607,
+      0.0028463536873459816
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7019478808874371,
+     "max_util_planning": 0.7388924925559173,
+     "argmax_time": 0.19588591158390045,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.027575947772497417,
+      0.3919976771562949,
+      0.06625464318812578,
+      0.7019478808874371,
+      0.09707581996917725,
+      0.6040486494700114,
+      0.002847343993683656
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7019479247345322,
+     "max_util_planning": 0.7388925387107532,
+     "argmax_time": 0.19588269293308258,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.027575936810723668,
+      0.39199776485048493,
+      0.06625464318812578,
+      0.7019479247345322,
+      0.09707581996917725,
+      0.6040489673614502,
+      0.0028473464772105217
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0015-margin_0p990",
+   "npz_sha256": "40506fa1dd14268042610ba562c5c6836df21f54b771273377cd0b314e291d63",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7147281690575611,
+     "max_util_planning": 0.75234542722347,
+     "argmax_time": 0.19244202971458435,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.028681719440153276,
+      0.4061510371065688,
+      0.06782843600744488,
+      0.7147281690575611,
+      0.09770252307256062,
+      0.6189724604288737,
+      0.0029625538736581802
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7147370261707525,
+     "max_util_planning": 0.7523547505003415,
+     "argmax_time": 0.192580908536911,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.02868186194321205,
+      0.40616905826261673,
+      0.06782921977426815,
+      0.7147370261707525,
+      0.09770766894022624,
+      0.6191359758377075,
+      0.002963888148466746
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7147372015591326,
+     "max_util_planning": 0.7523549351196855,
+     "argmax_time": 0.19256868958473206,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.028681867424098926,
+      0.4061689705684267,
+      0.06782923073604188,
+      0.7147372015591326,
+      0.09770770867665608,
+      0.6191362937291464,
+      0.0029638903215527534
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0016-margin_0p950",
+   "npz_sha256": "387b836ecc68cb27132d9de69f7e765cbf52f67c67223c27d3e10f016437f12f",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.5695572296778361,
+     "max_util_planning": 0.5995339460384284,
+     "argmax_time": 0.0005350087303668261,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11332529440693472,
+      0.15680464382829337,
+      0.26786843661604254,
+      0.39060276952283135,
+      0.28404690821965534,
+      0.5695572296778361,
+      0.005153534933924675
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.5695572296778361,
+     "max_util_planning": 0.5995339460384284,
+     "argmax_time": 0.00032322495826520026,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11398548915468414,
+      0.15681693197666913,
+      0.2678686339279701,
+      0.39076995849609375,
+      0.28405654430389404,
+      0.5695572296778361,
+      0.005187635930875937
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.5695573091506958,
+     "max_util_planning": 0.599534029694073,
+     "argmax_time": 0.013117946684360504,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11398631128771551,
+      0.1568169429384429,
+      0.2678686558515176,
+      0.3907874973340966,
+      0.2840566237767537,
+      0.5695573091506958,
+      0.005187680634359519
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0016-margin_0p990",
+   "npz_sha256": "be133da6c9689381d4cdf4f9597b26e21e05b7f91f41a8bd6bdbfa212130bd40",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.5695572296778361,
+     "max_util_planning": 0.5995339460384284,
+     "argmax_time": 0.0006145265651866794,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12326640644292722,
+      0.16312054381973443,
+      0.2759093142103875,
+      0.39180387299636316,
+      0.2857069770495097,
+      0.5695572296778361,
+      0.005679197609424591
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.5695572296778361,
+     "max_util_planning": 0.5995339460384284,
+     "argmax_time": 0.00031196739291772246,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1239263600316541,
+      0.1631342131516029,
+      0.27590970883424254,
+      0.3919792613763919,
+      0.2857079903284709,
+      0.5695572296778361,
+      0.005713189020752907
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.5695573091506958,
+     "max_util_planning": 0.599534029694073,
+     "argmax_time": 0.0005979557754471898,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12396532913734173,
+      0.16313442142530418,
+      0.2759097307577901,
+      0.3920000010523303,
+      0.28570812940597534,
+      0.5695573091506958,
+      0.0057152919471263885
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0017-margin_0p950",
+   "npz_sha256": "73430e5196758ec77ede0054ec2f42f92d513ac13da91639631b4f09a53181f9",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.651380737622579,
+     "max_util_planning": 0.6856639572834201,
+     "argmax_time": 0.4672839045524597,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.121640019033147,
+      0.31763438520760373,
+      0.292254743904903,
+      0.5230641858331089,
+      0.6153651078542074,
+      0.651380737622579,
+      0.0018083617712060611
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6522350708643595,
+     "max_util_planning": 0.6865632554627554,
+     "argmax_time": 0.4673941731452942,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12164218946434986,
+      0.31818731899919184,
+      0.29225886553183367,
+      0.5234050969967897,
+      0.6153874397277832,
+      0.6522350708643595,
+      0.0018121499257783096
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6523455778757731,
+     "max_util_planning": 0.6866795786365569,
+     "argmax_time": 0.4674084186553955,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12164229908208737,
+      0.3182596667059537,
+      0.2922589751495712,
+      0.5234491633272719,
+      0.6153876781463623,
+      0.6523455778757731,
+      0.0018126447685062885
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0017-margin_0p990",
+   "npz_sha256": "7d8d3e2c0dfe4367e6cabf1ccc6c7af2e2eb74307eaceee5ff62e58bd3cf5dd6",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6694129308064779,
+     "max_util_planning": 0.7046452139016273,
+     "argmax_time": 0.45018160343170166,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12764208344207412,
+      0.3429698286385372,
+      0.30425790808666714,
+      0.5305041170668328,
+      0.6480346520741781,
+      0.6694129308064779,
+      0.0019794275673727193
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6699855327606201,
+     "max_util_planning": 0.7052479528208935,
+     "argmax_time": 0.4502832293510437,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12764519658581963,
+      0.3437205785992502,
+      0.3042583904047122,
+      0.5307293595938847,
+      0.6494176785151163,
+      0.6699855327606201,
+      0.0019845770051081977
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6700735092163086,
+     "max_util_planning": 0.7053405596194539,
+     "argmax_time": 0.45031169056892395,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1276452513946884,
+      0.3437638995291173,
+      0.3042584561753547,
+      0.5307626395389952,
+      0.6494978666305542,
+      0.6700735092163086,
+      0.0019848753387729325
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0018-margin_0p950",
+   "npz_sha256": "e7fa41f67c05bdcbfed160e6155561b2fd4ed817fe1cfd2b65ce621794f6cd0d",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7408456802368164,
+     "max_util_planning": 0.7798375842391427,
+     "argmax_time": 0.4160756468772888,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.093310564413838,
+      0.23266741873204022,
+      0.09497258855008531,
+      0.4002329508463542,
+      0.7408456802368164,
+      0.5702057679494222,
+      0.0029340184604128203
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7408459186553955,
+     "max_util_planning": 0.7798378352060765,
+     "argmax_time": 0.41603001952171326,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09331607818603516,
+      0.23328963093373967,
+      0.09503852361920236,
+      0.40025750521955816,
+      0.7408459186553955,
+      0.5705315669377645,
+      0.0029344120994210243
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7408458391825358,
+     "max_util_planning": 0.7798377515504319,
+     "argmax_time": 0.4159225523471832,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.0933160672242614,
+      0.23337506699836116,
+      0.09503957594948254,
+      0.4002575490666532,
+      0.7408458391825358,
+      0.570538322130839,
+      0.0029344111680984497
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0018-margin_0p990",
+   "npz_sha256": "b83c5410dfdf8e6988bbe969122887eb6e099b8a549bd5ed091a1ad57376d996",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7445447444915771,
+     "max_util_planning": 0.783731336216553,
+     "argmax_time": 0.40428033471107483,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09623175653918035,
+      0.2399571955889121,
+      0.09549471975743086,
+      0.4021142104576374,
+      0.7445447444915771,
+      0.5726599295934042,
+      0.003125154102842013
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7445472081502279,
+     "max_util_planning": 0.7837339295415353,
+     "argmax_time": 0.40478938817977905,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.0962380924444089,
+      0.24060440063476562,
+      0.09555643454365347,
+      0.40216717774840605,
+      0.7445472081502279,
+      0.5729711850484213,
+      0.003125586546957493
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.744547446568807,
+     "max_util_planning": 0.783734180508469,
+     "argmax_time": 0.4048251509666443,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09623804859731389,
+      0.24065445209371633,
+      0.0955634281553071,
+      0.4021673969838811,
+      0.744547446568807,
+      0.5730000734329224,
+      0.003125591203570366
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0019-margin_0p950",
+   "npz_sha256": "f8e68b917ce2f187c419e35a38eca7aba6f380e74925a70e0da1cff5e5a62b5f",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9498070875803629,
+     "max_util_planning": 0.9997969677505817,
+     "argmax_time": 0.1336115151643753,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08991201444603932,
+      0.548907619783248,
+      0.2894041784878435,
+      0.6519144869398796,
+      0.3523520231246948,
+      0.9498070875803629,
+      0.006988726556301117
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9498070081075033,
+     "max_util_planning": 0.999796884094937,
+     "argmax_time": 0.13356634974479675,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0899187943031048,
+      0.5489715488477686,
+      0.2894337972005208,
+      0.6519146623282597,
+      0.3523610432942708,
+      0.9498070081075033,
+      0.006988738353053729
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9498071670532227,
+     "max_util_planning": 0.9997970514062263,
+     "argmax_time": 0.13357990980148315,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08991884911197355,
+      0.5489714173064835,
+      0.28943392874180585,
+      0.6519147500224497,
+      0.35236096382141113,
+      0.9498071670532227,
+      0.006988740215698878
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0019-margin_0p990",
+   "npz_sha256": "37d26511d337da508125f578a2d673888c3ed155f26a601d4c824b3425d43a13",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9896055857340494,
+     "max_util_planning": 1.0416901251036703,
+     "argmax_time": 0.12276767194271088,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0940316627765524,
+      0.5672594267746498,
+      0.298690993210365,
+      0.6857337951660156,
+      0.3631281852722168,
+      0.9896055857340494,
+      0.007276210933923721
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 142
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9897017478942871,
+     "max_util_planning": 1.0417913484336234,
+     "argmax_time": 0.060282763093709946,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09404163799066653,
+      0.567346331716954,
+      0.29873247256224184,
+      0.6857340144014906,
+      0.3631446361541748,
+      0.9897017478942871,
+      0.007276211554805438
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 2328
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9897017478942871,
+     "max_util_planning": 1.0417913484336234,
+     "argmax_time": 0.060293786227703094,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.09404176953195155,
+      0.567346638646619,
+      0.29873251640933685,
+      0.6857341020956806,
+      0.36314483483632404,
+      0.9897017478942871,
+      0.0072762127965688705
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 9313
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0020-margin_0p950",
+   "npz_sha256": "4f3ad594fe51ced71cae6eac6008bca514072f9116369e44f23b25bb739c2194",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8782423337300619,
+     "max_util_planning": 0.9244656453874034,
+     "argmax_time": 0.05801277980208397,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.008456493246144262,
+      0.4606487230322827,
+      0.16231644290617142,
+      0.6332348790662042,
+      0.35649247964223224,
+      0.8782423337300619,
+      0.003549247980117798
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8783242702484131,
+     "max_util_planning": 0.924551894356975,
+     "argmax_time": 0.057760417461395264,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.008456685762295777,
+      0.4607245346595501,
+      0.16234233461577316,
+      0.6332909156536234,
+      0.356492559115092,
+      0.8783242702484131,
+      0.0035492616395155587
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8783245086669922,
+     "max_util_planning": 0.9245521453239088,
+     "argmax_time": 0.0577535480260849,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.00845673509027766,
+      0.4607248415892152,
+      0.16234243327173695,
+      0.6332913102774784,
+      0.35649271806081134,
+      0.8783245086669922,
+      0.0035492656752467155
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0020-margin_0p990",
+   "npz_sha256": "ce690a652782af4013fd3794ca918fff0c7b2026a0d093091d09cc8515d1537d",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8909821510314941,
+     "max_util_planning": 0.9378759798376511,
+     "argmax_time": 0.05766142159700394,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.00882949363226178,
+      0.4750083835645654,
+      0.16701064712699804,
+      0.6446997982332077,
+      0.3706711133321126,
+      0.8909821510314941,
+      0.0037212896471222243
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8910330136617025,
+     "max_util_planning": 0.9379295194501883,
+     "argmax_time": 0.05746320262551308,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.008829847149465275,
+      0.4750800297178071,
+      0.16704315974794584,
+      0.6447290442455774,
+      0.37067123254140216,
+      0.8910330136617025,
+      0.0037215379998087883
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8910330136617025,
+     "max_util_planning": 0.9379295194501883,
+     "argmax_time": 0.05745646730065346,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.008829878664564812,
+      0.47508020510618715,
+      0.1670431707097196,
+      0.6447290442455774,
+      0.37067119280497235,
+      0.8910330136617025,
+      0.0037215367580453553
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0022-margin_0p950",
+   "npz_sha256": "e7785bf0abcb8f121879265b3156e727818b09e83311c9062649f7610b49a4ad",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.947894811630249,
+     "max_util_planning": 0.9977840456304733,
+     "argmax_time": 0.13083817064762115,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.40586589944773704,
+      0.3438437670126729,
+      0.5407818322894217,
+      0.5105800409426634,
+      0.7814995447794596,
+      0.947894811630249,
+      0.006079051022728284
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9479694366455078,
+     "max_util_planning": 0.9978625982807426,
+     "argmax_time": 0.06624708324670792,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.4058972939677622,
+      0.34384541127873564,
+      0.5408038435311153,
+      0.5105960889794361,
+      0.7815291881561279,
+      0.9479694366455078,
+      0.0061034200092156725
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9481157461802164,
+     "max_util_planning": 0.9980166083224316,
+     "argmax_time": 0.06622470915317535,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.40589716242647716,
+      0.34384556474356814,
+      0.5408040189194954,
+      0.5105961766736261,
+      0.7815293471018473,
+      0.9481157461802164,
+      0.006103471542398135
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0022-margin_0p990",
+   "npz_sha256": "7824ba6b79acc8920d5358e971f099c0619263505c59fcca35e62271c62f7224",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.988215446472168,
+     "max_util_planning": 1.0402268205685137,
+     "argmax_time": 0.12309917062520981,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.42842698371273347,
+      0.363241590302566,
+      0.5677519611928655,
+      0.5247524743792654,
+      0.8318161169687907,
+      0.988215446472168,
+      0.006287415201465289
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 64
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9888637860616049,
+     "max_util_planning": 1.0409092833170734,
+     "argmax_time": 0.06297899037599564,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.42842921991457883,
+      0.363241721843851,
+      0.5678086993338047,
+      0.5247800103549299,
+      0.8319269816080729,
+      0.9888637860616049,
+      0.006309992944200833
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 1123
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9889768759409586,
+     "max_util_planning": 1.041028325299324,
+     "argmax_time": 0.06300437450408936,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.42842930760876885,
+      0.36324183146158856,
+      0.5678089624163748,
+      0.524780404978785,
+      0.8319271405537924,
+      0.9889768759409586,
+      0.006311490510900815
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 4492
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0023-margin_0p950",
+   "npz_sha256": "2c05b6509ff9cae6133648e38c35718b9a997ab3800931658e480387227e5180",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6494131088256836,
+     "max_util_planning": 0.6835927690068553,
+     "argmax_time": 0.6486617922782898,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12675727098837666,
+      0.2549500958672885,
+      0.23939069112141928,
+      0.3649781545003255,
+      0.34541626771291095,
+      0.6494131088256836,
+      0.008082850525776545
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6494263807932535,
+     "max_util_planning": 0.6836067394995017,
+     "argmax_time": 0.6489371657371521,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12740795091650953,
+      0.2558232669172616,
+      0.2393926203935996,
+      0.36498137726180857,
+      0.34541626771291095,
+      0.6494263807932535,
+      0.008121990909179052
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6494265000025431,
+     "max_util_planning": 0.6836068649829685,
+     "argmax_time": 0.6489569544792175,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12744584576836948,
+      0.2558853105566968,
+      0.2393926203935996,
+      0.36498146495599854,
+      0.34541626771291095,
+      0.6494265000025431,
+      0.008126132811109224
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0023-margin_0p990",
+   "npz_sha256": "84ee53653b5d18f28819dd9babec91ff76c45ada5cac941ef1fd6e96463eb2d2",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.666987419128418,
+     "max_util_planning": 0.702092043628761,
+     "argmax_time": 0.6207190155982971,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1344416168914444,
+      0.26588819218778065,
+      0.2475744663983926,
+      0.36510211023791084,
+      0.34541626771291095,
+      0.666987419128418,
+      0.008627206087112427
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6669893264770508,
+     "max_util_planning": 0.7020940513642312,
+     "argmax_time": 0.6205581426620483,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.135122737665286,
+      0.2668035879902456,
+      0.24757459793967762,
+      0.3651055083877739,
+      0.34541626771291095,
+      0.6669893264770508,
+      0.008668490375081698
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6669894854227701,
+     "max_util_planning": 0.7020942186755204,
+     "argmax_time": 0.6205770969390869,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13516604763337936,
+      0.2668739406541846,
+      0.24757470755741515,
+      0.36510553031132137,
+      0.34541626771291095,
+      0.6669894854227701,
+      0.008672792464494705
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0024-margin_0p950",
+   "npz_sha256": "4a56856d832f85e94ddb1005502412a750864653803efdf4a06118a838ace970",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9484024047851562,
+     "max_util_planning": 0.9983183542324653,
+     "argmax_time": 0.07704514265060425,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.20486669430787535,
+      0.16299073449496565,
+      0.4362176478594199,
+      0.5031929454584231,
+      0.5256930589675903,
+      0.9484024047851562,
+      0.008502528071403503
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9484109878540039,
+     "max_util_planning": 0.998327389042081,
+     "argmax_time": 0.07667757570743561,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.20524195967049436,
+      0.16299936141090832,
+      0.43679419331166935,
+      0.5031933839293732,
+      0.5260335604349772,
+      0.9484109878540039,
+      0.008502795671423277
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9484110673268636,
+     "max_util_planning": 0.9983274726977256,
+     "argmax_time": 0.07667991518974304,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.20531443891854123,
+      0.16299936141090832,
+      0.43690749420516795,
+      0.5031935593177532,
+      0.5261042515436808,
+      0.9484110673268636,
+      0.008502800017595291
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0024-margin_0p990",
+   "npz_sha256": "bbfb85b3d19a69743bfd8c6049b8abbae9134dc3f55a01ecae02e6177d93e241",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9893976052602133,
+     "max_util_planning": 1.04147119828178,
+     "argmax_time": 0.15076245367527008,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.21385041598615975,
+      0.17155007110244927,
+      0.4501850522797683,
+      0.5190816857348913,
+      0.5342124700546265,
+      0.9893976052602133,
+      0.008748885244131088
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 137
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9894611835479736,
+     "max_util_planning": 1.0415381227974514,
+     "argmax_time": 0.11659017205238342,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.2141992634740369,
+      0.17155207710704584,
+      0.4507219599581313,
+      0.5190868158450072,
+      0.534532348314921,
+      0.9894611835479736,
+      0.008748915667335192
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 2393
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9894683361053467,
+     "max_util_planning": 1.0415456518054644,
+     "argmax_time": 0.11660975217819214,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.2143017122115212,
+      0.17155223057187838,
+      0.4508796341117771,
+      0.5190870789275772,
+      0.5346260070800781,
+      0.9894683361053467,
+      0.008748924980560938
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 9571
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0025-margin_0p950",
+   "npz_sha256": "a6cdc2e7697ece527f8acc268208df296d556a9cdebfb1a83279b5e9a2a77f33",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9448256492614746,
+     "max_util_planning": 0.994553348292078,
+     "argmax_time": 0.20339630544185638,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1225338311030947,
+      0.09218919688257678,
+      0.22143333259670214,
+      0.5505094857051455,
+      0.5945959488550822,
+      0.9448256492614746,
+      0.007379072407881419
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.944830576578776,
+     "max_util_planning": 0.9945585349420425,
+     "argmax_time": 0.20323045551776886,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12253743752665903,
+      0.0921901944039882,
+      0.2214391204132431,
+      0.550512248072131,
+      0.5947193702061971,
+      0.944830576578776,
+      0.0073790835837523145
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9448307355244955,
+     "max_util_planning": 0.9945587022533318,
+     "argmax_time": 0.2032366544008255,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12253741560311153,
+      0.09219032594527321,
+      0.2214390984896956,
+      0.5505121603779409,
+      0.594719648361206,
+      0.9448307355244955,
+      0.0073790835837523145
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0025-margin_0p990",
+   "npz_sha256": "1e32143e5666a5d47755f0c704ca54da40ddf7a504cae212d6b1d420584787be",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9804572264353434,
+     "max_util_planning": 1.0320602728880588,
+     "argmax_time": 0.24198578298091888,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12702254591317014,
+      0.09308616594336498,
+      0.22415564526086565,
+      0.5582290298637302,
+      0.6143221457799276,
+      0.9804572264353434,
+      0.007648292928934097
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 97
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9806092580159506,
+     "max_util_planning": 1.0322203061361583,
+     "argmax_time": 0.24224962294101715,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12705275656163006,
+      0.0930920743394172,
+      0.22415713606209592,
+      0.5582291614050152,
+      0.6144513289133707,
+      0.9806092580159506,
+      0.007649259641766548
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 1571
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9806100527445475,
+     "max_util_planning": 1.0322211426926042,
+     "argmax_time": 0.2422398179769516,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12705273463808256,
+      0.09309216203360722,
+      0.22415713606209592,
+      0.5582292052521103,
+      0.6144518057505289,
+      0.9806100527445475,
+      0.0076492590208848315
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 6281
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0028-margin_0p950",
+   "npz_sha256": "b1af92fa1c314c00cf72ec1b1aed81bcb556293d5b6c5b9a4fa2d3a9576f2a23",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.93527619043986,
+     "max_util_planning": 0.9845012860382243,
+     "argmax_time": 0.13125541806221008,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.02908767502883385,
+      0.45000264836453846,
+      0.14864121360340338,
+      0.6102698753620016,
+      0.09548197189966838,
+      0.93527619043986,
+      0.0017988032971819241
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9352763493855795,
+     "max_util_planning": 0.9845014533495134,
+     "argmax_time": 0.1312417834997177,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.029089327516226934,
+      0.45000514764895383,
+      0.14866980190934806,
+      0.6102698315149067,
+      0.0954824686050415,
+      0.9352763493855795,
+      0.0017988796656330426
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9352765878041586,
+     "max_util_planning": 0.9845017043164472,
+     "argmax_time": 0.13123705983161926,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.029089324775783496,
+      0.45000514764895383,
+      0.1486698786417643,
+      0.6102700069032866,
+      0.09548255801200867,
+      0.9352765878041586,
+      0.001798878734310468
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0028-margin_0p990",
+   "npz_sha256": "a14a42a2f5d386f264dccff87c3b04d5c29bc18444284fa60cb7e9ccf5c6aa8d",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9823834101359049,
+     "max_util_planning": 1.0340878347459703,
+     "argmax_time": 0.10024703294038773,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.030395636613341583,
+      0.4533343260315643,
+      0.14946303970512304,
+      0.6478314454528107,
+      0.10242749253908794,
+      0.9823834101359049,
+      0.001817634329199791
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 131
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9823835690816244,
+     "max_util_planning": 1.0340880020572596,
+     "argmax_time": 0.10023276507854462,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.03039581748260849,
+      0.45333980691844017,
+      0.14946801635040635,
+      0.6478343393610811,
+      0.10242873430252075,
+      0.9823835690816244,
+      0.0018176947099467118
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 2081
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9823835690816244,
+     "max_util_planning": 1.0340880020572596,
+     "argmax_time": 0.10021869093179703,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.030395820223051925,
+      0.4533397630713452,
+      0.14946803827395386,
+      0.6478346462907463,
+      0.1024288535118103,
+      0.9823835690816244,
+      0.0018176953308284283
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 8321
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0029-margin_0p950",
+   "npz_sha256": "800928a9e05cf43246b071de80ec7360ede6e945e9a92d0277cd1d7cc92a60b4",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9465412298838297,
+     "max_util_planning": 0.9963592226918279,
+     "argmax_time": 0.0914296954870224,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.3463755202019352,
+      0.8552588101091056,
+      0.6361762737405712,
+      0.670416514078776,
+      0.9119142691294352,
+      0.9465412298838297,
+      0.009408319368958473
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.946569045384725,
+     "max_util_planning": 0.9963885021674341,
+     "argmax_time": 0.09111161530017853,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.34698032510691673,
+      0.8561635510674839,
+      0.636682488452429,
+      0.6704187064335264,
+      0.9131600856781006,
+      0.946569045384725,
+      0.009408503770828247
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9465692043304443,
+     "max_util_planning": 0.9963886694787233,
+     "argmax_time": 0.09109928458929062,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.34699027839748336,
+      0.8561789852449264,
+      0.6366918278836656,
+      0.6704187941277164,
+      0.9131839275360107,
+      0.9465692043304443,
+      0.009408490732312202
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0029-margin_0p990",
+   "npz_sha256": "ebb599d2dea13852a05067657a6e9c7fe504375b1eb07ab8830348ceb4a04349",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9890069166819254,
+     "max_util_planning": 1.041059947132979,
+     "argmax_time": 0.07059524208307266,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.36122089692915993,
+      0.8780575456290409,
+      0.6496350957059313,
+      0.6895180625477056,
+      0.9458858966827393,
+      0.9890069166819254,
+      0.009800861279169718
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 42
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9890178044637045,
+     "max_util_planning": 1.0410714079562875,
+     "argmax_time": 0.0708659216761589,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.3618168666444976,
+      0.8789471154925467,
+      0.6501313571272225,
+      0.6895436692511898,
+      0.9471072355906168,
+      0.9890178044637045,
+      0.009802421554923058
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 819
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9890179634094238,
+     "max_util_planning": 1.0410715752675768,
+     "argmax_time": 0.07085350155830383,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.36182703917053927,
+      0.8789629881409393,
+      0.6501408719468391,
+      0.6895438007924749,
+      0.9471312363942465,
+      0.9890179634094238,
+      0.009802708402276039
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 3277
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0030-margin_0p950",
+   "npz_sha256": "2adf2b1d388790968766d54edd605276f04cb90c5d1e0596d21794eafa3df4cb",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6169321537017822,
+     "max_util_planning": 0.6494022887849737,
+     "argmax_time": 0.06680312752723694,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.03853005102311058,
+      0.3565260350019082,
+      0.12358502135879693,
+      0.36208207579864854,
+      0.2264131506284078,
+      0.6169321537017822,
+      0.005509397014975548
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.617418130238851,
+     "max_util_planning": 0.6499138430516375,
+     "argmax_time": 0.06639565527439117,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.03853234477426814,
+      0.3565711975097656,
+      0.12358562425635326,
+      0.36208207579864854,
+      0.22718389828999838,
+      0.617418130238851,
+      0.005509394531448682
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6174277067184448,
+     "max_util_planning": 0.6499239235568105,
+     "argmax_time": 0.06642458587884903,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.03853235573604189,
+      0.3565710440449331,
+      0.12358564617990077,
+      0.362082097722196,
+      0.22726154327392578,
+      0.6174277067184448,
+      0.005509396394093831
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0030-margin_0p990",
+   "npz_sha256": "7a1c5507bd1625c4a8e8414465f3d3024c2e2713c2e6c9553ca76686454b6438",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.619038979212443,
+     "max_util_planning": 0.6516199999230368,
+     "argmax_time": 0.06584007292985916,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.04036487656078119,
+      0.3644890620790679,
+      0.1273585900493052,
+      0.36208207579864854,
+      0.2332430879275004,
+      0.619038979212443,
+      0.005760290349523227
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6195384661356608,
+     "max_util_planning": 0.6521457756492808,
+     "argmax_time": 0.06547152251005173,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0403667044365543,
+      0.36459468973094017,
+      0.12736105644839935,
+      0.36208207579864854,
+      0.23408873875935873,
+      0.6195384661356608,
+      0.005760375410318375
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6195363601048788,
+     "max_util_planning": 0.6521435587746991,
+     "argmax_time": 0.06544745713472366,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.04036670991744118,
+      0.36459515012543775,
+      0.12736104548662558,
+      0.36208207579864854,
+      0.23408410946528116,
+      0.6195363601048788,
+      0.0057603878279527026
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0031-margin_0p950",
+   "npz_sha256": "c5314e08e7a60df4300ae6c9fd9fe104e220940e6f6904dc1666cd6170a8c7cb",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7486526966094971,
+     "max_util_planning": 0.7880554964853754,
+     "argmax_time": 0.05953339859843254,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.057753436866847946,
+      0.105377197265625,
+      0.07424505277611744,
+      0.5209692593278556,
+      0.25583843390146893,
+      0.7486526966094971,
+      0.0034151822328567505
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.748653252919515,
+     "max_util_planning": 0.7880560820748875,
+     "argmax_time": 0.05952451750636101,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.057755552489182044,
+      0.10537851267847521,
+      0.07425321929756253,
+      0.5209692593278556,
+      0.25583843390146893,
+      0.748653252919515,
+      0.0034153293818235397
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7486530939737955,
+     "max_util_planning": 0.7880559147635984,
+     "argmax_time": 0.059517305344343185,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0577555853745033,
+      0.10537851267847521,
+      0.07425323574022315,
+      0.5209692154807606,
+      0.25583843390146893,
+      0.7486530939737955,
+      0.0034153309340278306
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0031-margin_0p990",
+   "npz_sha256": "49c29e54c3f90c59ba2ca51c8403798f02a08e61aecf54744a6613131cb14297",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7550567785898844,
+     "max_util_planning": 0.7947966356376727,
+     "argmax_time": 0.058854226022958755,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05991587693663849,
+      0.10683457604770003,
+      0.07823346127038715,
+      0.5266709163271147,
+      0.25583843390146893,
+      0.7550567785898844,
+      0.0036148661747574806
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7550721168518066,
+     "max_util_planning": 0.7948127811770784,
+     "argmax_time": 0.05870905891060829,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05992062338467302,
+      0.10685066793156767,
+      0.0782423403071261,
+      0.5266810011589664,
+      0.25583843390146893,
+      0.7550721168518066,
+      0.003615021395186583
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.755072275797526,
+     "max_util_planning": 0.7948129484883676,
+     "argmax_time": 0.05871085077524185,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05992070011708928,
+      0.10685092005236395,
+      0.07824231290269172,
+      0.5266810450060614,
+      0.25583843390146893,
+      0.755072275797526,
+      0.003615024189154307
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0032-margin_0p950",
+   "npz_sha256": "674bb444d4a07dc2c362acc805f1edc243e1922f2913cbdfbac0208a2ca735da",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6873556772867838,
+     "max_util_planning": 0.7235323160918492,
+     "argmax_time": 0.5050997138023376,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09245553509942417,
+      0.228210405371655,
+      0.20147119719406653,
+      0.3642791221881735,
+      0.6873556772867838,
+      0.5695572296778361,
+      0.0077324192970991135
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6873567899068197,
+     "max_util_planning": 0.7235334872708734,
+     "argmax_time": 0.5046722292900085,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09288619030481098,
+      0.228210405371655,
+      0.20183333035173087,
+      0.36427988951233614,
+      0.6873567899068197,
+      0.5695573091506958,
+      0.007767755538225174
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6873568693796793,
+     "max_util_planning": 0.723533570926518,
+     "argmax_time": 0.5046876072883606,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09290227122690486,
+      0.2282104711422975,
+      0.20184457713160023,
+      0.36427999913007364,
+      0.6873568693796793,
+      0.5695573091506958,
+      0.007769083604216576
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0032-margin_0p990",
+   "npz_sha256": "ee6976602a3b1acf4b05004e36b45fe1d720bb7a91161df4655358d758b5629c",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6825482050577799,
+     "max_util_planning": 0.7184718188393515,
+     "argmax_time": 0.4861222803592682,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09684456353900077,
+      0.23019558259810524,
+      0.20500463726876797,
+      0.3657494906721444,
+      0.6825482050577799,
+      0.5695572296778361,
+      0.008093901599446932
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6825543244679769,
+     "max_util_planning": 0.7184782603239849,
+     "argmax_time": 0.4868645966053009,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.09730655845554395,
+      0.23021404222510328,
+      0.20539119325835128,
+      0.3657614828526289,
+      0.6825543244679769,
+      0.5695572296778361,
+      0.008131811395287514
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6825544039408366,
+     "max_util_planning": 0.7184783439796295,
+     "argmax_time": 0.48687946796417236,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.0973076655946929,
+      0.23021566456761852,
+      0.20539200442960892,
+      0.36576157054681885,
+      0.6825544039408366,
+      0.5695573091506958,
+      0.008131904527544975
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0033-margin_0p950",
+   "npz_sha256": "3ddbfc9e4ea8c6e760ad398ae58a046bfbddd53f617fb1d9bf4ff11e8cd2fe24",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.815508762995402,
+     "max_util_planning": 0.8584303055622805,
+     "argmax_time": 0.6886985898017883,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1334067048697636,
+      0.1025338118103729,
+      0.3958000095411279,
+      0.369891374960713,
+      0.6201698382695516,
+      0.815508762995402,
+      0.007743297765652339
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8155232270558676,
+     "max_util_planning": 0.8584455308895957,
+     "argmax_time": 0.6881553530693054,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13349321518821278,
+      0.10275083300711095,
+      0.3958025088255433,
+      0.369891374960713,
+      0.622110923131307,
+      0.8155232270558676,
+      0.007771229992310206
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.815523624420166,
+     "max_util_planning": 0.8584459491678187,
+     "argmax_time": 0.6881502270698547,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13349733681514345,
+      0.10275965723498114,
+      0.3958025526726383,
+      0.369891418807808,
+      0.6221355199813843,
+      0.815523624420166,
+      0.00777156837284565
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0033-margin_0p990",
+   "npz_sha256": "8ac8ef04db88790e2de692157cd78b6cc043f0515420c25827f18f4cd45bfeed",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8212517102559408,
+     "max_util_planning": 0.8644755134072392,
+     "argmax_time": 0.6641846895217896,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1400660372328484,
+      0.10487682517917676,
+      0.4031680753861351,
+      0.3701036825947378,
+      0.643683671951294,
+      0.8212517102559408,
+      0.008068672070900599
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8212547302246094,
+     "max_util_planning": 0.8644786923217336,
+     "argmax_time": 0.6639122366905212,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14009179740116515,
+      0.10509507409457503,
+      0.40316930310479526,
+      0.37010543647853805,
+      0.6457916100819906,
+      0.8212547302246094,
+      0.008098956197500229
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8212550481160482,
+     "max_util_planning": 0.8644790269443119,
+     "argmax_time": 0.6639325022697449,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14009658769629468,
+      0.10510913805029858,
+      0.4031695661873653,
+      0.3701055241727281,
+      0.6458156506220499,
+      0.8212550481160482,
+      0.008099285264809927
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0034-margin_0p950",
+   "npz_sha256": "861d03c437e7f4ecf8dd58802f566c65033ff4d8d6badb953de9fec829eb337c",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6838801153774919,
+     "max_util_planning": 0.7198737923702548,
+     "argmax_time": 0.1751181185245514,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.05182151684815856,
+      0.37447322100058367,
+      0.05680981997785897,
+      0.6838801153774919,
+      0.20759562651316324,
+      0.6595434745152792,
+      0.002884041207532088
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.683880203071682,
+     "max_util_planning": 0.7198738846799269,
+     "argmax_time": 0.17517320811748505,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.05182159358057482,
+      0.3745609151905981,
+      0.05682096262087767,
+      0.683880203071682,
+      0.2075964609781901,
+      0.6595478455225626,
+      0.002884072562058767
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.683880378460062,
+     "max_util_planning": 0.7198740692992708,
+     "argmax_time": 0.17517036199569702,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.05182161550412233,
+      0.37456095903769304,
+      0.05682107223861519,
+      0.683880378460062,
+      0.2075964609781901,
+      0.6595480044682821,
+      0.002884073182940483
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0034-margin_0p990",
+   "npz_sha256": "da14c532a2fce0d6cb3b756e4b231e1899602730c4e0c1397b652ce7963a8818",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.696417402947086,
+     "max_util_planning": 0.7330709369367091,
+     "argmax_time": 0.17559018731117249,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.05396584258682426,
+      0.3880904186731097,
+      0.05888665955642174,
+      0.696417402947086,
+      0.21064756313959757,
+      0.6736350059509277,
+      0.002997248743971189
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6964210861030666,
+     "max_util_planning": 0.7330748139429328,
+     "argmax_time": 0.17536358535289764,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.0539658809530324,
+      0.38815522467953034,
+      0.05889584552282574,
+      0.6964210861030666,
+      0.21064784129460654,
+      0.6736472447713217,
+      0.0029973365987340608
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6964212176443516,
+     "max_util_planning": 0.7330749524074409,
+     "argmax_time": 0.17540918290615082,
+     "argmax_joint": 3,
+     "per_joint_physical": [
+      0.053965902876579895,
+      0.38815526852662535,
+      0.05889588388903388,
+      0.6964212176443516,
+      0.2106479008992513,
+      0.6736474831899008,
+      0.0029973375300566354
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0035-margin_0p950",
+   "npz_sha256": "6f83301a0aa971921515063daade81386442e40b08fc1cd1cca747a7c5cf021d",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9481053352355957,
+     "max_util_planning": 0.9980056494329904,
+     "argmax_time": 0.46782830357551575,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10313984443401468,
+      0.6085259010051859,
+      0.5788372083642017,
+      0.606683489920079,
+      0.9481053352355957,
+      0.7497554620107015,
+      0.004372941950956981
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9487016995747884,
+     "max_util_planning": 0.9986334013899887,
+     "argmax_time": 0.46793052554130554,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10325184087643678,
+      0.6087432949022314,
+      0.5791548805675287,
+      0.607257273005343,
+      0.9487016995747884,
+      0.7499024073282877,
+      0.004383368417620659
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.948876142501831,
+     "max_util_planning": 0.9988170255298623,
+     "argmax_time": 0.46796008944511414,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10328455080931213,
+      0.6088070047312769,
+      0.5792476610205639,
+      0.6072901583265984,
+      0.948876142501831,
+      0.7499450842539469,
+      0.004383964774509271
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0035-margin_0p990",
+   "npz_sha256": "21c6d94053f20e8f8539f68438d0118cb5a2d428dd08df8471e6207dce1b7cf0",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.9688231150309244,
+     "max_util_planning": 1.0198138394209826,
+     "argmax_time": 0.4549788534641266,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10619741198660314,
+      0.6162005895855783,
+      0.5889365097572064,
+      0.6030563266797998,
+      0.9688231150309244,
+      0.7542317708333334,
+      0.004308747438093026
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 12
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.9698613484700521,
+     "max_util_planning": 1.0209067167618975,
+     "argmax_time": 0.45511966943740845,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10638626142479908,
+      0.6165793846393454,
+      0.5894824937842358,
+      0.6035486857096354,
+      0.9698613484700521,
+      0.754483699798584,
+      0.0043177300443251925
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 249
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.9700568517049154,
+     "max_util_planning": 1.0211125096475873,
+     "argmax_time": 0.4551038146018982,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.10641227371391208,
+      0.6166517761932022,
+      0.5895746603779409,
+      0.6035455725658899,
+      0.9700568517049154,
+      0.7545245488484701,
+      0.004317677579820156
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 998
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0036-margin_0p950",
+   "npz_sha256": "c27dbab7cdd0dfbcd98441d8fd486d3d11a31ed577a4d42d787a4c4cfcc888cb",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7639729181925455,
+     "max_util_planning": 0.804182046059794,
+     "argmax_time": 0.6639420986175537,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.054757600543142736,
+      0.24612209714692215,
+      0.20401349560967807,
+      0.36208207579864854,
+      0.29333893458048504,
+      0.7639729181925455,
+      0.0030948538333177567
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7639734745025635,
+     "max_util_planning": 0.8041826316493061,
+     "argmax_time": 0.6640255451202393,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05476632063416229,
+      0.24614972081677666,
+      0.20401402177481814,
+      0.36208207579864854,
+      0.29434744517008465,
+      0.7639734745025635,
+      0.003113973264892896
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7639737129211426,
+     "max_util_planning": 0.8041828826162399,
+     "argmax_time": 0.6640198826789856,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.054766315153275416,
+      0.24614961119903916,
+      0.20401402177481814,
+      0.36208207579864854,
+      0.29436612129211426,
+      0.7639737129211426,
+      0.0031147894139091172
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0036-margin_0p990",
+   "npz_sha256": "6fe077b6c3c3a828b23480cdda427419c7767ced744f51b71a27e421a3ed04f4",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7671113808949789,
+     "max_util_planning": 0.8074856911202712,
+     "argmax_time": 0.6376330256462097,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05764630745197165,
+      0.25623547345742415,
+      0.2076129474859128,
+      0.36208207579864854,
+      0.3031790653864543,
+      0.7671113808949789,
+      0.003415021114051342
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7671297391255697,
+     "max_util_planning": 0.8075050155741713,
+     "argmax_time": 0.6382007002830505,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.057646252643102885,
+      0.2562365915583468,
+      0.2076129694094603,
+      0.36208207579864854,
+      0.30406729380289715,
+      0.7671297391255697,
+      0.0034343640630443892
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7671299775441488,
+     "max_util_planning": 0.8075052665411051,
+     "argmax_time": 0.6381449699401855,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.05764633485640602,
+      0.2562366134818943,
+      0.2076129913330078,
+      0.36208207579864854,
+      0.3042113979657491,
+      0.7671299775441488,
+      0.0034361854195594788
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0038-margin_0p950",
+   "npz_sha256": "585ad916046fb2af268929ce9a09e8a432547eadbe2a1ab497ba8f602ae0a4a8",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.5835714340209961,
+     "max_util_planning": 0.6142857405774883,
+     "argmax_time": 0.3428616523742676,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08087802755421605,
+      0.16758808048292137,
+      0.19204622027517734,
+      0.41108957926432294,
+      0.4528299967447917,
+      0.5835714340209961,
+      0.007235854243238767
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.5835724274317423,
+     "max_util_planning": 0.6142867862730457,
+     "argmax_time": 0.34274744987487793,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08103772963600597,
+      0.16764638615750718,
+      0.19204707529353,
+      0.4110932185732085,
+      0.45362385114034015,
+      0.5835724274317423,
+      0.007249309370915095
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.5835725466410319,
+     "max_util_planning": 0.6142869117565125,
+     "argmax_time": 0.3427734076976776,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08103754876673906,
+      0.16765778640220905,
+      0.1920471410641725,
+      0.41109335011449355,
+      0.453624169031779,
+      0.5835725466410319,
+      0.007249251628915469
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0038-margin_0p990",
+   "npz_sha256": "9701dda6800288271a4704a8869cf7abed499ec04359c9ccb58463e8eb0d3200",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6000030835469564,
+     "max_util_planning": 0.6315822143414886,
+     "argmax_time": 0.32840171456336975,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0842167810461987,
+      0.16847671859565821,
+      0.1974358174992704,
+      0.41554220791520746,
+      0.4688942035039266,
+      0.6000030835469564,
+      0.007533226162195206
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6000089248021444,
+     "max_util_planning": 0.631588363031366,
+     "argmax_time": 0.32800596952438354,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08438996062881646,
+      0.16853014628092447,
+      0.19743621212312545,
+      0.41554247099777747,
+      0.4697559674580892,
+      0.6000089248021444,
+      0.007547801360487938
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6000089645385742,
+     "max_util_planning": 0.6315884048591883,
+     "argmax_time": 0.32806143164634705,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.08439516747134855,
+      0.16854195211125517,
+      0.19743632174086298,
+      0.4155425148448725,
+      0.469779372215271,
+      0.6000089645385742,
+      0.007548310483495395
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0040-margin_0p950",
+   "npz_sha256": "eb6849d410f622e0a655e60f67e8e37392abbde05d13f779ce99a1ad2acc761a",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7480363845825195,
+     "max_util_planning": 0.7874067469615852,
+     "argmax_time": 0.07109922170639038,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1247188853121352,
+      0.6074899695385462,
+      0.2023949677916779,
+      0.6735299209068561,
+      0.5020444790522257,
+      0.7480363845825195,
+      0.006572139138976733
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7480711142222086,
+     "max_util_planning": 0.7874433044782707,
+     "argmax_time": 0.07135077565908432,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12472586796201508,
+      0.6075354389760687,
+      0.20239641474581313,
+      0.6735358402646822,
+      0.5020646651585897,
+      0.7480711142222086,
+      0.006572793548305829
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7480711936950684,
+     "max_util_planning": 0.7874433881339152,
+     "argmax_time": 0.07136266678571701,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12472590084733634,
+      0.6075356143644486,
+      0.20239650244000315,
+      0.6735358841117771,
+      0.5020647048950195,
+      0.7480711936950684,
+      0.0065727947900692625
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0040-margin_0p990",
+   "npz_sha256": "a15c555e4b40d84ef8c46c0ef70b5e4ce1d79c392c2fdd4dc639aace310535d6",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7614167531331381,
+     "max_util_planning": 0.8014913459072229,
+     "argmax_time": 0.06577014923095703,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12452167204056663,
+      0.6078977036750179,
+      0.2104297067927218,
+      0.6968583293344782,
+      0.52267058690389,
+      0.7614167531331381,
+      0.006670897826552391
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7614724636077881,
+     "max_util_planning": 0.80154998851408,
+     "argmax_time": 0.06603942811489105,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12459837157150795,
+      0.6079210303295618,
+      0.2104297287162693,
+      0.6968583731815733,
+      0.522675077120463,
+      0.7614724636077881,
+      0.006673494353890419
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7614726225535074,
+     "max_util_planning": 0.8015501558253691,
+     "argmax_time": 0.06605077534914017,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12459796598587913,
+      0.6079212934121319,
+      0.21042981641045932,
+      0.6968585924170483,
+      0.5226751168568929,
+      0.7614726225535074,
+      0.006673501183589299
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0041-margin_0p950",
+   "npz_sha256": "b90ee0b5bfd5eaafeedcdeef44c3d76cf03e7e80e77731f3c13b32db794fbbdf",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7131479581197103,
+     "max_util_planning": 0.7506820862981591,
+     "argmax_time": 0.2540823519229889,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12748697434348621,
+      0.30532578216201955,
+      0.20080358132548715,
+      0.6417437147820133,
+      0.6807346343994141,
+      0.7131479581197103,
+      0.004502469984193643
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7132434844970703,
+     "max_util_planning": 0.7507826403829555,
+     "argmax_time": 0.2538444995880127,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1274871387700925,
+      0.3054188037740773,
+      0.2008038224845097,
+      0.6417436270878233,
+      0.6807365417480469,
+      0.7132434844970703,
+      0.00450248084962368
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.71324356396993,
+     "max_util_planning": 0.7507827240386,
+     "argmax_time": 0.2538522481918335,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.12748716069364,
+      0.30541900108600484,
+      0.2008038224845097,
+      0.6417438463232983,
+      0.6807364622751871,
+      0.71324356396993,
+      0.004502510651946068
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0041-margin_0p990",
+   "npz_sha256": "c99fb5a9255f6ef0750128bb7914cf6096a9711ab1362cef94713bb3a658602b",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7331406275431315,
+     "max_util_planning": 0.7717270021849181,
+     "argmax_time": 0.25030726194381714,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13261592251130905,
+      0.31524791936764773,
+      0.20563276882829337,
+      0.6453163760831986,
+      0.6932998498280843,
+      0.7331406275431315,
+      0.004638513550162315
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.733219305674235,
+     "max_util_planning": 0.7718098212730615,
+     "argmax_time": 0.25011178851127625,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13262255438442888,
+      0.3152819447133733,
+      0.2056902962169428,
+      0.6453332572147764,
+      0.6933693885803223,
+      0.733219305674235,
+      0.004639015533030033
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7332195440928141,
+     "max_util_planning": 0.7718100722399953,
+     "argmax_time": 0.2501017153263092,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.13262256534620262,
+      0.3152820324075633,
+      0.20569044968177533,
+      0.6453333010618714,
+      0.6933698654174805,
+      0.7332195440928141,
+      0.004639050612847011
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0042-margin_0p950",
+   "npz_sha256": "63d69a2fd76de46e4d5721847fc778a748852562b3417845a3e7bd8f0cb14029",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7900950113932291,
+     "max_util_planning": 0.8316789440068915,
+     "argmax_time": 0.4588472545146942,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.1479297067927218,
+      0.7900950113932291,
+      0.26011741024324264,
+      0.6092123272775234,
+      0.5451534986495972,
+      0.7797297636667887,
+      0.006507096191247304
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7901203550141433,
+     "max_util_planning": 0.831705621502098,
+     "argmax_time": 0.45919474959373474,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.14819440074350643,
+      0.7901203550141433,
+      0.26012778008121185,
+      0.6092133357607085,
+      0.5451667706171671,
+      0.7800260384877523,
+      0.006507523978749911
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7901207934850933,
+     "max_util_planning": 0.831706083050458,
+     "argmax_time": 0.45917707681655884,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.14822100496840204,
+      0.7901207934850933,
+      0.26012788969894934,
+      0.6092134673019935,
+      0.5451669295628866,
+      0.780057430267334,
+      0.006507523978749911
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0042-margin_0p990",
+   "npz_sha256": "0844aded1cd36f6f3ff40fa92f6d3dae95c642f5c5f62c776e0f92e8c18b5f29",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.8113086744286548,
+     "max_util_planning": 0.8540091152108709,
+     "argmax_time": 0.4729654788970947,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.15568056873891545,
+      0.8113086744286548,
+      0.27129706021012934,
+      0.619800041461813,
+      0.5554838180541992,
+      0.7851060231526693,
+      0.006731397782762845
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.8119792718996947,
+     "max_util_planning": 0.8547150072726175,
+     "argmax_time": 0.47312241792678833,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.15593376378903442,
+      0.8119792718996947,
+      0.2712993402590697,
+      0.6198376622693292,
+      0.5554892222086588,
+      0.7854292392730713,
+      0.0067423054327567416
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.8121770222981771,
+     "max_util_planning": 0.8549231655829665,
+     "argmax_time": 0.47310593724250793,
+     "argmax_joint": 1,
+     "per_joint_physical": [
+      0.1560016062067843,
+      0.8121770222981771,
+      0.2712994498768072,
+      0.6198376184222342,
+      0.5554893414179484,
+      0.7854650020599365,
+      0.006743406256039937
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0044-margin_0p950",
+   "npz_sha256": "a42f24d3512095ad0a0066dbe0fbe720d6e33723cae0b4b09103ef6ee570368b",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6976277828216553,
+     "max_util_planning": 0.7343450591219537,
+     "argmax_time": 0.2487301230430603,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.033278347431928264,
+      0.2680402733813757,
+      0.22344722967038208,
+      0.4066357228947782,
+      0.3179565866788228,
+      0.6976277828216553,
+      0.0018677009890476863
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6976438363393148,
+     "max_util_planning": 0.7343619575621607,
+     "argmax_time": 0.24839292466640472,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.03327834469148482,
+      0.26804044876975575,
+      0.2235095583159348,
+      0.40664212457064924,
+      0.3180379867553711,
+      0.6976438363393148,
+      0.0018682661466300488
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6976441542307535,
+     "max_util_planning": 0.7343622921847391,
+     "argmax_time": 0.24837413430213928,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.033278432385674836,
+      0.2680406899287783,
+      0.22350982139850484,
+      0.40664216841774425,
+      0.3180381854375203,
+      0.6976441542307535,
+      0.0018682683197160561
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0044-margin_0p990",
+   "npz_sha256": "11c28372a62f953f0b2cfdbae24bacb310d29ee830ffe1c68603e0c28d6bc16a",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6994256973266602,
+     "max_util_planning": 0.7362376007694981,
+     "argmax_time": 0.2431284338235855,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0349140085023025,
+      0.28101394916402883,
+      0.23050575694818606,
+      0.40886697001840877,
+      0.3305358290672302,
+      0.6994256973266602,
+      0.0019581130084892115
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.699439287185669,
+     "max_util_planning": 0.7362519058847229,
+     "argmax_time": 0.24340467154979706,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.03491414004358752,
+      0.2810151111120465,
+      0.2305682609821188,
+      0.4088752132722701,
+      0.33062424262364704,
+      0.699439287185669,
+      0.0019587332693239055
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6994393666585287,
+     "max_util_planning": 0.7362519895403674,
+     "argmax_time": 0.24342072010040283,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0349142249973341,
+      0.2810154399652591,
+      0.23056839252340383,
+      0.40887530096646013,
+      0.33062446117401123,
+      0.6994393666585287,
+      0.00195873420064648
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0045-margin_0p950",
+   "npz_sha256": "8d402676a0f89b1776a98cce0d02c2b6b2f780753378555335736e0ddcd250a1",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7277002334594727,
+     "max_util_planning": 0.766000271378911,
+     "argmax_time": 0.19656455516815186,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.074031846276645,
+      0.132252408170152,
+      0.12246918952328036,
+      0.4069515973672099,
+      0.33527636528015137,
+      0.7277002334594727,
+      0.008283095434308052
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.727705160776774,
+     "max_util_planning": 0.7660054580288755,
+     "argmax_time": 0.19686052203178406,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.07411489815547548,
+      0.1322543374423323,
+      0.1225313756657743,
+      0.40695194814397,
+      0.3353010018666585,
+      0.727705160776774,
+      0.008283108472824097
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7277054786682129,
+     "max_util_planning": 0.766005792651454,
+     "argmax_time": 0.19685253500938416,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.07413405385510675,
+      0.13225441417474856,
+      0.12254676599612181,
+      0.40695203583816003,
+      0.33530692259470624,
+      0.7277054786682129,
+      0.008283109093705813
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0045-margin_0p990",
+   "npz_sha256": "86f45221392ecc70f53a13f522b53fd43e4ce4e8248ee281e3ba81db2fb30b3d",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7371623516082764,
+     "max_util_planning": 0.7759603960793611,
+     "argmax_time": 0.197416752576828,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0772963392323461,
+      0.13475753521097117,
+      0.12518078157271462,
+      0.40827301726944143,
+      0.3360269069671631,
+      0.7371623516082764,
+      0.008599191904067993
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7371679941813151,
+     "max_util_planning": 0.775966335630127,
+     "argmax_time": 0.19718748331069946,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.0773954227052886,
+      0.13477873528140716,
+      0.1252607367504602,
+      0.408276349648662,
+      0.33605706691741943,
+      0.7371679941813151,
+      0.008599219222863516
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7371679941813151,
+     "max_util_planning": 0.775966335630127,
+     "argmax_time": 0.1971387416124344,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.07740493204401827,
+      0.13478658391141343,
+      0.12526889231013155,
+      0.408276305801567,
+      0.33605849742889404,
+      0.7371679941813151,
+      0.008599219843745232
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0046-margin_0p950",
+   "npz_sha256": "b0701b6138ec6ff377d97d0c66b39b231464eac46be71c9f20b3a8372c23ae26",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6831181049346924,
+     "max_util_planning": 0.7190717134667016,
+     "argmax_time": 0.2500362694263458,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11583129838965404,
+      0.21523447146360902,
+      0.24250561067427712,
+      0.5198635671330595,
+      0.6162407398223877,
+      0.6831181049346924,
+      0.007463904718557994
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6831897099812826,
+     "max_util_planning": 0.7191470872024766,
+     "argmax_time": 0.25037258863449097,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11588402452140019,
+      0.21524006196822243,
+      0.24256206380909887,
+      0.5199075457693516,
+      0.6163356304168701,
+      0.6831897099812826,
+      0.007464533671736717
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.6831899483998617,
+     "max_util_planning": 0.7191473381694103,
+     "argmax_time": 0.2503802180290222,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11588410125381646,
+      0.21524004004467492,
+      0.24256212957974138,
+      0.5199076773106367,
+      0.6163359880447388,
+      0.6831899483998617,
+      0.0074645355343818665
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0046-margin_0p990",
+   "npz_sha256": "425b92987d8e12a28c36a266c18f1e62251c77169e74223bdf217b1d8598f78a",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.6884867350260416,
+     "max_util_planning": 0.7247229032256446,
+     "argmax_time": 0.2463494837284088,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11985004907366874,
+      0.22052315459854302,
+      0.24833644121542744,
+      0.524518023962262,
+      0.6346705754597982,
+      0.6884867350260416,
+      0.007709901159008344
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.6885098616282145,
+     "max_util_planning": 0.72474724701822,
+     "argmax_time": 0.24652047455310822,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11986708367007902,
+      0.22053856685243803,
+      0.24837518012386628,
+      0.5245506023538524,
+      0.6347345113754272,
+      0.6885098616282145,
+      0.0077115415285031
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.688510020573934,
+     "max_util_planning": 0.7247474143295092,
+     "argmax_time": 0.2465367168188095,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.11986707270830527,
+      0.22053852300534302,
+      0.2483752239709613,
+      0.5245506023538524,
+      0.6347345113754272,
+      0.688510020573934,
+      0.007711544012029965
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0047-margin_0p950",
+   "npz_sha256": "0ad8e45941bff4032e7519e43733713e5ab46c78918e640b01347b981945d3eb",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7408556143442789,
+     "max_util_planning": 0.7798480411947164,
+     "argmax_time": 0.47464096546173096,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.07831880964081862,
+      0.2395037508558953,
+      0.3215678642536032,
+      0.36208207579864854,
+      0.7408556143442789,
+      0.5695572296778361,
+      0.0065342579036951065
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7408560911814371,
+     "max_util_planning": 0.7798485431285839,
+     "argmax_time": 0.4749184846878052,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.07871916650355547,
+      0.23950405778556033,
+      0.3221414938740347,
+      0.36208207579864854,
+      0.7408560911814371,
+      0.5695572296778361,
+      0.006567195678750674
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7408560911814371,
+     "max_util_planning": 0.7798485431285839,
+     "argmax_time": 0.4747721254825592,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.0787197529584512,
+      0.23950403586201285,
+      0.3221423488923873,
+      0.36208207579864854,
+      0.7408560911814371,
+      0.5695572296778361,
+      0.006567247211933136
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0047-margin_0p990",
+   "npz_sha256": "ab8bb8847dc8d10338b8f96b4467e9d1154f078dafd2558bf104628271c3e746",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7393061319986979,
+     "max_util_planning": 0.7782170070921582,
+     "argmax_time": 0.4575347900390625,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.08147558124586084,
+      0.2423101184011876,
+      0.32600396254967,
+      0.36208207579864854,
+      0.7393061319986979,
+      0.5695572296778361,
+      0.00679275207221508
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7393065293629965,
+     "max_util_planning": 0.7782174253703812,
+     "argmax_time": 0.45770591497421265,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.08187813046334803,
+      0.24231060071923266,
+      0.3265810341670595,
+      0.36208207579864854,
+      0.7393065293629965,
+      0.5695572296778361,
+      0.00682586928208669
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7393065293629965,
+     "max_util_planning": 0.7782174253703812,
+     "argmax_time": 0.4576939046382904,
+     "argmax_joint": 4,
+     "per_joint_physical": [
+      0.08188276729364505,
+      0.24231055687213765,
+      0.32658601081234284,
+      0.362082097722196,
+      0.7393065293629965,
+      0.5695573091506958,
+      0.006826227530837059
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0048-margin_0p950",
+   "npz_sha256": "b724a215ff82c775c9c35b7bfa2e56f94ad1991835db5c31d37328320cc59396",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7201403776804606,
+     "max_util_planning": 0.7580425281873512,
+     "argmax_time": 0.06687372922897339,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14028176494028377,
+      0.29050884027590695,
+      0.2940740914180361,
+      0.4526689902119253,
+      0.48230687777201336,
+      0.7201403776804606,
+      0.002980646677315235
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7206265131632487,
+     "max_util_planning": 0.7585542497653041,
+     "argmax_time": 0.06645882874727249,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14103563900651603,
+      0.29197054895861396,
+      0.2940741133415836,
+      0.4530666395165454,
+      0.48230687777201336,
+      0.7206265131632487,
+      0.002992149442434311
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7207188606262207,
+     "max_util_planning": 0.7586514576243168,
+     "argmax_time": 0.06648778915405273,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14105609367633687,
+      0.29201145829825564,
+      0.2940741133415836,
+      0.4531168444403287,
+      0.48230687777201336,
+      0.7207188606262207,
+      0.0029938993975520134
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  },
+  {
+   "path": "k4-payload-p3-0048-margin_0p990",
+   "npz_sha256": "e7b4b6a796649ac0a23a1fa4eab69531b18476fb6f9db5b6e301e37d739ad997",
+   "grids": {
+    "native_grid_512": {
+     "n": 512,
+     "max_util_physical": 0.7262880007425944,
+     "max_util_planning": 0.7645137105745586,
+     "argmax_time": 0.06609857827425003,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14360777537027994,
+      0.2970345376551836,
+      0.30487461747794314,
+      0.45635083077967853,
+      0.48230687777201336,
+      0.7262880007425944,
+      0.0031022531911730766
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S8193": {
+     "n": 8193,
+     "max_util_physical": 0.7268728415171305,
+     "max_util_planning": 0.7651293324630916,
+     "argmax_time": 0.06572870165109634,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.14434768413675242,
+      0.2984673730258284,
+      0.3048749682547032,
+      0.4568046920600979,
+      0.48230687777201336,
+      0.7268728415171305,
+      0.003115699626505375
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    },
+    "S32768": {
+     "n": 32768,
+     "max_util_physical": 0.7268697420756022,
+     "max_util_planning": 0.7651260698929525,
+     "argmax_time": 0.06573070585727692,
+     "argmax_joint": 5,
+     "per_joint_physical": [
+      0.1443920793204472,
+      0.2985571061057606,
+      0.3048749463311557,
+      0.45680210508149244,
+      0.48230687777201336,
+      0.7268697420756022,
+      0.0031156244998176894
+     ],
+     "exceed_physical_samples": 0,
+     "exceed_planning_samples": 0
+    }
+   }
+  }
+ ]
+}

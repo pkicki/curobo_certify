@@ -118,3 +118,19 @@ For each experiment report attempted/native successful/K3/K4/K3+K4, VIOLATED and
 Deliver source, tests, independent-review memo, source- and payload-hash frozen datasets, plots and a standalone offline HTML explorer (trajectory, torque utilization, model enclosures, witnesses, Bernstein leaf tree, geometry-prep vs reuse and latency). Commit and push work incrementally, append docs/PROGRESS.md, no PRs, merges, resets or force pushes.
 
 Publication contribution should emphasize: continuous-time independently replayable torque certificates for real GPU-optimized motions; numerical and payload model fidelity; certified geometry-once, retime-many constraints; and actual torque-aware timing gains. Affine fixed-path inverse dynamics is established in TOPPRA and cuRoboV2-Fast. Negative and unknown results are publishable research evidence and must not be hidden.
+
+## K. Amendments recorded during execution (2026-11-17/18)
+
+- **Model contract v2.** It replaces v1 for all certification. URDF exact decimals and rpy are used because cuRobo's float32 rotations are not orthonormal. All verifiers require `contract_sha256`.
+- **Identified model** (user-approved unblocking). Gaz et al. 2019 p̂ is a *separate* contract (`docs/reports/k4/identified/`). It has a `_plus_hand` sensitivity variant. Friction is applied only as a limit tightening (`k4_certify_outputs.py --friction-bound`). It never replaces or merges with the cuRobo contract.
+- **Payloads** (user-approved unblocking). These are preregistered HYPOTHETICAL cylinders, 3 kg (rated) and 5 kg (above rated), in population `K4-Panda-PayloadDev40`. They are injected into TimeOpt by a runtime hook (`k4_payload.install_timeopt_payload_hook`), and certified with `k4_certify_outputs.py --payload NAME`. Native samples are taken with `k4_native_torque_samples.py --payload NAME`. A pool that exhausts before K is reached is reported with its true denominator.
+- **Compiled pipeline** (user request: port to C++).
+  - The producer is `native/k4_rnea.cpp::k4_certify_path`; the independent verifier is `native/k4_verify.cpp::k4v_verify`; the Python API is `k4_compiled.CompiledPath` / `CompiledVerifier`.
+  - Input binding is `bytes_digest`: shapes, float32 bytes, contract SHA and limits.
+  - The latency bench (`k4_bench_fresh.py`) uses the compiled pipeline with `expect_physical=True`.
+- **Retiming.** `k4_retime_run.py --limit-scale 1.00|0.95` separates consumed margin from timing quality.
+- **Analysis and report.**
+  - `k4_analyze_population.py` gains `--retime95` and compiled stage keys.
+  - The new `k4_analyze_extensions.py` covers the identified and payload variants, joins K3 by NPZ SHA, and records grid-512 between-sample metrics.
+  - `build_k4_report.py --ext --payload-native-dir` builds `reports/k4_torque_certification_report.html`.
+- **Results.** See `docs/K4_RESULTS_20261118.md`.
