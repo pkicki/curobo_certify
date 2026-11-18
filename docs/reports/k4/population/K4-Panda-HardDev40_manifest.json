@@ -1,0 +1,32 @@
+{
+ "cohort": "K4-Panda-HardDev40",
+ "sha256": "ca5c64849fd430294e0489444f7e1c5082d49102340a1d262e5b4553098cd9f8",
+ "rows": 280,
+ "exploratory": true,
+ "base_manifest_sha256": "153256565cda06c3aba3b0c57753f9c1020adb7dab2dc9bc5d202be208ed9072",
+ "conditions": {
+  "M100_5KG_NI511": {
+   "payload": "PAYLOAD_SYNTH_5KG_CYL",
+   "num_intervals": 511,
+   "planning_model_contract_sha256": "a42ada1402461f571d37bdab529b99955240ebfde5b14c8198c675b278f259d0"
+  },
+  "M100_5KG_NI063": {
+   "payload": "PAYLOAD_SYNTH_5KG_CYL",
+   "num_intervals": 63,
+   "planning_model_contract_sha256": "a42ada1402461f571d37bdab529b99955240ebfde5b14c8198c675b278f259d0"
+  },
+  "M100_3KG_NI511": {
+   "payload": "PAYLOAD_SYNTH_3KG_CYL",
+   "num_intervals": 511,
+   "planning_model_contract_sha256": "5a8c9bf73f3719c9c4acf88baa4cdc154af640ae6d301b277b8fa97f04aafe35"
+  },
+  "M100_3KG_NI031": {
+   "payload": "PAYLOAD_SYNTH_3KG_CYL",
+   "num_intervals": 31,
+   "planning_model_contract_sha256": "5a8c9bf73f3719c9c4acf88baa4cdc154af640ae6d301b277b8fa97f04aafe35"
+  }
+ },
+ "margin": "1.00",
+ "rule": "first-K=40 per condition at TimeOpt margin 1.00 over the frozen pool order; failures retained",
+ "frozen_before_any_solve": true
+}
